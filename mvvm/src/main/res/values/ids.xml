@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="id_tag_autosize_size" type="id"></item>
+    <item name="id_tag_autosize_padding" type="id"></item>
+    <item name="id_tag_autosize_margin" type="id"></item>
+</resources>
