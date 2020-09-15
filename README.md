@@ -37,11 +37,11 @@ allprojects {
 }
 //添加以下代码到app模块的build.gradle
 dependencies {
-    implementation 'com.github.dora4.dora:latest'
+    implementation 'com.github.dora4:dora:latest'
 }
 ```
 
-latest换成JitPack编译出来的最新绿色可用版本，如1.0.0，这样代码就变成了implementation 'com.github.dora4.dora:1.0.0'。
+latest换成JitPack编译出来的最新绿色可用版本，如1.0.0，这样代码就变成了implementation 'com.github.dora4:dora:1.0.0'。
 
 
 
