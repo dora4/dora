@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dora.widget.panel.sliding.SlidingItem
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mSwipeRemoveLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:mutex="false"
+    app:isLeftSwipe="true"
+    app:swipeAllowed="true">
+
+    <RelativeLayout
+        android:id="@+id/rl_menu_panel_swipe_tag"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:foreground="?selectableItemBackground"
+        android:background="@color/white"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp">
+
+        <TextView
+            android:id="@+id/tv_menu_panel_swipe_tag_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_menu_panel_swipe_tag_arrow"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_item_arrow" />
+
+        <TextView
+            android:id="@+id/tv_menu_panel_swipe_tag_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/iv_menu_panel_swipe_tag_arrow"
+            android:maxLength="12"
+            android:padding="2dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="61dp"
+        android:layout_height="50dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_menu_panel_swipe_tag_delete"
+                android:layout_width="61dp"
+                android:layout_height="match_parent"
+                android:background="@color/red"
+                android:text="@string/delete"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</dora.widget.panel.sliding.SlidingItem>

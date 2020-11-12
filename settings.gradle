@@ -1,1 +1,2 @@
-include ':mvvm'
+include ':dora-uicomponent'
+include ':dora-mvvm'

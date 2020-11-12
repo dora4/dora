@@ -1,0 +1,134 @@
+package dora.widget.panel.menu;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.RequiresApi;
+
+import dora.widget.R;
+import dora.widget.panel.MenuPanelItem;
+import dora.widget.panel.drawable.TagDrawable;
+
+public class IconTagMenuPanelItem implements MenuPanelItem {
+
+    private int mMarginTop;
+    private String mTitle;
+    private Span mTitleSpan;
+    @DrawableRes
+    private int mIconRes;
+    private String mMenu;
+    /**
+     * 群标签。
+     */
+    private String mTag;
+    /**
+     * 群标签颜色。
+     */
+    private String mTagColor;
+
+    public IconTagMenuPanelItem(@DrawableRes int iconRes, String menu, String tag,
+                                String tagColor) {
+        this(1, iconRes, menu, tag, tagColor);
+    }
+
+    public IconTagMenuPanelItem(int marginTop, @DrawableRes int iconRes, String menu, String tag,
+                                String tagColor) {
+        this(marginTop, "", new Span(10, 10), iconRes, menu, tag, tagColor);
+    }
+
+    public IconTagMenuPanelItem(int marginTop, String title, Span titleSpan, @DrawableRes int iconRes, String menu, String tag,
+                                String tagColor) {
+        this.mMarginTop = marginTop;
+        this.mTitle = title;
+        this.mTitleSpan = titleSpan;
+        this.mIconRes = iconRes;
+        this.mMenu = menu;
+        this.mTag = tag;
+        this.mTagColor = tagColor;
+    }
+
+    @Override
+    public boolean hasTitle() {
+        return mTitle != null && !mTitle.equals("");
+    }
+
+    @Override
+    public String getTitle() {
+        return mTitle;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        this.mTitle = title;
+    }
+
+    @Override
+    public Span getTitleSpan() {
+        return mTitleSpan;
+    }
+
+    @Override
+    public void setTitleSpan(Span titleSpan) {
+        this.mTitleSpan = titleSpan;
+    }
+
+    @Override
+    public String getMenu() {
+        return mMenu;
+    }
+
+    @Override
+    public int getMarginTop() {
+        return mMarginTop;
+    }
+
+    @Override
+    public void setMarginTop(int marginTop) {
+        this.mMarginTop = marginTop;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.menu_panel_icon_tag;
+    }
+
+    @Override
+    public View inflateView(Context context) {
+        return LayoutInflater.from(context).inflate(getLayoutId(), null);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void initData(View menuView) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.topMargin = getMarginTop();
+        menuView.setLayoutParams(lp);
+        ImageView iv_menu_panel_icon_tag_menu = menuView.findViewById(R.id.iv_menu_panel_icon_tag_menu);
+        TextView tv_menu_panel_icon_tag_menu = menuView.findViewById(R.id.tv_menu_panel_icon_tag_menu);
+        TextView tv_menu_panel_icon_tag_tag = menuView.findViewById(R.id.tv_menu_panel_icon_tag_tag);
+        iv_menu_panel_icon_tag_menu.setImageResource(mIconRes);
+        tv_menu_panel_icon_tag_menu.setText(mMenu);
+
+        tv_menu_panel_icon_tag_tag.setText(mTag);
+        int color = Color.parseColor(mTagColor);
+        TagDrawable drawable = new TagDrawable(color, 0, 0,
+                tv_menu_panel_icon_tag_tag.getWidth(),
+                tv_menu_panel_icon_tag_tag.getHeight());
+        tv_menu_panel_icon_tag_tag.setBackground(drawable);
+        tv_menu_panel_icon_tag_tag.setTextColor(Color.WHITE);
+        if (mTag != null && !mTag.equals("")) {
+            tv_menu_panel_icon_tag_tag.setVisibility(View.VISIBLE);
+        } else {
+            tv_menu_panel_icon_tag_tag.setVisibility(View.INVISIBLE);
+        }
+    }
+}
