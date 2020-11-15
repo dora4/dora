@@ -36,8 +36,8 @@ public final class ManifestUtils {
     }
 
 
-    public static String getApplicationMetadataValue(Context context, String name) {
-        return getInstance()._getApplicationMetadataValue(context, name);
+    public static String getApplicationMetadataValue(String name) {
+        return getInstance()._getApplicationMetadataValue(GlobalContext.get(), name);
     }
 
 
@@ -59,7 +59,7 @@ public final class ManifestUtils {
         return keySet;
     }
 
-    public static Set<String> getApplicationMetadataKeyWhileValueEquals(Context context, String value) {
-        return getInstance()._getApplicationMetadataKeyWhileValueEquals(context, value);
+    public static Set<String> getApplicationMetadataKeyWhileValueEquals(String value) {
+        return getInstance()._getApplicationMetadataKeyWhileValueEquals(GlobalContext.get(), value);
     }
 }

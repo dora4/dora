@@ -7,18 +7,18 @@ public final class CacheUtils {
     private CacheUtils() {
     }
 
-    public static String getCacheSize(Context context) {
-        long cacheSize = IoUtils.getFolderTotalSize(context.getCacheDir());
+    public static String getCacheSize() {
+        long cacheSize = IoUtils.getFolderTotalSize(GlobalContext.get().getCacheDir());
         if (IoUtils.checkMediaMounted()) {
-            cacheSize += IoUtils.getFolderTotalSize(context.getExternalCacheDir());
+            cacheSize += IoUtils.getFolderTotalSize(GlobalContext.get().getExternalCacheDir());
         }
         return IoUtils.formatFileSize(cacheSize);
     }
 
-    public static void clearAllCaches(Context context) {
-        IoUtils.delete(context.getCacheDir());
+    public static void clearAllCaches() {
+        IoUtils.delete(GlobalContext.get().getCacheDir());
         if (IoUtils.checkMediaMounted()) {
-            IoUtils.delete(context.getExternalCacheDir());
+            IoUtils.delete(GlobalContext.get().getExternalCacheDir());
         }
     }
 }

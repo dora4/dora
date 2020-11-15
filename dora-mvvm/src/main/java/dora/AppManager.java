@@ -180,7 +180,7 @@ public final class AppManager {
     public void killAll() {
         synchronized (AppManager.class) {
             finishAllActivities();
-            AppProcessUtils.killAllProcesses(mApplication);
+            AppProcessUtils.killAllProcesses();
         }
     }
 }

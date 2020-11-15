@@ -25,20 +25,20 @@ public final class ScreenUtils {
         return sInstance;
     }
 
-    public static int getScreenWidth(Context context) {
-        return getInstance().getScreenSize(context)[0];
+    public static int getScreenWidth() {
+        return getInstance().getScreenSize(GlobalContext.get())[0];
     }
 
-    public static int getScreenHeight(Context context) {
-        return getInstance().getScreenSize(context)[1];
+    public static int getScreenHeight() {
+        return getInstance().getScreenSize(GlobalContext.get())[1];
     }
 
-    public static int getContentWidth(Context context) {
-        return getInstance().getScreenSize(context, true)[0];
+    public static int getContentWidth() {
+        return getInstance().getScreenSize(GlobalContext.get(), true)[0];
     }
 
-    public static int getContentHeight(Context context) {
-        return getInstance().getScreenSize(context, true)[1];
+    public static int getContentHeight() {
+        return getInstance().getScreenSize(GlobalContext.get(), true)[1];
     }
 
     private int[] getScreenSize(Context context) {
@@ -59,7 +59,7 @@ public final class ScreenUtils {
 
         if (!useContentSize) {
             size[0] = widthPixels;
-            size[1] = heightPixels - StatusBarUtils.getStatusBarHeight(context);
+            size[1] = heightPixels - StatusBarUtils.getStatusBarHeight();
 
             return size;
         }

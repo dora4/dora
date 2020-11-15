@@ -26,10 +26,10 @@ public final class SPUtils {
         sPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    private static SPUtils getInstance(Context context) {
+    private static SPUtils getInstance() {
         if (sInstance == null) {
             synchronized (SPUtils.class) {
-                if (sInstance == null) sInstance = new SPUtils(context);
+                if (sInstance == null) sInstance = new SPUtils(GlobalContext.get());
             }
         }
         return sInstance;
@@ -39,48 +39,48 @@ public final class SPUtils {
         getEditor().putString(key, value).apply();
     }
 
-    public static void putString(Context context, String key, String value) {
-        getInstance(context)._putString(key, value);
+    public static void putString(String key, String value) {
+        getInstance()._putString(key, value);
     }
 
     private String _obtainString(String key) {
         return sPreferences.getString(key, null);
     }
 
-    public static String obtainString(Context context, String key) {
-        return getInstance(context)._obtainString(key);
+    public static String obtainString(String key) {
+        return getInstance()._obtainString(key);
     }
 
     private void _putInteger(String key, int value) {
         getEditor().putInt(key, value).apply();
     }
 
-    public static void putInteger(Context context, String key, int value) {
-        getInstance(context)._putInteger(key, value);
+    public static void putInteger(String key, int value) {
+        getInstance()._putInteger(key, value);
     }
 
     private int _obtainInteger(String key) {
         return sPreferences.getInt(key, 0);
     }
 
-    public static int obtainInteger(Context context, String key) {
-        return getInstance(context)._obtainInteger(key);
+    public static int obtainInteger(String key) {
+        return getInstance()._obtainInteger(key);
     }
 
     private void _putBoolean(String key, boolean value) {
         getEditor().putBoolean(key, value).apply();
     }
 
-    public static void putBoolean(Context context, String key, boolean value) {
-        getInstance(context)._putBoolean(key, value);
+    public static void putBoolean(String key, boolean value) {
+        getInstance()._putBoolean(key, value);
     }
 
     private boolean _obtainBoolean(String key, boolean defValue) {
         return sPreferences.getBoolean(key, defValue);
     }
 
-    public static boolean obtainBoolean(Context context, String key, boolean defValue) {
-        return getInstance(context)._obtainBoolean(key, defValue);
+    public static boolean obtainBoolean(String key, boolean defValue) {
+        return getInstance()._obtainBoolean(key, defValue);
     }
 
     private <T> boolean _putObject(String key, T value) {
@@ -103,8 +103,8 @@ public final class SPUtils {
         }
     }
 
-    public static <T> boolean putObject(Context context, String key, T value) {
-        return getInstance(context)._putObject(key, value);
+    public static <T> boolean putObject(String key, T value) {
+        return getInstance()._putObject(key, value);
     }
 
     private <T> T _obtainObject(String key) {
@@ -130,23 +130,23 @@ public final class SPUtils {
         return value;
     }
 
-    public static <T> T obtainObject(Context context, String key) {
-        return getInstance(context)._obtainObject(key);
+    public static <T> T obtainObject(String key) {
+        return getInstance()._obtainObject(key);
     }
 
     private void _remove(String key) {
         getEditor().remove(key).apply();
     }
 
-    public static void remove(Context context, String key) {
-        getInstance(context)._remove(key);
+    public static void remove(String key) {
+        getInstance()._remove(key);
     }
 
     private void _clear() {
         getEditor().clear().apply();
     }
 
-    public static void clear(Context context) {
-        getInstance(context)._clear();
+    public static void clear() {
+        getInstance()._clear();
     }
 }

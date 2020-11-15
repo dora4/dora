@@ -11,7 +11,7 @@ public final class AppProcessUtils {
     }
 
     public static boolean isRunInBackground(Context context) {
-        ActivityManager activityManager = ServiceUtils.getActivityManager(context);
+        ActivityManager activityManager = ServiceUtils.getActivityManager();
         List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo processInfo : processes) {
             if (processInfo.processName.equals(context.getPackageName())) {
@@ -21,9 +21,9 @@ public final class AppProcessUtils {
         return false;
     }
 
-    public static void killAllProcesses(Context context) {
+    public static void killAllProcesses() {
         //杀死相关进程
-        ActivityManager activityManager = ServiceUtils.getActivityManager(context);
+        ActivityManager activityManager = ServiceUtils.getActivityManager();
         List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo processInfo : processes) {
             if (processInfo.uid == android.os.Process.myUid() && processInfo.pid != android.os.Process.myPid()) {

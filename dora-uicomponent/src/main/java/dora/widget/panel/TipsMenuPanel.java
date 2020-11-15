@@ -48,8 +48,8 @@ public class TipsMenuPanel extends MenuPanel {
             mTipsView = new TextView(getContext());
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp.topMargin = (int) DensityUtils.dp2px(5, getContext());
-            lp.bottomMargin = (int) DensityUtils.dp2px(5, getContext());
+            lp.topMargin = (int) DensityUtils.dp2px(5);
+            lp.bottomMargin = (int) DensityUtils.dp2px(5);
             mTipsView.setGravity(Gravity.CENTER_HORIZONTAL);
             mTipsView.setTextColor(0xFF999999);
             mTipsView.setLayoutParams(lp);

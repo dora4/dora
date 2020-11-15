@@ -42,7 +42,7 @@ public final class NavigationBarUtils {
             return false;
         }
         int activityHeight = contentRect.height();
-        int statusBarHeight = StatusBarUtils.getStatusBarHeight(activity);
+        int statusBarHeight = StatusBarUtils.getStatusBarHeight();
         int remainHeight = getRealHeight(activity) - statusBarHeight;
         if (activityHeight == remainHeight) {
             return false;

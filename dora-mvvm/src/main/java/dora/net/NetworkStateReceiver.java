@@ -36,13 +36,13 @@ public class NetworkStateReceiver extends BroadcastReceiver {
         mBroadcastReceiver = this;
         if (intent.getAction().equals(ACTION_ANDROID_NETWORK_CHANGE)
                 || intent.getAction().equals(ACTION_JKNF_NETWORK_CHANGE)) {
-            if (!NetworkUtils.checkNetwork(context)) {
+            if (!NetworkUtils.checkNetwork()) {
                 Logger.info(this.getClass().getName() + ":network disconnected");
                 mNetAvailable = false;
             } else {
                 Logger.info(this.getClass().getName() + ":network connected");
                 mNetAvailable = true;
-                mApnType = NetworkUtils.getApnType(context);
+                mApnType = NetworkUtils.getApnType();
             }
             notifyObserver();
         }

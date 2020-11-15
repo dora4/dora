@@ -40,28 +40,28 @@ public final class ImageUtils {
 
     // <editor-folder desc="像素单位转换">
 
-    public static float dp2px(float dpVal, Context context) {
-        return DensityUtils.dp2px(dpVal, context);
+    public static float dp2px(float dpVal) {
+        return DensityUtils.dp2px(dpVal);
     }
 
-    public static float sp2px(float spVal, Context context) {
-        return DensityUtils.sp2px(spVal, context);
+    public static float sp2px(float spVal) {
+        return DensityUtils.sp2px(spVal);
     }
 
-    public static float px2dp(float pxVal, Context context) {
-        return DensityUtils.px2dp(pxVal, context);
+    public static float px2dp(float pxVal) {
+        return DensityUtils.px2dp(pxVal);
     }
 
     public static float px2sp(float pxVal, Context context) {
-        return DensityUtils.px2sp(pxVal, context);
+        return DensityUtils.px2sp(pxVal);
     }
 
     // </editor-folder>
 
     // <editor-folder desc="Bitmap创建和回收">
 
-    public static Bitmap createBitmap(Context context, int resId) {
-        return BitmapFactory.decodeResource(context.getResources(), resId);
+    public static Bitmap createBitmap(int resId) {
+        return BitmapFactory.decodeResource(GlobalContext.get().getResources(), resId);
     }
 
     public static Bitmap createBitmap(byte[] bytes) {
@@ -179,15 +179,15 @@ public final class ImageUtils {
         return bitmap;
     }
 
-    public static Bitmap loadAssetBitmap(Context context, String assetPath) {
+    public static Bitmap loadAssetBitmap(String assetPath) {
         InputStream is = null;
         try {
-            Resources resources = context.getResources();
+            Resources resources = GlobalContext.get().getResources();
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inDensity = DisplayMetrics.DENSITY_HIGH;
             options.inScreenDensity = resources.getDisplayMetrics().densityDpi;
             options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
-            is = context.getAssets().open(assetPath);
+            is = GlobalContext.get().getAssets().open(assetPath);
             return BitmapFactory.decodeStream(is, new Rect(), options);
         } catch (IOException e) {
             e.printStackTrace();
@@ -355,7 +355,7 @@ public final class ImageUtils {
         view.getWindowVisibleDisplayFrame(rect);
         int statusBarHeight = rect.top;
         Bitmap outputBitmap = Bitmap.createBitmap(bitmap, 0, statusBarHeight,
-                ScreenUtils.getScreenWidth(activity), ScreenUtils.getScreenHeight(activity) - statusBarHeight);
+                ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - statusBarHeight);
         view.destroyDrawingCache();
         return outputBitmap;
     }

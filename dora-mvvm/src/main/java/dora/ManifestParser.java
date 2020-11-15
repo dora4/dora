@@ -28,7 +28,7 @@ public final class ManifestParser {
 
     public List<GlobalConfig> parse() {
         List<GlobalConfig> modules = new ArrayList<>();
-        Set<String> keySet = ManifestUtils.getApplicationMetadataKeyWhileValueEquals(context, METADATA_VALUE);
+        Set<String> keySet = ManifestUtils.getApplicationMetadataKeyWhileValueEquals(METADATA_VALUE);
         for (String key : keySet) {
             modules.add(parseModule(key));
         }
