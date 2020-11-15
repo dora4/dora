@@ -12,11 +12,6 @@ import java.util.Set;
 public final class ManifestParser {
 
     private static final String METADATA_VALUE = "GlobalConfig";
-    private final Context context;
-
-    public ManifestParser(Context context) {
-        this.context = context;
-    }
 
     private static GlobalConfig parseModule(String className) {
         Object config = ReflectionUtils.newInstance(className);
@@ -26,9 +21,9 @@ public final class ManifestParser {
         return (GlobalConfig) config;
     }
 
-    public List<GlobalConfig> parse() {
+    public static List<GlobalConfig> parse(Context context) {
         List<GlobalConfig> modules = new ArrayList<>();
-        Set<String> keySet = ManifestUtils.getApplicationMetadataKeyWhileValueEquals(METADATA_VALUE);
+        Set<String> keySet = ManifestUtils.getApplicationMetadataKeyWhileValueEquals(context, METADATA_VALUE);
         for (String key : keySet) {
             modules.add(parseModule(key));
         }

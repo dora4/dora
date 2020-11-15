@@ -24,7 +24,7 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
     private ComponentCallbacks2 mComponentCallback;
 
     public AppDelegate(Context context) {
-        this.mConfigs = new ManifestParser(context).parse();
+        this.mConfigs = ManifestParser.parse(context);
         this.mConfigs.add(0, new DefaultGlobalConfig());
         for (GlobalConfig config : mConfigs) {
             config.injectApplicationLifecycle(context, mApplicationLifecycles);

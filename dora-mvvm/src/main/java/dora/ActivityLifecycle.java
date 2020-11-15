@@ -88,7 +88,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
             FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
             List<Fragment> fragments = fragmentManager.getFragments();
             if (fragments.size() > 0) {
-                this.mConfigs = new ManifestParser(activity).parse();
+                this.mConfigs = new ManifestParser().parse(activity);
                 this.mConfigs.add(0, new DefaultGlobalConfig());
                 for (GlobalConfig config : mConfigs) {
                     config.injectFragmentLifecycle(activity, mFragmentLifecycles);
