@@ -40,6 +40,8 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, getLayoutId());
+        mBinding.setLifecycleOwner(this);
+        onSetupComponent();
         onShowStatusBar();
         mNetworkChangeObserver = new NetworkChangeObserver() {
             @Override
@@ -76,6 +78,12 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
         } else {
             initData(savedInstanceState);
         }
+    }
+
+    /**
+     * 安装Dagger的Component。
+     */
+    protected void onSetupComponent() {
     }
 
     protected void onShowStatusBar() {

@@ -31,6 +31,8 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mBinding = DataBindingUtil.bind(Objects.requireNonNull(getView()));
+        mBinding.setLifecycleOwner(this);
+        onSetupComponent();
         initData(savedInstanceState);
     }
 
@@ -38,6 +40,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         onGetExtras(getArguments());
+    }
+
+    /**
+     * 安装Dagger的Component。
+     */
+    protected void onSetupComponent() {
     }
 
     /**
