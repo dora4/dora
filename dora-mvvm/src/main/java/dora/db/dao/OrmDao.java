@@ -534,7 +534,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                         Object value = propertyConverter.convertToEntityProperty(cursor.getLong(columnIndex));
                         field.set(bean, value);
                     } else {
-                        field.set(bean, cursor.getString(columnIndex));
+                        field.set(bean, cursor.getLong(columnIndex));
                     }
                 } else if (isAssignableFromInteger(fieldType)) {
                     if (convert != null) {
@@ -545,7 +545,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                         Object value = propertyConverter.convertToEntityProperty(cursor.getInt(columnIndex));
                         field.set(bean, value);
                     } else {
-                        field.set(bean, cursor.getString(columnIndex));
+                        field.set(bean, cursor.getInt(columnIndex));
                     }
                 } else if (isAssignableFromShort(fieldType)
                         || isAssignableFromByte(fieldType)) {
@@ -557,7 +557,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                         Object value = propertyConverter.convertToEntityProperty(cursor.getShort(columnIndex));
                         field.set(bean, value);
                     } else {
-                        field.set(bean, cursor.getString(columnIndex));
+                        field.set(bean, cursor.getShort(columnIndex));
                     }
                 } else if (isAssignableFromDouble(fieldType)) {
                     if (convert != null) {
@@ -568,7 +568,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                         Object value = propertyConverter.convertToEntityProperty(cursor.getDouble(columnIndex));
                         field.set(bean, value);
                     } else {
-                        field.set(bean, cursor.getString(columnIndex));
+                        field.set(bean, cursor.getDouble(columnIndex));
                     }
                 } else if (isAssignableFromFloat(fieldType)) {
                     if (convert != null) {
@@ -579,7 +579,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                         Object value = propertyConverter.convertToEntityProperty(cursor.getFloat(columnIndex));
                         field.set(bean, value);
                     } else {
-                        field.set(bean, cursor.getString(columnIndex));
+                        field.set(bean, cursor.getFloat(columnIndex));
                     }
                 } else if (isAssignableFromCharacter(fieldType)) {
                     if (convert != null) {
