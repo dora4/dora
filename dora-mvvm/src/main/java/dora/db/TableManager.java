@@ -112,8 +112,11 @@ public class TableManager {
 
     public String getColumnName(Field field) {
         String columnName;
+        Id id = field.getAnnotation(Id.class);
         Column column = field.getAnnotation(Column.class);
-        if (column != null) {
+        if (id != null) {
+            columnName = "_id";
+        } else if (column != null) {
             columnName = column.value();
         } else {
             String fieldName = field.getName();
@@ -253,8 +256,7 @@ public class TableManager {
             if (checkColumnConstraint(mField, Id.class)) {
                 isPrimaryKey = true;
                 mBuilder.append(SPACE).append(PRIMARY_KEY).append(SPACE).append(AUTO_INCREMENT);
-            }
-            if (checkColumnConstraint(mField, PrimaryKey.class)) {
+            } else if (checkColumnConstraint(mField, PrimaryKey.class)) {
                 isPrimaryKey = true;
                 mBuilder.append(SPACE).append(PRIMARY_KEY);
                 AssignType assignType = getColumnConstraintValue(mField, PrimaryKey.class,

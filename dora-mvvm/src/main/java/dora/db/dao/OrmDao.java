@@ -503,8 +503,11 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
         for (Field field : fields) {
             field.setAccessible(true);
             String columnName;
+            Id id = field.getAnnotation(Id.class);
             Column column = field.getAnnotation(Column.class);
-            if (column != null) {
+            if (id != null) {
+                columnName = "_id";
+            } else if (column != null) {
                 columnName = column.value();
             } else {
                 columnName = TableManager.getInstance().generateColumnName(field.getName());
