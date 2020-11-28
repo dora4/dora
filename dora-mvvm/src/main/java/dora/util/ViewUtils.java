@@ -15,12 +15,13 @@ public final class ViewUtils {
      *
      * @param recyclerView
      */
-    public static void configRecyclerView(RecyclerView recyclerView) {
+    public static RecyclerView configRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
                 DividerItemDecoration.VERTICAL));
+        return recyclerView;
     }
 
     /**
@@ -29,9 +30,10 @@ public final class ViewUtils {
      * @param recyclerView
      * @param layoutManager
      */
-    public static void configRecyclerView(RecyclerView recyclerView, RecyclerView.LayoutManager layoutManager) {
+    public static RecyclerView configRecyclerView(RecyclerView recyclerView, RecyclerView.LayoutManager layoutManager) {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        return recyclerView;
     }
 }
