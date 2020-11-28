@@ -103,13 +103,14 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             if (ignore != null || (field.getModifiers() & Modifier.STATIC) != 0) {
                 continue;
             }
+            if (id != null) {
+                continue;
+            }
             if (primaryKey != null && primaryKey.value() == AssignType.AUTO_INCREMENT) {
                 continue;
             }
             String columnName;
-            if (id != null) {
-                columnName = "_id";
-            } else if (column != null) {
+            if (column != null) {
                 columnName = column.value();
             } else {
                 columnName = TableManager.getInstance().generateColumnName(field.getName());
