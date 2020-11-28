@@ -14,12 +14,17 @@ import dora.db.builder.WhereBuilder;
 import dora.db.constraint.AssignType;
 import dora.db.constraint.PrimaryKey;
 import dora.db.table.Column;
+import dora.db.table.Convert;
 import dora.db.table.Ignore;
+import dora.db.table.PropertyConverter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +79,14 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
         return Class.class.isAssignableFrom(fieldType);
     }
 
+    public static class PropertyHandler implements InvocationHandler {
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            return method.invoke(proxy, args);
+        }
+    }
+
     private ContentValues getContentValues(T bean) {
         ContentValues values = new ContentValues();
         Field[] fields = mBeanClass.getDeclaredFields();
@@ -82,6 +95,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             Ignore ignore = field.getAnnotation(Ignore.class);
             Column column = field.getAnnotation(Column.class);
             PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
+            Convert convert = field.getAnnotation(Convert.class);
             if (ignore != null || (field.getModifiers() & Modifier.STATIC) != 0) {
                 continue;
             }
@@ -94,26 +108,101 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             } else {
                 columnName = TableManager.getInstance().generateColumnName(field.getName());
             }
-            Class<?> fieldType = field.getType();
+            Class<?> fieldType;
+            if (convert != null) {
+                fieldType = convert.columnType();
+            } else {
+                fieldType = field.getType();
+            }
             try {
                 if (isAssignableFromCharSequence(fieldType)) {
-                    values.put(columnName, String.valueOf(field.get(bean)));
+                    if (convert != null) {
+                        Object value = field.get(bean);
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, String> propertyConverter =
+                                (PropertyConverter<Object, String>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        values.put(columnName, propertyConverter.convertToDatabaseValue(value));
+                    } else {
+                        values.put(columnName, String.valueOf(field.get(bean)));
+                    }
                 } else if (isAssignableFromBoolean(fieldType)) {
-                    values.put(columnName, field.getBoolean(bean));
+                    if (convert != null) {
+                        Object value = field.get(bean);
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Boolean> propertyConverter =
+                                (PropertyConverter<Object, Boolean>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        values.put(columnName, propertyConverter.convertToDatabaseValue(value));
+                    } else {
+                        values.put(columnName, field.getBoolean(bean));
+                    }
                 } else if (isAssignableFromByte(fieldType)) {
-                    values.put(columnName, field.getByte(bean));
+                    if (convert != null) {
+                        Object value = field.get(bean);
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Byte> propertyConverter =
+                                (PropertyConverter<Object, Byte>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        values.put(columnName, propertyConverter.convertToDatabaseValue(value));
+                    } else {
+                        values.put(columnName, field.getByte(bean));
+                    }
                 } else if (isAssignableFromShort(fieldType)) {
-                    values.put(columnName, field.getShort(bean));
+                    if (convert != null) {
+                        Object value = field.get(bean);
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Short> propertyConverter =
+                                (PropertyConverter<Object, Short>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        values.put(columnName, propertyConverter.convertToDatabaseValue(value));
+                    } else {
+                        values.put(columnName, field.getShort(bean));
+                    }
                 } else if (isAssignableFromInteger(fieldType)) {
-                    values.put(columnName, field.getInt(bean));
+                    if (convert != null) {
+                        Object value = field.get(bean);
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Integer> propertyConverter =
+                                (PropertyConverter<Object, Integer>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        values.put(columnName, propertyConverter.convertToDatabaseValue(value));
+                    } else {
+                        values.put(columnName, field.getInt(bean));
+                    }
                 } else if (isAssignableFromLong(fieldType)) {
-                    values.put(columnName, field.getLong(bean));
+                    if (convert != null) {
+                        Object value = field.get(bean);
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Long> propertyConverter =
+                                (PropertyConverter<Object, Long>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        values.put(columnName, propertyConverter.convertToDatabaseValue(value));
+                    } else {
+                        values.put(columnName, field.getLong(bean));
+                    }
                 } else if (isAssignableFromFloat(fieldType)) {
-                    values.put(columnName, field.getFloat(bean));
+                    if (convert != null) {
+                        Object value = field.get(bean);
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Float> propertyConverter =
+                                (PropertyConverter<Object, Float>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        values.put(columnName, propertyConverter.convertToDatabaseValue(value));
+                    } else {
+                        values.put(columnName, field.getFloat(bean));
+                    }
                 } else if (isAssignableFromDouble(fieldType)) {
-                    values.put(columnName, field.getDouble(bean));
-                } else if (Class.class.isAssignableFrom(fieldType)) {
-                    values.put(columnName, ((Class) field.get(bean)).getName());
+                    if (convert != null) {
+                        Object value = field.get(bean);
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Double> propertyConverter =
+                                (PropertyConverter<Object, Double>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        values.put(columnName, propertyConverter.convertToDatabaseValue(value));
+                    } else {
+                        values.put(columnName, field.getDouble(bean));
+                    }
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -268,11 +357,9 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             try {
                 T bean = createResult(cursor);
                 return bean;
-            } catch (InstantiationException e) {
-                e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -300,11 +387,9 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             try {
                 T bean = createResult(cursor);
                 return bean;
-            } catch (InstantiationException e) {
-                e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -347,11 +432,9 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             try {
                 T bean = createResult(cursor);
                 result.add(bean);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -399,8 +482,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
         return null;
     }
 
-    private T createResult(Cursor cursor) throws IllegalAccessException,
-            InstantiationException, InvocationTargetException {
+    private T createResult(Cursor cursor) throws IllegalAccessException, ClassNotFoundException {
         T bean = newOrmTableInstance(mBeanClass);
         Field[] fields = mBeanClass.getDeclaredFields();
         for (Field field : fields) {
@@ -412,32 +494,114 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             } else {
                 columnName = TableManager.getInstance().generateColumnName(field.getName());
             }
+            Convert convert = field.getAnnotation(Convert.class);
             int columnIndex = cursor.getColumnIndex(columnName);
             if (columnIndex != -1) {
-                Class<?> fieldType = field.getType();
+                Class<?> fieldType;
+                if (convert != null) {
+                    fieldType = convert.columnType();
+                } else {
+                    fieldType = field.getType();
+                }
                 if (isAssignableFromCharSequence(fieldType)) {
-                    field.set(bean, cursor.getString(columnIndex));
+                    if (convert != null) {
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, String> propertyConverter =
+                                (PropertyConverter<Object, String>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        Object value = propertyConverter.convertToEntityProperty(cursor.getString(columnIndex));
+                        field.set(bean, value);
+                    } else {
+                        field.set(bean, cursor.getString(columnIndex));
+                    }
                 } else if (isAssignableFromBoolean(fieldType)) {
-                    int value = cursor.getInt(columnIndex);
-                    field.set(bean, value == 1 ? true : false);
+                    if (convert != null) {
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Boolean> propertyConverter =
+                                (PropertyConverter<Object, Boolean>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        Object value = propertyConverter.convertToEntityProperty(cursor.getInt(columnIndex) == 1);
+                        field.set(bean, value);
+                    } else {
+                        field.set(bean, cursor.getInt(columnIndex) == 1);
+                    }
                 } else if (isAssignableFromLong(fieldType)) {
-                    field.set(bean, cursor.getLong(columnIndex));
+                    if (convert != null) {
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Long> propertyConverter =
+                                (PropertyConverter<Object, Long>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        Object value = propertyConverter.convertToEntityProperty(cursor.getLong(columnIndex));
+                        field.set(bean, value);
+                    } else {
+                        field.set(bean, cursor.getString(columnIndex));
+                    }
                 } else if (isAssignableFromInteger(fieldType)) {
-                    field.set(bean, cursor.getInt(columnIndex));
+                    if (convert != null) {
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Integer> propertyConverter =
+                                (PropertyConverter<Object, Integer>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        Object value = propertyConverter.convertToEntityProperty(cursor.getInt(columnIndex));
+                        field.set(bean, value);
+                    } else {
+                        field.set(bean, cursor.getString(columnIndex));
+                    }
                 } else if (isAssignableFromShort(fieldType)
                         || isAssignableFromByte(fieldType)) {
-                    field.set(bean, cursor.getShort(columnIndex));
+                    if (convert != null) {
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Short> propertyConverter =
+                                (PropertyConverter<Object, Short>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        Object value = propertyConverter.convertToEntityProperty(cursor.getShort(columnIndex));
+                        field.set(bean, value);
+                    } else {
+                        field.set(bean, cursor.getString(columnIndex));
+                    }
                 } else if (isAssignableFromDouble(fieldType)) {
-                    field.set(bean, cursor.getDouble(columnIndex));
+                    if (convert != null) {
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Double> propertyConverter =
+                                (PropertyConverter<Object, Double>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        Object value = propertyConverter.convertToEntityProperty(cursor.getDouble(columnIndex));
+                        field.set(bean, value);
+                    } else {
+                        field.set(bean, cursor.getString(columnIndex));
+                    }
                 } else if (isAssignableFromFloat(fieldType)) {
-                    field.set(bean, cursor.getFloat(columnIndex));
+                    if (convert != null) {
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Float> propertyConverter =
+                                (PropertyConverter<Object, Float>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        Object value = propertyConverter.convertToEntityProperty(cursor.getFloat(columnIndex));
+                        field.set(bean, value);
+                    } else {
+                        field.set(bean, cursor.getString(columnIndex));
+                    }
                 } else if (isAssignableFromCharacter(fieldType)) {
-                    field.set(bean, cursor.getString(columnIndex));
+                    if (convert != null) {
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, String> propertyConverter =
+                                (PropertyConverter<Object, String>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        Object value = propertyConverter.convertToEntityProperty(cursor.getString(columnIndex));
+                        field.set(bean, value);
+                    } else {
+                        field.set(bean, cursor.getString(columnIndex));
+                    }
                 } else if (isAssignableFromClass(fieldType)) {
-                    try {
+                    if (convert != null) {
+                        Class<? extends PropertyConverter> converter = convert.converter();
+                        PropertyConverter<Object, Class> propertyConverter =
+                                (PropertyConverter<Object, Class>) Proxy.newProxyInstance(converter.getClassLoader(),
+                                        converter.getInterfaces(), new PropertyHandler());
+                        Object value = propertyConverter.convertToEntityProperty(Class.forName(cursor.getString(columnIndex)));
+                        field.set(bean, value);
+                    } else {
                         field.set(bean, Class.forName(cursor.getString(columnIndex)));
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
                     }
                 } else {
                     field.set(bean, cursor.getBlob(columnIndex));

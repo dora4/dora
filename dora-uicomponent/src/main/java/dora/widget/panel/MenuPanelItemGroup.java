@@ -1,4 +1,4 @@
-package dora.widget.panel.menu;
+package dora.widget.panel;
 
 import java.util.Arrays;
 import java.util.List;

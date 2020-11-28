@@ -18,8 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import dora.widget.panel.menu.MenuPanelItemGroup;
-
 /**
  * 通用功能菜单，类似于RecyclerView。
  */
