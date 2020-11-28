@@ -226,7 +226,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
             Id id = field.getAnnotation(Id.class);
             if (ignore == null && ((primaryKey == null && id == null) ||
-                    (primaryKey.value() == AssignType.BY_MYSELF))) {
+                    (primaryKey != null && primaryKey.value() == AssignType.BY_MYSELF))) {
                 String name = field.getName();
                 sb.append(name).append(",");
             }
