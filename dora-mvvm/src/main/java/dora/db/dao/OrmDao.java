@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import dora.db.Condition;
 import dora.db.Orm;
+import dora.db.OrmLog;
 import dora.db.OrmTable;
 import dora.db.PrimaryKeyEntity;
 import dora.db.TableManager;
@@ -15,6 +16,7 @@ import dora.db.constraint.AssignType;
 import dora.db.constraint.PrimaryKey;
 import dora.db.table.Column;
 import dora.db.table.Convert;
+import dora.db.table.Id;
 import dora.db.table.Ignore;
 import dora.db.table.PropertyConverter;
 
@@ -93,9 +95,11 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
         for (Field field : fields) {
             field.setAccessible(true);
             Ignore ignore = field.getAnnotation(Ignore.class);
+            Id id = field.getAnnotation(Id.class);
             Column column = field.getAnnotation(Column.class);
             PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
             Convert convert = field.getAnnotation(Convert.class);
+            //优先级最高的是忽略
             if (ignore != null || (field.getModifiers() & Modifier.STATIC) != 0) {
                 continue;
             }
@@ -103,7 +107,9 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                 continue;
             }
             String columnName;
-            if (column != null) {
+            if (id != null) {
+                columnName = "_id";
+            } else if (column != null) {
                 columnName = column.value();
             } else {
                 columnName = TableManager.getInstance().generateColumnName(field.getName());
@@ -218,8 +224,9 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             field.setAccessible(true);
             Ignore ignore = field.getAnnotation(Ignore.class);
             PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
-            if (ignore == null && (primaryKey == null ||
-                    (primaryKey != null && primaryKey.value() == AssignType.BY_MYSELF))) {
+            Id id = field.getAnnotation(Id.class);
+            if (ignore == null && ((primaryKey == null && id == null) ||
+                    (primaryKey.value() == AssignType.BY_MYSELF))) {
                 String name = field.getName();
                 sb.append(name).append(",");
             }
@@ -399,6 +406,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
     @Override
     public long selectCount() {
         long count = 0;
+        try {
         TableManager manager = TableManager.getInstance();
         String tableName = manager.getTableName(mBeanClass);
         Cursor cursor = mDatabase.rawQuery("SELECT COUNT(*) FROM " + tableName, null);
@@ -407,21 +415,28 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             count = cursor.getLong(0);
             cursor.close();
         }
+        } catch (Exception e) {
+            OrmLog.d("select count(*) result is zero");
+        }
         return count;
     }
 
     @Override
     public long selectCount(QueryBuilder builder) {
         long count = 0;
-        TableManager manager = TableManager.getInstance();
-        String tableName = manager.getTableName(mBeanClass);
-        String sql = builder.build();
-        Cursor cursor = mDatabase.rawQuery("SELECT COUNT(*) FROM " + tableName + sql,
-                builder.getWhereBuilder().getSelectionArgs());
-        if (cursor != null) {
-            cursor.moveToFirst();
-            count = cursor.getLong(0);
-            cursor.close();
+        try {
+            TableManager manager = TableManager.getInstance();
+            String tableName = manager.getTableName(mBeanClass);
+            String sql = builder.build();
+            Cursor cursor = mDatabase.rawQuery("SELECT COUNT(*) FROM " + tableName + sql,
+                    builder.getWhereBuilder().getSelectionArgs());
+            if (cursor != null) {
+                cursor.moveToFirst();
+                count = cursor.getLong(0);
+                cursor.close();
+            }
+        } catch (Exception e) {
+            OrmLog.d("select count(*) result is zero");
         }
         return count;
     }

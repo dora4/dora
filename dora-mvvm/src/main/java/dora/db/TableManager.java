@@ -12,6 +12,7 @@ import dora.db.constraint.Unique;
 import dora.db.dao.DaoFactory;
 import dora.db.exception.ConstraintException;
 import dora.db.table.Column;
+import dora.db.table.Id;
 import dora.db.table.Ignore;
 import dora.db.table.Table;
 import dora.db.type.BaseDataType;
@@ -50,6 +51,8 @@ public class TableManager {
     private final String DROP_TABLE = "DROP TABLE";
 
     private final String IF_NOT_EXISTS = "IF NOT EXISTS";
+
+    private final String IF_EXISTS = "IF EXISTS";
 
     private final String ADD_COLUMN = "ADD COLUMN";
 
@@ -247,6 +250,10 @@ public class TableManager {
         }
 
         private ColumnBuilder buildColumnPrimaryKey() {
+            if (checkColumnConstraint(mField, Id.class)) {
+                isPrimaryKey = true;
+                mBuilder.append(SPACE).append(PRIMARY_KEY).append(SPACE).append(AUTO_INCREMENT);
+            }
             if (checkColumnConstraint(mField, PrimaryKey.class)) {
                 isPrimaryKey = true;
                 mBuilder.append(SPACE).append(PRIMARY_KEY);
@@ -355,7 +362,9 @@ public class TableManager {
     }
 
     /* package */ <T extends OrmTable> void _dropTable(Class<T> tableClass, SQLiteDatabase db) {
-        String sql = DROP_TABLE + SPACE + getTableName(tableClass);
+        String tableName = getTableName(tableClass);
+        String sql = DROP_TABLE + SPACE + getTableName(tableClass) + IF_EXISTS + SPACE
+                + tableName;
         OrmLog.d(sql);
         db.execSQL(sql);
         DaoFactory.removeDao(tableClass);
