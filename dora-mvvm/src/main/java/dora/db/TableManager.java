@@ -365,7 +365,7 @@ public class TableManager {
 
     /* package */ <T extends OrmTable> void _dropTable(Class<T> tableClass, SQLiteDatabase db) {
         String tableName = getTableName(tableClass);
-        String sql = DROP_TABLE + SPACE + getTableName(tableClass) + IF_EXISTS + SPACE
+        String sql = DROP_TABLE + SPACE + getTableName(tableClass) + SPACE + IF_EXISTS + SPACE
                 + tableName;
         OrmLog.d(sql);
         db.execSQL(sql);
