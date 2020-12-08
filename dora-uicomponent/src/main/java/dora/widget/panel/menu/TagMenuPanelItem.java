@@ -21,13 +21,7 @@ public class TagMenuPanelItem implements MenuPanelItem {
     private String mTitle;
     private Span mTitleSpan;
     private String mMenu;
-    /**
-     * 群标签。
-     */
     private String mTag;
-    /**
-     * 群标签颜色。
-     */
     private String mTagColor;
 
     public TagMenuPanelItem(String menu, String tag,

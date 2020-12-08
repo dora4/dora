@@ -25,13 +25,7 @@ public class IconTagMenuPanelItem implements MenuPanelItem {
     @DrawableRes
     private int mIconRes;
     private String mMenu;
-    /**
-     * 群标签。
-     */
     private String mTag;
-    /**
-     * 群标签颜色。
-     */
     private String mTagColor;
 
     public IconTagMenuPanelItem(@DrawableRes int iconRes, String menu, String tag,

@@ -108,7 +108,7 @@ public abstract class BaseAutoSizeActivity<T extends ViewDataBinding> extends Au
         }
     }
 
-    public FragmentTransaction getHideTransaction() {
+    private FragmentTransaction getHideTransaction() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         for (BaseFragment<?> fragment : mFragmentCache.values()) {
             transaction.hide(fragment);

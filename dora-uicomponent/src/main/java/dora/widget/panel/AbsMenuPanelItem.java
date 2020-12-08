@@ -3,6 +3,8 @@ package dora.widget.panel;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
@@ -13,21 +15,8 @@ public abstract class AbsMenuPanelItem<T extends IMenu> implements MenuPanelItem
     protected T mMenu;
     protected int mMarginTop;
 
-    public AbsMenuPanelItem(@NonNull T menu) {
-        this(1, menu);
-    }
-
     public AbsMenuPanelItem(int marginTop, @NonNull T menu) {
         this(marginTop, "", new Span(), menu);
-    }
-
-    public AbsMenuPanelItem(String title, @NonNull T menu) {
-        //span建议适配屏幕分辨率，只在测试时使用
-        this(1, title, new Span(10, 10), menu);
-    }
-
-    public AbsMenuPanelItem(String title, Span titleSpan, @NonNull T menu) {
-        this(1, title, titleSpan, menu);
     }
 
     public AbsMenuPanelItem(int marginTop, String title, Span titleSpan, @NonNull T menu) {
@@ -39,7 +28,12 @@ public abstract class AbsMenuPanelItem<T extends IMenu> implements MenuPanelItem
 
     @Override
     public View inflateView(Context context) {
-        return LayoutInflater.from(context).inflate(getLayoutId(), null);
+        View view = LayoutInflater.from(context).inflate(getLayoutId(), null);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.topMargin = mMarginTop;
+        view.setLayoutParams(lp);
+        return view;
     }
 
     @Override

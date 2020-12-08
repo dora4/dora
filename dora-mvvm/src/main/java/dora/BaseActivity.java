@@ -108,7 +108,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         }
     }
 
-    public FragmentTransaction getHideTransaction() {
+    private FragmentTransaction getHideTransaction() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         for (BaseFragment<?> fragment : mFragmentCache.values()) {
             transaction.hide(fragment);
