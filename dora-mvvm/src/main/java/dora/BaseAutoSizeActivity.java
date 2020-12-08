@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.FragmentTransaction;
 
 import dora.autosize.AutoSizeActivity;
 import dora.cache.Cache;
@@ -19,18 +20,22 @@ import dora.net.NetworkChangeObserver;
 import dora.net.NetworkStateReceiver;
 import dora.permission.Action;
 import dora.permission.PermissionManager;
+import dora.util.FragmentUtils;
 import dora.util.NetworkUtils;
 import dora.util.StatusBarUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class BaseAutoSizeActivity<T extends ViewDataBinding> extends AutoSizeActivity
         implements ActivityCache {
 
     protected final String TAG = this.getClass().getSimpleName();
     protected T mBinding;
-    protected NetworkChangeObserver mNetworkChangeObserver = null;
     private Cache<String, Object> mCache;
+    private Map<String, BaseFragment<?>> mFragmentCache = new HashMap<>();
+    protected NetworkChangeObserver mNetworkChangeObserver = null;
 
     public Context getContext() {
         return this;
@@ -77,6 +82,49 @@ public abstract class BaseAutoSizeActivity<T extends ViewDataBinding> extends Au
                     .start();
         } else {
             initData(savedInstanceState);
+        }
+    }
+
+    /**
+     * 如果需要支持在Activity内部切换Fragment，重写它。
+     *
+     * @param name
+     * @return
+     */
+    protected BaseFragment<?> getFragment(String name) {
+        return null;
+    }
+
+    protected int getFragmentContainerId() {
+        return 0;
+    }
+
+    private int getCacheFragmentId() {
+        int cacheFragmentId = getFragmentContainerId();
+        if (cacheFragmentId != 0) {
+            return getFragmentContainerId();
+        } else {
+            return android.R.id.content;
+        }
+    }
+
+    public FragmentTransaction getHideTransaction() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        for (BaseFragment<?> fragment : mFragmentCache.values()) {
+            transaction.hide(fragment);
+        }
+        mFragmentCache.clear();
+        return transaction;
+    }
+
+    public void showPage(String name) {
+        if (mFragmentCache.containsKey(name)) {
+            getSupportFragmentManager().beginTransaction().show(mFragmentCache.get(name)).commit();
+        } else {
+            BaseFragment<?> fragment = getFragment(name);
+            getHideTransaction().commit();
+            FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
+            mFragmentCache.put(name, fragment);
         }
     }
 
