@@ -19,6 +19,7 @@ import dora.db.table.Convert;
 import dora.db.table.Id;
 import dora.db.table.Ignore;
 import dora.db.table.PropertyConverter;
+import dora.util.ReflectionUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -81,14 +82,6 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
         return Class.class.isAssignableFrom(fieldType);
     }
 
-    public static class PropertyHandler implements InvocationHandler {
-
-        @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            return method.invoke(proxy, args);
-        }
-    }
-
     private ContentValues getContentValues(T bean) {
         ContentValues values = new ContentValues();
         Field[] fields = mBeanClass.getDeclaredFields();
@@ -126,9 +119,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                     if (convert != null) {
                         Object value = field.get(bean);
                         Class<? extends PropertyConverter> converter = convert.converter();
-                        PropertyConverter<Object, String> propertyConverter =
-                                (PropertyConverter<Object, String>) Proxy.newProxyInstance(converter.getClassLoader(),
-                                        converter.getInterfaces(), new PropertyHandler());
+                        PropertyConverter<Object, String> propertyConverter = ReflectionUtils.newInstance(converter);
                         values.put(columnName, propertyConverter.convertToDatabaseValue(value));
                     } else {
                         values.put(columnName, String.valueOf(field.get(bean)));
@@ -137,9 +128,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                     if (convert != null) {
                         Object value = field.get(bean);
                         Class<? extends PropertyConverter> converter = convert.converter();
-                        PropertyConverter<Object, Boolean> propertyConverter =
-                                (PropertyConverter<Object, Boolean>) Proxy.newProxyInstance(converter.getClassLoader(),
-                                        converter.getInterfaces(), new PropertyHandler());
+                        PropertyConverter<Object, Boolean> propertyConverter = ReflectionUtils.newInstance(converter);
                         values.put(columnName, propertyConverter.convertToDatabaseValue(value));
                     } else {
                         values.put(columnName, field.getBoolean(bean));
@@ -148,9 +137,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                     if (convert != null) {
                         Object value = field.get(bean);
                         Class<? extends PropertyConverter> converter = convert.converter();
-                        PropertyConverter<Object, Byte> propertyConverter =
-                                (PropertyConverter<Object, Byte>) Proxy.newProxyInstance(converter.getClassLoader(),
-                                        converter.getInterfaces(), new PropertyHandler());
+                        PropertyConverter<Object, Byte> propertyConverter = ReflectionUtils.newInstance(converter);
                         values.put(columnName, propertyConverter.convertToDatabaseValue(value));
                     } else {
                         values.put(columnName, field.getByte(bean));
@@ -159,9 +146,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                     if (convert != null) {
                         Object value = field.get(bean);
                         Class<? extends PropertyConverter> converter = convert.converter();
-                        PropertyConverter<Object, Short> propertyConverter =
-                                (PropertyConverter<Object, Short>) Proxy.newProxyInstance(converter.getClassLoader(),
-                                        converter.getInterfaces(), new PropertyHandler());
+                        PropertyConverter<Object, Short> propertyConverter = ReflectionUtils.newInstance(converter);
                         values.put(columnName, propertyConverter.convertToDatabaseValue(value));
                     } else {
                         values.put(columnName, field.getShort(bean));
@@ -170,9 +155,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                     if (convert != null) {
                         Object value = field.get(bean);
                         Class<? extends PropertyConverter> converter = convert.converter();
-                        PropertyConverter<Object, Integer> propertyConverter =
-                                (PropertyConverter<Object, Integer>) Proxy.newProxyInstance(converter.getClassLoader(),
-                                        converter.getInterfaces(), new PropertyHandler());
+                        PropertyConverter<Object, Integer> propertyConverter = ReflectionUtils.newInstance(converter);
                         values.put(columnName, propertyConverter.convertToDatabaseValue(value));
                     } else {
                         values.put(columnName, field.getInt(bean));
@@ -181,9 +164,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                     if (convert != null) {
                         Object value = field.get(bean);
                         Class<? extends PropertyConverter> converter = convert.converter();
-                        PropertyConverter<Object, Long> propertyConverter =
-                                (PropertyConverter<Object, Long>) Proxy.newProxyInstance(converter.getClassLoader(),
-                                        converter.getInterfaces(), new PropertyHandler());
+                        PropertyConverter<Object, Long> propertyConverter = ReflectionUtils.newInstance(converter);
                         values.put(columnName, propertyConverter.convertToDatabaseValue(value));
                     } else {
                         values.put(columnName, field.getLong(bean));
@@ -192,9 +173,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                     if (convert != null) {
                         Object value = field.get(bean);
                         Class<? extends PropertyConverter> converter = convert.converter();
-                        PropertyConverter<Object, Float> propertyConverter =
-                                (PropertyConverter<Object, Float>) Proxy.newProxyInstance(converter.getClassLoader(),
-                                        converter.getInterfaces(), new PropertyHandler());
+                        PropertyConverter<Object, Float> propertyConverter = ReflectionUtils.newInstance(converter);
                         values.put(columnName, propertyConverter.convertToDatabaseValue(value));
                     } else {
                         values.put(columnName, field.getFloat(bean));
@@ -203,9 +182,7 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
                     if (convert != null) {
                         Object value = field.get(bean);
                         Class<? extends PropertyConverter> converter = convert.converter();
-                        PropertyConverter<Object, Double> propertyConverter =
-                                (PropertyConverter<Object, Double>) Proxy.newProxyInstance(converter.getClassLoader(),
-                                        converter.getInterfaces(), new PropertyHandler());
+                        PropertyConverter<Object, Double> propertyConverter = ReflectionUtils.newInstance(converter);
                         values.put(columnName, propertyConverter.convertToDatabaseValue(value));
                     } else {
                         values.put(columnName, field.getDouble(bean));
