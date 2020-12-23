@@ -16,6 +16,9 @@ import dora.widget.panel.MenuPanelItem;
 import dora.widget.R;
 import dora.widget.panel.drawable.TagDrawable;
 
+/**
+ * 提供一种复杂一点的可侧滑菜单条目的示例。
+ */
 public class SwipeTagMenuPanelItem implements MenuPanelItem {
 
     private int mMarginTop;
@@ -24,23 +27,7 @@ public class SwipeTagMenuPanelItem implements MenuPanelItem {
     private String mMenu;
     private String mTag;
     private String mTagColor;
-
     private OnDeleteListener mOnDeleteListener;
-
-    public SwipeTagMenuPanelItem(String menu, String tag,
-                                 String tagColor) {
-        this(menu, tag, tagColor, null);
-    }
-
-    public SwipeTagMenuPanelItem(String menu, String tag,
-                                 String tagColor, OnDeleteListener listener) {
-        this(1, menu, tag, tagColor, listener);
-    }
-
-    public SwipeTagMenuPanelItem(int marginTop, String menu, String tag,
-                                 String tagColor, OnDeleteListener listener) {
-        this(marginTop, "", new Span(10, 10), menu, tag, tagColor, listener);
-    }
 
     public SwipeTagMenuPanelItem(int marginTop, String title, Span titleSpan, String menu, String tag,
                                  String tagColor, OnDeleteListener listener) {

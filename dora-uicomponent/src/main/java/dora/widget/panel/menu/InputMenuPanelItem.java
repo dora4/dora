@@ -2,7 +2,6 @@ package dora.widget.panel.menu;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import dora.util.TextUtils;
 import dora.widget.panel.MenuPanelItem;
 import dora.widget.R;
 
@@ -23,25 +23,26 @@ public class InputMenuPanelItem implements MenuPanelItem {
     private ContentWatcher mWatcher;
 
     public InputMenuPanelItem(String menu) {
-        this(menu, null);
+        this(1, "", new Span(), menu, "", null);
     }
 
-    public InputMenuPanelItem(String menu, ContentWatcher watcher) {
-        this(menu, null, watcher);
+    public InputMenuPanelItem(String menu, String content) {
+        this(1, "", new Span(), menu, content, null);
     }
 
     public InputMenuPanelItem(String menu, String content, ContentWatcher watcher) {
-        this(1, menu, content, watcher);
+        this(1, "", new Span(), menu, content, watcher);
     }
 
-    public InputMenuPanelItem(int marginTop, String menu, String content, ContentWatcher watcher) {
-        this(marginTop, "", new Span(10, 10), menu, content, watcher);
-    }
-
-    public InputMenuPanelItem(String title, Span titleSpan, String menu, String content, ContentWatcher watcher) {
-        this(1, title, titleSpan, menu, content, watcher);
-    }
-
+    /**
+     *
+     * @param marginTop
+     * @param title
+     * @param titleSpan
+     * @param menu 提示信息
+     * @param content 文本框输入的内容
+     * @param watcher
+     */
     public InputMenuPanelItem(int marginTop, String title, Span titleSpan, String menu, String content, ContentWatcher watcher) {
         this.mMarginTop = marginTop;
         this.mTitle = title;
@@ -59,7 +60,7 @@ public class InputMenuPanelItem implements MenuPanelItem {
         menuView.setLayoutParams(lp);
         EditText editText = menuView.findViewById(R.id.et_menu_panel_input);
         editText.setHint(mMenu);
-        if (!TextUtils.isEmpty(mContent)) {
+        if (TextUtils.isNotEmpty(mContent)) {
             editText.setText(mContent);
             editText.setSelection(mContent.length());
         }

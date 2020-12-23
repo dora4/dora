@@ -3,12 +3,6 @@ package dora.widget.panel;
 import java.util.Arrays;
 import java.util.List;
 
-import dora.widget.panel.MenuPanelItem;
-import dora.widget.panel.MenuPanelItemRoot;
-
-/**
- * 菜单枝节点。
- */
 public class MenuPanelItemGroup implements MenuPanelItemRoot {
 
     private int mMarginTop;

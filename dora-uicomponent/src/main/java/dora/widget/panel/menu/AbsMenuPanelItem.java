@@ -1,4 +1,4 @@
-package dora.widget.panel;
+package dora.widget.panel.menu;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,14 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
+import dora.widget.panel.IMenu;
+import dora.widget.panel.MenuPanelItem;
+
+/**
+ * 可用它自定义面板菜单。
+ *
+ * @param <T> 数据实体类
+ */
 public abstract class AbsMenuPanelItem<T extends IMenu> implements MenuPanelItem {
 
     protected String mTitle;
@@ -15,8 +23,8 @@ public abstract class AbsMenuPanelItem<T extends IMenu> implements MenuPanelItem
     protected T mMenu;
     protected int mMarginTop;
 
-    public AbsMenuPanelItem(int marginTop, @NonNull T menu) {
-        this(marginTop, "", new Span(), menu);
+    public AbsMenuPanelItem(@NonNull T menu) {
+        this(1, "", new Span(), menu);
     }
 
     public AbsMenuPanelItem(int marginTop, String title, Span titleSpan, @NonNull T menu) {

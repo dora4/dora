@@ -1,8 +1,5 @@
 package dora.widget.panel;
 
-/**
- * 枝和叶的顶级接口。
- */
 public interface MenuPanelItemRoot {
 
     boolean hasTitle();
