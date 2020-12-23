@@ -19,8 +19,7 @@ public class NormalMenuPanelItem implements MenuPanelItem {
     private Span mTitleSpan;
     private String mMenu;
     private int mMarginTop;
-    private @DrawableRes int mIconRes;
-    private boolean mShowArrow;
+    private boolean mShowArrowIcon;
     private String mArrowText;
 
     /**
@@ -29,11 +28,19 @@ public class NormalMenuPanelItem implements MenuPanelItem {
      * @param menu
      */
     public NormalMenuPanelItem(String menu) {
-        this(1, "", new Span(), menu, false, "");
+        this(1, "", new Span(), menu, true, "");
+    }
+
+    public NormalMenuPanelItem(String menu, boolean showArrowIcon) {
+        this(1, "", new Span(), menu, showArrowIcon, "");
     }
 
     public NormalMenuPanelItem(int marginTop, String menu) {
-        this(marginTop, "", new Span(), menu, false, "");
+        this(marginTop, "", new Span(), menu, true, "");
+    }
+
+    public NormalMenuPanelItem(int marginTop, String menu, boolean showArrowIcon) {
+        this(marginTop, "", new Span(), menu, showArrowIcon, "");
     }
 
     /**
@@ -46,16 +53,16 @@ public class NormalMenuPanelItem implements MenuPanelItem {
         this(1, "", new Span(), menu, true, arrowText);
     }
 
-    public NormalMenuPanelItem(String menu, boolean showArrow, String arrowText) {
-        this(1, "", new Span(), menu, showArrow, arrowText);
+    public NormalMenuPanelItem(String menu, boolean showArrowIcon, String arrowText) {
+        this(1, "", new Span(), menu, showArrowIcon, arrowText);
     }
 
-    public NormalMenuPanelItem(int marginTop, String title, Span titleSpan, String menu, boolean showArrow, String arrowText) {
+    public NormalMenuPanelItem(int marginTop, String title, Span titleSpan, String menu, boolean showArrowIcon, String arrowText) {
         this.mMarginTop = marginTop;
         this.mTitle = title;
         this.mTitleSpan = titleSpan;
         this.mMenu = menu;
-        this.mShowArrow = showArrow;
+        this.mShowArrowIcon = showArrowIcon;
         this.mArrowText = arrowText;
     }
 
@@ -119,11 +126,9 @@ public class NormalMenuPanelItem implements MenuPanelItem {
         ImageView arrowIconView = menuView.findViewById(R.id.iv_menu_panel_normal_arrow);
         TextView arrowTextView = menuView.findViewById(R.id.tv_menu_panel_normal_arrow);
         menuTextView.setText(mMenu);
-        if (mShowArrow) {
-            arrowTextView.setVisibility(View.VISIBLE);
+        if (mShowArrowIcon) {
             arrowIconView.setVisibility(View.VISIBLE);
         } else {
-            arrowTextView.setVisibility(View.INVISIBLE);
             arrowIconView.setVisibility(View.INVISIBLE);
         }
         arrowTextView.setText(mArrowText);
