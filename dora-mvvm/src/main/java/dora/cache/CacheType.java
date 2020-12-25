@@ -17,6 +17,7 @@ public interface CacheType {
 
     int ACTIVITY_CACHE_TYPE_ID = 0;
     int FRAGMENT_CACHE_TYPE_ID = 1;
+    int REPOSITORY_CACHE_TYPE_ID = 2;
 
     /**
      * {@link AppCompatActivity} 中存储数据的容器
@@ -51,6 +52,26 @@ public interface CacheType {
         @Override
         public int getCacheTypeId() {
             return FRAGMENT_CACHE_TYPE_ID;
+        }
+
+        @Override
+        public int calculateCacheSize(Context context) {
+            ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            int targetMemoryCacheSize = (int) (activityManager.getMemoryClass() * MAX_SIZE_MULTIPLIER * 1024);
+            if (targetMemoryCacheSize >= MAX_SIZE) {
+                return MAX_SIZE;
+            }
+            return targetMemoryCacheSize;
+        }
+    };
+
+    CacheType REPOSITORY_CACHE = new CacheType() {
+        private static final int MAX_SIZE = 80;
+        private static final float MAX_SIZE_MULTIPLIER = 0.0008f;
+
+        @Override
+        public int getCacheTypeId() {
+            return REPOSITORY_CACHE_TYPE_ID;
         }
 
         @Override
