@@ -18,7 +18,16 @@ import dora.util.NetworkUtils;
 public abstract class BaseRepository {
 
     protected int mCacheStrategy = DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY;
+
+    /**
+     * app冷启动的时候是否将数据库的数据加载到内存。
+     */
     protected boolean mCacheLoadedInLaunchTime;
+
+    /**
+     * 请求网络数据的是否预加载缓存。
+     */
+    protected boolean mPreLoadBeforeRequestNetwork;
 
     {
         //有配置注解以注解为准
@@ -26,12 +35,34 @@ public abstract class BaseRepository {
         if (repository != null) {
             mCacheStrategy = repository.cacheStrategy();
             mCacheLoadedInLaunchTime = repository.isCacheLoadedInLaunchTime();
+            mPreLoadBeforeRequestNetwork = repository.isPreLoadBeforeRequestNetwork();
         }
     }
 
     protected boolean selectData(@NonNull DataSource ds) {
         if (isNetworkAvailable()) {
-            return ds.loadFromNetwork();
+            if (mPreLoadBeforeRequestNetwork) {
+                if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_FIRST
+                        || mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_FIRST) {
+                    if (mCacheLoadedInLaunchTime) {
+                        ds.loadFromCache(DataSource.CacheType.MEMORY);
+                    } else {
+                        ds.loadFromCache(DataSource.CacheType.DATABASE);
+                    }
+                }
+                if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_ONLY) {
+                    ds.loadFromCache(DataSource.CacheType.MEMORY);
+                }
+                if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY) {
+                    ds.loadFromCache(DataSource.CacheType.DATABASE);
+                }
+            }
+            try {
+                ds.loadFromNetwork();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
         } else {
             if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY ||
                 mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_FIRST) {
@@ -55,6 +86,10 @@ public abstract class BaseRepository {
 
     public boolean isCacheLoadedInLaunchTime() {
         return mCacheLoadedInLaunchTime;
+    }
+
+    public boolean isPreLoadBeforeRequestNetwork() {
+        return mPreLoadBeforeRequestNetwork;
     }
 
     public boolean hasMemoryCacheStrategy() {
@@ -88,6 +123,6 @@ public abstract class BaseRepository {
         }
 
         boolean loadFromCache(CacheType type);
-        boolean loadFromNetwork();
+        void loadFromNetwork() throws Exception;
     }
 }

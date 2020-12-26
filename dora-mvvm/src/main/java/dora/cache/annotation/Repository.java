@@ -17,5 +17,7 @@ public @interface Repository {
 
     boolean isCacheLoadedInLaunchTime() default false;
 
+    boolean isPreLoadBeforeRequestNetwork() default false;
+
     String loadDataMethodName();
 }
