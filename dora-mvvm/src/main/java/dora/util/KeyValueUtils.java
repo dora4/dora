@@ -26,6 +26,12 @@ public final class KeyValueUtils {
         }.build(CacheType.REPOSITORY_CACHE, context);
     }
 
+    /**
+     * 添加缓存，如果name重复则会失败。
+     *
+     * @param name
+     * @param cache
+     */
     public void setCacheToMemory(String name, Object cache) {
         mCache.put(name, cache);
     }
@@ -40,11 +46,16 @@ public final class KeyValueUtils {
         }
     }
 
+    /**
+     * 推荐使用这个方法而不是{@link #setCacheToMemory(String, Object)}，{@link #updateCacheAtMemory}
+     * 这个方法能保证更新成功。
+     *
+     * @param name
+     * @param cache
+     */
     public void updateCacheAtMemory(String name, Object cache) {
-        if (mCache.containsKey(name)) {
-            mCache.remove(name);
-            mCache.put(name, cache);
-        }
+        removeCacheAtMemory(name);
+        setCacheToMemory(name, cache);
     }
 
     public String printCacheKeys() {

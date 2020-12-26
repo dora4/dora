@@ -313,6 +313,21 @@ public class MenuPanel extends ScrollView implements View.OnClickListener {
     }
 
     /**
+     * 获取MenuPanel中条目布局中的子控件，推荐使用。
+     *
+     * @param position
+     * @param viewId
+     * @return
+     */
+    public View getCacheChildView(int position, int viewId) {
+        View menuView = getCacheViewFromPosition(position);
+        if (menuView != null) {
+            return menuView.findViewById(viewId);
+        }
+        return null;
+    }
+
+    /**
      * 获取item的view，用于修改item的数据。
      *
      * @param item
