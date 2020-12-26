@@ -51,7 +51,7 @@ public class Logger {
     }
 
     public static void iformat(String tag, String format, String... values) {
-        itag(tag, String.format(format, new Object[]{values}));
+        itag(tag, String.format(format, values));
     }
 
     public static void e(String msg) {
@@ -65,7 +65,7 @@ public class Logger {
     }
 
     public static void eformat(String tag, String format, String... values) {
-        etag(tag, String.format(format, new Object[]{values}));
+        etag(tag, String.format(format, values));
     }
 
     public static void d(String msg) {
@@ -79,7 +79,7 @@ public class Logger {
     }
 
     public static void dformat(String tag, String format, String... values) {
-        dtag(tag, String.format(format, new Object[]{values}));
+        dtag(tag, String.format(format, values));
     }
 
     public static void w(String msg) {
@@ -93,7 +93,7 @@ public class Logger {
     }
 
     public static void wformat(String tag, String format, String... values) {
-        wtag(tag, String.format(format, new Object[]{values}));
+        wtag(tag, String.format(format, values));
     }
 
     public static void v(String msg) {
@@ -107,7 +107,7 @@ public class Logger {
     }
 
     public static void vformat(String tag, String format, String... values) {
-        vtag(tag, String.format(format, new Object[]{values}));
+        vtag(tag, String.format(format, values));
     }
 
     // </editor-folder>

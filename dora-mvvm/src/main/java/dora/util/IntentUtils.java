@@ -3,6 +3,7 @@ package dora.util;
 import android.app.Activity;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,6 +12,9 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import dora.AppManager;
+import dora.log.Logger;
 
 public final class IntentUtils {
 
@@ -33,14 +37,24 @@ public final class IntentUtils {
     }
 
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz) {
-        Intent intent = new Intent(GlobalContext.get(), activityClazz);
-        GlobalContext.get().startActivity(intent);
+        Activity topActivity = AppManager.getInstance().getTopActivity();
+        if (topActivity != null) {
+            Intent intent = new Intent(AppManager.getInstance().getTopActivity(), activityClazz);
+            topActivity.startActivity(intent);
+        } else {
+            Logger.e("dora.TaskStackGlobalConfig未被配置");
+        }
     }
 
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz, String name, Serializable serializable) {
-        Intent intent = new Intent(GlobalContext.get(), activityClazz);
-        intent.putExtra(name, serializable);
-        GlobalContext.get().startActivity(intent);
+        Activity topActivity = AppManager.getInstance().getTopActivity();
+        if (topActivity != null) {
+            Intent intent = new Intent(topActivity, activityClazz);
+            intent.putExtra(name, serializable);
+            topActivity.startActivity(intent);
+        } else {
+            Logger.e("dora.TaskStackGlobalConfig未被配置");
+        }
     }
 
     public static void startService(@NonNull String action) {
