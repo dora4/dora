@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class NetworkStateReceiver extends BroadcastReceiver {
 
     public final static String ACTION_ANDROID_NETWORK_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
-    public final static String ACTION_JKNF_NETWORK_CHANGE = "dora.net.CONNECTIVITY_CHANGE";
+    public final static String ACTION_DORA_NETWORK_CHANGE = "dora.net.CONNECTIVITY_CHANGE";
 
     private static boolean mNetAvailable = false;
     private static NetworkUtils.ApnType mApnType;
@@ -35,7 +35,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         mBroadcastReceiver = this;
         if (intent.getAction().equals(ACTION_ANDROID_NETWORK_CHANGE)
-                || intent.getAction().equals(ACTION_JKNF_NETWORK_CHANGE)) {
+                || intent.getAction().equals(ACTION_DORA_NETWORK_CHANGE)) {
             if (!NetworkUtils.checkNetwork()) {
                 Logger.i(this.getClass().getName() + ":network disconnected");
                 mNetAvailable = false;
@@ -51,13 +51,13 @@ public class NetworkStateReceiver extends BroadcastReceiver {
     public static void registerNetworkStateReceiver(Context context) {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_ANDROID_NETWORK_CHANGE);
-        filter.addAction(ACTION_JKNF_NETWORK_CHANGE);
+        filter.addAction(ACTION_DORA_NETWORK_CHANGE);
         context.getApplicationContext().registerReceiver(getReceiver(), filter);
     }
 
     public static void checkNetworkState(Context context) {
         Intent intent = new Intent();
-        intent.setAction(ACTION_JKNF_NETWORK_CHANGE);
+        intent.setAction(ACTION_DORA_NETWORK_CHANGE);
         context.sendBroadcast(intent);
     }
 
