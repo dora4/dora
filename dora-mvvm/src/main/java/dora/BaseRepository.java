@@ -2,20 +2,54 @@ package dora;
 
 import androidx.annotation.NonNull;
 
+import dora.cache.annotation.Repository;
 import dora.util.NetworkUtils;
 
 /**
- * 数据仓库。
+ * 数据仓库，扩展它来支持数据的三级缓存，即从云端服务器的数据库、手机本地数据库和手机内存中读取需要的数据，以支持用户
+ * 手机在断网情况下也能显示以前的数据。
+ *
+ * 有以下缓存策略：
+ * 仅数据库，{@link DataSource.CacheStrategy#STRATEGY_DATABASE_ONLY}，断网的情况下仅从数据库加载数据一次
+ * 仅内存，{@link DataSource.CacheStrategy#STRATEGY_MEMORY_ONLY}，断网的情况下仅从内存加载数据一次
+ * 数据库优先，{@link DataSource.CacheStrategy#STRATEGY_DATABASE_FIRST}，断网的情况下先从数据库加载一次数据，如果没有获取到，再从内存获取一次数据
+ * 内存优先，{@link DataSource.CacheStrategy#STRATEGY_MEMORY_FIRST}，断网的情况下先从内存加载一次数据，如果没有获取到，再从数据库获取一次数据
  */
 public abstract class BaseRepository {
 
+    protected int mCacheStrategy = DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY;
     protected boolean mCacheLoadedInLaunchTime;
 
-    protected void selectData(@NonNull DataSource ds) {
-        if (useCache()) {
-            ds.loadFromCache();
+    {
+        //有配置注解以注解为准
+        Repository repository = getClass().getAnnotation(Repository.class);
+        if (repository != null) {
+            mCacheStrategy = repository.cacheStrategy();
+            mCacheLoadedInLaunchTime = repository.isCacheLoadedInLaunchTime();
+        }
+    }
+
+    protected boolean selectData(@NonNull DataSource ds) {
+        if (isNetworkAvailable()) {
+            return ds.loadFromNetwork();
         } else {
-            ds.loadFromNetwork();
+            if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY ||
+                mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_FIRST) {
+                boolean isLoaded = ds.loadFromCache(DataSource.CacheType.DATABASE);
+                if (!isLoaded && mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_FIRST) {
+                    isLoaded = ds.loadFromCache(DataSource.CacheType.MEMORY);
+                }
+                return isLoaded;
+            } else if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_ONLY ||
+                mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_FIRST) {
+                boolean isLoaded = ds.loadFromCache(DataSource.CacheType.MEMORY);
+                if (!isLoaded && mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_FIRST) {
+                    isLoaded = ds.loadFromCache(DataSource.CacheType.DATABASE);
+                }
+                return isLoaded;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -24,19 +58,24 @@ public abstract class BaseRepository {
     }
 
     public boolean hasMemoryCacheStrategy() {
-        return getCacheStrategy() == DataSource.CacheStrategy.STRATEGY_MEMORY_ONLY
-                || getCacheStrategy() == DataSource.CacheStrategy.STRATEGY_MEMORY_FIRST;
+        return mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_ONLY
+                || mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_FIRST;
     }
 
     public int getCacheStrategy() {
-        return DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY;
+        return mCacheStrategy;
     }
 
-    protected boolean useCache() {
-        return !NetworkUtils.checkNetwork();
+    protected boolean isNetworkAvailable() {
+        return NetworkUtils.checkNetwork();
     }
 
     public interface DataSource {
+
+        enum CacheType {
+            DATABASE,
+            MEMORY
+        }
 
         /**
          * 这里的缓存是手机系统数据库数据存储和内存缓存的统称。
@@ -48,7 +87,7 @@ public abstract class BaseRepository {
             int STRATEGY_MEMORY_FIRST = 3;
         }
 
-        void loadFromCache();
-        void loadFromNetwork();
+        boolean loadFromCache(CacheType type);
+        boolean loadFromNetwork();
     }
 }

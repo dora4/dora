@@ -1,6 +1,5 @@
 package dora.cache;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import dora.BaseRepository;
@@ -10,6 +9,11 @@ import dora.util.ReflectionUtils;
 
 public class CacheLoader {
 
+    /**
+     * 一般在Application中调用。
+     *
+     * @param repositories
+     */
     public static void scan(Class<? extends BaseRepository>... repositories) {
         for (Class<? extends BaseRepository> repositoryClazz : repositories) {
             loadCache(repositoryClazz);

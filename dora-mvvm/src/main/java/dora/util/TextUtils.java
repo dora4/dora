@@ -1,6 +1,9 @@
 package dora.util;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
+import java.util.List;
 
 public final class TextUtils {
 
@@ -110,6 +113,19 @@ public final class TextUtils {
             }
         }
         return true;
+    }
+
+    public static String combineString(Iterator<String> strings) {
+        return combineString(strings, "");
+    }
+
+    public static String combineString(Iterator<String> strings, String separator) {
+        StringBuilder sb = new StringBuilder();
+        while (strings.hasNext()) {
+            String next = strings.next();
+            sb.append(next).append(separator);
+        }
+        return sb.toString().substring(0, sb.length() - 1);
     }
 
     public static boolean checkAllNotEmpty(String... text) {
