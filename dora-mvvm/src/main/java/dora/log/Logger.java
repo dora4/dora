@@ -11,7 +11,7 @@ public class Logger {
     /**
      * The default log output tag.
      */
-    private static final String TAG = "dora";
+    public static final String TAG = "dora-log";
 
     // <editor-folder desc="日志控制">
 
@@ -40,184 +40,74 @@ public class Logger {
 
     // <editor-folder desc="日志输出">
 
-    public static void info(String msg) {
-        infoWithTag(TAG, msg);
-    }
-
     public static void i(String msg) {
-        infoWithTag(TAG, msg);
+        itag(TAG, msg);
     }
 
-    public static void infoWithTag(String tag, String msg) {
+    public static void itag(String tag, String msg) {
         if (DEBUG) {
             Log.i(tag, msg);
         }
     }
 
-    public static void iwt(String tag, String msg) {
-        if (DEBUG) {
-            Log.i(tag, msg);
-        }
-    }
-
-    public static void info(String format, String... values) {
-        infoWithTag(TAG, format, values);
-    }
-
-    public static void i(String format, String... values) {
-        infoWithTag(TAG, format, values);
-    }
-
-    public static void infoWithTag(String tag, String format, String... values) {
-        infoWithTag(tag, String.format(format, new Object[]{values}));
-    }
-
-    public static void iwt(String tag, String format, String... values) {
-        infoWithTag(tag, String.format(format, new Object[]{values}));
-    }
-
-    public static void error(String msg) {
-        errorWithTag(TAG, msg);
+    public static void iformat(String tag, String format, String... values) {
+        itag(tag, String.format(format, new Object[]{values}));
     }
 
     public static void e(String msg) {
-        errorWithTag(TAG, msg);
+        etag(TAG, msg);
     }
 
-    public static void errorWithTag(String tag, String msg) {
+    public static void etag(String tag, String msg) {
         if (DEBUG) {
             Log.e(tag, msg);
         }
     }
 
-    public static void ewt(String tag, String msg) {
-        if (DEBUG) {
-            Log.e(tag, msg);
-        }
-    }
-
-    public static void error(String format, String... values) {
-        errorWithTag(TAG, format, values);
-    }
-
-    public static void e(String format, String... values) {
-        errorWithTag(TAG, format, values);
-    }
-
-    public static void errorWithTag(String tag, String format, String... values) {
-        errorWithTag(tag, String.format(format, new Object[]{values}));
-    }
-
-    public static void ewt(String tag, String format, String... values) {
-        errorWithTag(tag, String.format(format, new Object[]{values}));
-    }
-
-    public static void debug(String msg) {
-        debugWithTag(TAG, msg);
+    public static void eformat(String tag, String format, String... values) {
+        etag(tag, String.format(format, new Object[]{values}));
     }
 
     public static void d(String msg) {
-        debugWithTag(TAG, msg);
+        dtag(TAG, msg);
     }
 
-    public static void debugWithTag(String tag, String msg) {
+    public static void dtag(String tag, String msg) {
         if (DEBUG) {
             Log.d(tag, msg);
         }
     }
 
-    public static void dwt(String tag, String msg) {
-        if (DEBUG) {
-            Log.d(tag, msg);
-        }
-    }
-
-    public static void debug(String format, String... values) {
-        debugWithTag(TAG, format, values);
-    }
-
-    public static void d(String format, String... values) {
-        debugWithTag(TAG, format, values);
-    }
-
-    public static void debugWithTag(String tag, String format, String... values) {
-        debugWithTag(tag, String.format(format, new Object[]{values}));
-    }
-
-    public static void dwt(String tag, String format, String... values) {
-        debugWithTag(tag, String.format(format, new Object[]{values}));
-    }
-
-    public static void warn(String msg) {
-        warnWithTag(TAG, msg);
+    public static void dformat(String tag, String format, String... values) {
+        dtag(tag, String.format(format, new Object[]{values}));
     }
 
     public static void w(String msg) {
-        warnWithTag(TAG, msg);
+        wtag(TAG, msg);
     }
 
-    public static void warnWithTag(String tag, String msg) {
+    public static void wtag(String tag, String msg) {
         if (DEBUG) {
             Log.w(tag, msg);
         }
     }
 
-    public static void wwt(String tag, String msg) {
-        if (DEBUG) {
-            Log.w(tag, msg);
-        }
-    }
-
-    public static void warn(String format, String... values) {
-        warnWithTag(TAG, format, values);
-    }
-
-    public static void w(String format, String... values) {
-        warnWithTag(TAG, format, values);
-    }
-
-    public static void warnWithTag(String tag, String format, String... values) {
-        warnWithTag(tag, String.format(format, new Object[]{values}));
-    }
-
-    public static void wwt(String tag, String format, String... values) {
-        warnWithTag(tag, String.format(format, new Object[]{values}));
-    }
-
-    public static void verbose(String msg) {
-        verboseWithTag(TAG, msg);
+    public static void wformat(String tag, String format, String... values) {
+        wtag(tag, String.format(format, new Object[]{values}));
     }
 
     public static void v(String msg) {
-        verboseWithTag(TAG, msg);
+        vtag(TAG, msg);
     }
 
-    public static void verboseWithTag(String tag, String msg) {
+    public static void vtag(String tag, String msg) {
         if (DEBUG) {
             Log.v(tag, msg);
         }
     }
 
-    public static void vwt(String tag, String msg) {
-        if (DEBUG) {
-            Log.v(tag, msg);
-        }
-    }
-
-    public static void verbose(String format, String... values) {
-        verboseWithTag(TAG, format, values);
-    }
-
-    public static void v(String format, String... values) {
-        verboseWithTag(TAG, format, values);
-    }
-
-    public static void verboseWithTag(String tag, String format, String... values) {
-        verboseWithTag(tag, String.format(format, new Object[]{values}));
-    }
-
-    public static void vwt(String tag, String format, String... values) {
-        verboseWithTag(tag, String.format(format, new Object[]{values}));
+    public static void vformat(String tag, String format, String... values) {
+        vtag(tag, String.format(format, new Object[]{values}));
     }
 
     // </editor-folder>

@@ -1,5 +1,6 @@
 package dora;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,9 +22,12 @@ import dora.permission.Action;
 import dora.permission.PermissionManager;
 import dora.skin.SkinActivity;
 import dora.util.FragmentUtils;
+import dora.util.IntentUtils;
 import dora.util.NetworkUtils;
 import dora.util.StatusBarUtils;
+import dora.util.ToastUtils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +79,7 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
                         @Override
                         public void onAction(List<String> permissions) {
                             for (String permission : permissions) {
-                                Logger.error("未授予权限" + permission);
+                                Logger.e("未授予权限" + permission);
                             }
                         }
                     })
@@ -126,6 +130,18 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
             mFragmentCache.put(name, fragment);
         }
+    }
+
+    public void toast(String msg) {
+        ToastUtils.showShort(msg);
+    }
+
+    public void openActivity(Class<? extends Activity> activityClazz) {
+        IntentUtils.startActivity(activityClazz);
+    }
+
+    public void openActivity(Class<? extends Activity> activityClazz, String name, Serializable serializable) {
+        IntentUtils.startActivity(activityClazz, name, serializable);
     }
 
     /**

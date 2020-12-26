@@ -1,5 +1,6 @@
 package dora;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +18,10 @@ import androidx.fragment.app.Fragment;
 import dora.cache.Cache;
 import dora.cache.CacheType;
 import dora.cache.LruCache;
+import dora.util.IntentUtils;
+import dora.util.ToastUtils;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements FragmentCache {
@@ -40,6 +44,18 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         onGetExtras(getArguments());
+    }
+
+    public void toast(String msg) {
+        ToastUtils.showShort(msg);
+    }
+
+    public void openActivity(Class<? extends Activity> activityClazz) {
+        IntentUtils.startActivity(activityClazz);
+    }
+
+    public void openActivity(Class<? extends Activity> activityClazz, String name, Serializable serializable) {
+        IntentUtils.startActivity(activityClazz, name, serializable);
     }
 
     /**

@@ -37,6 +37,12 @@ public final class IntentUtils {
         GlobalContext.get().startActivity(intent);
     }
 
+    public static void startActivity(@NonNull Class<? extends Activity> activityClazz, String name, Serializable serializable) {
+        Intent intent = new Intent(GlobalContext.get(), activityClazz);
+        intent.putExtra(name, serializable);
+        GlobalContext.get().startActivity(intent);
+    }
+
     public static void startService(@NonNull String action) {
         Intent intent = new Intent();
         intent.setAction(action);
