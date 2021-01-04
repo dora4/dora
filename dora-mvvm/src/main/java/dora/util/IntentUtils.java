@@ -41,9 +41,16 @@ public final class IntentUtils {
         if (topActivity != null) {
             Intent intent = new Intent(AppManager.getInstance().getTopActivity(), activityClazz);
             topActivity.startActivity(intent);
-        } else {
-            Logger.e("dora.TaskStackGlobalConfig未被配置");
-        }
+        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
+    }
+
+    public static void startActivity(@NonNull Class<? extends Activity> activityClazz, Bundle bundle) {
+        Activity topActivity = AppManager.getInstance().getTopActivity();
+        if (topActivity != null) {
+            Intent intent = new Intent(AppManager.getInstance().getTopActivity(), activityClazz);
+            intent.putExtras(bundle);
+            topActivity.startActivity(intent);
+        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
     }
 
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz, String name, Serializable serializable) {
@@ -52,9 +59,7 @@ public final class IntentUtils {
             Intent intent = new Intent(topActivity, activityClazz);
             intent.putExtra(name, serializable);
             topActivity.startActivity(intent);
-        } else {
-            Logger.e("dora.TaskStackGlobalConfig未被配置");
-        }
+        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
     }
 
     public static void startService(@NonNull String action) {

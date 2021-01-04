@@ -7,6 +7,7 @@ import java.util.Set;
 import dora.cache.Cache;
 import dora.cache.CacheType;
 import dora.cache.LruCache;
+import dora.log.Logger;
 
 /**
  * 内存缓存工具。
@@ -67,7 +68,10 @@ public final class KeyValueUtils {
     }
 
     public static KeyValueUtils getInstance() {
-        return getInstance(GlobalContext.get());
+        if (mInstance == null) {
+            throw new IllegalStateException("dora.BaseApplication未被使用");
+        }
+        return mInstance;
     }
 
     private static KeyValueUtils getInstance(Context context) {

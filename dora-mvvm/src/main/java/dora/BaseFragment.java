@@ -54,6 +54,10 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         IntentUtils.startActivity(activityClazz);
     }
 
+    public void openActivity(Class<? extends Activity> activityClazz, Bundle bundle) {
+        IntentUtils.startActivity(activityClazz, bundle);
+    }
+
     public void openActivity(Class<? extends Activity> activityClazz, String name, Serializable serializable) {
         IntentUtils.startActivity(activityClazz, name, serializable);
     }

@@ -140,6 +140,10 @@ public abstract class BaseAutoSizeActivity<T extends ViewDataBinding> extends Au
         IntentUtils.startActivity(activityClazz);
     }
 
+    public void openActivity(Class<? extends Activity> activityClazz, Bundle bundle) {
+        IntentUtils.startActivity(activityClazz, bundle);
+    }
+
     public void openActivity(Class<? extends Activity> activityClazz, String name, Serializable serializable) {
         IntentUtils.startActivity(activityClazz, name, serializable);
     }
