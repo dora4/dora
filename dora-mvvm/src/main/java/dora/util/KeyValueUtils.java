@@ -7,7 +7,6 @@ import java.util.Set;
 import dora.cache.Cache;
 import dora.cache.CacheType;
 import dora.cache.LruCache;
-import dora.log.Logger;
 
 /**
  * 内存缓存工具。

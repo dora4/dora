@@ -34,7 +34,7 @@ public class WhereBuilder {
 
     private static final String PARENTHESES_RIGHT = ")";
 
-    private static final String SPACE = "";
+    private static final String SPACE = " ";
 
     private String mWhereClause;
 
