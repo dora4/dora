@@ -28,4 +28,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0-beta01'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
 }

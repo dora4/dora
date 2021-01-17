@@ -6,6 +6,7 @@ import dora.BaseRepository;
 import dora.cache.annotation.Repository;
 import dora.util.KeyValueUtils;
 import dora.util.ReflectionUtils;
+import dora.util.TextUtils;
 
 public class CacheLoader {
 
@@ -27,11 +28,17 @@ public class CacheLoader {
      */
     private static void loadCache(Class<? extends BaseRepository> repositoryClazz) {
         Repository repository = repositoryClazz.getAnnotation(Repository.class);
-        String loadDataMethodName = repository.loadDataMethodName();
-        String cacheName = repository.cacheName();
         BaseRepository baseRepository = ReflectionUtils.newInstance(repositoryClazz);
         if (baseRepository != null && baseRepository.isCacheLoadedInLaunchTime()
                 && baseRepository.hasMemoryCacheStrategy()) {
+            String loadDataMethodName = repository.loadDataMethodName();
+            if (TextUtils.isEmpty(loadDataMethodName)) {
+                loadDataMethodName = baseRepository.getLoadDataMethodName();
+            }
+            String cacheName = repository.cacheName();
+            if (TextUtils.isEmpty(cacheName)) {
+                cacheName = baseRepository.getCacheName();
+            }
             Method method = ReflectionUtils.newMethod(repositoryClazz, true, loadDataMethodName);
             Object data = ReflectionUtils.invokeMethod(baseRepository, method);
             KeyValueUtils.getInstance().setCacheToMemory(cacheName, data);

@@ -1,11 +1,13 @@
 package dora.util;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.format.Formatter;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -14,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -213,6 +216,26 @@ public final class IoUtils {
         baos.close();
         is.close();
         return fileBytes;
+    }
+
+    public static byte[] readAssets(Context context, String fileName) throws IOException {
+        byte[] bytes = new byte[1024];
+        AssetManager assetManager = context.getAssets();
+        InputStream inputStream = assetManager.open(fileName);
+        inputStream.read(bytes);
+        close(inputStream);
+        return bytes;
+    }
+
+    public static String readAssetsText(Context context, String fileName) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        AssetManager assetManager = context.getAssets();
+        BufferedReader bf = new BufferedReader(new InputStreamReader(assetManager.open(fileName)));
+        String line;
+        while ((line = bf.readLine()) != null) {
+            sb.append(line);
+        }
+        return sb.toString();
     }
 
     public static String readText(File file) throws IOException {

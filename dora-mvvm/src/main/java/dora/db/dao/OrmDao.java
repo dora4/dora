@@ -333,6 +333,10 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
         return getResult(cursor);
     }
 
+    public List<T> select(WhereBuilder builder) {
+        return select(QueryBuilder.create().where(builder));
+    }
+
     @Override
     public List<T> select(QueryBuilder builder) {
         TableManager manager = TableManager.getInstance();
@@ -365,6 +369,10 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             }
         }
         return null;
+    }
+
+    public T selectOne(WhereBuilder builder) {
+        return selectOne(QueryBuilder.create().where(builder));
     }
 
     @Override
@@ -413,6 +421,10 @@ public class OrmDao<T extends OrmTable> implements Dao<T> {
             OrmLog.d("select count(*) result is zero");
         }
         return count;
+    }
+
+    public long selectCount(WhereBuilder builder) {
+        return selectCount(QueryBuilder.create().where(builder));
     }
 
     @Override

@@ -29,6 +29,10 @@ public abstract class BaseRepository {
      */
     protected boolean mPreLoadBeforeRequestNetwork;
 
+    protected String mLoadDataMethodName;
+
+    protected String mCacheName;
+
     {
         //有配置注解以注解为准
         Repository repository = getClass().getAnnotation(Repository.class);
@@ -105,6 +109,10 @@ public abstract class BaseRepository {
         return NetworkUtils.checkNetwork();
     }
 
+    public String getLoadDataMethodName() {
+        return mLoadDataMethodName;
+    }
+
     public interface DataSource {
 
         enum CacheType {
@@ -124,5 +132,9 @@ public abstract class BaseRepository {
 
         boolean loadFromCache(CacheType type);
         void loadFromNetwork() throws Exception;
+    }
+
+    public String getCacheName() {
+        return mCacheName;
     }
 }
