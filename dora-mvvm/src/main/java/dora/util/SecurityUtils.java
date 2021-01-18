@@ -4,15 +4,13 @@ import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -20,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -57,6 +54,12 @@ public final class SecurityUtils {
 
     // <editor-folder desc="RSA加密">
 
+    /**
+     *  生成RSA公钥和私钥。
+     *
+     * @param keySize 如1024
+     * @return
+     */
     public static Map<String, String> generateRSAKeyPair(int keySize) {
         //为RSA算法创建一个KeyPairGenerator对象
         KeyPairGenerator kpg;
@@ -81,50 +84,98 @@ public final class SecurityUtils {
         return keyPairMap;
     }
 
-    public static String encryptByPublic(String pubKeyString, String content) {
+    /**
+     * 使用公钥加密。
+     *
+     * @param rsa_public
+     * @param content
+     * @return
+     */
+    public static String encryptByPublic(String rsa_public, String content) {
         try {
-            PublicKey publicKey = getPublicKeyFromX509(pubKeyString);
-            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            RSAPublicKey publicKey = getPublicKey(rsa_public);
+            Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            byte[] plaintext = content.getBytes();
-            byte[] output = cipher.doFinal(plaintext);
-            return Base64.encodeToString(output, Base64.NO_WRAP);
+            return Base64.encodeToString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes("UTF-8"),
+                    publicKey.getModulus().bitLength()), Base64.NO_WRAP);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return "";
         }
     }
 
-    private static PublicKey getPublicKeyFromX509(String pubKeyString) {
+    /**
+     * 使用私钥解密。
+     *
+     * @param rsa_private
+     * @param content
+     * @return
+     */
+    public static String decryptByPrimary(String rsa_private, String content) {
         try {
-            X509EncodedKeySpec x509 = new X509EncodedKeySpec(pubKeyString.getBytes());
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            return keyFactory.generatePublic(x509);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
+            RSAPrivateKey privateKey = getPrivateKey(rsa_private);
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+            return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decode(content, Base64.NO_WRAP), privateKey.getModulus().bitLength()),
+                    "UTF-8");
+        } catch (Exception e) {
+            return "";
         }
-        return null;
+    }
+
+    /**
+     * 使用私钥加密。
+     *
+     * @param rsa_private
+     * @param content
+     * @return
+     */
+    public static String encryptByPrimary(String rsa_private, String content) {
+        try {
+            RSAPrivateKey privateKey = getPrivateKey(rsa_private);
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
+            return Base64.encodeToString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes("UTF-8"), privateKey.getModulus().bitLength()),
+                    Base64.NO_WRAP);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    /**
+     * 使用公钥解密。
+     *
+     * @param rsa_public
+     * @param content
+     * @return
+     */
+    public static String decryptByPublic(String rsa_public, String content) {
+        try {
+            RSAPublicKey publicKey = getPublicKey(rsa_public);
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.DECRYPT_MODE, publicKey);
+            return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decode(content, Base64.NO_WRAP),
+                    publicKey.getModulus().bitLength()), "UTF-8");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public static RSAPublicKey getPublicKey(String publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        //通过X509编码的Key指令获得公钥对象
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(Base64.decode(publicKey, Base64.NO_WRAP));
+        return (RSAPublicKey) keyFactory.generatePublic(x509KeySpec);
     }
 
     public static RSAPrivateKey getPrivateKey(String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         //通过PKCS#8编码的Key指令获得私钥对象
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(Base64.decode(privateKey, Base64.NO_WRAP));
-        RSAPrivateKey key = (RSAPrivateKey) keyFactory.generatePrivate(pkcs8KeySpec);
-        return key;
-    }
-
-    public static String decryptByPrimary(String primaryKeySte, String text) throws
-            UnsupportedEncodingException, NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidKeySpecException, InvalidKeyException {
-        Cipher cipher = Cipher.getInstance("RSA");
-        RSAPrivateKey privateKey = getPrivateKey(primaryKeySte);
-        cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-        return Base64.encodeToString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, text.getBytes("UTF-8"), privateKey.getModulus().bitLength()), Base64.NO_WRAP);
+        return (RSAPrivateKey) keyFactory.generatePrivate(pkcs8KeySpec);
     }
 
     private static byte[] rsaSplitCodec(Cipher cipher, int opmode, byte[] datas, int keySize) {
-        int maxBlock = 0;
+        int maxBlock;
         if (opmode == Cipher.DECRYPT_MODE) {
             maxBlock = keySize / 8;
         } else {
