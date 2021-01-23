@@ -28,7 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements FragmentCache {
+public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
+        FragmentCache, PageSwitcher {
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
@@ -48,6 +49,41 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         onGetExtras(getArguments());
+    }
+
+    public PageSwitcher getPageSwitcher() {
+        if (getActivity() instanceof PageSwitcher) {
+            return (PageSwitcher) getActivity();
+        }
+        return null;
+    }
+
+    @Override
+    public void showPage(String name) {
+        if (getPageSwitcher() != null) {
+            getPageSwitcher().showPage(name);
+        }
+    }
+
+    @Override
+    public void showPage(String name, IntentUtils.Extras extras) {
+        if (getPageSwitcher() != null) {
+            getPageSwitcher().showPage(name);
+        }
+    }
+
+    @Override
+    public void nextPage() {
+        if (getPageSwitcher() != null) {
+            getPageSwitcher().nextPage();
+        }
+    }
+
+    @Override
+    public void nextPage(IntentUtils.Extras extras) {
+        if (getPageSwitcher() != null) {
+            getPageSwitcher().nextPage(extras);
+        }
     }
 
     public void toast(String msg) {

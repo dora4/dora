@@ -33,13 +33,14 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinActivity
-        implements ActivityCache {
+        implements ActivityCache, PageSwitcher {
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
     private Cache<String, Object> mCache;
     private Map<String, BaseFragment<?>> mFragmentCache = new HashMap<>();
     protected NetworkChangeObserver mNetworkChangeObserver = null;
+    private int mFragmentPageIndex;
 
     public Context getContext() {
         return this;
@@ -121,6 +122,7 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
         return transaction;
     }
 
+    @Override
     public void showPage(String name) {
         if (mFragmentCache.containsKey(name)) {
             getSupportFragmentManager().beginTransaction().show(mFragmentCache.get(name)).commit();
@@ -132,6 +134,7 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
         }
     }
 
+    @Override
     public void showPage(String name, IntentUtils.Extras extras) {
         if (mFragmentCache.containsKey(name)) {
             getSupportFragmentManager().beginTransaction().show(mFragmentCache.get(name)).commit();
@@ -141,6 +144,32 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
             getHideTransaction().commit();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
             mFragmentCache.put(name, fragment);
+        }
+    }
+
+    protected String[] getFragmentPages() {
+        return new String[0];
+    }
+
+    @Override
+    public void nextPage() {
+        if (mFragmentPageIndex == getFragmentPages().length - 1) {
+            mFragmentPageIndex = -1;
+        }
+        if (getFragmentPages().length > 1 && mFragmentPageIndex < getFragmentPages().length - 1) {
+            String pageName = getFragmentPages()[++mFragmentPageIndex];
+            showPage(pageName);
+        }
+    }
+
+    @Override
+    public void nextPage(IntentUtils.Extras extras) {
+        if (mFragmentPageIndex == getFragmentPages().length - 1) {
+            mFragmentPageIndex = -1;
+        }
+        if (getFragmentPages().length > 1 && mFragmentPageIndex < getFragmentPages().length - 1) {
+            String pageName = getFragmentPages()[++mFragmentPageIndex];
+            showPage(pageName, extras);
         }
     }
 

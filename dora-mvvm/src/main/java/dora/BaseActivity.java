@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,16 +31,16 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
-        implements ActivityCache {
+        implements ActivityCache, PageSwitcher {
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
     private Cache<String, Object> mCache;
     private Map<String, BaseFragment<?>> mFragmentCache = new HashMap<>();
     protected NetworkChangeObserver mNetworkChangeObserver = null;
+    private int mFragmentPageIndex;
 
     public Context getContext() {
         return this;
@@ -123,6 +122,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         return transaction;
     }
 
+    @Override
     public void showPage(String name) {
         if (mFragmentCache.containsKey(name)) {
             getSupportFragmentManager().beginTransaction().show(mFragmentCache.get(name)).commit();
@@ -134,6 +134,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         }
     }
 
+    @Override
     public void showPage(String name, IntentUtils.Extras extras) {
         if (mFragmentCache.containsKey(name)) {
             getSupportFragmentManager().beginTransaction().show(mFragmentCache.get(name)).commit();
@@ -143,6 +144,32 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             getHideTransaction().commit();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
             mFragmentCache.put(name, fragment);
+        }
+    }
+
+    protected String[] getFragmentPages() {
+        return new String[0];
+    }
+
+    @Override
+    public void nextPage() {
+        if (mFragmentPageIndex == getFragmentPages().length - 1) {
+            mFragmentPageIndex = -1;
+        }
+        if (getFragmentPages().length > 1 && mFragmentPageIndex < getFragmentPages().length - 1) {
+            String pageName = getFragmentPages()[++mFragmentPageIndex];
+            showPage(pageName);
+        }
+    }
+
+    @Override
+    public void nextPage(IntentUtils.Extras extras) {
+        if (mFragmentPageIndex == getFragmentPages().length - 1) {
+            mFragmentPageIndex = -1;
+        }
+        if (getFragmentPages().length > 1 && mFragmentPageIndex < getFragmentPages().length - 1) {
+            String pageName = getFragmentPages()[++mFragmentPageIndex];
+            showPage(pageName, extras);
         }
     }
 
