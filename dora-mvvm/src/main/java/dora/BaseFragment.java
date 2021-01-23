@@ -46,11 +46,13 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void onResume() {
         onGetExtras(getArguments());
+        super.onResume();
     }
 
-    protected void onResumeFragmentPage() {
+    @Override
+    public void initData(Bundle savedInstanceState) {
     }
 
     public PageSwitcher getPageSwitcher() {
