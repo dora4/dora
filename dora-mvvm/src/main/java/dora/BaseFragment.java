@@ -46,9 +46,9 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
         onGetExtras(getArguments());
+        super.onResume();
     }
 
     public PageSwitcher getPageSwitcher() {

@@ -125,11 +125,16 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
     @Override
     public void showPage(String name) {
         if (mFragmentCache.containsKey(name)) {
-            getSupportFragmentManager().beginTransaction().show(mFragmentCache.get(name)).commit();
+            BaseFragment<?> fragment = mFragmentCache.get(name);
+            if (fragment != null) {
+                fragment.onResume();
+                getSupportFragmentManager().beginTransaction().show(fragment).commit();
+            }
         } else {
             BaseFragment<?> fragment = getFragment(name);
             getHideTransaction().commit();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
+            fragment.onResume();
             mFragmentCache.put(name, fragment);
         }
     }
@@ -137,12 +142,17 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
     @Override
     public void showPage(String name, IntentUtils.Extras extras) {
         if (mFragmentCache.containsKey(name)) {
-            getSupportFragmentManager().beginTransaction().show(mFragmentCache.get(name)).commit();
+            BaseFragment<?> fragment = mFragmentCache.get(name);
+            if (fragment != null) {
+                fragment.onResume();
+                getSupportFragmentManager().beginTransaction().show(fragment).commit();
+            }
         } else {
             BaseFragment<?> fragment = getFragment(name);
             fragment.setArguments(extras.convertToBundle());
             getHideTransaction().commit();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
+            fragment.onResume();
             mFragmentCache.put(name, fragment);
         }
     }
