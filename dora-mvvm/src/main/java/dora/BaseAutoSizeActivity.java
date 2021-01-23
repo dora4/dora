@@ -143,11 +143,13 @@ public abstract class BaseAutoSizeActivity<T extends ViewDataBinding> extends Au
             BaseFragment<?> fragment = mFragmentCache.get(name);
             if (fragment != null) {
                 fragment.setArguments(extras.convertToBundle());
+                fragment.onGetExtras(extras.convertToBundle());
                 getSupportFragmentManager().beginTransaction().show(fragment).commit();
             }
         } else {
             BaseFragment<?> fragment = getFragment(name);
             fragment.setArguments(extras.convertToBundle());
+            fragment.onGetExtras(extras.convertToBundle());
             getHideTransaction().commit();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
             mFragmentCache.put(name, fragment);

@@ -46,12 +46,6 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void onResume() {
-        onGetExtras(getArguments());
-        super.onResume();
-    }
-
-    @Override
     public void initData(Bundle savedInstanceState) {
     }
 
