@@ -2,6 +2,7 @@ package dora;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import dora.cache.Cache;
 import dora.cache.CacheType;
@@ -22,6 +24,8 @@ import dora.util.IntentUtils;
 import dora.util.ToastUtils;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements FragmentCache {
@@ -50,16 +54,74 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         ToastUtils.showShort(msg);
     }
 
+    public void toastL(String msg) {
+        ToastUtils.showLong(msg);
+    }
+
     public void openActivity(Class<? extends Activity> activityClazz) {
-        IntentUtils.startActivity(activityClazz);
+        FragmentActivity activity = requireActivity();
+        Intent intent = new Intent(activity, activityClazz);
+        activity.startActivity(intent);
     }
 
-    public void openActivity(Class<? extends Activity> activityClazz, Bundle bundle) {
-        IntentUtils.startActivity(activityClazz, bundle);
+    public void openActivityForResult(Class<? extends Activity> activityClazz, int requestCode) {
+        FragmentActivity activity = requireActivity();
+        Intent intent = new Intent(activity, activityClazz);
+        activity.startActivityForResult(intent, requestCode);
     }
 
-    public void openActivity(Class<? extends Activity> activityClazz, String name, Serializable serializable) {
-        IntentUtils.startActivity(activityClazz, name, serializable);
+    public void openActivity(Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
+        FragmentActivity activity = requireActivity();
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
+    }
+
+    public void openActivityForResult(Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
+        FragmentActivity activity = requireActivity();
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public void openActivityWithString(Class<? extends Activity> activityClazz, String name, String extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        FragmentActivity activity = requireActivity();
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
+    }
+
+    public void openActivityWithInteger(Class<? extends Activity> activityClazz, String name, int extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        FragmentActivity activity = requireActivity();
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
+    }
+
+    public void openActivityWithBoolean(Class<? extends Activity> activityClazz, String name, boolean extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        FragmentActivity activity = requireActivity();
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
+    }
+
+    public void openActivityWithSerializable(Class<? extends Activity> activityClazz, String name, Serializable extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        FragmentActivity activity = requireActivity();
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
     }
 
     /**

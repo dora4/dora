@@ -132,20 +132,68 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
         }
     }
 
+    public void showPage(String name, IntentUtils.Extras extras) {
+        if (mFragmentCache.containsKey(name)) {
+            getSupportFragmentManager().beginTransaction().show(mFragmentCache.get(name)).commit();
+        } else {
+            BaseFragment<?> fragment = getFragment(name);
+            fragment.setArguments(extras.convertToBundle());
+            getHideTransaction().commit();
+            FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
+            mFragmentCache.put(name, fragment);
+        }
+    }
+
     public void toast(String msg) {
         ToastUtils.showShort(msg);
+    }
+
+    public void toastL(String msg) {
+        ToastUtils.showLong(msg);
     }
 
     public void openActivity(Class<? extends Activity> activityClazz) {
         IntentUtils.startActivity(activityClazz);
     }
 
-    public void openActivity(Class<? extends Activity> activityClazz, Bundle bundle) {
-        IntentUtils.startActivity(activityClazz, bundle);
+    public void openActivityForResult(Class<? extends Activity> activityClazz, int requestCode) {
+        IntentUtils.startActivityForResult(activityClazz, requestCode);
     }
 
-    public void openActivity(Class<? extends Activity> activityClazz, String name, Serializable serializable) {
-        IntentUtils.startActivity(activityClazz, name, serializable);
+    public void openActivity(Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
+        IntentUtils.startActivity(activityClazz, extras);
+    }
+
+    public void openActivityForResult(Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
+        IntentUtils.startActivityForResult(activityClazz, extras, requestCode);
+    }
+
+    public void openActivityWithString(Class<? extends Activity> activityClazz, String name, String extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        IntentUtils.startActivity(activityClazz, extras);
+    }
+
+    public void openActivityWithInteger(Class<? extends Activity> activityClazz, String name, int extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        IntentUtils.startActivity(activityClazz, extras);
+    }
+
+    public void openActivityWithBoolean(Class<? extends Activity> activityClazz, String name, boolean extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        IntentUtils.startActivity(activityClazz, extras);
+    }
+
+    public void openActivityWithSerializable(Class<? extends Activity> activityClazz, String name, Serializable extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        IntentUtils.startActivity(activityClazz, extras);
     }
 
     /**
@@ -190,8 +238,6 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
 
     /**
      * 网络连接已断开，需要使用到{@link dora.BaseApplication}，才会有回调。
-     *
-     * @param type
      */
     protected void onNetworkDisconnected() {
     }

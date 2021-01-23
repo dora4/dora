@@ -12,8 +12,12 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 import dora.AppManager;
+import dora.BaseActivity;
+import dora.db.constraint.Default;
 import dora.log.Logger;
 
 public final class IntentUtils {
@@ -44,6 +48,21 @@ public final class IntentUtils {
         } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
     }
 
+    public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz, int requestCode) {
+        Activity topActivity = AppManager.getInstance().getTopActivity();
+        if (topActivity != null) {
+            Intent intent = new Intent(AppManager.getInstance().getTopActivity(), activityClazz);
+            topActivity.startActivityForResult(intent, requestCode);
+        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
+    }
+
+    /**
+     * 使用{@link #startActivity(Class, Extras)}替代。
+     *
+     * @param activityClazz
+     * @param bundle
+     */
+    @Deprecated
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz, Bundle bundle) {
         Activity topActivity = AppManager.getInstance().getTopActivity();
         if (topActivity != null) {
@@ -53,12 +72,21 @@ public final class IntentUtils {
         } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
     }
 
-    public static void startActivity(@NonNull Class<? extends Activity> activityClazz, String name, Serializable serializable) {
+    public static void startActivity(@NonNull Class<? extends Activity> activityClazz, Extras extras) {
         Activity topActivity = AppManager.getInstance().getTopActivity();
         if (topActivity != null) {
             Intent intent = new Intent(topActivity, activityClazz);
-            intent.putExtra(name, serializable);
+            intent = extras.parseData(intent);
             topActivity.startActivity(intent);
+        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
+    }
+
+    public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz, Extras extras, int requestCode) {
+        Activity topActivity = AppManager.getInstance().getTopActivity();
+        if (topActivity != null) {
+            Intent intent = new Intent(topActivity, activityClazz);
+            intent = extras.parseData(intent);
+            topActivity.startActivityForResult(intent, requestCode);
         } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
     }
 
@@ -280,5 +308,159 @@ public final class IntentUtils {
             return new ArrayList<>();
         }
         return intent.getStringArrayListExtra(name);
+    }
+
+    public static class Extras implements Serializable {
+
+        private Map<String, Object> extrasMap;
+
+        public Extras(Map<String, Object> map) {
+            this.extrasMap = map;
+        }
+
+        public Bundle convertToBundle() {
+            Bundle bundle = new Bundle();
+            Set<String> keys = extrasMap.keySet();
+            for (String key : keys) {
+                Object value = extrasMap.get(key);
+                if (String.class.isAssignableFrom(value.getClass())) {
+                    String val = (String) value;
+                    bundle.putString(key, val);
+                } else if (int.class.isAssignableFrom(value.getClass())) {
+                    int val = (int) value;
+                    bundle.putInt(key, val);
+                } else if (Serializable.class.isAssignableFrom(value.getClass())) {
+                    Serializable val = (Serializable) value;
+                    bundle.putSerializable(key, val);
+                } else if (boolean.class.isAssignableFrom(value.getClass())) {
+                    boolean val = (boolean) value;
+                    bundle.putBoolean(key, val);
+                } else if (long.class.isAssignableFrom(value.getClass())) {
+                    long val = (long) value;
+                    bundle.putLong(key, val);
+                } else if (short.class.isAssignableFrom(value.getClass())) {
+                    short val = (short) value;
+                    bundle.putShort(key, val);
+                } else if (byte.class.isAssignableFrom(value.getClass())) {
+                    byte val = (byte) value;
+                    bundle.putByte(key, val);
+                } else if (float.class.isAssignableFrom(value.getClass())) {
+                    float val = (float) value;
+                    bundle.putFloat(key, val);
+                } else if (double.class.isAssignableFrom(value.getClass())) {
+                    double val = (double) value;
+                    bundle.putDouble(key, val);
+                } else if (char.class.isAssignableFrom(value.getClass())) {
+                    char val = (char) value;
+                    bundle.putChar(key, val);
+                } else if (int[].class.isAssignableFrom(value.getClass())) {
+                    int[] val = (int[]) value;
+                    bundle.putIntArray(key, val);
+                } else if (char[].class.isAssignableFrom(value.getClass())) {
+                    char[] val = (char[]) value;
+                    bundle.putCharArray(key, val);
+                } else if (byte[].class.isAssignableFrom(value.getClass())) {
+                    byte[] val = (byte[]) value;
+                    bundle.putByteArray(key, val);
+                } else if (short[].class.isAssignableFrom(value.getClass())) {
+                    short[] val = (short[]) value;
+                    bundle.putShortArray(key, val);
+                } else if (long[].class.isAssignableFrom(value.getClass())) {
+                    long[] val = (long[]) value;
+                    bundle.putLongArray(key, val);
+                } else if (float[].class.isAssignableFrom(value.getClass())) {
+                    float[] val = (float[]) value;
+                    bundle.putFloatArray(key, val);
+                } else if (double[].class.isAssignableFrom(value.getClass())) {
+                    double[] val = (double[]) value;
+                    bundle.putDoubleArray(key, val);
+                } else if (Serializable[].class.isAssignableFrom(value.getClass())) {
+                    Serializable[] val = (Serializable[]) value;
+                    bundle.putSerializable(key, val);
+                } else if (String[].class.isAssignableFrom(value.getClass())) {
+                    String[] val = (String[]) value;
+                    bundle.putStringArray(key, val);
+                } else if (Parcelable.class.isAssignableFrom(value.getClass())) {
+                    Parcelable val = (Parcelable) value;
+                    bundle.putParcelable(key, val);
+                } else if (Parcelable[].class.isAssignableFrom(value.getClass())) {
+                    Parcelable[] val = (Parcelable[]) value;
+                    bundle.putParcelableArray(key, val);
+                }
+            }
+            return bundle;
+        }
+
+        public Intent parseData(Intent intent) {
+            Set<String> keys = extrasMap.keySet();
+            for (String key : keys) {
+                Object value = extrasMap.get(key);
+                if (String.class.isAssignableFrom(value.getClass())) {
+                    String val = (String) value;
+                    intent.putExtra(key, val);
+                } else if (int.class.isAssignableFrom(value.getClass())) {
+                    int val = (int) value;
+                    intent.putExtra(key, val);
+                } else if (Serializable.class.isAssignableFrom(value.getClass())) {
+                    Serializable val = (Serializable) value;
+                    intent.putExtra(key, val);
+                } else if (boolean.class.isAssignableFrom(value.getClass())) {
+                    boolean val = (boolean) value;
+                    intent.putExtra(key, val);
+                } else if (long.class.isAssignableFrom(value.getClass())) {
+                    long val = (long) value;
+                    intent.putExtra(key, val);
+                } else if (short.class.isAssignableFrom(value.getClass())) {
+                    short val = (short) value;
+                    intent.putExtra(key, val);
+                } else if (byte.class.isAssignableFrom(value.getClass())) {
+                    byte val = (byte) value;
+                    intent.putExtra(key, val);
+                } else if (float.class.isAssignableFrom(value.getClass())) {
+                    float val = (float) value;
+                    intent.putExtra(key, val);
+                } else if (double.class.isAssignableFrom(value.getClass())) {
+                    double val = (double) value;
+                    intent.putExtra(key, val);
+                } else if (char.class.isAssignableFrom(value.getClass())) {
+                    char val = (char) value;
+                    intent.putExtra(key, val);
+                } else if (int[].class.isAssignableFrom(value.getClass())) {
+                    int[] val = (int[]) value;
+                    intent.putExtra(key, val);
+                } else if (char[].class.isAssignableFrom(value.getClass())) {
+                    char[] val = (char[]) value;
+                    intent.putExtra(key, val);
+                } else if (byte[].class.isAssignableFrom(value.getClass())) {
+                    byte[] val = (byte[]) value;
+                    intent.putExtra(key, val);
+                } else if (short[].class.isAssignableFrom(value.getClass())) {
+                    short[] val = (short[]) value;
+                    intent.putExtra(key, val);
+                } else if (long[].class.isAssignableFrom(value.getClass())) {
+                    long[] val = (long[]) value;
+                    intent.putExtra(key, val);
+                } else if (float[].class.isAssignableFrom(value.getClass())) {
+                    float[] val = (float[]) value;
+                    intent.putExtra(key, val);
+                } else if (double[].class.isAssignableFrom(value.getClass())) {
+                    double[] val = (double[]) value;
+                    intent.putExtra(key, val);
+                } else if (Serializable[].class.isAssignableFrom(value.getClass())) {
+                    Serializable[] val = (Serializable[]) value;
+                    intent.putExtra(key, val);
+                } else if (String[].class.isAssignableFrom(value.getClass())) {
+                    String[] val = (String[]) value;
+                    intent.putExtra(key, val);
+                } else if (Parcelable.class.isAssignableFrom(value.getClass())) {
+                    Parcelable val = (Parcelable) value;
+                    intent.putExtra(key, val);
+                } else if (Parcelable[].class.isAssignableFrom(value.getClass())) {
+                    Parcelable[] val = (Parcelable[]) value;
+                    intent.putExtra(key, val);
+                }
+            }
+            return intent;
+        }
     }
 }

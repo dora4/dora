@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
         implements ActivityCache {
@@ -132,20 +134,68 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         }
     }
 
+    public void showPage(String name, IntentUtils.Extras extras) {
+        if (mFragmentCache.containsKey(name)) {
+            getSupportFragmentManager().beginTransaction().show(mFragmentCache.get(name)).commit();
+        } else {
+            BaseFragment<?> fragment = getFragment(name);
+            fragment.setArguments(extras.convertToBundle());
+            getHideTransaction().commit();
+            FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
+            mFragmentCache.put(name, fragment);
+        }
+    }
+
     public void toast(String msg) {
         ToastUtils.showShort(msg);
+    }
+
+    public void toastL(String msg) {
+        ToastUtils.showLong(msg);
     }
 
     public void openActivity(Class<? extends Activity> activityClazz) {
         IntentUtils.startActivity(activityClazz);
     }
 
-    public void openActivity(Class<? extends Activity> activityClazz, Bundle bundle) {
-        IntentUtils.startActivity(activityClazz, bundle);
+    public void openActivityForResult(Class<? extends Activity> activityClazz, int requestCode) {
+        IntentUtils.startActivityForResult(activityClazz, requestCode);
     }
 
-    public void openActivity(Class<? extends Activity> activityClazz, String name, Serializable serializable) {
-        IntentUtils.startActivity(activityClazz, name, serializable);
+    public void openActivity(Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
+        IntentUtils.startActivity(activityClazz, extras);
+    }
+
+    public void openActivityForResult(Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
+        IntentUtils.startActivityForResult(activityClazz, extras, requestCode);
+    }
+
+    public void openActivityWithString(Class<? extends Activity> activityClazz, String name, String extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        IntentUtils.startActivity(activityClazz, extras);
+    }
+
+    public void openActivityWithInteger(Class<? extends Activity> activityClazz, String name, int extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        IntentUtils.startActivity(activityClazz, extras);
+    }
+
+    public void openActivityWithBoolean(Class<? extends Activity> activityClazz, String name, boolean extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        IntentUtils.startActivity(activityClazz, extras);
+    }
+
+    public void openActivityWithSerializable(Class<? extends Activity> activityClazz, String name, Serializable extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        IntentUtils.startActivity(activityClazz, extras);
     }
 
     /**
@@ -178,8 +228,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     /**
      * 网络连接已断开，需要使用到{@link dora.BaseApplication}，才会有回调。
-     *
-     * @param type
      */
     protected void onNetworkDisconnected() {
     }
@@ -190,10 +238,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Bundle bundle = intent.getExtras();
-        onGetExtras(bundle, intent);
+        onGetExtras(intent.getAction(), bundle, intent);
     }
 
-    protected void onGetExtras(@Nullable Bundle bundle, @NonNull Intent intent) {
+    protected void onGetExtras(@Nullable String action, @Nullable Bundle bundle, @NonNull Intent intent) {
     }
 
     @Override
