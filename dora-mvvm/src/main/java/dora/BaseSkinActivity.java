@@ -144,6 +144,7 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
         if (mFragmentCache.containsKey(name)) {
             BaseFragment<?> fragment = mFragmentCache.get(name);
             if (fragment != null) {
+                fragment.setArguments(extras.convertToBundle());
                 fragment.onResume();
                 getSupportFragmentManager().beginTransaction().show(fragment).commit();
             }

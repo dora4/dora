@@ -144,6 +144,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         if (mFragmentCache.containsKey(name)) {
             BaseFragment<?> fragment = mFragmentCache.get(name);
             if (fragment != null) {
+                fragment.setArguments(extras.convertToBundle());
                 fragment.onResume();
                 getSupportFragmentManager().beginTransaction().show(fragment).commit();
             }
