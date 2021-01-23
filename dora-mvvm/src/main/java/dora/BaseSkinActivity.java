@@ -128,13 +128,11 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
             BaseFragment<?> fragment = mFragmentCache.get(name);
             if (fragment != null) {
                 getSupportFragmentManager().beginTransaction().show(fragment).commit();
-                fragment.onResume();
             }
         } else {
             BaseFragment<?> fragment = getFragment(name);
             getHideTransaction().commit();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
-            fragment.onResume();
             mFragmentCache.put(name, fragment);
         }
     }
@@ -146,14 +144,12 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
             if (fragment != null) {
                 fragment.setArguments(extras.convertToBundle());
                 getSupportFragmentManager().beginTransaction().show(fragment).commit();
-                fragment.onResume();
             }
         } else {
             BaseFragment<?> fragment = getFragment(name);
             fragment.setArguments(extras.convertToBundle());
             getHideTransaction().commit();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
-            fragment.onResume();
             mFragmentCache.put(name, fragment);
         }
     }
