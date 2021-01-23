@@ -127,14 +127,14 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         if (mFragmentCache.containsKey(name)) {
             BaseFragment<?> fragment = mFragmentCache.get(name);
             if (fragment != null) {
-                fragment.onResume();
+                fragment.onResumeFragmentPage();
                 getSupportFragmentManager().beginTransaction().show(fragment).commit();
             }
         } else {
             BaseFragment<?> fragment = getFragment(name);
             getHideTransaction().commit();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
-            fragment.onResume();
+            fragment.onResumeFragmentPage();
             mFragmentCache.put(name, fragment);
         }
     }
@@ -145,7 +145,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             BaseFragment<?> fragment = mFragmentCache.get(name);
             if (fragment != null) {
                 fragment.setArguments(extras.convertToBundle());
-                fragment.onResume();
+                fragment.onResumeFragmentPage();
                 getSupportFragmentManager().beginTransaction().show(fragment).commit();
             }
         } else {
@@ -153,7 +153,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             fragment.setArguments(extras.convertToBundle());
             getHideTransaction().commit();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
-            fragment.onResume();
+            fragment.onResumeFragmentPage();
             mFragmentCache.put(name, fragment);
         }
     }
