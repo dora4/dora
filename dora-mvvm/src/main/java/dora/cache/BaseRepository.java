@@ -1,8 +1,9 @@
-package dora;
+package dora.cache;
 
 import androidx.annotation.NonNull;
 
 import dora.cache.annotation.Repository;
+import dora.log.Logger;
 import dora.util.NetworkUtils;
 
 /**
@@ -65,6 +66,7 @@ public abstract class BaseRepository {
                 ds.loadFromNetwork();
                 return true;
             } catch (Exception e) {
+                Logger.e(e.getMessage());
                 return false;
             }
         } else {

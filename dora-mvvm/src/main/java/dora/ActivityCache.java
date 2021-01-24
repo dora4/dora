@@ -2,6 +2,8 @@ package dora;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+
 import dora.cache.Cache;
 
 public interface ActivityCache {
@@ -10,5 +12,5 @@ public interface ActivityCache {
 
     Cache.Factory cacheFactory();
 
-    void initData(Bundle savedInstanceState);
+    void initData(@Nullable Bundle savedInstanceState);
 }

@@ -2,7 +2,6 @@ package dora.cache;
 
 import java.lang.reflect.Method;
 
-import dora.BaseRepository;
 import dora.cache.annotation.Repository;
 import dora.util.KeyValueUtils;
 import dora.util.ReflectionUtils;

@@ -1,5 +1,8 @@
 package dora.util;
 
+import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,5 +38,9 @@ public final class ViewUtils {
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         return recyclerView;
+    }
+
+    public static String getText(TextView textView) {
+        return textView.getText().toString().trim();
     }
 }

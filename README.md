@@ -26,7 +26,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)[![Codacy Ba
 
 
 
-三、开始使用
+三、开始使用（教程 https://github.com/dora4/dora_samples ）
 
 由于此SDK仅支持Android Studio的开发，不支持Eclipse的开发。如果你使用Eclipse开发的话，可以从Github下载一份最新的源代码，添加到项目中。
 
