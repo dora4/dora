@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public final class Math implements Number {
+public final class Calculator implements Number {
 
-    private Math() {
+    private Calculator() {
     }
 
     // <editor-folder desc="进制转换">
@@ -177,8 +177,4 @@ public final class Math implements Number {
     }
 
     // </editor-folder>
-
-    public static float clamp(float value, float max, float min) {
-        return java.lang.Math.max(java.lang.Math.min(value, max), min);
-    }
 }

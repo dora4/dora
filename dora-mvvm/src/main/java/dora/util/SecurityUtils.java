@@ -34,12 +34,12 @@ public final class SecurityUtils {
         Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, zeroIv);
         byte[] encryptedData = cipher.doFinal(encryptString.getBytes());
-        return Math.bs2H(encryptedData);
+        return Calculator.bs2H(encryptedData);
     }
 
     public static String decryptDES(byte[] key, String decryptString) throws Exception {
         if (TextUtils.isNotEmpty(decryptString)) {
-            byte[] byteMi = Math.H2bs(decryptString, "");
+            byte[] byteMi = Calculator.H2bs(decryptString, "");
             IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
             SecretKeySpec secretKeySpec = new SecretKeySpec(key, "DES");
             Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
@@ -110,7 +110,7 @@ public final class SecurityUtils {
      * @param content
      * @return
      */
-    public static String decryptByPrimary(String rsa_private, String content) {
+    public static String decryptByPrivate(String rsa_private, String content) {
         try {
             RSAPrivateKey privateKey = getPrivateKey(rsa_private);
             Cipher cipher = Cipher.getInstance("RSA");
@@ -129,7 +129,7 @@ public final class SecurityUtils {
      * @param content
      * @return
      */
-    public static String encryptByPrimary(String rsa_private, String content) {
+    public static String encryptByPrivate(String rsa_private, String content) {
         try {
             RSAPrivateKey privateKey = getPrivateKey(rsa_private);
             Cipher cipher = Cipher.getInstance("RSA");

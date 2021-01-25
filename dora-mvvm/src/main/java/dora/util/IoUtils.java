@@ -455,7 +455,7 @@ public final class IoUtils {
                 md.update(buffer, 0, length);
             }
             byte[] bytes = md.digest();
-            return Math.bs2H(bytes);
+            return Calculator.bs2H(bytes);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
