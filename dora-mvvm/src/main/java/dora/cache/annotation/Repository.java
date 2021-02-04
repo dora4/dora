@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import dora.cache.BaseRepository;
+import dora.cache.repository.BaseRepository;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -52,4 +52,11 @@ public @interface Repository {
      * @return 默认开启
      */
     boolean isPreLoadBeforeRequestNetwork() default true;
+
+    /**
+     * 是否是List数据。
+     *
+     * @return true代表是List数据，false反之，默认不为List数据。
+     */
+    boolean isMultiData() default false;
 }

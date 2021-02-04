@@ -2,6 +2,8 @@ package dora.http;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -11,6 +13,17 @@ public abstract class DoraCallback<T> implements Callback<ApiResult<T>> {
     public abstract void onSuccess(T data);
 
     public abstract void onFailure(int code, String msg);
+
+    protected void onInterceptNetworkData(T data) {
+    }
+
+    public interface SimpleLoader<T> {
+        T loadData();
+    }
+
+    public interface MultiLoader<T> {
+        List<T> loadData();
+    }
 
     @Override
     public void onResponse(@NotNull Call<ApiResult<T>> call, Response<ApiResult<T>> response) {

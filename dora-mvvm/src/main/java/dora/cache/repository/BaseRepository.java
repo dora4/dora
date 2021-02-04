@@ -1,8 +1,13 @@
-package dora.cache;
+package dora.cache.repository;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import dora.cache.annotation.Repository;
+import dora.cache.data.DataFetcher;
+import dora.cache.data.DefaultDataFetcher;
+import dora.cache.data.ListDataFetcher;
+import dora.http.DoraCallback;
 import dora.log.Logger;
 import dora.util.NetworkUtils;
 
@@ -16,7 +21,7 @@ import dora.util.NetworkUtils;
  * 数据库优先，{@link DataSource.CacheStrategy#STRATEGY_DATABASE_FIRST}，断网的情况下先从数据库加载一次数据，如果没有获取到，再从内存获取一次数据
  * 内存优先，{@link DataSource.CacheStrategy#STRATEGY_MEMORY_FIRST}，断网的情况下先从内存加载一次数据，如果没有获取到，再从数据库获取一次数据
  */
-public abstract class BaseRepository {
+public abstract class BaseRepository<T> implements DataFetcher<T> {
 
     protected int mCacheStrategy = DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY;
 
@@ -34,6 +39,10 @@ public abstract class BaseRepository {
 
     protected String mCacheName;
 
+    protected boolean mMultiData;
+
+    protected DataFetcher<T> mDataFetcher;
+
     {
         //有配置注解以注解为准
         Repository repository = getClass().getAnnotation(Repository.class);
@@ -41,8 +50,24 @@ public abstract class BaseRepository {
             mCacheStrategy = repository.cacheStrategy();
             mCacheLoadedInLaunchTime = repository.isCacheLoadedInLaunchTime();
             mPreLoadBeforeRequestNetwork = repository.isPreLoadBeforeRequestNetwork();
+            mMultiData = repository.isMultiData();
+            if (mMultiData) {
+                setDataFetcher((DataFetcher<T>) installListDataFetcher());
+            } else {
+                setDataFetcher(installDataFetcher());
+            }
         }
     }
+
+    protected abstract DefaultDataFetcher<T> installDataFetcher();
+
+    protected abstract ListDataFetcher<?> installListDataFetcher();
+
+    protected void setDataFetcher(DataFetcher<T> fetcher) {
+        this.mDataFetcher = fetcher;
+    }
+
+    protected abstract void onLoadFromNetwork(DoraCallback<?> callback);
 
     protected boolean selectData(@NonNull DataSource ds) {
         if (isNetworkAvailable()) {
@@ -136,7 +161,15 @@ public abstract class BaseRepository {
         void loadFromNetwork() throws Exception;
     }
 
+    public LiveData<T> getData() {
+        return mDataFetcher.getData();
+    }
+
     public String getCacheName() {
         return mCacheName;
+    }
+
+    public boolean isMultiData() {
+        return mMultiData;
     }
 }
