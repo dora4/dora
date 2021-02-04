@@ -39,7 +39,7 @@ public abstract class BaseRepository<T> implements DataFetcher<T> {
 
     protected String mCacheName;
 
-    protected boolean mMultiData;
+    protected boolean mMultiData = true;
 
     protected DataFetcher<T> mDataFetcher;
 
@@ -51,11 +51,11 @@ public abstract class BaseRepository<T> implements DataFetcher<T> {
             mCacheLoadedInLaunchTime = repository.isCacheLoadedInLaunchTime();
             mPreLoadBeforeRequestNetwork = repository.isPreLoadBeforeRequestNetwork();
             mMultiData = repository.isMultiData();
-            if (mMultiData) {
-                setDataFetcher((DataFetcher<T>) installListDataFetcher());
-            } else {
-                setDataFetcher(installDataFetcher());
-            }
+        }
+        if (mMultiData) {
+            setDataFetcher((DataFetcher<T>) installListDataFetcher());
+        } else {
+            setDataFetcher(installDataFetcher());
         }
     }
 
