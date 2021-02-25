@@ -14,7 +14,7 @@ import java.util.Locale;
 public class MultiLanguageUtils {
 
     public static final String SAVE_LANGUAGE = "dora.util.LanguageUtils";
-    private static final String TAG = "LanguageUtils";
+    private static final String TAG = "MultiLanguageUtils";
     private static MultiLanguageUtils instance;
     private Context mContext;
 
@@ -24,8 +24,9 @@ public class MultiLanguageUtils {
 
     public interface LanguageType {
         int LANGUAGE_FOLLOW_SYSTEM = 0; //跟随系统
-        int LANGUAGE_RW = 1;    //繁体中文
+        int LANGUAGE_CHINESE_TRADITIONAL = 1;    //繁体中文
         int LANGUAGE_CHINESE_SIMPLIFIED = 2; //简体
+        int LANGUAGE_ENGLISH = 3; //英语
     }
 
     public static void init(Context context) {
@@ -40,7 +41,7 @@ public class MultiLanguageUtils {
 
     public static MultiLanguageUtils getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("You must be init MultiLanguageUtil first");
+            throw new IllegalStateException("You must be init MultiLanguageUtils first");
         }
         return instance;
     }
@@ -87,8 +88,8 @@ public class MultiLanguageUtils {
     private Locale getLanguageLocale() {
         int languageType = SPUtils.obtainInteger(MultiLanguageUtils.SAVE_LANGUAGE);
         if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) {
-            return Locale.TRADITIONAL_CHINESE;
-        } else if (languageType == LanguageType.LANGUAGE_RW) {
+            return Locale.SIMPLIFIED_CHINESE;
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
             return Locale.TRADITIONAL_CHINESE;
         } else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
             return Locale.SIMPLIFIED_CHINESE;
