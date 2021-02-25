@@ -93,14 +93,15 @@ public class MultiLanguageUtils {
             return Locale.TRADITIONAL_CHINESE;
         } else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
             return Locale.SIMPLIFIED_CHINESE;
+        } else if (languageType == LanguageType.LANGUAGE_ENGLISH) {
+            return Locale.ENGLISH;
         }
         getSystemLanguage(getSysLocale());
-        Log.e(TAG, "getLanguageLocale" + languageType + languageType);
-        return Locale.TRADITIONAL_CHINESE;
+        return Locale.ENGLISH;
     }
 
     private String getSystemLanguage(Locale locale) {
-        return locale.getLanguage() + "_" + locale.getCountry();
+        return "System Language:"+locale.getLanguage() + "_" + locale.getCountry();
 
     }
 
@@ -132,11 +133,6 @@ public class MultiLanguageUtils {
      */
     public int getLanguageType() {
         int languageType = SPUtils.obtainInteger(MultiLanguageUtils.SAVE_LANGUAGE);
-        if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
-            return LanguageType.LANGUAGE_CHINESE_SIMPLIFIED;
-        } else if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) {
-            return LanguageType.LANGUAGE_FOLLOW_SYSTEM;
-        }
         Log.e(TAG, "getLanguageType" + languageType);
         return languageType;
     }
