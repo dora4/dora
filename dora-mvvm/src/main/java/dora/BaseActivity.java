@@ -23,6 +23,7 @@ import dora.permission.Action;
 import dora.permission.PermissionManager;
 import dora.util.FragmentUtils;
 import dora.util.IntentUtils;
+import dora.util.MultiLanguageUtils;
 import dora.util.NetworkUtils;
 import dora.util.StatusBarUtils;
 import dora.util.ToastUtils;
@@ -44,6 +45,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(MultiLanguageUtils.attachBaseContext(newBase));
     }
 
     @Override

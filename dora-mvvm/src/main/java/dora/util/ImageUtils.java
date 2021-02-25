@@ -2,6 +2,7 @@ package dora.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,8 +23,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;
@@ -101,6 +103,19 @@ public final class ImageUtils {
     // </editor-folder>
 
     // <editor-folder desc="保存和加载图片">
+
+    public static void saveImgToAlbum(File file, String fileName) {
+        //把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(GlobalContext.get().getContentResolver(),
+                    file.getAbsolutePath(), fileName, null);
+            //保存图片后发送广播通知更新数据库
+            Uri uri = Uri.fromFile(file);
+            GlobalContext.get().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void saveAsJpeg(Bitmap bitmap, String path, int quality) {
         FileOutputStream fos = null;
