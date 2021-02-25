@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 
 import dora.net.NetworkStateReceiver;
 import dora.util.KeyValueUtils;
+import dora.util.MultiLanguageUtils;
 import dora.util.ReflectionUtils;
 
 public class AppLifecycle implements ApplicationLifecycleCallbacks {
@@ -22,6 +23,7 @@ public class AppLifecycle implements ApplicationLifecycleCallbacks {
         if (getInstance != null) {
             ReflectionUtils.invokeMethod(null, getInstance, application);
         }
+        MultiLanguageUtils.init(application);
         NetworkStateReceiver.registerNetworkStateReceiver(application);
     }
 
