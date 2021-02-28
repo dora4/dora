@@ -2,11 +2,9 @@ package dora.cache;
 
 import java.lang.reflect.Method;
 
-import dora.cache.annotation.Repository;
-import dora.cache.repository.BaseRepository;
+import dora.cache.repository.BaseMemoryCacheRepository;
 import dora.util.KeyValueUtils;
 import dora.util.ReflectionUtils;
-import dora.util.TextUtils;
 
 public class CacheLoader {
 
@@ -15,8 +13,8 @@ public class CacheLoader {
      *
      * @param repositories
      */
-    public static void scan(Class<? extends BaseRepository>... repositories) {
-        for (Class<? extends BaseRepository> repositoryClazz : repositories) {
+    public static void scan(Class<? extends BaseMemoryCacheRepository>... repositories) {
+        for (Class<? extends BaseMemoryCacheRepository> repositoryClazz : repositories) {
             loadCache(repositoryClazz);
         }
     }
@@ -26,22 +24,10 @@ public class CacheLoader {
      *
      * @param repositoryClazz
      */
-    private static void loadCache(Class<? extends BaseRepository> repositoryClazz) {
-        Repository repository = repositoryClazz.getAnnotation(Repository.class);
-        BaseRepository baseRepository = ReflectionUtils.newInstance(repositoryClazz);
-        if (baseRepository != null && baseRepository.isCacheLoadedInLaunchTime()
-                && baseRepository.hasMemoryCacheStrategy()) {
-            String loadDataMethodName = repository.loadDataMethodName();
-            if (TextUtils.isEmpty(loadDataMethodName)) {
-                loadDataMethodName = baseRepository.getLoadDataMethodName();
-            }
-            String cacheName = repository.cacheName();
-            if (TextUtils.isEmpty(cacheName)) {
-                cacheName = baseRepository.getCacheName();
-            }
-            Method method = ReflectionUtils.newMethod(repositoryClazz, true, loadDataMethodName);
-            Object data = ReflectionUtils.invokeMethod(baseRepository, method);
-            KeyValueUtils.getInstance().setCacheToMemory(cacheName, data);
-        }
+    private static void loadCache(Class<? extends BaseMemoryCacheRepository> repositoryClazz) {
+        BaseMemoryCacheRepository repository = ReflectionUtils.newInstance(repositoryClazz);
+        Method method = ReflectionUtils.newMethod(repositoryClazz, true, "loadData");
+        Object data = ReflectionUtils.invokeMethod(repository, method);
+        KeyValueUtils.getInstance().updateCacheAtMemory(repository.getCacheName(), data);
     }
 }

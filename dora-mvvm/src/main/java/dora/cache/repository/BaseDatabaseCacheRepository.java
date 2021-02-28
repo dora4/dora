@@ -4,23 +4,22 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import dora.cache.annotation.Repository;
-import dora.cache.data.DefaultDataFetcher;
+import dora.cache.data.DataFetcher;
 import dora.cache.data.ListDataFetcher;
 import dora.db.OrmTable;
 import dora.db.builder.WhereBuilder;
 import dora.db.dao.DaoFactory;
 import dora.db.dao.OrmDao;
 import dora.http.DoraCallback;
-import dora.util.KeyValueUtils;
+import dora.http.DoraListCallback;
 
-@Repository(cacheStrategy = BaseRepository.DataSource.CacheStrategy.STRATEGY_MEMORY_ONLY)
-public abstract class BaseMemoryOnlyRepository<T extends OrmTable> extends BaseRepository<T> {
+public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends BaseRepository<T> {
 
     OrmDao<T> dao;
 
-    public BaseMemoryOnlyRepository(Class<T> clazz) {
+    public BaseDatabaseCacheRepository(Class<T> clazz) {
         dao = DaoFactory.getDao(clazz);
+        mCacheStrategy = DataSource.CacheStrategy.DATABASE_CACHE;
     }
 
     protected WhereBuilder where() {
@@ -28,23 +27,26 @@ public abstract class BaseMemoryOnlyRepository<T extends OrmTable> extends BaseR
     }
 
     @Override
-    protected DefaultDataFetcher<T> installDataFetcher() {
-        return new DefaultDataFetcher<T>() {
+    protected DataFetcher<T> installDataFetcher() {
+        return new DataFetcher<T>() {
             @Override
             public LiveData<T> getData() {
                 selectData(new DataSource() {
                     @Override
                     public boolean loadFromCache(CacheType type) {
-                        if (type == CacheType.MEMORY) {
-                            T model = (T) KeyValueUtils.getInstance().getCacheFromMemory(getCacheName());
-                            mLiveData.setValue(model);
+                        if (type == CacheType.DATABASE) {
+                            T entity = dao.selectOne(where());
+                            if (entity != null) {
+                                mLiveData.setValue(entity);
+                            }
                             return true;
                         }
+                        mLiveData.setValue(null);
                         return false;
                     }
 
                     @Override
-                    public void loadFromNetwork() throws Exception {
+                    public void loadFromNetwork() {
                         onLoadFromNetwork(callback());
                     }
                 });
@@ -52,20 +54,23 @@ public abstract class BaseMemoryOnlyRepository<T extends OrmTable> extends BaseR
             }
 
             @Override
-            public DoraCallback<?> callback() {
+            public DoraCallback<T> callback() {
                 return new DoraCallback<T>() {
 
                     @Override
                     public void onSuccess(T data) {
                         onInterceptNetworkData(data);
-                        KeyValueUtils.getInstance().updateCacheAtMemory(getCacheName(), data);
+                        dao.delete(where());
+                        dao.insert(data);
                         mLiveData.setValue(data);
                     }
 
                     @Override
                     public void onFailure(int code, String msg) {
                         mLiveData.setValue(null);
-                        KeyValueUtils.getInstance().removeCacheAtMemory(getCacheName());
+                        if (isClearDatabaseOnNetworkError()) {
+                            dao.delete(where());
+                        }
                     }
                 };
             }
@@ -73,49 +78,50 @@ public abstract class BaseMemoryOnlyRepository<T extends OrmTable> extends BaseR
     }
 
     @Override
-    protected ListDataFetcher installListDataFetcher() {
-        return new ListDataFetcher() {
-
+    protected ListDataFetcher<T> installListDataFetcher() {
+        return new ListDataFetcher<T>() {
             @Override
-            public LiveData<List<T>> getData() {
+            public LiveData<List<T>> getListData() {
                 selectData(new DataSource() {
                     @Override
                     public boolean loadFromCache(CacheType type) {
-                        if (type == CacheType.MEMORY) {
-                            List<T> models = (List<T>) KeyValueUtils.getInstance().getCacheFromMemory(getCacheName());
-                            if (models.size() > 0) {
-                                mLiveData.setValue(models);
-                                return true;
-                            } else {
-                                return false;
+                        if (type == CacheType.DATABASE) {
+                            List<T> entities = dao.select(where());
+                            if (entities != null && entities.size() > 0) {
+                                mLiveData.setValue(entities);
                             }
+                            return true;
                         }
+                        mLiveData.setValue(null);
                         return false;
                     }
 
                     @Override
-                    public void loadFromNetwork() throws Exception {
-                        onLoadFromNetwork(callback());
+                    public void loadFromNetwork() {
+                        onLoadFromNetwork(listCallback());
                     }
-
                 });
                 return mLiveData;
             }
 
             @Override
-            public DoraCallback<?> callback() {
-                return new DoraCallback<List<T>>() {
+            public DoraListCallback<T> listCallback() {
+                return new DoraListCallback<T>() {
+
                     @Override
                     public void onSuccess(List<T> data) {
                         onInterceptNetworkData(data);
-                        KeyValueUtils.getInstance().updateCacheAtMemory(getCacheName(), data);
+                        dao.delete(where());
+                        dao.insert(data);
                         mLiveData.setValue(data);
                     }
 
                     @Override
                     public void onFailure(int code, String msg) {
                         mLiveData.setValue(null);
-                        KeyValueUtils.getInstance().removeCacheAtMemory(getCacheName());
+                        if (isClearDatabaseOnNetworkError()) {
+                            dao.delete(where());
+                        }
                     }
                 };
             }

@@ -3,90 +3,63 @@ package dora.cache.repository;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-import dora.cache.annotation.Repository;
+import java.util.List;
+
+import dora.cache.data.IDataFetcher;
 import dora.cache.data.DataFetcher;
-import dora.cache.data.DefaultDataFetcher;
+import dora.cache.data.IListDataFetcher;
 import dora.cache.data.ListDataFetcher;
+import dora.db.OrmTable;
 import dora.http.DoraCallback;
+import dora.http.DoraListCallback;
 import dora.log.Logger;
 import dora.util.NetworkUtils;
 
 /**
  * 数据仓库，扩展它来支持数据的三级缓存，即从云端服务器的数据库、手机本地数据库和手机内存中读取需要的数据，以支持用户
  * 手机在断网情况下也能显示以前的数据。
- *
- * 有以下缓存策略：
- * 仅数据库，{@link DataSource.CacheStrategy#STRATEGY_DATABASE_ONLY}，断网的情况下仅从数据库加载数据一次
- * 仅内存，{@link DataSource.CacheStrategy#STRATEGY_MEMORY_ONLY}，断网的情况下仅从内存加载数据一次
- * 数据库优先，{@link DataSource.CacheStrategy#STRATEGY_DATABASE_FIRST}，断网的情况下先从数据库加载一次数据，如果没有获取到，再从内存获取一次数据
- * 内存优先，{@link DataSource.CacheStrategy#STRATEGY_MEMORY_FIRST}，断网的情况下先从内存加载一次数据，如果没有获取到，再从数据库获取一次数据
  */
-public abstract class BaseRepository<T> implements DataFetcher<T> {
+abstract class BaseRepository<T extends OrmTable> implements IDataFetcher<T>, IListDataFetcher<T> {
 
-    protected int mCacheStrategy = DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY;
+    protected int mCacheStrategy = DataSource.CacheStrategy.NO_CACHE;
 
-    /**
-     * app冷启动的时候是否将数据库的数据加载到内存。
-     */
-    protected boolean mCacheLoadedInLaunchTime;
+    protected IDataFetcher<T> mDataFetcher;
 
-    /**
-     * 请求网络数据的是否预加载缓存。
-     */
-    protected boolean mPreLoadBeforeRequestNetwork;
+    protected IListDataFetcher<T> mListDataFetcher;
 
-    protected String mLoadDataMethodName;
-
-    protected String mCacheName;
-
-    protected boolean mMultiData = true;
-
-    protected DataFetcher<T> mDataFetcher;
+    protected boolean mListData;
 
     {
-        //有配置注解以注解为准
         Repository repository = getClass().getAnnotation(Repository.class);
         if (repository != null) {
             mCacheStrategy = repository.cacheStrategy();
-            mCacheLoadedInLaunchTime = repository.isCacheLoadedInLaunchTime();
-            mPreLoadBeforeRequestNetwork = repository.isPreLoadBeforeRequestNetwork();
-            mMultiData = repository.isMultiData();
+            mListData = repository.isListData();
         }
-        if (mMultiData) {
-            setDataFetcher((DataFetcher<T>) installListDataFetcher());
+        if (mListData) {
+            installListDataFetcher();
         } else {
-            setDataFetcher(installDataFetcher());
+            installDataFetcher();
         }
     }
 
-    protected abstract DefaultDataFetcher<T> installDataFetcher();
-
-    protected abstract ListDataFetcher<?> installListDataFetcher();
-
-    protected void setDataFetcher(DataFetcher<T> fetcher) {
-        this.mDataFetcher = fetcher;
+    /**
+     * 是否在网络加载数据失败的时候清空数据库的缓存。
+     *
+     * @return
+     */
+    protected boolean isClearDatabaseOnNetworkError() {
+        return false;
     }
 
-    protected abstract void onLoadFromNetwork(DoraCallback<?> callback);
+    protected abstract DataFetcher<T> installDataFetcher();
+
+    protected abstract ListDataFetcher<T> installListDataFetcher();
+
+    protected abstract void onLoadFromNetwork(DoraCallback<T> callback);
+    protected abstract void onLoadFromNetwork(DoraListCallback<T> callback);
 
     protected boolean selectData(@NonNull DataSource ds) {
-        if (isNetworkAvailable()) {
-            if (mPreLoadBeforeRequestNetwork) {
-                if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_FIRST
-                        || mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_FIRST) {
-                    if (mCacheLoadedInLaunchTime) {
-                        ds.loadFromCache(DataSource.CacheType.MEMORY);
-                    } else {
-                        ds.loadFromCache(DataSource.CacheType.DATABASE);
-                    }
-                }
-                if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_ONLY) {
-                    ds.loadFromCache(DataSource.CacheType.MEMORY);
-                }
-                if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY) {
-                    ds.loadFromCache(DataSource.CacheType.DATABASE);
-                }
-            }
+        if (mCacheStrategy == DataSource.CacheStrategy.NO_CACHE) {
             try {
                 ds.loadFromNetwork();
                 return true;
@@ -94,50 +67,33 @@ public abstract class BaseRepository<T> implements DataFetcher<T> {
                 Logger.e(e.getMessage());
                 return false;
             }
-        } else {
-            if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_ONLY ||
-                mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_FIRST) {
-                boolean isLoaded = ds.loadFromCache(DataSource.CacheType.DATABASE);
-                if (!isLoaded && mCacheStrategy == DataSource.CacheStrategy.STRATEGY_DATABASE_FIRST) {
-                    isLoaded = ds.loadFromCache(DataSource.CacheType.MEMORY);
+        } else if (mCacheStrategy == DataSource.CacheStrategy.DATABASE_CACHE) {
+            boolean isLoaded = ds.loadFromCache(DataSource.CacheType.DATABASE);
+            if (isNetworkAvailable()) {
+                try {
+                    ds.loadFromNetwork();
+                    return true;
+                } catch (Exception e) {
+                    Logger.e(e.getMessage());
+                    return false;
                 }
-                return isLoaded;
-            } else if (mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_ONLY ||
-                mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_FIRST) {
-                boolean isLoaded = ds.loadFromCache(DataSource.CacheType.MEMORY);
-                if (!isLoaded && mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_FIRST) {
-                    isLoaded = ds.loadFromCache(DataSource.CacheType.DATABASE);
-                }
-                return isLoaded;
-            } else {
-                return false;
+            } else return isLoaded;
+        } else if (mCacheStrategy == DataSource.CacheStrategy.MEMORY_CACHE) {
+            boolean isLoaded = ds.loadFromCache(DataSource.CacheType.MEMORY);
+            if (!isLoaded) {
+                ds.loadFromCache(DataSource.CacheType.DATABASE);
             }
+            if (isNetworkAvailable()) {
+                try {
+                    ds.loadFromNetwork();
+                    return true;
+                } catch (Exception e) {
+                    Logger.e(e.getMessage());
+                    return false;
+                }
+            } else return isLoaded;
         }
-    }
-
-    public boolean isCacheLoadedInLaunchTime() {
-        return mCacheLoadedInLaunchTime;
-    }
-
-    public boolean isPreLoadBeforeRequestNetwork() {
-        return mPreLoadBeforeRequestNetwork;
-    }
-
-    public boolean hasMemoryCacheStrategy() {
-        return mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_ONLY
-                || mCacheStrategy == DataSource.CacheStrategy.STRATEGY_MEMORY_FIRST;
-    }
-
-    public int getCacheStrategy() {
-        return mCacheStrategy;
-    }
-
-    protected boolean isNetworkAvailable() {
-        return NetworkUtils.checkNetwork();
-    }
-
-    public String getLoadDataMethodName() {
-        return mLoadDataMethodName;
+        return false;
     }
 
     public interface DataSource {
@@ -147,29 +103,45 @@ public abstract class BaseRepository<T> implements DataFetcher<T> {
             MEMORY
         }
 
-        /**
-         * 这里的缓存是手机系统数据库数据存储和内存缓存的统称。
-         */
         interface CacheStrategy {
-            int STRATEGY_DATABASE_ONLY = 0;
-            int STRATEGY_MEMORY_ONLY = 1;
-            int STRATEGY_DATABASE_FIRST = 2;
-            int STRATEGY_MEMORY_FIRST = 3;
+
+            /**
+             * 默认策略，不启用缓存。
+             */
+            int NO_CACHE = 0;
+
+            /**
+             * 数据库缓存，通常用于断网的情况，在打开界面前从数据库读取离线数据。
+             */
+            int DATABASE_CACHE = 1;
+
+            /**
+             * 内存缓存，通常用于需要在app冷启动的时候将数据库的数据先加载到内存，以后打开界面直接从内存中去拿数据。
+             */
+            int MEMORY_CACHE = 2;
         }
 
         boolean loadFromCache(CacheType type);
-        void loadFromNetwork() throws Exception;
+        void loadFromNetwork();
     }
 
+    @Override
     public LiveData<T> getData() {
+        if (mDataFetcher == null) {
+            throw new RuntimeException("请先重写installDataFetcher");
+        }
         return mDataFetcher.getData();
     }
 
-    public String getCacheName() {
-        return mCacheName;
+    @Override
+    public LiveData<List<T>> getListData() {
+        if (mListDataFetcher == null) {
+            throw new RuntimeException("请先重写installListDataFetcher");
+        }
+        return mListDataFetcher.getListData();
     }
 
-    public boolean isMultiData() {
-        return mMultiData;
+    protected boolean isNetworkAvailable() {
+        return NetworkUtils.checkNetwork();
     }
 }

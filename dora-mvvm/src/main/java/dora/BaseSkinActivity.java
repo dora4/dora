@@ -65,7 +65,9 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
             }
         };
         NetworkStateReceiver.registerObserver(mNetworkChangeObserver);
-        onNewIntent(getIntent());
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        onGetExtras(intent.getAction(), bundle, intent);
         if (requirePermissions().length > 0) {
             PermissionManager.with(this)
                     .runtime()
@@ -250,14 +252,7 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
 
     protected abstract int getLayoutId();
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Bundle bundle = intent.getExtras();
-        onGetExtras(bundle, intent);
-    }
-
-    protected void onGetExtras(@Nullable Bundle bundle, @NonNull Intent intent) {
+    protected void onGetExtras(@Nullable String action, @Nullable Bundle bundle, @NonNull Intent intent) {
     }
 
     @Override

@@ -71,7 +71,9 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             }
         };
         NetworkStateReceiver.registerObserver(mNetworkChangeObserver);
-        onNewIntent(getIntent());
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        onGetExtras(intent.getAction(), bundle, intent);
         if (requirePermissions().length > 0) {
             PermissionManager.with(this)
                     .runtime()
@@ -275,13 +277,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     protected abstract int getLayoutId();
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Bundle bundle = intent.getExtras();
-        onGetExtras(intent.getAction(), bundle, intent);
-    }
 
     protected void onGetExtras(@Nullable String action, @Nullable Bundle bundle, @NonNull Intent intent) {
     }

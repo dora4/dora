@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-public abstract class ListDataFetcher<T> implements DataFetcher<List<T>> {
+import dora.db.OrmTable;
+
+public abstract class ListDataFetcher<T extends OrmTable> implements IListDataFetcher<T> {
 
     protected MutableLiveData<List<T>> mLiveData;
 

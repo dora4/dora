@@ -2,26 +2,29 @@ package dora.http;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
+import dora.db.OrmTable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class DoraCallback<T> implements Callback<ApiResult<T>> {
+public abstract class DoraListCallback<T extends OrmTable> implements Callback<ApiResult<List<T>>> {
 
-    public abstract void onSuccess(T data);
+    public abstract void onSuccess(List<T> data);
 
     public abstract void onFailure(int code, String msg);
 
-    protected void onInterceptNetworkData(T data) {
+    protected void onInterceptNetworkData(List<T> data) {
     }
 
     @Override
-    public void onResponse(@NotNull Call<ApiResult<T>> call, Response<ApiResult<T>> response) {
+    public void onResponse(@NotNull Call<ApiResult<List<T>>> call, Response<ApiResult<List<T>>> response) {
         int code = response.code();
         if (code == 200) {
-            ApiResult<T> body = response.body();
+            ApiResult<List<T>> body = response.body();
             if (body != null) {
-                T data = body.getData();
+                List<T> data = body.getData();
                 if (data != null) {
                     onSuccess(data);
                 } else {
@@ -36,7 +39,7 @@ public abstract class DoraCallback<T> implements Callback<ApiResult<T>> {
     }
 
     @Override
-    public void onFailure(@NotNull Call<ApiResult<T>> call, Throwable t) {
+    public void onFailure(@NotNull Call<ApiResult<List<T>>> call, Throwable t) {
         onFailure(-1, t.getMessage());
     }
 }

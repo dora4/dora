@@ -32,7 +32,7 @@ public final class KeyValueUtils {
      * @param name
      * @param cache
      */
-    public void setCacheToMemory(String name, Object cache) {
+    private void setCacheToMemory(String name, Object cache) {
         mCache.put(name, cache);
     }
 

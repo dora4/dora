@@ -1,12 +1,14 @@
 package dora.cache.data;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import dora.http.DoraCallback;
+import dora.db.OrmTable;
 
-public interface DataFetcher<T> {
+public abstract class DataFetcher<T extends OrmTable> implements IDataFetcher<T> {
 
-    LiveData<T> getData();
+    protected MutableLiveData<T> mLiveData;
 
-    DoraCallback<?> callback();
+    {
+        mLiveData = new MutableLiveData<>();
+    }
 }
