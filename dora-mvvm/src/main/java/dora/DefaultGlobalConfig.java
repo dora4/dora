@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.List;
 
-public class DefaultGlobalConfig implements GlobalConfig {
+class DefaultGlobalConfig implements GlobalConfig {
 
     @Override
     public void injectApplicationLifecycle(Context context, List<ApplicationLifecycleCallbacks> lifecycles) {

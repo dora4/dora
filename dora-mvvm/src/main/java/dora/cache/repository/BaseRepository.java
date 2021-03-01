@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import dora.cache.data.IDataFetcher;
-import dora.cache.data.DataFetcher;
 import dora.cache.data.IListDataFetcher;
-import dora.cache.data.ListDataFetcher;
 import dora.db.OrmTable;
 import dora.http.DoraCallback;
 import dora.http.DoraListCallback;
@@ -36,9 +34,9 @@ abstract class BaseRepository<T extends OrmTable> implements IDataFetcher<T>, IL
             mListData = repository.isListData();
         }
         if (mListData) {
-            installListDataFetcher();
+            mListDataFetcher = installListDataFetcher();
         } else {
-            installDataFetcher();
+            mDataFetcher = installDataFetcher();
         }
     }
 
@@ -51,21 +49,30 @@ abstract class BaseRepository<T extends OrmTable> implements IDataFetcher<T>, IL
         return false;
     }
 
-    protected abstract DataFetcher<T> installDataFetcher();
+    protected IDataFetcher<T> installDataFetcher() {
+        return mDataFetcher;
+    }
 
-    protected abstract ListDataFetcher<T> installListDataFetcher();
+    protected IListDataFetcher<T> installListDataFetcher() {
+        return mListDataFetcher;
+    }
 
-    protected abstract void onLoadFromNetwork(DoraCallback<T> callback);
-    protected abstract void onLoadFromNetwork(DoraListCallback<T> callback);
+    protected void onLoadFromNetwork(DoraCallback<T> callback) {
+    }
+
+    protected void onLoadFromNetwork(DoraListCallback<T> callback) {
+    }
 
     protected boolean selectData(@NonNull DataSource ds) {
         if (mCacheStrategy == DataSource.CacheStrategy.NO_CACHE) {
-            try {
-                ds.loadFromNetwork();
-                return true;
-            } catch (Exception e) {
-                Logger.e(e.getMessage());
-                return false;
+            if (isNetworkAvailable()) {
+                try {
+                    ds.loadFromNetwork();
+                    return true;
+                } catch (Exception e) {
+                    Logger.e(e.getMessage());
+                    return false;
+                }
             }
         } else if (mCacheStrategy == DataSource.CacheStrategy.DATABASE_CACHE) {
             boolean isLoaded = ds.loadFromCache(DataSource.CacheType.DATABASE);
@@ -127,7 +134,7 @@ abstract class BaseRepository<T extends OrmTable> implements IDataFetcher<T>, IL
 
     @Override
     public LiveData<T> getData() {
-        if (mDataFetcher == null) {
+        if (mDataFetcher == null && !mListData) {
             throw new RuntimeException("请先重写installDataFetcher");
         }
         return mDataFetcher.getData();
@@ -135,7 +142,7 @@ abstract class BaseRepository<T extends OrmTable> implements IDataFetcher<T>, IL
 
     @Override
     public LiveData<List<T>> getListData() {
-        if (mListDataFetcher == null) {
+        if (mListDataFetcher == null && mListData) {
             throw new RuntimeException("请先重写installListDataFetcher");
         }
         return mListDataFetcher.getListData();
