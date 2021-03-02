@@ -21,12 +21,14 @@ import dora.cache.Cache;
 import dora.cache.CacheType;
 import dora.cache.LruCache;
 import dora.util.IntentUtils;
+import dora.util.KeyValueUtils;
 import dora.util.ToastUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
         FragmentCache, PageSwitcher {
@@ -187,6 +189,11 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public synchronized Cache<String, Object> loadCache() {
         if (mCache == null) {
             mCache = cacheFactory().build(CacheType.FRAGMENT_CACHE, getContext());
+            Set<String> keys = KeyValueUtils.getInstance().cacheKeys();
+            for (String key : keys) {
+                Object cache = KeyValueUtils.getInstance().getCacheFromMemory(key);
+                mCache.put(key, cache);
+            }
         }
         return mCache;
     }

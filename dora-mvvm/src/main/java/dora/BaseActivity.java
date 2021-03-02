@@ -23,6 +23,7 @@ import dora.permission.Action;
 import dora.permission.PermissionManager;
 import dora.util.FragmentUtils;
 import dora.util.IntentUtils;
+import dora.util.KeyValueUtils;
 import dora.util.MultiLanguageUtils;
 import dora.util.NetworkUtils;
 import dora.util.StatusBarUtils;
@@ -32,6 +33,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
         implements ActivityCache, PageSwitcher {
@@ -296,6 +298,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     public synchronized Cache<String, Object> loadCache() {
         if (mCache == null) {
             mCache = cacheFactory().build(CacheType.ACTIVITY_CACHE, this);
+            Set<String> keys = KeyValueUtils.getInstance().cacheKeys();
+            for (String key : keys) {
+                Object cache = KeyValueUtils.getInstance().getCacheFromMemory(key);
+                mCache.put(key, cache);
+            }
         }
         return mCache;
     }

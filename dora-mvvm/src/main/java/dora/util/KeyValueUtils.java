@@ -58,6 +58,10 @@ public final class KeyValueUtils {
         setCacheToMemory(name, cache);
     }
 
+    public Set<String> cacheKeys() {
+        return mCache.keySet();
+    }
+
     public String printCacheKeys() {
         Set<String> keys = mCache.keySet();
         if (keys.size() > 0) {

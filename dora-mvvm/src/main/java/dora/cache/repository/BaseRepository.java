@@ -18,7 +18,7 @@ import dora.util.NetworkUtils;
  * 手机在断网情况下也能显示以前的数据。一个{@link BaseRepository}要么用于非集合数据，要么用于集合数据。如果要用于
  * 非集合数据，请配置{@link Repository}注解将{@link #mListData}的值设置为false。
  */
-abstract class BaseRepository<T extends OrmTable> implements IDataFetcher<T>, IListDataFetcher<T> {
+public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher<T>, IListDataFetcher<T> {
 
     /**
      * 缓存策略。
