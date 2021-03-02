@@ -16,11 +16,15 @@ import dora.util.KeyValueUtils;
 
 public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends BaseRepository<T> {
 
-    OrmDao<T> dao;
+    private OrmDao<T> mDao;
 
     public BaseMemoryCacheRepository(Class<T> clazz) {
-        dao = DaoFactory.getDao(clazz);
+        mDao = DaoFactory.getDao(clazz);
         mCacheStrategy = DataSource.CacheStrategy.MEMORY_CACHE;
+    }
+
+    public OrmDao<T> getDao() {
+        return mDao;
     }
 
     protected WhereBuilder where() {
@@ -45,7 +49,7 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
                                 T model = (T) KeyValueUtils.getInstance().getCacheFromMemory(getCacheName());
                                 mLiveData.setValue(model);
                             } else if (type == CacheType.DATABASE) {
-                                T model = dao.selectOne(where());
+                                T model = mDao.selectOne(where());
                                 mLiveData.setValue(model);
                                 KeyValueUtils.getInstance().updateCacheAtMemory(getCacheName(), model);
                             }
@@ -71,8 +75,8 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
                     public void onSuccess(T data) {
                         onInterceptNetworkData(data);
                         KeyValueUtils.getInstance().updateCacheAtMemory(getCacheName(), data);
-                        dao.delete(where());
-                        dao.insert(data);
+                        mDao.delete(where());
+                        mDao.insert(data);
                         mLiveData.setValue(data);
                     }
 
@@ -81,8 +85,13 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
                         mLiveData.setValue(null);
                         KeyValueUtils.getInstance().removeCacheAtMemory(getCacheName());
                         if (isClearDatabaseOnNetworkError()) {
-                            dao.delete(where());
+                            mDao.delete(where());
                         }
+                    }
+
+                    @Override
+                    protected void onInterceptNetworkData(T data) {
+                        BaseMemoryCacheRepository.this.onInterceptNetworkData(data);
                     }
                 };
             }
@@ -105,7 +114,7 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
                                 List<T> models = (List<T>) KeyValueUtils.getInstance().getCacheFromMemory(getCacheName());
                                 mLiveData.setValue(models);
                             } else if (type == CacheType.DATABASE) {
-                                List<T> models = dao.select(where());
+                                List<T> models = mDao.select(where());
                                 mLiveData.setValue(models);
                                 KeyValueUtils.getInstance().updateCacheAtMemory(getCacheName(), models);
                             }
@@ -131,8 +140,8 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
                     public void onSuccess(List<T> data) {
                         onInterceptNetworkData(data);
                         KeyValueUtils.getInstance().updateCacheAtMemory(getCacheName(), data);
-                        dao.delete(where());
-                        dao.insert(data);
+                        mDao.delete(where());
+                        mDao.insert(data);
                         mLiveData.setValue(data);
                     }
 
@@ -141,11 +150,22 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
                         mLiveData.setValue(null);
                         KeyValueUtils.getInstance().removeCacheAtMemory(getCacheName());
                         if (isClearDatabaseOnNetworkError()) {
-                            dao.delete(where());
+                            mDao.delete(where());
                         }
+                    }
+
+                    @Override
+                    protected void onInterceptNetworkData(List<T> data) {
+                        BaseMemoryCacheRepository.this.onInterceptNetworkData(data);
                     }
                 };
             }
         };
+    }
+
+    protected void onInterceptNetworkData(T data) {
+    }
+
+    protected void onInterceptNetworkData(List<T> data) {
     }
 }

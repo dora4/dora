@@ -44,6 +44,11 @@ public abstract class BaseNoCacheRepository<T extends OrmTable> extends BaseRepo
                     public void onFailure(int code, String msg) {
                         mLiveData.setValue(null);
                     }
+
+                    @Override
+                    protected void onInterceptNetworkData(T data) {
+                        BaseNoCacheRepository.this.onInterceptNetworkData(data);
+                    }
                 };
             }
         };
@@ -81,8 +86,19 @@ public abstract class BaseNoCacheRepository<T extends OrmTable> extends BaseRepo
                     public void onFailure(int code, String msg) {
                         mLiveData.setValue(null);
                     }
+
+                    @Override
+                    protected void onInterceptNetworkData(List<T> data) {
+                        BaseNoCacheRepository.this.onInterceptNetworkData(data);
+                    }
                 };
             }
         };
+    }
+
+    protected void onInterceptNetworkData(T data) {
+    }
+
+    protected void onInterceptNetworkData(List<T> data) {
     }
 }

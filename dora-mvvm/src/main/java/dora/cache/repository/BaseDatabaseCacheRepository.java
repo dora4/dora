@@ -15,11 +15,15 @@ import dora.http.DoraListCallback;
 
 public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends BaseRepository<T> {
 
-    OrmDao<T> dao;
+    private OrmDao<T> mDao;
 
     public BaseDatabaseCacheRepository(Class<T> clazz) {
-        dao = DaoFactory.getDao(clazz);
+        mDao = DaoFactory.getDao(clazz);
         mCacheStrategy = DataSource.CacheStrategy.DATABASE_CACHE;
+    }
+
+    public OrmDao<T> getDao() {
+        return mDao;
     }
 
     protected WhereBuilder where() {
@@ -35,7 +39,7 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
                     @Override
                     public boolean loadFromCache(CacheType type) {
                         if (type == CacheType.DATABASE) {
-                            T entity = dao.selectOne(where());
+                            T entity = mDao.selectOne(where());
                             if (entity != null) {
                                 mLiveData.setValue(entity);
                             }
@@ -60,8 +64,8 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
                     @Override
                     public void onSuccess(T data) {
                         onInterceptNetworkData(data);
-                        dao.delete(where());
-                        dao.insert(data);
+                        mDao.delete(where());
+                        mDao.insert(data);
                         mLiveData.setValue(data);
                     }
 
@@ -69,8 +73,13 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
                     public void onFailure(int code, String msg) {
                         mLiveData.setValue(null);
                         if (isClearDatabaseOnNetworkError()) {
-                            dao.delete(where());
+                            mDao.delete(where());
                         }
+                    }
+
+                    @Override
+                    protected void onInterceptNetworkData(T data) {
+                        BaseDatabaseCacheRepository.this.onInterceptNetworkData(data);
                     }
                 };
             }
@@ -86,7 +95,7 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
                     @Override
                     public boolean loadFromCache(CacheType type) {
                         if (type == CacheType.DATABASE) {
-                            List<T> entities = dao.select(where());
+                            List<T> entities = mDao.select(where());
                             if (entities != null && entities.size() > 0) {
                                 mLiveData.setValue(entities);
                             }
@@ -111,8 +120,8 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
                     @Override
                     public void onSuccess(List<T> data) {
                         onInterceptNetworkData(data);
-                        dao.delete(where());
-                        dao.insert(data);
+                        mDao.delete(where());
+                        mDao.insert(data);
                         mLiveData.setValue(data);
                     }
 
@@ -120,11 +129,22 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
                     public void onFailure(int code, String msg) {
                         mLiveData.setValue(null);
                         if (isClearDatabaseOnNetworkError()) {
-                            dao.delete(where());
+                            mDao.delete(where());
                         }
+                    }
+
+                    @Override
+                    protected void onInterceptNetworkData(List<T> data) {
+                        BaseDatabaseCacheRepository.this.onInterceptNetworkData(data);
                     }
                 };
             }
         };
+    }
+
+    protected void onInterceptNetworkData(T data) {
+    }
+
+    protected void onInterceptNetworkData(List<T> data) {
     }
 }
