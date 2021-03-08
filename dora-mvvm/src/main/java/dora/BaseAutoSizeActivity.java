@@ -56,6 +56,12 @@ public abstract class BaseAutoSizeActivity<T extends ViewDataBinding> extends Au
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        MultiLanguageUtils.getInstance().setConfiguration(this);
+    }
+
+    @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, getLayoutId());

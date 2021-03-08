@@ -3,7 +3,6 @@ package dora;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
@@ -20,7 +18,6 @@ import androidx.fragment.app.FragmentActivity;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import dora.cache.Cache;
@@ -29,6 +26,7 @@ import dora.cache.LruCache;
 import dora.util.GlobalContext;
 import dora.util.IntentUtils;
 import dora.util.KeyValueUtils;
+import dora.util.MultiLanguageUtils;
 import dora.util.ToastUtils;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
@@ -38,11 +36,10 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     protected final String TAG = this.getClass().getSimpleName();
     private Cache<String, Object> mCache;
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mBinding = DataBindingUtil.bind(Objects.requireNonNull(getView()));
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mBinding = DataBindingUtil.bind(view);
         mBinding.setLifecycleOwner(this);
         onSetupComponent();
         initData(savedInstanceState);
@@ -192,6 +189,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     protected abstract int getLayoutId();
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MultiLanguageUtils.getInstance().setConfiguration(getContext());
+    }
 
     @NonNull
     @Override
