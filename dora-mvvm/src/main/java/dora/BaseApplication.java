@@ -3,6 +3,8 @@ package dora;
 import android.app.Application;
 import android.content.Context;
 
+import dora.util.MultiLanguageUtils;
+
 /**
  * 继承这个类就相当于在AndroidManifest.xml中的application节点自动添加了
  * <metadata name="dora.DefaultGlobalConfig" value="GlobalConfig"/>
@@ -13,7 +15,7 @@ public class BaseApplication extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+        super.attachBaseContext(MultiLanguageUtils.attachBaseContext(base));
         if (mAppDelegate == null) {
             mAppDelegate = new AppDelegate(base);
         }

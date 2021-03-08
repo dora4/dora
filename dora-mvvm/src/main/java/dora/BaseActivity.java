@@ -77,28 +77,57 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         Bundle bundle = intent.getExtras();
         onGetExtras(intent.getAction(), bundle, intent);
         if (requirePermissions().length > 0) {
-            PermissionManager.with(this)
-                    .runtime()
-                    .permission(requirePermissions())
-                    .onGranted(new Action<List<String>>() {
-                        @Override
-                        public void onAction(List<String> permissions) {
-                            initData(savedInstanceState);
-                        }
-                    })
-                    .onDenied(new Action<List<String>>() {
-                        @Override
-                        public void onAction(List<String> permissions) {
-                            for (String permission : permissions) {
-                                Logger.e("未授予权限" + permission);
-                            }
-                            initDataWithoutPermission(savedInstanceState);
-                        }
-                    })
-                    .start();
+            onShowRequiredPermissionDialog(new OnConfirmPermissionListener() {
+                @Override
+                public void onConfirm(boolean ok) {
+                    if (ok) {
+                        PermissionManager.with(BaseActivity.this)
+                                .runtime()
+                                .permission(requirePermissions())
+                                .onGranted(new Action<List<String>>() {
+                                    @Override
+                                    public void onAction(List<String> permissions) {
+                                        initData(savedInstanceState);
+                                    }
+                                })
+                                .onDenied(new Action<List<String>>() {
+                                    @Override
+                                    public void onAction(List<String> permissions) {
+                                        for (String permission : permissions) {
+                                            Logger.e("未授予权限" + permission);
+                                        }
+                                        //勉为其难加载没有同意权限的界面
+                                        initDataWithoutPermission(savedInstanceState);
+                                    }
+                                })
+                                .start();
+                    } else {
+                        initDataWithoutPermission(savedInstanceState);
+                    }
+                }
+            });
         } else {
             initData(savedInstanceState);
         }
+    }
+
+    public interface OnConfirmPermissionListener {
+
+        /**
+         * 是否显示出对话框让用户确认了权限是要同意的，否则将导致部分功能不可用。
+         *
+         * @param ok true代表放行申请权限操作，false则不再申请权限
+         */
+        void onConfirm(boolean ok);
+    }
+
+    /**
+     * 提示用户必须要同意的运行时权限。
+     *
+     * @return
+     */
+    protected void onShowRequiredPermissionDialog(OnConfirmPermissionListener listener) {
+        listener.onConfirm(true);
     }
 
     /**
