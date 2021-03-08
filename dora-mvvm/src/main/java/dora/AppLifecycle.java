@@ -7,14 +7,12 @@ import java.lang.reflect.Method;
 
 import dora.net.NetworkStateReceiver;
 import dora.util.KeyValueUtils;
-import dora.util.MultiLanguageUtils;
 import dora.util.ReflectionUtils;
 
 public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
     @Override
     public void attachBaseContext(Context base) {
-        MultiLanguageUtils.init().attachBaseContext(base);
     }
 
     @Override
