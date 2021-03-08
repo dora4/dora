@@ -27,9 +27,13 @@ public final class SPUtils {
     }
 
     private static SPUtils getInstance() {
+        return getInstance(GlobalContext.get());
+    }
+
+    public static SPUtils getInstance(Context context) {
         if (sInstance == null) {
             synchronized (SPUtils.class) {
-                if (sInstance == null) sInstance = new SPUtils(GlobalContext.get());
+                if (sInstance == null) sInstance = new SPUtils(context);
             }
         }
         return sInstance;

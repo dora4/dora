@@ -14,8 +14,7 @@ public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
     @Override
     public void attachBaseContext(Context base) {
-        MultiLanguageUtils.init(base);
-        MultiLanguageUtils.attachBaseContext(base);
+        MultiLanguageUtils.init().attachBaseContext(base);
     }
 
     @Override
