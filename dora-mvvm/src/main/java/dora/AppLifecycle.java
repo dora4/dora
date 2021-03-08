@@ -14,6 +14,8 @@ public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
     @Override
     public void attachBaseContext(Context base) {
+        MultiLanguageUtils.init(base);
+        MultiLanguageUtils.attachBaseContext(base);
     }
 
     @Override
@@ -23,7 +25,6 @@ public class AppLifecycle implements ApplicationLifecycleCallbacks {
         if (getInstance != null) {
             ReflectionUtils.invokeMethod(null, getInstance, application);
         }
-        MultiLanguageUtils.init(application);
         NetworkStateReceiver.registerNetworkStateReceiver(application);
     }
 
