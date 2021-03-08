@@ -36,7 +36,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
         mBroadcastReceiver = this;
         if (intent.getAction().equals(ACTION_ANDROID_NETWORK_CHANGE)
                 || intent.getAction().equals(ACTION_DORA_NETWORK_CHANGE)) {
-            if (!NetworkUtils.checkNetwork()) {
+            if (!NetworkUtils.checkNetwork(context)) {
                 Logger.i(this.getClass().getName() + ":network disconnected");
                 mNetAvailable = false;
             } else {
