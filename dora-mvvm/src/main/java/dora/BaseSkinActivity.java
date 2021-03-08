@@ -86,12 +86,21 @@ public abstract class BaseSkinActivity<T extends ViewDataBinding> extends SkinAc
                             for (String permission : permissions) {
                                 Logger.e("未授予权限" + permission);
                             }
+                            initDataWithoutPermission(savedInstanceState);
                         }
                     })
                     .start();
         } else {
             initData(savedInstanceState);
         }
+    }
+
+    /**
+     * 没有同意权限加载基础的界面。
+     *
+     * @param savedInstanceState
+     */
+    protected void initDataWithoutPermission(Bundle savedInstanceState) {
     }
 
     /**
