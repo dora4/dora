@@ -15,9 +15,13 @@ public final class NetworkUtils {
     private NetworkUtils() {
     }
 
-    public static boolean checkNetwork() {
-        NetworkInfo networkInfo = getActiveNetworkInfo();
+    public static boolean checkNetwork(Context context) {
+        NetworkInfo networkInfo = getActiveNetworkInfo(context);
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public static boolean checkNetwork() {
+        return checkNetwork(GlobalContext.get());
     }
 
     public static boolean isWifiConnected() {
@@ -42,8 +46,8 @@ public final class NetworkUtils {
         return connectivityManager.getNetworkInfo(networkType);
     }
 
-    private static NetworkInfo getActiveNetworkInfo() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) GlobalContext.get()
+    private static NetworkInfo getActiveNetworkInfo(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getActiveNetworkInfo();
     }

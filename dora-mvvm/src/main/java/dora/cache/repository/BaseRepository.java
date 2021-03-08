@@ -1,5 +1,7 @@
 package dora.cache.repository;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
@@ -42,7 +44,10 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
      */
     protected boolean mListData = true;
 
-    {
+    protected Context mContext;
+
+    protected BaseRepository(Context context) {
+        this.mContext = context;
         Repository repository = getClass().getAnnotation(Repository.class);
         if (repository != null) {
             mCacheStrategy = repository.cacheStrategy();
@@ -53,6 +58,10 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
         } else {
             mDataFetcher = installDataFetcher();
         }
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     public boolean isListData() {
@@ -248,6 +257,6 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
      * @return
      */
     protected boolean isNetworkAvailable() {
-        return NetworkUtils.checkNetwork();
+        return NetworkUtils.checkNetwork(mContext);
     }
 }

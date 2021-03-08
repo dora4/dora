@@ -1,5 +1,7 @@
 package dora.cache.repository;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
@@ -11,6 +13,10 @@ import dora.http.DoraCallback;
 import dora.http.DoraListCallback;
 
 public abstract class BaseNoCacheRepository<T extends OrmTable> extends BaseRepository<T> {
+
+    protected BaseNoCacheRepository(Context context) {
+        super(context);
+    }
 
     @Override
     protected DataFetcher<T> installDataFetcher() {

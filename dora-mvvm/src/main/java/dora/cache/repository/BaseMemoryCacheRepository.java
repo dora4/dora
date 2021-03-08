@@ -1,5 +1,7 @@
 package dora.cache.repository;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
@@ -18,7 +20,8 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
 
     private OrmDao<T> mDao;
 
-    public BaseMemoryCacheRepository(Class<T> clazz) {
+    public BaseMemoryCacheRepository(Context context, Class<T> clazz) {
+        super(context);
         mDao = DaoFactory.getDao(clazz);
         mCacheStrategy = DataSource.CacheStrategy.MEMORY_CACHE;
     }
