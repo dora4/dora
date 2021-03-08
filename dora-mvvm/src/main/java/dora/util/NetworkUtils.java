@@ -15,17 +15,21 @@ public final class NetworkUtils {
     private NetworkUtils() {
     }
 
+    public static boolean checkNetwork() {
+        return checkNetwork(GlobalContext.get());
+    }
+
     public static boolean checkNetwork(Context context) {
         NetworkInfo networkInfo = getActiveNetworkInfo(context);
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    public static boolean checkNetwork() {
-        return checkNetwork(GlobalContext.get());
+    public static boolean isWifiConnected() {
+        return isWifiConnected(GlobalContext.get());
     }
 
-    public static boolean isWifiConnected() {
-        NetworkInfo networkInfo = getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+    public static boolean isWifiConnected(Context context) {
+        NetworkInfo networkInfo = getNetworkInfo(context, ConnectivityManager.TYPE_WIFI);
         if (networkInfo != null) {
             return networkInfo.isAvailable() && networkInfo.isConnected();
         }
@@ -33,15 +37,19 @@ public final class NetworkUtils {
     }
 
     public static boolean isMobileConnected() {
-        NetworkInfo networkInfo = getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        return isMobileConnected(GlobalContext.get());
+    }
+
+    public static boolean isMobileConnected(Context context) {
+        NetworkInfo networkInfo = getNetworkInfo(context, ConnectivityManager.TYPE_MOBILE);
         if (networkInfo != null) {
             return networkInfo.isAvailable() && networkInfo.isConnected();
         }
         return false;
     }
 
-    private static NetworkInfo getNetworkInfo(int networkType) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) GlobalContext.get()
+    private static NetworkInfo getNetworkInfo(Context context, int networkType) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getNetworkInfo(networkType);
     }
@@ -53,7 +61,11 @@ public final class NetworkUtils {
     }
 
     public static ApnType getApnType() {
-        ConnectivityManager connectivityManager = ServiceUtils.getConnectivityManager();
+        return getApnType(GlobalContext.get());
+    }
+
+    public static ApnType getApnType(Context context) {
+        ConnectivityManager connectivityManager = ServiceUtils.getConnectivityManager(context);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {
             return ApnType.NONE;

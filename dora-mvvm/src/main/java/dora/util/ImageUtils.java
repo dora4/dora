@@ -43,19 +43,35 @@ public final class ImageUtils {
     // <editor-folder desc="像素单位转换">
 
     public static float dp2px(float dpVal) {
-        return DensityUtils.dp2px(dpVal);
+        return dp2px(GlobalContext.get(), dpVal);
+    }
+
+    public static float dp2px(Context context, float dpVal) {
+        return DensityUtils.dp2px(context, dpVal);
     }
 
     public static float sp2px(float spVal) {
-        return DensityUtils.sp2px(spVal);
+        return sp2px(GlobalContext.get(), spVal);
+    }
+
+    public static float sp2px(Context context, float spVal) {
+        return DensityUtils.sp2px(context, spVal);
     }
 
     public static float px2dp(float pxVal) {
-        return DensityUtils.px2dp(pxVal);
+        return px2dp(GlobalContext.get(), pxVal);
     }
 
-    public static float px2sp(float pxVal, Context context) {
-        return DensityUtils.px2sp(pxVal);
+    public static float px2dp(Context context, float pxVal) {
+        return DensityUtils.px2dp(context, pxVal);
+    }
+
+    public static float px2sp(float pxVal) {
+        return px2sp(GlobalContext.get(), pxVal);
+    }
+
+    public static float px2sp(Context context, float pxVal) {
+        return DensityUtils.px2sp(context, pxVal);
     }
 
     // </editor-folder>
@@ -63,7 +79,11 @@ public final class ImageUtils {
     // <editor-folder desc="Bitmap创建和回收">
 
     public static Bitmap createBitmap(int resId) {
-        return BitmapFactory.decodeResource(GlobalContext.get().getResources(), resId);
+        return createBitmap(GlobalContext.get(), resId);
+    }
+
+    public static Bitmap createBitmap(Context context, int resId) {
+        return BitmapFactory.decodeResource(context.getResources(), resId);
     }
 
     public static Bitmap createBitmap(byte[] bytes) {
@@ -105,13 +125,17 @@ public final class ImageUtils {
     // <editor-folder desc="保存和加载图片">
 
     public static void saveImgToAlbum(File file, String fileName) {
+        saveImgToAlbum(GlobalContext.get(), file, fileName);
+    }
+
+    public static void saveImgToAlbum(Context context, File file, String fileName) {
         //把文件插入到系统图库
         try {
-            MediaStore.Images.Media.insertImage(GlobalContext.get().getContentResolver(),
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
                     file.getAbsolutePath(), fileName, null);
             //保存图片后发送广播通知更新数据库
             Uri uri = Uri.fromFile(file);
-            GlobalContext.get().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -195,14 +219,18 @@ public final class ImageUtils {
     }
 
     public static Bitmap loadAssetBitmap(String assetPath) {
+        return loadAssetBitmap(GlobalContext.get(), assetPath);
+    }
+
+    public static Bitmap loadAssetBitmap(Context context, String assetPath) {
         InputStream is = null;
         try {
-            Resources resources = GlobalContext.get().getResources();
+            Resources resources = context.getResources();
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inDensity = DisplayMetrics.DENSITY_HIGH;
             options.inScreenDensity = resources.getDisplayMetrics().densityDpi;
             options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
-            is = GlobalContext.get().getAssets().open(assetPath);
+            is = context.getAssets().open(assetPath);
             return BitmapFactory.decodeStream(is, new Rect(), options);
         } catch (IOException e) {
             e.printStackTrace();
@@ -370,7 +398,7 @@ public final class ImageUtils {
         view.getWindowVisibleDisplayFrame(rect);
         int statusBarHeight = rect.top;
         Bitmap outputBitmap = Bitmap.createBitmap(bitmap, 0, statusBarHeight,
-                ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - statusBarHeight);
+                ScreenUtils.getScreenWidth(activity), ScreenUtils.getScreenHeight(activity) - statusBarHeight);
         view.destroyDrawingCache();
         return outputBitmap;
     }

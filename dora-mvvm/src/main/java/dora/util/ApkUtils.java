@@ -34,12 +34,16 @@ public final class ApkUtils {
     // <editor-folder desc="获取apk包信息">
 
     public static String getAppName() {
+        return getAppName(GlobalContext.get());
+    }
+
+    public static String getAppName(Context context) {
         try {
-            PackageManager packageManager = GlobalContext.get().getPackageManager();
+            PackageManager packageManager = context.getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(
-                    GlobalContext.get().getPackageName(), 0);
+                    context.getPackageName(), 0);
             int labelRes = packageInfo.applicationInfo.labelRes;
-            return GlobalContext.get().getResources().getString(labelRes);
+            return context.getResources().getString(labelRes);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -47,10 +51,14 @@ public final class ApkUtils {
     }
 
     public static String getVersionName() {
-        PackageManager packageManager = GlobalContext.get().getPackageManager();
+        return getVersionName(GlobalContext.get());
+    }
+
+    public static String getVersionName(Context context) {
+        PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo;
         try {
-            packageInfo = packageManager.getPackageInfo(GlobalContext.get().getPackageName(), 0);
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
             return packageInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -59,10 +67,14 @@ public final class ApkUtils {
     }
 
     public static int getVersionCode() {
-        PackageManager packageManager = GlobalContext.get().getPackageManager();
+        return getVersionCode(GlobalContext.get());
+    }
+
+    public static int getVersionCode(Context context) {
+        PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo;
         try {
-            packageInfo = packageManager.getPackageInfo(GlobalContext.get().getPackageName(), 0);
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
             return packageInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -71,7 +83,11 @@ public final class ApkUtils {
     }
 
     public static PackageInfo getPackageInfo(String packageName) {
-        PackageManager packageManager = GlobalContext.get().getPackageManager();
+        return getPackageInfo(GlobalContext.get(), packageName);
+    }
+
+    public static PackageInfo getPackageInfo(Context context, String packageName) {
+        PackageManager packageManager = context.getPackageManager();
         try {
             return packageManager.getPackageInfo(packageName, 0);
         } catch (PackageManager.NameNotFoundException e) {
@@ -81,10 +97,14 @@ public final class ApkUtils {
     }
 
     public static Signature[] getSignatures() {
-        PackageManager packageManager = GlobalContext.get().getPackageManager();
+        return getSignatures(GlobalContext.get());
+    }
+
+    public static Signature[] getSignatures(Context context) {
+        PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo;
         try {
-            packageInfo = packageManager.getPackageInfo(GlobalContext.get().getPackageName(),
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(),
                     PackageManager.GET_SIGNATURES);
             return packageInfo.signatures;
         } catch (PackageManager.NameNotFoundException e) {
@@ -94,14 +114,22 @@ public final class ApkUtils {
     }
 
     public static File extractApk() {
-        ApplicationInfo applicationInfo = GlobalContext.get().getApplicationContext().getApplicationInfo();
+        return extractApk(GlobalContext.get());
+    }
+
+    public static File extractApk(Context context) {
+        ApplicationInfo applicationInfo = context.getApplicationContext().getApplicationInfo();
         String apkPath = applicationInfo.sourceDir;
         File apkFile = new File(apkPath);
         return apkFile;
     }
 
     public static List<String> getAllPackageNames() {
-        PackageManager packManager = GlobalContext.get().getPackageManager();
+        return getAllPackageNames(GlobalContext.get());
+    }
+
+    public static List<String> getAllPackageNames(Context context) {
+        PackageManager packManager = context.getPackageManager();
         List<PackageInfo> packInfos = packManager
                 .getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
         if (packInfos == null || packInfos.size() == 0) {
@@ -115,10 +143,13 @@ public final class ApkUtils {
         return pkList;
     }
 
-
     public static Drawable getUninstalledApkIcon(String apkPath) {
-        PackageManager packageManager = GlobalContext.get().getPackageManager();
-        PackageInfo packageInfo = getUninstalledApkPackageInfo(apkPath);
+        return getUninstalledApkIcon(GlobalContext.get(), apkPath);
+    }
+
+    public static Drawable getUninstalledApkIcon(Context context, String apkPath) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo = getUninstalledApkPackageInfo(context, apkPath);
         if (packageInfo == null) {
             return null;
         }
@@ -131,8 +162,12 @@ public final class ApkUtils {
     }
 
     public static CharSequence getUninstalledApkLabel(String apkPath) {
-        PackageManager packageManager = GlobalContext.get().getPackageManager();
-        PackageInfo packageInfo = getUninstalledApkPackageInfo(apkPath);
+        return getUninstalledApkLabel(GlobalContext.get(), apkPath);
+    }
+
+    public static CharSequence getUninstalledApkLabel(Context context, String apkPath) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo = getUninstalledApkPackageInfo(context, apkPath);
         if (packageInfo == null) {
             return null;
         }
@@ -198,7 +233,11 @@ public final class ApkUtils {
     }
 
     public static PackageInfo getUninstalledApkPackageInfo(String apkPath) {
-        PackageManager packageManager = GlobalContext.get().getPackageManager();
+        return getUninstalledApkPackageInfo(GlobalContext.get(), apkPath);
+    }
+
+    public static PackageInfo getUninstalledApkPackageInfo(Context context, String apkPath) {
+        PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo = packageManager.getPackageArchiveInfo(
                 apkPath, 0);
         return packageInfo;
@@ -208,12 +247,15 @@ public final class ApkUtils {
 
     // <editor-folder desc="安装和启动">
 
+    public static void install(File file, Uri contentUri) {
+        install(GlobalContext.get(), file, contentUri);
+    }
+
     /**
      * Uri contentUri = FileProvider.getUriForFile(context,
      * BuildConfig.APPLICATION_ID+".fileprovider", file);
-     *
      */
-    public void install(File file, Uri contentUri) {
+    public static void install(Context context, File file, Uri contentUri) {
         Intent intent = new Intent();
         intent.setAction(android.content.Intent.ACTION_VIEW);
         Uri uri;
@@ -225,14 +267,18 @@ public final class ApkUtils {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setDataAndType(uri, URI_INSTALL_PACKAGE);
         }
-        GlobalContext.get().startActivity(intent);
+        context.startActivity(intent);
     }
 
     public static void launch(String packageName, String className) {
+        launch(GlobalContext.get(), packageName, className);
+    }
+
+    public static void launch(Context context, String packageName, String className) {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setComponent(new ComponentName(packageName, className));
-        GlobalContext.get().startActivity(intent);
+        context.startActivity(intent);
     }
 
     // </editor-folder>

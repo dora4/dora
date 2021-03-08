@@ -346,10 +346,14 @@ public final class StatusBarUtils {
         }
     }
 
+    public static int getStatusBarHeight() {
+        return getStatusBarHeight(GlobalContext.get());
+    }
+
     /**
      * 获得状态栏高度。
      */
-    public static int getStatusBarHeight() {
+    public static int getStatusBarHeight(Context context) {
         Class<?> clazz;
         Object obj;
         Field field;
@@ -359,7 +363,7 @@ public final class StatusBarUtils {
             obj = clazz.newInstance();
             field = clazz.getField("status_bar_height");
             x = Integer.parseInt(field.get(obj).toString());
-            statusBarHeight = GlobalContext.get().getResources().getDimensionPixelSize(x);
+            statusBarHeight = context.getResources().getDimensionPixelSize(x);
         } catch (Exception e1) {
             e1.printStackTrace();
         }

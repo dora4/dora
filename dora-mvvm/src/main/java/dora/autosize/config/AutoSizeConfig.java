@@ -59,11 +59,11 @@ public class AutoSizeConfig {
     public void init(Context context) {
         getMetaData(context);
         if (useDeviceSize) {
-            mScreenWidth = ScreenUtils.getContentWidth();
-            mScreenHeight = ScreenUtils.getContentHeight();
+            mScreenWidth = ScreenUtils.getContentWidth(context);
+            mScreenHeight = ScreenUtils.getContentHeight(context);
         } else {
-            mScreenWidth = ScreenUtils.getScreenWidth();
-            mScreenHeight = ScreenUtils.getScreenHeight();
+            mScreenWidth = ScreenUtils.getScreenWidth(context);
+            mScreenHeight = ScreenUtils.getScreenHeight(context);
         }
         Logger.e(" screenWidth =" + mScreenWidth + " ,screenHeight = " + mScreenHeight);
     }

@@ -16,9 +16,6 @@ import java.util.Map;
 import java.util.Set;
 
 import dora.AppManager;
-import dora.BaseActivity;
-import dora.db.constraint.Default;
-import dora.log.Logger;
 
 public final class IntentUtils {
 
@@ -91,27 +88,43 @@ public final class IntentUtils {
     }
 
     public static void startService(@NonNull String action) {
+        startService(GlobalContext.get(), action);
+    }
+
+    public static void startService(Context context, @NonNull String action) {
         Intent intent = new Intent();
         intent.setAction(action);
-        GlobalContext.get().startService(intent);
+        context.startService(intent);
     }
 
     public static void startService(@NonNull Class<? extends Service> serviceClazz) {
+        startService(GlobalContext.get(), serviceClazz);
+    }
+
+    public static void startService(Context context, @NonNull Class<? extends Service> serviceClazz) {
         Intent intent = new Intent();
-        intent.setClass(GlobalContext.get(), serviceClazz);
-        GlobalContext.get().startService(intent);
+        intent.setClass(context, serviceClazz);
+        context.startService(intent);
     }
 
     public static void sendBroadcast(@NonNull String action) {
+        sendBroadcast(GlobalContext.get(), action);
+    }
+
+    public static void sendBroadcast(Context context, @NonNull String action) {
         Intent intent = new Intent();
         intent.setAction(action);
-        GlobalContext.get().sendBroadcast(intent);
+        context.sendBroadcast(intent);
     }
 
     public static void sendBroadcast(@NonNull Class<? extends BroadcastReceiver> broadcastClazz) {
+        sendBroadcast(GlobalContext.get(), broadcastClazz);
+    }
+
+    public static void sendBroadcast(Context context, @NonNull Class<? extends BroadcastReceiver> broadcastClazz) {
         Intent intent = new Intent();
-        intent.setClass(GlobalContext.get(), broadcastClazz);
-        GlobalContext.get().sendBroadcast(intent);
+        intent.setClass(context, broadcastClazz);
+        context.sendBroadcast(intent);
     }
 
     public static boolean getBooleanExtra(@NonNull Intent intent, @NonNull String name, boolean defaultValue) {

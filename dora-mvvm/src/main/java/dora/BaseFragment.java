@@ -17,18 +17,19 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import dora.cache.Cache;
-import dora.cache.CacheType;
-import dora.cache.LruCache;
-import dora.util.IntentUtils;
-import dora.util.KeyValueUtils;
-import dora.util.ToastUtils;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import dora.cache.Cache;
+import dora.cache.CacheType;
+import dora.cache.LruCache;
+import dora.util.GlobalContext;
+import dora.util.IntentUtils;
+import dora.util.KeyValueUtils;
+import dora.util.ToastUtils;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
         FragmentCache, PageSwitcher {
@@ -87,11 +88,19 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     public void toast(String msg) {
-        ToastUtils.showShort(msg);
+        toast(GlobalContext.get(), msg);
+    }
+
+    public void toast(Context context, String msg) {
+        ToastUtils.showShort(context, msg);
     }
 
     public void toastL(String msg) {
-        ToastUtils.showLong(msg);
+        toastL(GlobalContext.get(), msg);
+    }
+
+    public void toastL(Context context, String msg) {
+        ToastUtils.showLong(context, msg);
     }
 
     public void openActivity(Class<? extends Activity> activityClazz) {

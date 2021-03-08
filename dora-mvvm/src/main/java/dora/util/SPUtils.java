@@ -26,7 +26,7 @@ public final class SPUtils {
         sPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    private static SPUtils getInstance() {
+    public static SPUtils getInstance() {
         return getInstance(GlobalContext.get());
     }
 
@@ -44,7 +44,11 @@ public final class SPUtils {
     }
 
     public static void putString(String key, String value) {
-        getInstance()._putString(key, value);
+        putString(GlobalContext.get(), key, value);
+    }
+
+    public static void putString(Context context, String key, String value) {
+        getInstance(context)._putString(key, value);
     }
 
     private String _obtainString(String key) {
@@ -52,7 +56,11 @@ public final class SPUtils {
     }
 
     public static String obtainString(String key) {
-        return getInstance()._obtainString(key);
+        return obtainString(GlobalContext.get(), key);
+    }
+
+    public static String obtainString(Context context, String key) {
+        return getInstance(context)._obtainString(key);
     }
 
     private void _putInteger(String key, int value) {
@@ -60,7 +68,11 @@ public final class SPUtils {
     }
 
     public static void putInteger(String key, int value) {
-        getInstance()._putInteger(key, value);
+        putInteger(GlobalContext.get(), key, value);
+    }
+
+    public static void putInteger(Context context, String key, int value) {
+        getInstance(context)._putInteger(key, value);
     }
 
     private int _obtainInteger(String key) {
@@ -68,7 +80,11 @@ public final class SPUtils {
     }
 
     public static int obtainInteger(String key) {
-        return getInstance()._obtainInteger(key);
+        return obtainInteger(GlobalContext.get(), key);
+    }
+
+    public static int obtainInteger(Context context, String key) {
+        return getInstance(context)._obtainInteger(key);
     }
 
     private void _putBoolean(String key, boolean value) {
@@ -76,7 +92,11 @@ public final class SPUtils {
     }
 
     public static void putBoolean(String key, boolean value) {
-        getInstance()._putBoolean(key, value);
+        putBoolean(GlobalContext.get(), key, value);
+    }
+
+    public static void putBoolean(Context context, String key, boolean value) {
+        getInstance(context)._putBoolean(key, value);
     }
 
     private boolean _obtainBoolean(String key, boolean defValue) {
@@ -84,7 +104,11 @@ public final class SPUtils {
     }
 
     public static boolean obtainBoolean(String key, boolean defValue) {
-        return getInstance()._obtainBoolean(key, defValue);
+        return obtainBoolean(GlobalContext.get(), key, defValue);
+    }
+
+    public static boolean obtainBoolean(Context context, String key, boolean defValue) {
+        return getInstance(context)._obtainBoolean(key, defValue);
     }
 
     private <T> boolean _putObject(String key, T value) {
@@ -108,7 +132,11 @@ public final class SPUtils {
     }
 
     public static <T> boolean putObject(String key, T value) {
-        return getInstance()._putObject(key, value);
+        return putObject(GlobalContext.get(), key, value);
+    }
+
+    public static <T> boolean putObject(Context context, String key, T value) {
+        return getInstance(context)._putObject(key, value);
     }
 
     private <T> T _obtainObject(String key) {
@@ -135,7 +163,11 @@ public final class SPUtils {
     }
 
     public static <T> T obtainObject(String key) {
-        return getInstance()._obtainObject(key);
+        return obtainObject(GlobalContext.get(), key);
+    }
+
+    public static <T> T obtainObject(Context context, String key) {
+        return getInstance(context)._obtainObject(key);
     }
 
     private void _remove(String key) {
@@ -143,7 +175,11 @@ public final class SPUtils {
     }
 
     public static void remove(String key) {
-        getInstance()._remove(key);
+        remove(GlobalContext.get(), key);
+    }
+
+    public static void remove(Context context, String key) {
+        getInstance(context)._remove(key);
     }
 
     private void _clear() {
@@ -151,6 +187,10 @@ public final class SPUtils {
     }
 
     public static void clear() {
-        getInstance()._clear();
+        clear(GlobalContext.get());
+    }
+
+    public static void clear(Context context) {
+        getInstance(context)._clear();
     }
 }

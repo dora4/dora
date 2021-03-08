@@ -1,5 +1,6 @@
 package dora.util;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -11,37 +12,45 @@ public final class ToastUtils {
     private ToastUtils() {
     }
 
-    public static void showShort(final String msg) {
+    public static void showShort(String msg) {
+        showShort(GlobalContext.get(), msg);
+    }
+
+    public static void showShort(final Context context, final String msg) {
         if (!ThreadUtils.isMainThread()) {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    showShortInternal(msg);
+                    showShortInternal(context, msg);
                 }
             });
         } else {
-            showShortInternal(msg);
+            showShortInternal(context, msg);
         }
     }
 
-    public static void showLong(final String msg) {
+    public static void showLong(String msg) {
+        showLong(GlobalContext.get(), msg);
+    }
+
+    public static void showLong(final Context context, final String msg) {
         if (!ThreadUtils.isMainThread()) {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    showLongInternal(msg);
+                    showLongInternal(context, msg);
                 }
             });
         } else {
-            showLongInternal(msg);
+            showLongInternal(context, msg);
         }
     }
 
-    private static void showShortInternal(String msg) {
+    private static void showShortInternal(Context context, String msg) {
         if (mToast == null) {
             synchronized (ToastUtils.class) {
                 if (mToast == null)
-                    mToast = Toast.makeText(GlobalContext.get(), msg, Toast.LENGTH_SHORT);
+                    mToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
             }
         } else {
             mToast.setText(msg);
@@ -49,11 +58,11 @@ public final class ToastUtils {
         mToast.show();
     }
 
-    private static void showLongInternal(String msg) {
+    private static void showLongInternal(Context context, String msg) {
         if (mToast == null) {
             synchronized (ToastUtils.class) {
                 if (mToast == null)
-                    mToast = Toast.makeText(GlobalContext.get(), msg, Toast.LENGTH_LONG);
+                    mToast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
             }
         } else {
             mToast.setText(msg);

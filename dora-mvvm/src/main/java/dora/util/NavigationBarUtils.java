@@ -16,6 +16,10 @@ public final class NavigationBarUtils {
     private NavigationBarUtils() {
     }
 
+    public static int getRealHeight() {
+        return getRealHeight(GlobalContext.get());
+    }
+
     public static int getRealHeight(Context context) {
         if (wm == null) {
             wm = (WindowManager)
@@ -42,13 +46,17 @@ public final class NavigationBarUtils {
             return false;
         }
         int activityHeight = contentRect.height();
-        int statusBarHeight = StatusBarUtils.getStatusBarHeight();
+        int statusBarHeight = StatusBarUtils.getStatusBarHeight(activity);
         int remainHeight = getRealHeight(activity) - statusBarHeight;
         if (activityHeight == remainHeight) {
             return false;
         } else {
             return true;
         }
+    }
+
+    public static int getNavigationBarHeight() {
+        return getNavigationBarHeight(GlobalContext.get());
     }
 
     /**

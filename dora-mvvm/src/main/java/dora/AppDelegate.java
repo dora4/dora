@@ -10,10 +10,10 @@ import android.content.res.Configuration;
 
 import androidx.fragment.app.Fragment;
 
-import dora.util.AppProcessUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import dora.util.AppProcessUtils;
 
 public class AppDelegate implements ApplicationLifecycleCallbacks {
 
@@ -147,7 +147,7 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
         @Override
         public void onLowMemory() {
             //系统正运行于低内存的状态并且你的进程正处于 LRU 列表中最容易被杀掉的位置, 你应该释放任何不影响你的 App 恢复状态的资源
-            AppProcessUtils.killAllProcesses();
+            AppProcessUtils.killAllProcesses(mApp);
         }
     }
 }

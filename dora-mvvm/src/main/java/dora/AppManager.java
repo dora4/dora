@@ -2,13 +2,14 @@ package dora;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
-
-import dora.util.AppProcessUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Stack;
+
+import dora.util.AppProcessUtils;
 
 public final class AppManager {
 
@@ -177,10 +178,10 @@ public final class AppManager {
     /**
      * 完全杀死本app，包括所有activity和其进程。
      */
-    public void killAll() {
+    public void killAll(Context context) {
         synchronized (AppManager.class) {
             finishAllActivities();
-            AppProcessUtils.killAllProcesses();
+            AppProcessUtils.killAllProcesses(context);
         }
     }
 }

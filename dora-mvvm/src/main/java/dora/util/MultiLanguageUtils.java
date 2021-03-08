@@ -85,7 +85,7 @@ public class MultiLanguageUtils {
      * @return
      */
     private Locale getLanguageLocale(Context context) {
-        int languageType = SPUtils.getInstance(context).obtainInteger(MultiLanguageUtils.SAVE_LANGUAGE);
+        int languageType = SPUtils.getInstance(context).obtainInteger(context, MultiLanguageUtils.SAVE_LANGUAGE);
         if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) {
             return Locale.SIMPLIFIED_CHINESE;
         } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
@@ -122,7 +122,7 @@ public class MultiLanguageUtils {
      * @param languageType
      */
     public void updateLanguage(Context context, int languageType) {
-        SPUtils.getInstance(context).putInteger(MultiLanguageUtils.SAVE_LANGUAGE, languageType);
+        SPUtils.getInstance(context).putInteger(context, MultiLanguageUtils.SAVE_LANGUAGE, languageType);
         MultiLanguageUtils.getInstance().setConfiguration(context);
     }
 
@@ -132,7 +132,7 @@ public class MultiLanguageUtils {
      * @return
      */
     public int getLanguageType(Context context) {
-        int languageType = SPUtils.getInstance(context).obtainInteger(MultiLanguageUtils.SAVE_LANGUAGE);
+        int languageType = SPUtils.getInstance(context).obtainInteger(context, MultiLanguageUtils.SAVE_LANGUAGE);
         Log.e(TAG, "getLanguageType" + languageType);
         return languageType;
     }

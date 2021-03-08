@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import java.util.ArrayList;
+
 import dora.log.Logger;
 import dora.util.NetworkUtils;
-
-import java.util.ArrayList;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
 
@@ -42,7 +42,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
             } else {
                 Logger.i(this.getClass().getName() + ":network connected");
                 mNetAvailable = true;
-                mApnType = NetworkUtils.getApnType();
+                mApnType = NetworkUtils.getApnType(context);
             }
             notifyObserver();
         }

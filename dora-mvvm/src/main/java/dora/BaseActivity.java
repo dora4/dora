@@ -13,6 +13,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import dora.cache.Cache;
 import dora.cache.CacheType;
 import dora.cache.LruCache;
@@ -22,18 +28,13 @@ import dora.net.NetworkStateReceiver;
 import dora.permission.Action;
 import dora.permission.PermissionManager;
 import dora.util.FragmentUtils;
+import dora.util.GlobalContext;
 import dora.util.IntentUtils;
 import dora.util.KeyValueUtils;
 import dora.util.MultiLanguageUtils;
 import dora.util.NetworkUtils;
 import dora.util.StatusBarUtils;
 import dora.util.ToastUtils;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
         implements ActivityCache, PageSwitcher {
@@ -231,11 +232,19 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     public void toast(String msg) {
-        ToastUtils.showShort(msg);
+        toast(GlobalContext.get(), msg);
+    }
+
+    public void toast(Context context, String msg) {
+        ToastUtils.showShort(context, msg);
     }
 
     public void toastL(String msg) {
-        ToastUtils.showLong(msg);
+        toastL(GlobalContext.get(), msg);
+    }
+
+    public void toastL(Context context, String msg) {
+        ToastUtils.showLong(context, msg);
     }
 
     public void openActivity(Class<? extends Activity> activityClazz) {

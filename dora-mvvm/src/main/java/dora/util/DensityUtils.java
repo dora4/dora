@@ -9,22 +9,38 @@ public final class DensityUtils {
     }
 
     public static int dp2px(float dpVal) {
+        return dp2px(GlobalContext.get(), dpVal);
+    }
+
+    public static int dp2px(Context context, float dpVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                dpVal, GlobalContext.get().getResources().getDisplayMetrics());
+                dpVal, context.getResources().getDisplayMetrics());
     }
 
     public static int sp2px(float spVal) {
+        return sp2px(GlobalContext.get(), spVal);
+    }
+
+    public static int sp2px(Context context, float spVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                spVal, GlobalContext.get().getResources().getDisplayMetrics());
+                spVal, context.getResources().getDisplayMetrics());
     }
 
     public static float px2dp(float pxVal) {
-        float scale = GlobalContext.get().getResources().getDisplayMetrics().density;
+        return px2dp(GlobalContext.get(), pxVal);
+    }
+
+    public static float px2dp(Context context, float pxVal) {
+        float scale = context.getResources().getDisplayMetrics().density;
         return pxVal / scale;
     }
 
     public static float px2sp(float pxVal) {
-        float scale = GlobalContext.get().getResources().getDisplayMetrics().scaledDensity;
+        return px2sp(GlobalContext.get(), pxVal);
+    }
+
+    public static float px2sp(Context context, float pxVal) {
+        float scale = context.getResources().getDisplayMetrics().scaledDensity;
         return pxVal / scale;
     }
 }

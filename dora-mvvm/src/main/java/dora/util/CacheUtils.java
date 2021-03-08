@@ -8,17 +8,25 @@ public final class CacheUtils {
     }
 
     public static String getCacheSize() {
-        long cacheSize = IoUtils.getFolderTotalSize(GlobalContext.get().getCacheDir());
+        return getCacheSize(GlobalContext.get());
+    }
+
+    public static String getCacheSize(Context context) {
+        long cacheSize = IoUtils.getFolderTotalSize(context.getCacheDir());
         if (IoUtils.checkMediaMounted()) {
-            cacheSize += IoUtils.getFolderTotalSize(GlobalContext.get().getExternalCacheDir());
+            cacheSize += IoUtils.getFolderTotalSize(context.getExternalCacheDir());
         }
         return IoUtils.formatFileSize(cacheSize);
     }
 
     public static void clearAllCaches() {
-        IoUtils.delete(GlobalContext.get().getCacheDir());
+        clearAllCaches(GlobalContext.get());
+    }
+
+    public static void clearAllCaches(Context context) {
+        IoUtils.delete(context.getCacheDir());
         if (IoUtils.checkMediaMounted()) {
-            IoUtils.delete(GlobalContext.get().getExternalCacheDir());
+            IoUtils.delete(context.getExternalCacheDir());
         }
     }
 }
