@@ -9,6 +9,7 @@ import java.util.List;
 
 import dora.cache.data.IDataFetcher;
 import dora.cache.data.IListDataFetcher;
+import dora.cache.data.page.IDataPager;
 import dora.db.OrmTable;
 import dora.http.DoraCallback;
 import dora.http.DoraListCallback;
@@ -249,6 +250,14 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
             throw new RuntimeException("请先重写installListDataFetcher");
         }
         return mListDataFetcher.getListData();
+    }
+
+    @Override
+    public IDataPager<T> getPager() {
+        if (mListDataFetcher == null && mListData) {
+            throw new RuntimeException("请先重写installListDataFetcher");
+        }
+        return mListDataFetcher.getPager();
     }
 
     /**
