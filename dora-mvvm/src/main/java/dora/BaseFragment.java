@@ -7,34 +7,28 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import dora.cache.Cache;
+import dora.cache.CacheType;
+import dora.cache.LruCache;
+import dora.util.*;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import dora.cache.Cache;
-import dora.cache.CacheType;
-import dora.cache.LruCache;
-import dora.util.GlobalContext;
-import dora.util.IntentUtils;
-import dora.util.KeyValueUtils;
-import dora.util.MultiLanguageUtils;
-import dora.util.ToastUtils;
-
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
         FragmentCache, PageSwitcher {
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
-    private Cache<String, Object> mCache;
+    protected Cache<String, Object> mCache;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

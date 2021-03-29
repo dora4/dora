@@ -5,19 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentTransaction;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import dora.autosize.AutoSizeActivity;
 import dora.cache.Cache;
 import dora.cache.CacheType;
@@ -27,21 +19,20 @@ import dora.net.NetworkChangeObserver;
 import dora.net.NetworkStateReceiver;
 import dora.permission.Action;
 import dora.permission.PermissionManager;
-import dora.util.FragmentUtils;
-import dora.util.GlobalContext;
-import dora.util.IntentUtils;
-import dora.util.KeyValueUtils;
-import dora.util.MultiLanguageUtils;
-import dora.util.NetworkUtils;
-import dora.util.StatusBarUtils;
-import dora.util.ToastUtils;
+import dora.util.*;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class BaseAutoSizeActivity<T extends ViewDataBinding> extends AutoSizeActivity
         implements ActivityCache, PageSwitcher {
 
     protected final String TAG = this.getClass().getSimpleName();
     protected T mBinding;
-    private Cache<String, Object> mCache;
+    protected Cache<String, Object> mCache;
     private Map<String, BaseFragment<?>> mFragmentCache = new HashMap<>();
     protected NetworkChangeObserver mNetworkChangeObserver = null;
     private int mFragmentPageIndex;
