@@ -195,17 +195,21 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
     /**
      * 数据的来源。
      */
-    public enum DataSource {
+    public interface DataSource {
 
-        /**
-         * 数据来源于网络服务器。
-         */
-        FROM_NETWORK,
+        public enum Type {
 
-        /**
-         * 数据来源于缓存。
-         */
-        FROM_CACHE;
+            /**
+             * 数据来源于网络服务器。
+             */
+            NETWORK,
+
+            /**
+             * 数据来源于缓存。
+             */
+            CACHE;
+        }
+
 
         enum CacheType {
             DATABASE,
@@ -236,15 +240,12 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
          * @param type
          * @return
          */
-        boolean loadFromCache(CacheType type) {
-            return false;
-        }
+        boolean loadFromCache(CacheType type);
 
         /**
          * 从服务器/网络加载数据。
          */
-        void loadFromNetwork() {
-        }
+        void loadFromNetwork();
     }
 
     @Override

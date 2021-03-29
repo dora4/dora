@@ -27,6 +27,11 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
         return mDao;
     }
 
+    /**
+     * 根据查询条件进行初步的过滤从数据库加载的数据，过滤不完全则再调用onInterceptData。
+     *
+     * @return
+     */
     protected WhereBuilder where() {
         return WhereBuilder.create();
     }
@@ -42,6 +47,7 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
                         if (type == CacheType.DATABASE) {
                             T entity = mDao.selectOne(where());
                             if (entity != null) {
+                                onInterceptData(Type.CACHE, entity);
                                 mLiveData.setValue(entity);
                             }
                             return true;
@@ -72,15 +78,15 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
 
                     @Override
                     public void onFailure(int code, String msg) {
-                        mLiveData.setValue(null);
-                        if (isClearDatabaseOnNetworkError()) {
+                        if (isClearDataOnNetworkError()) {
+                            mLiveData.setValue(null);
                             mDao.delete(where());
                         }
                     }
 
                     @Override
                     protected void onInterceptNetworkData(T data) {
-                        BaseDatabaseCacheRepository.this.onInterceptNetworkData(data);
+                        onInterceptData(DataSource.Type.NETWORK, data);
                     }
                 };
             }
@@ -98,6 +104,7 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
                         if (type == CacheType.DATABASE) {
                             List<T> entities = mDao.select(where());
                             if (entities != null && entities.size() > 0) {
+                                onInterceptData(Type.CACHE, entities);
                                 mLiveData.setValue(entities);
                             }
                             return true;
@@ -128,24 +135,24 @@ public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends Ba
 
                     @Override
                     public void onFailure(int code, String msg) {
-                        mLiveData.setValue(null);
-                        if (isClearDatabaseOnNetworkError()) {
+                        if (isClearDataOnNetworkError()) {
+                            mLiveData.setValue(null);
                             mDao.delete(where());
                         }
                     }
 
                     @Override
                     protected void onInterceptNetworkData(List<T> data) {
-                        BaseDatabaseCacheRepository.this.onInterceptNetworkData(data);
+                        onInterceptData(DataSource.Type.NETWORK, data);
                     }
                 };
             }
         };
     }
 
-    protected void onInterceptNetworkData(T data) {
+    protected void onInterceptData(DataSource.Type type, T data) {
     }
 
-    protected void onInterceptNetworkData(List<T> data) {
+    protected void onInterceptData(DataSource.Type type, List<T> data) {
     }
 }
