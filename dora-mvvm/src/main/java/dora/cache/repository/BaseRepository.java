@@ -76,11 +76,11 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
     }
 
     /**
-     * 是否在网络加载数据失败的时候清空数据库的缓存。
+     * 是否在网络加载数据失败的时候清空数据。
      *
      * @return
      */
-    protected boolean isClearDatabaseOnNetworkError() {
+    protected boolean isClearDataOnNetworkError() {
         return false;
     }
 
@@ -195,7 +195,17 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
     /**
      * 数据的来源。
      */
-    public interface DataSource {
+    public enum DataSource {
+
+        /**
+         * 数据来源于网络服务器。
+         */
+        FROM_NETWORK,
+
+        /**
+         * 数据来源于缓存。
+         */
+        FROM_CACHE;
 
         enum CacheType {
             DATABASE,
@@ -226,12 +236,15 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
          * @param type
          * @return
          */
-        boolean loadFromCache(CacheType type);
+        boolean loadFromCache(CacheType type) {
+            return false;
+        }
 
         /**
          * 从服务器/网络加载数据。
          */
-        void loadFromNetwork();
+        void loadFromNetwork() {
+        }
     }
 
     @Override
