@@ -17,7 +17,6 @@
 package dora.crash.policy;
 
 import android.util.Log;
-
 import dora.crash.CrashInfo;
 import dora.crash.group.DefaultGroup;
 import dora.crash.group.Group;

@@ -16,10 +16,9 @@
 
 package dora.crash.filter;
 
-import java.util.Calendar;
-
 import dora.crash.CrashInfo;
-import dora.crash.filter.CrashReportFilter;
+
+import java.util.Calendar;
 
 /**
  * Filter crash information by time.

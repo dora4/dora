@@ -1,12 +1,11 @@
 package dora.cache.data;
 
 import androidx.lifecycle.LiveData;
-
-import java.util.List;
-
 import dora.cache.data.page.IDataPager;
 import dora.db.OrmTable;
 import dora.http.DoraListCallback;
+
+import java.util.List;
 
 public interface IListDataFetcher<T extends OrmTable> {
 

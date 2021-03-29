@@ -1,12 +1,12 @@
 package dora.http.retrofit;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public abstract class BaseRetrofitManager {
 

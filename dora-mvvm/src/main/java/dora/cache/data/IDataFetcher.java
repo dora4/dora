@@ -1,7 +1,6 @@
 package dora.cache.data;
 
 import androidx.lifecycle.LiveData;
-
 import dora.db.OrmTable;
 import dora.http.DoraCallback;
 

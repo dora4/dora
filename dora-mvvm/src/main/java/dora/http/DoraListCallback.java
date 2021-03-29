@@ -1,13 +1,12 @@
 package dora.http;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-
 import dora.db.OrmTable;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.List;
 
 public abstract class DoraListCallback<T extends OrmTable> implements Callback<ApiResult<List<T>>> {
 

@@ -1,8 +1,8 @@
 package dora.cache.data.page;
 
-import java.util.List;
-
 import dora.cache.data.visitor.IPageDataVisitor;
+
+import java.util.List;
 
 public final class DataPager<T> implements IDataPager<T> {
 

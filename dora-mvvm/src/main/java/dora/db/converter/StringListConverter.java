@@ -1,9 +1,9 @@
 package dora.db.converter;
 
+import dora.db.table.PropertyConverter;
+
 import java.util.Arrays;
 import java.util.List;
-
-import dora.db.table.PropertyConverter;
 
 public class StringListConverter implements PropertyConverter<List<String>, String> {
 

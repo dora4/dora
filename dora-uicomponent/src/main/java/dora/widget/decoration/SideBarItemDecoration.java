@@ -6,10 +6,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.SparseArray;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import dora.adapter.BaseRecyclerAdapter;
 import dora.util.DensityUtils;
 

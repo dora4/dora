@@ -5,9 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import androidx.annotation.NonNull;
-
 import dora.widget.panel.IMenu;
 import dora.widget.panel.MenuPanelItem;
 

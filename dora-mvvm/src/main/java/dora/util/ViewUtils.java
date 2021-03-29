@@ -7,7 +7,6 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;

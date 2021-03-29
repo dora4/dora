@@ -1,8 +1,10 @@
 package dora.http.log;
 
 import android.util.Log;
-
 import androidx.annotation.Nullable;
+import okhttp3.*;
+import okio.Buffer;
+import okio.BufferedSource;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -10,15 +12,6 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
 
 public class RequestInterceptor implements Interceptor {
 

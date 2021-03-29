@@ -17,19 +17,12 @@
 package dora.crash.policy;
 
 import android.util.Log;
+import dora.crash.CrashInfo;
+import dora.crash.group.Group;
+import okhttp3.*;
 
 import java.io.IOException;
 import java.util.HashMap;
-
-import dora.crash.CrashInfo;
-import dora.crash.group.Group;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Save the crash information to the crash information management system of DORA, and the server

@@ -1,9 +1,7 @@
 package dora.crash;
 
 import android.content.Context;
-
 import androidx.annotation.RequiresPermission;
-
 import dora.crash.policy.StoragePolicy;
 import dora.permission.runtime.Permission;
 

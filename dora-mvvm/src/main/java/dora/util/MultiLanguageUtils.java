@@ -87,7 +87,7 @@ public class MultiLanguageUtils {
     private Locale getLanguageLocale(Context context) {
         int languageType = SPUtils.getInstance(context).obtainInteger(context, MultiLanguageUtils.SAVE_LANGUAGE);
         if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) {
-            return Locale.SIMPLIFIED_CHINESE;
+            return getSysLocale();
         } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
             return Locale.TRADITIONAL_CHINESE;
         } else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
@@ -95,16 +95,9 @@ public class MultiLanguageUtils {
         } else if (languageType == LanguageType.LANGUAGE_ENGLISH) {
             return Locale.ENGLISH;
         }
-        getSystemLanguage(getSysLocale());
         return Locale.ENGLISH;
     }
 
-    private String getSystemLanguage(Locale locale) {
-        return "System Language:"+locale.getLanguage() + "_" + locale.getCountry();
-
-    }
-
-    //以上获取方式需要特殊处理一下
     public Locale getSysLocale() {
         Locale locale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

@@ -1,12 +1,11 @@
 package dora.util;
 
 import android.content.Context;
-
-import java.util.Set;
-
 import dora.cache.Cache;
 import dora.cache.CacheType;
 import dora.cache.LruCache;
+
+import java.util.Set;
 
 /**
  * 内存缓存工具。

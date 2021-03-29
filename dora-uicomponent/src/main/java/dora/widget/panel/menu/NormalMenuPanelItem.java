@@ -7,11 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.annotation.DrawableRes;
-
-import dora.widget.panel.MenuPanelItem;
 import dora.widget.R;
+import dora.widget.panel.MenuPanelItem;
 
 public class NormalMenuPanelItem implements MenuPanelItem {
 

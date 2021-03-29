@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
 import dora.util.TextUtils;
-import dora.widget.panel.MenuPanelItem;
 import dora.widget.R;
+import dora.widget.panel.MenuPanelItem;
 
 public class InputMenuPanelItem implements MenuPanelItem {
 

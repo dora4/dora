@@ -1,10 +1,6 @@
 package dora.widget.popupdialog;
 
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.LinearLayout;
 
 public class DialogView extends AbstractDialogView {

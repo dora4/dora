@@ -18,16 +18,15 @@ package dora.crash.policy;
 
 import android.os.Environment;
 import android.util.Log;
+import dora.crash.LogInfo;
+import dora.crash.group.DefaultGroup;
+import dora.crash.group.Group;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import dora.crash.LogInfo;
-import dora.crash.group.DefaultGroup;
-import dora.crash.group.Group;
 
 /**
  * Write log information to the SD card of the mobile.

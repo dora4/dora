@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.RequiresApi;
-
-import dora.widget.panel.MenuPanelItem;
 import dora.widget.R;
+import dora.widget.panel.MenuPanelItem;
 import dora.widget.panel.drawable.TagDrawable;
 
 /**

@@ -1,11 +1,7 @@
 package dora.cache.repository;
 
 import android.content.Context;
-
 import androidx.lifecycle.LiveData;
-
-import java.util.List;
-
 import dora.cache.data.DataFetcher;
 import dora.cache.data.ListDataFetcher;
 import dora.db.OrmTable;
@@ -14,6 +10,8 @@ import dora.db.dao.DaoFactory;
 import dora.db.dao.OrmDao;
 import dora.http.DoraCallback;
 import dora.http.DoraListCallback;
+
+import java.util.List;
 
 public abstract class BaseDatabaseCacheRepository<T extends OrmTable> extends BaseRepository<T> {
 

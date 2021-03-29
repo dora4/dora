@@ -1,15 +1,13 @@
 package dora.http.log;
 
 import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.util.List;
-
 import dora.log.Logger;
 import okhttp3.MediaType;
 import okhttp3.Request;
+
+import java.util.List;
 
 public class DefaultFormatPrinter implements FormatPrinter {
     private static final String TAG = "DoraHttpLog";

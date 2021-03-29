@@ -1,14 +1,9 @@
 package dora.widget.popupdialog;
 
 import android.app.Activity;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
 import dora.util.NavigationBarUtils;
 import dora.widget.R;
 

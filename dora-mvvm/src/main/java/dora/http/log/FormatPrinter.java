@@ -2,11 +2,10 @@ package dora.http.log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.util.List;
-
 import okhttp3.MediaType;
 import okhttp3.Request;
+
+import java.util.List;
 
 public interface FormatPrinter {
 

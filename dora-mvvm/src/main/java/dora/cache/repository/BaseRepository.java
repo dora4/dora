@@ -1,12 +1,8 @@
 package dora.cache.repository;
 
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-
-import java.util.List;
-
 import dora.cache.data.IDataFetcher;
 import dora.cache.data.IListDataFetcher;
 import dora.cache.data.page.IDataPager;
@@ -15,6 +11,8 @@ import dora.http.DoraCallback;
 import dora.http.DoraListCallback;
 import dora.log.Logger;
 import dora.util.NetworkUtils;
+
+import java.util.List;
 
 /**
  * 数据仓库，扩展它来支持数据的三级缓存，即从云端服务器的数据库、手机本地数据库和手机内存中读取需要的数据，以支持用户

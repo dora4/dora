@@ -17,7 +17,6 @@
 package dora.crash.policy;
 
 import androidx.annotation.CallSuper;
-
 import dora.crash.Info;
 import dora.crash.group.Group;
 

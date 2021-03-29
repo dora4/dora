@@ -1,10 +1,10 @@
 package dora.cache;
 
-import java.lang.reflect.Method;
-
 import dora.cache.repository.BaseMemoryCacheRepository;
 import dora.util.KeyValueUtils;
 import dora.util.ReflectionUtils;
+
+import java.lang.reflect.Method;
 
 public class CacheLoader {
 

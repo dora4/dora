@@ -1,10 +1,9 @@
 package dora.cache.data.page;
 
 import androidx.annotation.NonNull;
+import dora.cache.data.visitor.IPageDataVisitor;
 
 import java.util.List;
-
-import dora.cache.data.visitor.IPageDataVisitor;
 
 public interface IDataPager<T> extends PageCallback<T> {
 

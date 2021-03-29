@@ -1,8 +1,8 @@
 package dora.cache.data.visitor;
 
-import java.util.List;
-
 import dora.cache.data.page.IDataPager;
+
+import java.util.List;
 
 /**
  * 分页数据的访问者。

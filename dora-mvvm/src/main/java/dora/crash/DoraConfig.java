@@ -17,7 +17,6 @@
 package dora.crash;
 
 import android.content.Context;
-
 import dora.crash.filter.CrashReportFilter;
 import dora.crash.filter.DefaultFilter;
 import dora.crash.policy.CrashReportPolicy;
