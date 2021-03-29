@@ -28,6 +28,11 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
         return mDao;
     }
 
+    /**
+     * 根据查询条件进行初步的过滤从数据库加载的数据，过滤不完全则再调用onInterceptData。
+     *
+     * @return
+     */
     protected WhereBuilder where() {
         return WhereBuilder.create();
     }
@@ -48,9 +53,11 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
                         try {
                             if (type == CacheType.MEMORY) {
                                 T model = (T) KeyValueUtils.getInstance().getCacheFromMemory(getCacheName());
+                                onInterceptData(DataSource.FROM_CACHE, model);
                                 mLiveData.setValue(model);
                             } else if (type == CacheType.DATABASE) {
                                 T model = mDao.selectOne(where());
+                                onInterceptData(DataSource.FROM_CACHE, model);
                                 mLiveData.setValue(model);
                                 KeyValueUtils.getInstance().updateCacheAtMemory(getCacheName(), model);
                             }
@@ -83,16 +90,16 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
 
                     @Override
                     public void onFailure(int code, String msg) {
-                        mLiveData.setValue(null);
-                        KeyValueUtils.getInstance().removeCacheAtMemory(getCacheName());
-                        if (isClearDatabaseOnNetworkError()) {
+                        if (isClearDataOnNetworkError()) {
+                            mLiveData.setValue(null);
+                            KeyValueUtils.getInstance().removeCacheAtMemory(getCacheName());
                             mDao.delete(where());
                         }
                     }
 
                     @Override
                     protected void onInterceptNetworkData(T data) {
-                        BaseMemoryCacheRepository.this.onInterceptNetworkData(data);
+                        onInterceptData(DataSource.FROM_NETWORK, data);
                     }
                 };
             }
@@ -113,9 +120,11 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
                         try {
                             if (type == CacheType.MEMORY) {
                                 List<T> models = (List<T>) KeyValueUtils.getInstance().getCacheFromMemory(getCacheName());
+                                onInterceptData(DataSource.FROM_CACHE, models);
                                 mLiveData.setValue(models);
                             } else if (type == CacheType.DATABASE) {
                                 List<T> models = mDao.select(where());
+                                onInterceptData(DataSource.FROM_CACHE, models);
                                 mLiveData.setValue(models);
                                 KeyValueUtils.getInstance().updateCacheAtMemory(getCacheName(), models);
                             }
@@ -148,25 +157,25 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
 
                     @Override
                     public void onFailure(int code, String msg) {
-                        mLiveData.setValue(null);
-                        KeyValueUtils.getInstance().removeCacheAtMemory(getCacheName());
-                        if (isClearDatabaseOnNetworkError()) {
+                        if (isClearDataOnNetworkError()) {
                             mDao.delete(where());
+                            mLiveData.setValue(null);
+                            KeyValueUtils.getInstance().removeCacheAtMemory(getCacheName());
                         }
                     }
 
                     @Override
                     protected void onInterceptNetworkData(List<T> data) {
-                        BaseMemoryCacheRepository.this.onInterceptNetworkData(data);
+                        onInterceptData(DataSource.FROM_NETWORK, data);
                     }
                 };
             }
         };
     }
 
-    protected void onInterceptNetworkData(T data) {
+    protected void onInterceptData(DataSource source, T data) {
     }
 
-    protected void onInterceptNetworkData(List<T> data) {
+    protected void onInterceptData(DataSource source, List<T> data) {
     }
 }
