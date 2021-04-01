@@ -4,8 +4,6 @@ import dora.cache.repository.BaseMemoryCacheRepository;
 import dora.util.KeyValueUtils;
 import dora.util.ReflectionUtils;
 
-import java.lang.reflect.Method;
-
 public class CacheLoader {
 
     /**
@@ -26,8 +24,7 @@ public class CacheLoader {
      */
     private static void loadCache(Class<? extends BaseMemoryCacheRepository> repositoryClazz) {
         BaseMemoryCacheRepository repository = ReflectionUtils.newInstance(repositoryClazz);
-        Method method = ReflectionUtils.newMethod(repositoryClazz, true, "loadData");
-        Object data = ReflectionUtils.invokeMethod(repository, method);
+        Object data = repository.loadData();
         KeyValueUtils.getInstance().updateCacheAtMemory(repository.getCacheName(), data);
     }
 }

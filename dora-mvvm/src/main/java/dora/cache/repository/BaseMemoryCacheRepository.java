@@ -40,7 +40,7 @@ public abstract class BaseMemoryCacheRepository<T extends OrmTable> extends Base
     /**
      * 在冷启动时调用，从数据库将数据加载到内存。
      */
-    protected abstract Object loadData();
+    public abstract Object loadData();
 
     @Override
     protected DataFetcher<T> installDataFetcher() {

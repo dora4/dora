@@ -13,11 +13,11 @@ import dora.http.DoraListCallback;
 
 import java.util.List;
 
-public abstract class BaseDatabaseCacheNoNetwockRepository<T extends OrmTable> extends BaseRepository<T> {
+public abstract class BaseDatabaseCacheNoNetworkRepository<T extends OrmTable> extends BaseRepository<T> {
 
     private OrmDao<T> mDao;
 
-    public BaseDatabaseCacheNoNetwockRepository(Context context, Class<T> clazz) {
+    public BaseDatabaseCacheNoNetworkRepository(Context context, Class<T> clazz) {
         super(context);
         mDao = DaoFactory.getDao(clazz);
         mCacheStrategy = DataSource.CacheStrategy.DATABASE_CACHE_NO_NETWORK;
