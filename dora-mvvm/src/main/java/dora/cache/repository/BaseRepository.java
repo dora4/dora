@@ -188,6 +188,20 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
                     return false;
                 }
             } else return isLoaded;
+        } else if (mCacheStrategy == DataSource.CacheStrategy.DATABASE_CACHE_NO_NETWORK) {
+            boolean isLoaded = false;
+            if (!isNetworkAvailable()) {
+                isLoaded = ds.loadFromCache(DataSource.CacheType.DATABASE);
+            }
+            if (isNetworkAvailable()) {
+                try {
+                    ds.loadFromNetwork();
+                    return true;
+                } catch (Exception e) {
+                    Logger.e(e.getMessage());
+                    return false;
+                }
+            } else return isLoaded;
         }
         return false;
     }
@@ -232,6 +246,11 @@ public abstract class BaseRepository<T extends OrmTable> implements IDataFetcher
              * 内存缓存，通常用于需要在app冷启动的时候将数据库的数据先加载到内存，以后打开界面直接从内存中去拿数据。
              */
             int MEMORY_CACHE = 2;
+
+            /**
+             * 和{@link #DATABASE_CACHE}的不同之处在于，只有在没网的情况下才会加载数据库的缓存数据。
+             */
+            int DATABASE_CACHE_NO_NETWORK = 3;
         }
 
         /**
