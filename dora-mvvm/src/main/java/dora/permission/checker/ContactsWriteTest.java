@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 
+@Deprecated
 class ContactsWriteTest implements PermissionTest {
 
     private static final String DISPLAY_NAME = "PERMISSION";

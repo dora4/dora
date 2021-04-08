@@ -3,6 +3,7 @@ package dora.permission.setting.write;
 import dora.permission.setting.Setting;
 import dora.permission.source.Source;
 
+@Deprecated
 public class LWriteRequestFactory implements Setting.SettingRequestFactory {
 
     @Override

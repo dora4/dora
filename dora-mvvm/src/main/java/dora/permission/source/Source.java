@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
-
 import androidx.annotation.RequiresApi;
 
 import java.lang.reflect.Field;
@@ -16,6 +15,7 @@ import java.lang.reflect.Method;
 /**
  * <p>The source of the request.</p>
  */
+@Deprecated
 public abstract class Source {
 
     private static final int MODE_ASK = 4;

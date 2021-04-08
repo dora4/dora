@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.CalendarContract;
 
+@Deprecated
 class CalendarReadTest implements PermissionTest {
 
     private ContentResolver mResolver;

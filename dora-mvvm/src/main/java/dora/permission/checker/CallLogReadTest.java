@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.CallLog;
 
+@Deprecated
 class CallLogReadTest implements PermissionTest {
 
     private ContentResolver mResolver;

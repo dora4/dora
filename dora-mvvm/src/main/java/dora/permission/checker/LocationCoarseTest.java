@@ -6,6 +6,7 @@ import android.location.LocationManager;
 
 import java.util.List;
 
+@Deprecated
 class LocationCoarseTest implements PermissionTest {
 
     private Context mContext;

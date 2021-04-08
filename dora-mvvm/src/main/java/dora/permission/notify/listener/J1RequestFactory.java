@@ -3,6 +3,7 @@ package dora.permission.notify.listener;
 import dora.permission.notify.Notify;
 import dora.permission.source.Source;
 
+@Deprecated
 public class J1RequestFactory implements Notify.ListenerRequestFactory {
 
     @Override

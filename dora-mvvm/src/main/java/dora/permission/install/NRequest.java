@@ -2,6 +2,7 @@ package dora.permission.install;
 
 import dora.permission.source.Source;
 
+@Deprecated
 class NRequest extends BaseRequest {
 
     NRequest(Source source) {

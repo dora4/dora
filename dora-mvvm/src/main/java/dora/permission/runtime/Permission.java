@@ -2,7 +2,6 @@ package dora.permission.runtime;
 
 import android.content.Context;
 import android.os.Build;
-
 import dora.R;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import java.util.List;
 /**
  * <p>Permissions.</p>
  */
+@Deprecated
 public class Permission {
 
     public static final String READ_CALENDAR = "android.permission.READ_CALENDAR";

@@ -5,6 +5,7 @@ import dora.permission.Rationale;
 
 import java.util.List;
 
+@Deprecated
 public interface PermissionRequest {
 
     /**

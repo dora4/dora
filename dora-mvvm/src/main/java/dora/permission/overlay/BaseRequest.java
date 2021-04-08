@@ -4,13 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.view.WindowManager;
-
 import dora.R;
 import dora.permission.Action;
 import dora.permission.Rationale;
 import dora.permission.RequestExecutor;
 import dora.permission.source.Source;
 
+@Deprecated
 abstract class BaseRequest implements OverlayRequest {
 
     private Source mSource;

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+@Deprecated
 class PhoneStateReadTest implements PermissionTest {
 
     private Context mContext;

@@ -3,7 +3,6 @@ package dora.permission.runtime;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import dora.permission.Action;
 import dora.permission.Rationale;
 import dora.permission.RequestExecutor;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 
+@Deprecated
 class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Callback {
 
     private static final PermissionChecker STANDARD_CHECKER = new StandardChecker();

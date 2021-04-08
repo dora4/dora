@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
-
 import dora.permission.runtime.option.RuntimeOption;
 import dora.permission.runtime.setting.AllRequest;
 import dora.permission.runtime.setting.SettingRequest;
@@ -16,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@Deprecated
 public class Runtime implements RuntimeOption {
 
     private static final PermissionRequestFactory FACTORY;

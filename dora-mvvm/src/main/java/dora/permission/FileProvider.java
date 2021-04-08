@@ -15,7 +15,6 @@ import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
-
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
@@ -30,6 +29,7 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
 /**
  * <p>Copied from the support library v27.1.1.</p>
  */
+@Deprecated
 public class FileProvider extends ContentProvider {
 
     private static final String[] COLUMNS = {OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE};

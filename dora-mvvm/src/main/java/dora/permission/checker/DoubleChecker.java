@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
+@Deprecated
 public final class DoubleChecker implements PermissionChecker {
 
     private static final PermissionChecker STANDARD_CHECKER = new StandardChecker();

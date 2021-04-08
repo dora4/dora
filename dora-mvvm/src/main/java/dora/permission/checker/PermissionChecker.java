@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
+@Deprecated
 public interface PermissionChecker {
 
     /**

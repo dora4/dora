@@ -6,6 +6,7 @@ import dora.permission.overlay.OverlayRequest;
 import dora.permission.runtime.option.RuntimeOption;
 import dora.permission.setting.Setting;
 
+@Deprecated
 public interface Option {
 
     /**

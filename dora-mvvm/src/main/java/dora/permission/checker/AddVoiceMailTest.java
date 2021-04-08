@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.VoicemailContract;
 import android.text.TextUtils;
 
+@Deprecated
 class AddVoiceMailTest implements PermissionTest {
 
     private ContentResolver mResolver;

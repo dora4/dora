@@ -5,6 +5,7 @@ import dora.permission.source.Source;
 /**
  * <p>SettingRequest executor.</p>
  */
+@Deprecated
 public class AllRequest implements SettingRequest {
 
     private Source mSource;

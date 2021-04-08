@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 /**
  * <p>Context Wrapper.</p>
  */
+@Deprecated
 public class ContextSource extends Source {
 
     private Context mContext;

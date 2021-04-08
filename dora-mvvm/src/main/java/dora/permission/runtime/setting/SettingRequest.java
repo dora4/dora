@@ -1,5 +1,6 @@
 package dora.permission.runtime.setting;
 
+@Deprecated
 public interface SettingRequest {
 
     /**

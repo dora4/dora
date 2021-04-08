@@ -8,6 +8,7 @@ import android.os.Build;
 /**
  * <p>Context Wrapper.</p>
  */
+@Deprecated
 public class ActivitySource extends Source {
 
     private Activity mActivity;

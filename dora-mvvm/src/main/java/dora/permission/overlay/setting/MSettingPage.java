@@ -6,9 +6,9 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-
 import dora.permission.source.Source;
 
+@Deprecated
 public class MSettingPage {
 
     private static final String MARK = Build.MANUFACTURER.toLowerCase();

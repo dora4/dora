@@ -3,6 +3,7 @@ package dora.permission.bridge;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+@Deprecated
 public class RequestManager {
 
     private static RequestManager sManager;

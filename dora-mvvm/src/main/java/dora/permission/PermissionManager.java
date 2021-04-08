@@ -4,22 +4,17 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import dora.permission.checker.DoubleChecker;
 import dora.permission.checker.PermissionChecker;
 import dora.permission.option.Option;
-import dora.permission.source.ActivitySource;
-import dora.permission.source.ContextSource;
-import dora.permission.source.FragmentSource;
-import dora.permission.source.Source;
-import dora.permission.source.XFragmentSource;
+import dora.permission.source.*;
 
 import java.io.File;
 import java.util.List;
 
+@Deprecated
 public class PermissionManager {
 
     /**

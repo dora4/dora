@@ -2,6 +2,7 @@ package dora.permission.bridge;
 
 import dora.permission.source.Source;
 
+@Deprecated
 public final class BridgeRequest {
 
     public static final int TYPE_APP_DETAILS = 1;

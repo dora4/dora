@@ -4,13 +4,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
-
 import androidx.core.app.ActivityCompat;
-
 import dora.permission.runtime.Permission;
 
 import java.util.List;
 
+@Deprecated
 public final class StrictChecker implements PermissionChecker {
 
     public StrictChecker() {

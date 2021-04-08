@@ -2,6 +2,7 @@ package dora.permission;
 
 import android.content.Context;
 
+@Deprecated
 public interface Rationale<T> {
 
     /**

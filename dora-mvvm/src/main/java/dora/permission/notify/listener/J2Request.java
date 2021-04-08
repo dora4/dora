@@ -5,6 +5,7 @@ import dora.permission.bridge.BridgeRequest;
 import dora.permission.bridge.RequestManager;
 import dora.permission.source.Source;
 
+@Deprecated
 class J2Request extends BaseRequest implements RequestExecutor, BridgeRequest.Callback {
 
     private Source mSource;

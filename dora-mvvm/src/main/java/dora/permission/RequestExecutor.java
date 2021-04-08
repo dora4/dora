@@ -3,6 +3,7 @@ package dora.permission;
 /**
  * <p>Request executor.</p>
  */
+@Deprecated
 public interface RequestExecutor {
 
     /**

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated
 public final class StandardChecker implements PermissionChecker {
 
     private static final int MODE_ASK = 4;

@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+@Deprecated
 class SensorsTest implements PermissionTest {
 
     private Context mContext;

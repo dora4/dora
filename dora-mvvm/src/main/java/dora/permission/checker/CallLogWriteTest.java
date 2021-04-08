@@ -7,6 +7,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.provider.CallLog;
 
+@Deprecated
 class CallLogWriteTest implements PermissionTest {
 
     private ContentResolver mResolver;

@@ -6,6 +6,7 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 
+@Deprecated
 class RecordAudioTest implements PermissionTest {
 
     private static final int[] RATES = new int[]{8000, 11025, 22050, 44100};

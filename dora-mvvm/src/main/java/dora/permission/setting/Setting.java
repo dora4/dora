@@ -1,12 +1,12 @@
 package dora.permission.setting;
 
 import android.os.Build;
-
 import dora.permission.setting.write.LWriteRequestFactory;
 import dora.permission.setting.write.MWriteRequestFactory;
 import dora.permission.setting.write.WriteRequest;
 import dora.permission.source.Source;
 
+@Deprecated
 public class Setting {
 
     private static final SettingRequestFactory SETTING_REQUEST_FACTORY;

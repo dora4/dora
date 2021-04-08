@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.Telephony;
 
+@Deprecated
 class SmsReadTest implements PermissionTest {
 
     private ContentResolver mResolver;

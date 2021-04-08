@@ -3,6 +3,7 @@ package dora.permission.setting.write;
 import dora.permission.Action;
 import dora.permission.Rationale;
 
+@Deprecated
 public interface WriteRequest {
 
     /**

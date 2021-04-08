@@ -2,6 +2,7 @@ package dora.permission.bridge;
 
 import java.util.concurrent.BlockingQueue;
 
+@Deprecated
 final class RequestExecutor extends Thread implements Messenger.Callback {
 
     private final BlockingQueue<BridgeRequest> mQueue;

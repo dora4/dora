@@ -5,6 +5,7 @@ import dora.permission.Rationale;
 
 import java.io.File;
 
+@Deprecated
 public interface InstallRequest {
 
     /**

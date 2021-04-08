@@ -3,12 +3,12 @@ package dora.permission.source;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-
 import androidx.fragment.app.Fragment;
 
 /**
  * <p>android.app.Fragment Wrapper.</p>
  */
+@Deprecated
 public class FragmentSource extends Source {
 
     private Fragment mFragment;

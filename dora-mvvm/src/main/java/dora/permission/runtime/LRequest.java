@@ -2,7 +2,6 @@ package dora.permission.runtime;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import dora.permission.Action;
 import dora.permission.Rationale;
 import dora.permission.checker.PermissionChecker;
@@ -14,6 +13,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 
+@Deprecated
 class LRequest implements PermissionRequest {
 
     private static final PermissionChecker STRICT_CHECKER = new StrictChecker();

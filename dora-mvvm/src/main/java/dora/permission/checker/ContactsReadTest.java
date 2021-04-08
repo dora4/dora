@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
+@Deprecated
 class ContactsReadTest implements PermissionTest {
 
     private ContentResolver mResolver;

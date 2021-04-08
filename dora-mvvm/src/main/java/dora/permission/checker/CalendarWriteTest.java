@@ -10,6 +10,7 @@ import android.provider.CalendarContract;
 
 import java.util.TimeZone;
 
+@Deprecated
 class CalendarWriteTest implements PermissionTest {
 
     private static final String NAME = "PERMISSION";

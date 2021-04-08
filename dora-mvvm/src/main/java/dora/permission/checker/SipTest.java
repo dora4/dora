@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 
+@Deprecated
 class SipTest implements PermissionTest {
 
     private Context mContext;

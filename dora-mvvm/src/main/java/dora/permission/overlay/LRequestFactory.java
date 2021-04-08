@@ -3,6 +3,7 @@ package dora.permission.overlay;
 import dora.permission.Boot;
 import dora.permission.source.Source;
 
+@Deprecated
 public class LRequestFactory implements Boot.OverlayRequestFactory {
 
     @Override

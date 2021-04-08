@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+@Deprecated
 class Messenger extends BroadcastReceiver {
 
     private static final String ACTION = "dora.permission.bridge";

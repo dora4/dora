@@ -2,6 +2,7 @@ package dora.permission.checker;
 
 import android.database.Cursor;
 
+@Deprecated
 interface PermissionTest {
 
     boolean test() throws Throwable;

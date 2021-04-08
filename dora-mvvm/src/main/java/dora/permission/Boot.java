@@ -1,7 +1,6 @@
 package dora.permission;
 
 import android.os.Build;
-
 import dora.permission.install.InstallRequest;
 import dora.permission.install.NRequestFactory;
 import dora.permission.install.ORequestFactory;
@@ -16,6 +15,7 @@ import dora.permission.runtime.option.RuntimeOption;
 import dora.permission.setting.Setting;
 import dora.permission.source.Source;
 
+@Deprecated
 public class Boot implements Option {
 
     private static final InstallRequestFactory INSTALL_REQUEST_FACTORY;

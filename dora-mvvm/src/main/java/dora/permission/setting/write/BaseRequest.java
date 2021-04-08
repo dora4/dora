@@ -1,12 +1,12 @@
 package dora.permission.setting.write;
 
 import android.content.Context;
-
 import dora.permission.Action;
 import dora.permission.Rationale;
 import dora.permission.RequestExecutor;
 import dora.permission.source.Source;
 
+@Deprecated
 abstract class BaseRequest implements WriteRequest {
 
     private Source mSource;

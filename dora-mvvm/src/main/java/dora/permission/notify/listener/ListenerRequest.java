@@ -3,6 +3,7 @@ package dora.permission.notify.listener;
 import dora.permission.Action;
 import dora.permission.Rationale;
 
+@Deprecated
 public interface ListenerRequest {
 
     /**

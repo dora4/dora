@@ -6,9 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
-
 import androidx.annotation.NonNull;
-
 import dora.R;
 import dora.permission.overlay.setting.LSettingPage;
 import dora.permission.overlay.setting.MSettingPage;
@@ -20,6 +18,7 @@ import dora.permission.source.Source;
  * Request permission.
  * </p>
  */
+@Deprecated
 public final class PermissionBridgeActivity extends Activity {
 
     private static final String KEY_TYPE = "KEY_TYPE";

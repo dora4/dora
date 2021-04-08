@@ -1,5 +1,6 @@
 package dora.permission;
 
+@Deprecated
 public interface Action<T> {
 
     /**

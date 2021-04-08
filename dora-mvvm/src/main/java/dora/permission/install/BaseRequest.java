@@ -3,7 +3,6 @@ package dora.permission.install;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-
 import dora.permission.Action;
 import dora.permission.PermissionManager;
 import dora.permission.Rationale;
@@ -12,6 +11,7 @@ import dora.permission.source.Source;
 
 import java.io.File;
 
+@Deprecated
 abstract class BaseRequest implements InstallRequest {
 
     private Source mSource;
