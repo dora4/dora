@@ -2,19 +2,19 @@ package dora;
 
 import android.content.Context;
 
-import dora.util.ManifestUtils;
-import dora.util.ReflectionUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import dora.util.ManifestUtils;
+import dora.util.ReflectUtils;
 
 public final class ManifestParser {
 
     private static final String METADATA_VALUE = "GlobalConfig";
 
     private static GlobalConfig parseModule(String className) {
-        Object config = ReflectionUtils.newInstance(className);
+        Object config = ReflectUtils.newInstance(className);
         if (!(config instanceof GlobalConfig)) {
             throw new RuntimeException("Expected instanceof GlobalConfig, but found: " + config);
         }

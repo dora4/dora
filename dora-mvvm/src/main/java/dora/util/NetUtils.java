@@ -6,13 +6,13 @@ import android.net.NetworkInfo;
 
 import java.util.Locale;
 
-public final class NetworkUtils {
+public final class NetUtils {
 
     public enum ApnType {
         WIFI, CMNET, CMWAP, NONE
     }
 
-    private NetworkUtils() {
+    private NetUtils() {
     }
 
     public static boolean checkNetwork() {

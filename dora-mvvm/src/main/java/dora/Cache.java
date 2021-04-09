@@ -1,4 +1,4 @@
-package dora.cache;
+package dora;
 
 import android.content.Context;
 

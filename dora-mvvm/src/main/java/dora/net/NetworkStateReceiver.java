@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import java.util.ArrayList;
 
 import dora.log.Logger;
-import dora.util.NetworkUtils;
+import dora.util.NetUtils;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
 
@@ -16,7 +16,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
     public final static String ACTION_DORA_NETWORK_CHANGE = "dora.net.CONNECTIVITY_CHANGE";
 
     private static boolean mNetAvailable = false;
-    private static NetworkUtils.ApnType mApnType;
+    private static NetUtils.ApnType mApnType;
     private static ArrayList<NetworkChangeObserver> mNetChangeObservers;
     private static BroadcastReceiver mBroadcastReceiver;
 
@@ -36,13 +36,13 @@ public class NetworkStateReceiver extends BroadcastReceiver {
         mBroadcastReceiver = this;
         if (intent.getAction().equals(ACTION_ANDROID_NETWORK_CHANGE)
                 || intent.getAction().equals(ACTION_DORA_NETWORK_CHANGE)) {
-            if (!NetworkUtils.checkNetwork(context)) {
+            if (!NetUtils.checkNetwork(context)) {
                 Logger.i(this.getClass().getName() + ":network disconnected");
                 mNetAvailable = false;
             } else {
                 Logger.i(this.getClass().getName() + ":network connected");
                 mNetAvailable = true;
-                mApnType = NetworkUtils.getApnType(context);
+                mApnType = NetUtils.getApnType(context);
             }
             notifyObserver();
         }
@@ -71,7 +71,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
         return mNetAvailable;
     }
 
-    public static NetworkUtils.ApnType getApnType() {
+    public static NetUtils.ApnType getApnType() {
         return mApnType;
     }
 

@@ -6,8 +6,8 @@ import android.content.Context;
 import java.lang.reflect.Method;
 
 import dora.net.NetworkStateReceiver;
-import dora.util.KeyValueUtils;
-import dora.util.ReflectionUtils;
+import dora.util.KVUtils;
+import dora.util.ReflectUtils;
 
 public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
@@ -17,10 +17,10 @@ public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
     @Override
     public void onCreate(Application application) {
-        Method getInstance = ReflectionUtils.newMethod(KeyValueUtils.class,
+        Method getInstance = ReflectUtils.newMethod(KVUtils.class,
                 true, "getInstance", Context.class);
         if (getInstance != null) {
-            ReflectionUtils.invokeMethod(null, getInstance, application);
+            ReflectUtils.invokeMethod(null, getInstance, application);
         }
         NetworkStateReceiver.registerNetworkStateReceiver(application);
     }

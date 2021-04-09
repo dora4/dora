@@ -8,9 +8,9 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public final class ReflectionUtils {
+public final class ReflectUtils {
 
-    private ReflectionUtils() {
+    private ReflectUtils() {
     }
 
     // <editor-folder desc="Java类、方法、属性的创建和基本操作">

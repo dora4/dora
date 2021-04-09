@@ -5,27 +5,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentTransaction;
-import dora.cache.Cache;
-import dora.cache.CacheType;
-import dora.cache.LruCache;
-import dora.log.Logger;
-import dora.net.NetworkChangeObserver;
-import dora.net.NetworkStateReceiver;
-import dora.permission.Action;
-import dora.permission.PermissionManager;
-import dora.util.*;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import dora.log.Logger;
+import dora.net.NetworkChangeObserver;
+import dora.net.NetworkStateReceiver;
+import dora.permission.Action;
+import dora.permission.PermissionManager;
+import dora.util.FragmentUtils;
+import dora.util.GlobalContext;
+import dora.util.IntentUtils;
+import dora.util.KVUtils;
+import dora.util.MultiLanguageUtils;
+import dora.util.NetUtils;
+import dora.util.StatusBarUtils;
+import dora.util.ToastUtils;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
         implements ActivityCache, PageSwitcher {
@@ -61,7 +67,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         onSetupComponent();
         mNetworkChangeObserver = new NetworkChangeObserver() {
             @Override
-            public void onNetworkConnect(NetworkUtils.ApnType type) {
+            public void onNetworkConnect(NetUtils.ApnType type) {
                 onNetworkConnected(type);
             }
 
@@ -313,7 +319,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
      *
      * @param type
      */
-    protected void onNetworkConnected(NetworkUtils.ApnType type) {
+    protected void onNetworkConnected(NetUtils.ApnType type) {
     }
 
     /**
@@ -342,9 +348,9 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     public synchronized Cache<String, Object> loadCache() {
         if (mCache == null) {
             mCache = cacheFactory().build(CacheType.ACTIVITY_CACHE, this);
-            Set<String> keys = KeyValueUtils.getInstance().cacheKeys();
+            Set<String> keys = KVUtils.getInstance().cacheKeys();
             for (String key : keys) {
-                Object cache = KeyValueUtils.getInstance().getCacheFromMemory(key);
+                Object cache = KVUtils.getInstance().getCacheFromMemory(key);
                 mCache.put(key, cache);
             }
         }

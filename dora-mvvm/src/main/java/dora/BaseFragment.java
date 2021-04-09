@@ -7,21 +7,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import dora.cache.Cache;
-import dora.cache.CacheType;
-import dora.cache.LruCache;
-import dora.util.*;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import dora.util.GlobalContext;
+import dora.util.IntentUtils;
+import dora.util.KVUtils;
+import dora.util.MultiLanguageUtils;
+import dora.util.ToastUtils;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
         FragmentCache, PageSwitcher {
@@ -195,9 +198,9 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public synchronized Cache<String, Object> loadCache() {
         if (mCache == null) {
             mCache = cacheFactory().build(CacheType.FRAGMENT_CACHE, getContext());
-            Set<String> keys = KeyValueUtils.getInstance().cacheKeys();
+            Set<String> keys = KVUtils.getInstance().cacheKeys();
             for (String key : keys) {
-                Object cache = KeyValueUtils.getInstance().getCacheFromMemory(key);
+                Object cache = KVUtils.getInstance().getCacheFromMemory(key);
                 mCache.put(key, cache);
             }
         }

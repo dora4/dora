@@ -1,21 +1,22 @@
 package dora.util;
 
 import android.content.Context;
-import dora.cache.Cache;
-import dora.cache.CacheType;
-import dora.cache.LruCache;
 
 import java.util.Set;
+
+import dora.Cache;
+import dora.CacheType;
+import dora.LruCache;
 
 /**
  * 内存缓存工具。
  */
-public final class KeyValueUtils {
+public final class KVUtils {
 
-    private static KeyValueUtils mInstance;
+    private static KVUtils mInstance;
     private Cache<String, Object> mCache;
 
-    private KeyValueUtils(Context context) {
+    private KVUtils(Context context) {
         mCache = new Cache.Factory() {
 
             @Override
@@ -69,18 +70,18 @@ public final class KeyValueUtils {
         return "no key found";
     }
 
-    public static KeyValueUtils getInstance() {
+    public static KVUtils getInstance() {
         if (mInstance == null) {
             throw new IllegalStateException("dora.BaseApplication未被使用");
         }
         return mInstance;
     }
 
-    private static KeyValueUtils getInstance(Context context) {
+    private static KVUtils getInstance(Context context) {
         if (mInstance == null) {
-            synchronized (KeyValueUtils.class) {
+            synchronized (KVUtils.class) {
                 if (mInstance == null)
-                     mInstance = new KeyValueUtils(context);
+                    mInstance = new KVUtils(context);
             }
         }
         return mInstance;

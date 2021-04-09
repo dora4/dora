@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import dora.cache.Cache;
-
 import java.util.ArrayList;
 import java.util.List;
 

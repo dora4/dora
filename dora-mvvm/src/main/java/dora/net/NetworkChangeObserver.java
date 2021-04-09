@@ -1,10 +1,10 @@
 package dora.net;
 
-import dora.util.NetworkUtils;
+import dora.util.NetUtils;
 
 public interface NetworkChangeObserver {
 
-    void onNetworkConnect(NetworkUtils.ApnType type);
+    void onNetworkConnect(NetUtils.ApnType type);
 
     void onNetworkDisconnect();
 }
