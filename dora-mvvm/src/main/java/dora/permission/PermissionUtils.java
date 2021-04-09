@@ -12,7 +12,9 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -178,6 +180,7 @@ final class PermissionUtils {
     /**
      * 判断某些权限是否全部被授予
      */
+    @RequiresApi(api = 30)
     static boolean isGrantedPermissions(Context context, List<String> permissions) {
         // 如果是安卓 6.0 以下版本就直接返回 true
         if (!isAndroid6()) {
@@ -196,6 +199,7 @@ final class PermissionUtils {
     /**
      * 获取没有授予的权限
      */
+    @RequiresApi(api = 30)
     static List<String> getDeniedPermissions(Context context, List<String> permissions) {
         List<String> deniedPermission = new ArrayList<>(permissions.size());
 
@@ -424,7 +428,7 @@ final class PermissionUtils {
     /**
      * 寻找上下文中的 Activity 对象
      */
-    static AppCompatActivity findFragmentActivity(Context context) {
+    static FragmentActivity findFragmentActivity(Context context) {
         do {
             if (context instanceof AppCompatActivity) {
                 return (AppCompatActivity) context;

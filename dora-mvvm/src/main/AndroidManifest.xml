@@ -1,10 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="dora">
+    package="dora">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
     <application>
         <activity
             android:name=".permission.bridge.PermissionBridgeActivity"
@@ -12,7 +13,7 @@
             android:theme="@style/Theme.Dora.Permission" />
         <receiver android:name=".net.NetworkStateReceiver">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="dora.net.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
