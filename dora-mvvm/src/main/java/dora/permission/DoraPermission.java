@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -145,7 +145,7 @@ public final class DoraPermission {
         boolean debugMode = isDebugMode(mContext);
 
         // 检查当前 Activity 状态是否是正常的，如果不是则不请求权限
-        AppCompatActivity fragmentActivity = PermissionUtils.findFragmentActivity(mContext);
+        FragmentActivity fragmentActivity = PermissionUtils.findFragmentActivity(mContext);
         if (!PermissionChecker.checkActivityStatus(fragmentActivity, debugMode)) {
             return;
         }
