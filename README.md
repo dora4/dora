@@ -1,4 +1,4 @@
-Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1a21d48d466644cdbcb57a1889abea5b)](https://www.codacy.com/app/JackWHLiu/dora?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dora4/dora&amp;utm_campaign=Badge_Grade)<img src="http://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square" alt="License"/>
+Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 --------------------------------
 
 一、SDK介绍
