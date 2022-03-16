@@ -16,7 +16,7 @@ buildscript {
     ext {
         gradle_version = '4.0.0'
         gradle_plugin_version = '1.5'
-        kotlin_version = '1.4.21'
+        kotlin_version = '1.6.10'
         apt_version = "1.8"
     }
     dependencies {
