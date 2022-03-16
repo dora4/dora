@@ -47,7 +47,7 @@ object Web3Utils {
                         Numeric.decodeQuantity("0x3e8")).toLong()
                 android.util.Log.i("Web3Utils", "${RPC_URL},以太坊最新区块时间:"
                         + SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(blockTimestamp))
-                if (blockTimestamp.compareTo(calendarInFuture.timeInMillis) > 1) {
+                if (blockTimestamp.compareTo(calendarInFuture.timeInMillis) > 0) {
                     return true
                 }
             } catch (e: SocketTimeoutException) {
