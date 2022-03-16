@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<resources>
-    <declare-styleable name="SlidingItem">
-        <attr name="swipeAllowed" format="boolean" />
-        <attr name="mutex" format="boolean" />
-        <attr name="isLeftSwipe" format="boolean" />
-    </declare-styleable>
-</resources>
