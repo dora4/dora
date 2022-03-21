@@ -76,6 +76,9 @@ public class NetworkStateReceiver extends BroadcastReceiver {
     }
 
     private void notifyObserver() {
+        if (mNetChangeObservers == null) {
+            return;
+        }
         if (!mNetChangeObservers.isEmpty()) {
             int size = mNetChangeObservers.size();
             for (int i = 0; i < size; i++) {
