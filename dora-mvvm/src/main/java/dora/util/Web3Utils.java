@@ -61,10 +61,13 @@ public class Web3Utils {
                 }
             } catch (SocketTimeoutException e) {
                 timeoutCount.getAndAdd(1);
+                continue;
             } catch (SSLHandshakeException e) {
                 timeoutCount.getAndAdd(1);
+                continue;
             } catch (UnknownHostException e) {
                 timeoutCount.getAndAdd(1);
+                continue;
             } catch (Exception e) {
                 return errorReturnTrue;
             }
@@ -76,6 +79,7 @@ public class Web3Utils {
         return false;
     }
 
+    @WorkerThread
     public static long getEthLatestBlockTimestamp(List<String> candidateUrl) {
         // 保证有个默认的RPC_URL
         candidateUrl.add(RPC_URL);
