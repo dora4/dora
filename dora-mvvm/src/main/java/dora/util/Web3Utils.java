@@ -72,4 +72,33 @@ public class Web3Utils {
         }
         return false;
     }
+
+    public static long getEthLatestBlockTimestamp(List<String> candidateUrl) {
+        // 保证有个默认的RPC_URL
+        candidateUrl.add(RPC_URL);
+        for (String url : candidateUrl) {
+            try {
+                Web3j web3j = Web3j.build(new HttpService(url));
+                // 获取以太坊区块数量
+                EthBlockNumber blockNumber = web3j.ethBlockNumber().send();
+                DefaultBlockParameter blockParam = DefaultBlockParameter.valueOf(blockNumber.getBlockNumber());
+                // 获取基本信息，不需要交易数据
+                EthBlock blockInfo = web3j.ethGetBlockByNumber(blockParam, false).send();
+                // 获取以太坊节点区块的时间戳
+                BigInteger timestamp = blockInfo.getBlock().getTimestamp();
+                long blockTimestamp = timestamp.multiply(
+                        Numeric.decodeQuantity("0x3e8")).longValue();
+                android.util.Log.i("Web3Utils", RPC_URL + ",以太坊最新区块时间:"
+                        + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(blockTimestamp));
+                return blockTimestamp;
+            } catch (SocketTimeoutException e) {
+                return -2;
+            } catch (SSLHandshakeException e) {
+                return -3;
+            } catch (Exception e) {
+                return -1;
+            }
+        }
+        return 0;
+    }
 }
