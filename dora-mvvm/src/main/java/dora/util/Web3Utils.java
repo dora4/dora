@@ -95,15 +95,11 @@ public class Web3Utils {
                         + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(blockTimestamp));
                 return blockTimestamp;
             } catch (SocketTimeoutException e) {
-                return -2;
             } catch (SSLHandshakeException e) {
-                return -3;
             } catch (UnknownHostException e) {
-                return -4;
             } catch (Exception e) {
-                return -1;
             }
         }
-        return 0;
+        return -1;
     }
 }
