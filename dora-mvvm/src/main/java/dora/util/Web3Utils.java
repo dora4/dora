@@ -16,9 +16,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.net.ssl.SSLHandshakeException;
+
 public class Web3Utils {
 
-    public static final String RPC_URL = "https://api.mycryptoapi.com/eth";
+    public static final String RPC_URL = "https://eth-mainnet.token.im";
 
     /**
      * 获取未来的某个时刻是否已经到来。
@@ -38,7 +40,7 @@ public class Web3Utils {
         }
         AtomicInteger timeoutCount = new AtomicInteger(0);
         // 保证有个默认的RPC_URL
-        candidateUrl.add(0, RPC_URL);
+        candidateUrl.add(RPC_URL);
         for (String url : candidateUrl) {
             try {
                 Web3j web3j = Web3j.build(new HttpService(url));
@@ -57,6 +59,8 @@ public class Web3Utils {
                     return true;
                 }
             } catch (SocketTimeoutException e) {
+                timeoutCount.getAndAdd(1);
+            } catch (SSLHandshakeException e) {
                 timeoutCount.getAndAdd(1);
             } catch (Exception e) {
                 return errorReturnTrue;
