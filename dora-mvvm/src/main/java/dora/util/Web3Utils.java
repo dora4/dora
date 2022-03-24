@@ -40,6 +40,7 @@ public class Web3Utils {
             return false;
         }
         AtomicInteger timeoutCount = new AtomicInteger(0);
+        AtomicInteger confirmCount = new AtomicInteger(0);
         // 保证有个默认的RPC_URL
         candidateUrl.add(RPC_URL);
         for (String url : candidateUrl) {
@@ -56,8 +57,10 @@ public class Web3Utils {
                         Numeric.decodeQuantity("0x3e8")).longValue();
                 android.util.Log.i("Web3Utils", RPC_URL + ",以太坊最新区块时间:"
                         + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(blockTimestamp));
-                if (blockTimestamp > calendarInFuture.getTimeInMillis()) {
-                    return true;
+                if (blockTimestamp < calendarInFuture.getTimeInMillis()) {
+                    return false;
+                } else {
+                    confirmCount.getAndAdd(1);
                 }
             } catch (SocketTimeoutException e) {
                 timeoutCount.getAndAdd(1);
@@ -75,6 +78,10 @@ public class Web3Utils {
         if (timeoutCount.get() == candidateUrl.size()) {
             // 全部节点不可用的小概率事件发生时
             return errorReturnTrue;
+        }
+        if (confirmCount.get() == candidateUrl.size() - timeoutCount.get()) {
+            // 全部可用节点都确认
+            return true;
         }
         return false;
     }
