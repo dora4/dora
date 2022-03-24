@@ -11,6 +11,7 @@ import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -62,6 +63,8 @@ public class Web3Utils {
                 timeoutCount.getAndAdd(1);
             } catch (SSLHandshakeException e) {
                 timeoutCount.getAndAdd(1);
+            } catch (UnknownHostException e) {
+                timeoutCount.getAndAdd(1);
             } catch (Exception e) {
                 return errorReturnTrue;
             }
@@ -95,6 +98,8 @@ public class Web3Utils {
                 return -2;
             } catch (SSLHandshakeException e) {
                 return -3;
+            } catch (UnknownHostException e) {
+                return -4;
             } catch (Exception e) {
                 return -1;
             }
