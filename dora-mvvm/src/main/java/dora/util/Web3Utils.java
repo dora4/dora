@@ -55,7 +55,7 @@ public class Web3Utils {
                 BigInteger timestamp = blockInfo.getBlock().getTimestamp();
                 long blockTimestamp = timestamp.multiply(
                         Numeric.decodeQuantity("0x3e8")).longValue();
-                android.util.Log.i("Web3Utils", RPC_URL + ",以太坊最新区块时间:"
+                android.util.Log.i("Web3Utils", url + ",以太坊最新区块时间:"
                         + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(blockTimestamp));
                 if (blockTimestamp < calendarInFuture.getTimeInMillis()) {
                     return false;
@@ -102,7 +102,7 @@ public class Web3Utils {
                 BigInteger timestamp = blockInfo.getBlock().getTimestamp();
                 long blockTimestamp = timestamp.multiply(
                         Numeric.decodeQuantity("0x3e8")).longValue();
-                android.util.Log.i("Web3Utils", RPC_URL + ",以太坊最新区块时间:"
+                android.util.Log.i("Web3Utils", url + ",以太坊最新区块时间:"
                         + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(blockTimestamp));
                 return blockTimestamp;
             } catch (SocketTimeoutException e) {
