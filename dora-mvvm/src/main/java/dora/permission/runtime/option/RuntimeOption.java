@@ -1,6 +1,7 @@
 package dora.permission.runtime.option;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+
 import dora.permission.runtime.PermissionRequest;
 import dora.permission.runtime.setting.SettingRequest;
 

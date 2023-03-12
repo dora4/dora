@@ -9,12 +9,12 @@
     <application>
         <activity
             android:name=".permission.bridge.PermissionBridgeActivity"
-            android:export="true"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Dora.Permission" />
         <receiver
             android:name=".net.NetworkStateReceiver"
-            android:export="true">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="dora.net.CONNECTIVITY_CHANGE"/>

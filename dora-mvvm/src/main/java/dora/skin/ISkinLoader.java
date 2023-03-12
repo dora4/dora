@@ -3,10 +3,11 @@ package dora.skin;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 
 /**
  * 这个接口提供了一组从皮肤资源包中加载和显示图片和颜色资源的API。
