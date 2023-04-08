@@ -6,7 +6,6 @@ import java.util.Set;
 
 import dora.Cache;
 import dora.CacheType;
-import dora.LruCache;
 
 /**
  * 内存缓存工具。

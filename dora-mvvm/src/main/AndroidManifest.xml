@@ -7,11 +7,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application>
-        <activity
-            android:name=".permission.bridge.PermissionBridgeActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Dora.Permission" />
         <receiver
             android:name=".net.NetworkStateReceiver"
             android:exported="true">

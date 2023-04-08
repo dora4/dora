@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import dora.AppManager;
-
 public final class IntentUtils {
 
     private IntentUtils() {

@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import dora.util.GlobalContext;
 import dora.util.IntentUtils;
 import dora.util.KVUtils;
+import dora.util.LruCache;
 import dora.util.MultiLanguageUtils;
 import dora.util.ToastUtils;
 
@@ -31,12 +31,13 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
-    protected Cache<String, Object> mCache;
+    protected Cache mCache;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding = DataBindingUtil.bind(view);
+        assert mBinding != null;
         mBinding.setLifecycleOwner(this);
         onSetupComponent();
         initData(savedInstanceState);
@@ -81,20 +82,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         }
     }
 
-    public void toast(String msg) {
-        toast(GlobalContext.get(), msg);
+    public void showShortToast(String msg) {
+        ToastUtils.showShort(getContext(), msg);
     }
 
-    public void toast(Context context, String msg) {
-        ToastUtils.showShort(context, msg);
-    }
-
-    public void toastL(String msg) {
-        toastL(GlobalContext.get(), msg);
-    }
-
-    public void toastL(Context context, String msg) {
-        ToastUtils.showLong(context, msg);
+    public void showLongToast(String msg) {
+        ToastUtils.showLong(getContext(), msg);
     }
 
     public void openActivity(Class<? extends Activity> activityClazz) {

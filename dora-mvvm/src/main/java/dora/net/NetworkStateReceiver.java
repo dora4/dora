@@ -7,7 +7,7 @@ import android.content.IntentFilter;
 
 import java.util.ArrayList;
 
-import dora.log.Logger;
+import dora.util.LogUtils;
 import dora.util.NetUtils;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
@@ -36,11 +36,11 @@ public class NetworkStateReceiver extends BroadcastReceiver {
         mBroadcastReceiver = this;
         if (intent.getAction().equals(ACTION_ANDROID_NETWORK_CHANGE)
                 || intent.getAction().equals(ACTION_DORA_NETWORK_CHANGE)) {
-            if (!NetUtils.checkNetwork(context)) {
-                Logger.i(this.getClass().getName() + ":network disconnected");
+            if (!NetUtils.checkNetworkAvailable(context)) {
+                LogUtils.i(this.getClass().getName() + ":network disconnected");
                 mNetAvailable = false;
             } else {
-                Logger.i(this.getClass().getName() + ":network connected");
+                LogUtils.i(this.getClass().getName() + ":network connected");
                 mNetAvailable = true;
                 mApnType = NetUtils.getApnType(context);
             }

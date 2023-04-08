@@ -3,7 +3,6 @@ package dora;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,26 +10,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import dora.log.Logger;
 import dora.net.NetworkChangeObserver;
 import dora.net.NetworkStateReceiver;
-import dora.permission.Action;
-import dora.permission.PermissionManager;
 import dora.util.FragmentUtils;
-import dora.util.GlobalContext;
 import dora.util.IntentUtils;
 import dora.util.KVUtils;
+import dora.util.LruCache;
 import dora.util.MultiLanguageUtils;
 import dora.util.NetUtils;
-import dora.util.StatusBarUtils;
 import dora.util.ToastUtils;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
@@ -61,10 +55,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 状态栏优先于布局设置
+        onSetStatusBar();
         mBinding = DataBindingUtil.setContentView(this, getLayoutId());
         mBinding.setLifecycleOwner(this);
-        onShowStatusBar();
-        onSetupComponent();
         mNetworkChangeObserver = new NetworkChangeObserver() {
             @Override
             public void onNetworkConnect(NetUtils.ApnType type) {
@@ -79,99 +73,37 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         NetworkStateReceiver.registerObserver(mNetworkChangeObserver);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+        // 在initData之前读取必要的extras
         onGetExtras(intent.getAction(), bundle, intent);
-        if (requirePermissions().length > 0) {
-            onShowRequiredPermissionDialog(new OnConfirmPermissionListener() {
-                @Override
-                public void onConfirm(boolean ok) {
-                    if (ok) {
-                        PermissionManager.with(BaseActivity.this)
-                                .runtime()
-                                .permission(requirePermissions())
-                                .onGranted(new Action<List<String>>() {
-                                    @Override
-                                    public void onAction(List<String> permissions) {
-                                        initData(savedInstanceState);
-                                    }
-                                })
-                                .onDenied(new Action<List<String>>() {
-                                    @Override
-                                    public void onAction(List<String> permissions) {
-                                        for (String permission : permissions) {
-                                            Logger.e("未授予权限" + permission);
-                                        }
-                                        //勉为其难加载没有同意权限的界面
-                                        initDataWithoutPermission(savedInstanceState);
-                                    }
-                                })
-                                .start();
-                    } else {
-                        initDataWithoutPermission(savedInstanceState);
-                    }
-                }
-            });
-        } else {
-            initData(savedInstanceState);
-        }
-    }
-
-    public interface OnConfirmPermissionListener {
-
-        /**
-         * 是否显示出对话框让用户确认了权限是要同意的，否则将导致部分功能不可用。
-         *
-         * @param ok true代表放行申请权限操作，false则不再申请权限
-         */
-        void onConfirm(boolean ok);
+        initData(savedInstanceState);
     }
 
     /**
-     * 提示用户必须要同意的运行时权限。
-     *
-     * @return
-     */
-    protected void onShowRequiredPermissionDialog(OnConfirmPermissionListener listener) {
-        listener.onConfirm(true);
-    }
-
-    /**
-     * 没有同意权限加载基础的界面。
-     *
-     * @param savedInstanceState
-     */
-    protected void initDataWithoutPermission(Bundle savedInstanceState) {
-    }
-
-    /**
-     * 如果需要支持在Activity内部切换Fragment，重写它。
+     * 如果需要支持在Activity中流式切换Fragment，重写它。
      *
      * @param name
      * @return
      */
-    protected BaseFragment<?> getFragment(String name) {
+    protected BaseFragment<?> getFlowFragment(String name) {
         return null;
     }
 
-    protected int getFragmentContainerId() {
+    /**
+     * 重写它指定流式切换Fragment的容器ID。
+     *
+     * @return
+     */
+    protected int getFlowFragmentContainerId() {
         return 0;
     }
 
-    private int getCacheFragmentId() {
-        int cacheFragmentId = getFragmentContainerId();
-        if (cacheFragmentId != 0) {
-            return getFragmentContainerId();
+    private int getDefaultFlowFragmentContainerId() {
+        int defFragmentId = getFlowFragmentContainerId();
+        if (defFragmentId != 0) {
+            return getFlowFragmentContainerId();
         } else {
             return android.R.id.content;
         }
-    }
-
-    private FragmentTransaction getHideTransaction() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        for (BaseFragment<?> fragment : mFragmentCache.values()) {
-            transaction.hide(fragment);
-        }
-        mFragmentCache.clear();
-        return transaction;
     }
 
     @Override
@@ -179,12 +111,13 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         if (mFragmentCache.containsKey(name)) {
             BaseFragment<?> fragment = mFragmentCache.get(name);
             if (fragment != null) {
-                getSupportFragmentManager().beginTransaction().show(fragment).commit();
+                FragmentUtils.show(fragment);
             }
         } else {
-            BaseFragment<?> fragment = getFragment(name);
-            getHideTransaction().commit();
-            FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
+            BaseFragment<?> fragment = getFlowFragment(name);
+            hideFragments(mFragmentCache.values());
+            mFragmentCache.clear();
+            FragmentUtils.add(getSupportFragmentManager(), fragment, getDefaultFlowFragmentContainerId());
             mFragmentCache.put(name, fragment);
         }
     }
@@ -196,58 +129,96 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             if (fragment != null) {
                 fragment.setArguments(extras.convertToBundle());
                 fragment.onGetExtras(extras.convertToBundle());
-                getSupportFragmentManager().beginTransaction().show(fragment).commit();
+                FragmentUtils.show(fragment);
             }
         } else {
-            BaseFragment<?> fragment = getFragment(name);
+            BaseFragment<?> fragment = getFlowFragment(name);
             fragment.setArguments(extras.convertToBundle());
             fragment.onGetExtras(extras.convertToBundle());
-            getHideTransaction().commit();
-            FragmentUtils.add(getSupportFragmentManager(), fragment, getCacheFragmentId());
+            hideFragments(mFragmentCache.values());
+            mFragmentCache.clear();
+            FragmentUtils.add(getSupportFragmentManager(), fragment, getDefaultFlowFragmentContainerId());
             mFragmentCache.put(name, fragment);
         }
     }
 
-    protected String[] getFragmentPages() {
+    /**
+     * 在显示Fragment之前要先调用这个方法。
+     *
+     *     private void showXxxFragment() {
+     *         hideFragments(allFragments);
+     *         if (xxxFragment == null) {
+     *             xxxFragment = new XxxFragment();
+     *             FragmentUtils.add(getSupportFragmentManager(), xxxFragment, R.id.fragmentContainer);
+     *         }
+     *         FragmentUtils.show(privateKeyInputFragment);
+     *     }
+     *
+     * 另外，初始化所有Fragment应该在最前面。
+     *
+     *     private void initFragments() {
+     *         if (xxxFragment == null) {
+     *             xxxFragment = XxxFragment();
+     *             FragmentUtils.add(getSupportFragmentManager(), xxxFragment, R.id.fragmentContainer);
+     *         }
+     *         if (yyyFragment == null) {
+     *             yyyFragment = YyyFragment();
+     *             FragmentUtils.add(getSupportFragmentManager(), yyyFragment, R.id.fragmentContainer);
+     *         }
+     *         if (zzzFragment == null) {
+     *             zzzFragment = ZzzFragment();
+     *             FragmentUtils.add(getSupportFragmentManager(), zzzFragment, R.id.fragmentContainer);
+     *         }
+     *     }
+     *
+     * @param fragments
+     */
+    protected void hideFragments(Collection<BaseFragment<?>> fragments) {
+        if (fragments == null) {
+            return;
+        }
+        for (BaseFragment<?> fragment : fragments) {
+            FragmentUtils.hide(fragment);
+        }
+    }
+
+    /**
+     * 获取Activity中所有支持流式切换的Fragment的自定义key的名称。
+     *
+     * @return
+     */
+    protected String[] getFlowFragmentPages() {
         return new String[0];
     }
 
     @Override
     public void nextPage() {
-        if (mFragmentPageIndex == getFragmentPages().length - 1) {
+        if (mFragmentPageIndex == getFlowFragmentPages().length - 1) {
             mFragmentPageIndex = -1;
         }
-        if (getFragmentPages().length > 1 && mFragmentPageIndex < getFragmentPages().length - 1) {
-            String pageName = getFragmentPages()[++mFragmentPageIndex];
+        if (getFlowFragmentPages().length > 1 && mFragmentPageIndex < getFlowFragmentPages().length - 1) {
+            String pageName = getFlowFragmentPages()[++mFragmentPageIndex];
             showPage(pageName);
         }
     }
 
     @Override
     public void nextPage(IntentUtils.Extras extras) {
-        if (mFragmentPageIndex == getFragmentPages().length - 1) {
+        if (mFragmentPageIndex == getFlowFragmentPages().length - 1) {
             mFragmentPageIndex = -1;
         }
-        if (getFragmentPages().length > 1 && mFragmentPageIndex < getFragmentPages().length - 1) {
-            String pageName = getFragmentPages()[++mFragmentPageIndex];
+        if (getFlowFragmentPages().length > 1 && mFragmentPageIndex < getFlowFragmentPages().length - 1) {
+            String pageName = getFlowFragmentPages()[++mFragmentPageIndex];
             showPage(pageName, extras);
         }
     }
 
-    public void toast(String msg) {
-        toast(GlobalContext.get(), msg);
+    public void showShortToast(String msg) {
+        ToastUtils.showShort(this, msg);
     }
 
-    public void toast(Context context, String msg) {
-        ToastUtils.showShort(context, msg);
-    }
-
-    public void toastL(String msg) {
-        toastL(GlobalContext.get(), msg);
-    }
-
-    public void toastL(Context context, String msg) {
-        ToastUtils.showLong(context, msg);
+    public void showLongToast(String msg) {
+        ToastUtils.showLong(this, msg);
     }
 
     public void openActivity(Class<? extends Activity> activityClazz) {
@@ -294,18 +265,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         IntentUtils.startActivity(activityClazz, extras);
     }
 
-    /**
-     * 安装Dagger的Component。
-     */
-    protected void onSetupComponent() {
-    }
-
-    protected void onShowStatusBar() {
-        StatusBarUtils.setStatusBarColor(this, Color.BLACK);
-    }
-
-    protected String[] requirePermissions() {
-        return new String[0];
+    protected void onSetStatusBar() {
     }
 
     @Override

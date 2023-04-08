@@ -35,7 +35,7 @@ public class Web3Utils {
     @WorkerThread
     public static boolean isFutureTimeArrived(Calendar calendarInFuture, List<String> candidateUrl,
                                               boolean errorReturnTrue) {
-        if (!NetUtils.checkNetwork()) {
+        if (!NetUtils.checkNetworkAvailable()) {
             // 没网，不解锁
             return false;
         }

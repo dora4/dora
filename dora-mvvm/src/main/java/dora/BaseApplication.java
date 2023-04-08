@@ -3,11 +3,13 @@ package dora;
 import android.app.Application;
 import android.content.Context;
 
+import dora.lifecycle.application.AppDelegate;
+import dora.lifecycle.application.ApplicationLifecycleCallbacks;
 import dora.util.MultiLanguageUtils;
 
 /**
  * 继承这个类就相当于在AndroidManifest.xml中的application节点自动添加了
- * <metadata name="dora.DefaultGlobalConfig" value="GlobalConfig"/>
+ * <metadata name="dora.lifecycle.config.DefaultGlobalConfig" value="GlobalConfig"/>
  */
 public class BaseApplication extends Application {
 

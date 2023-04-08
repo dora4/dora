@@ -15,11 +15,11 @@ public final class NetUtils {
     private NetUtils() {
     }
 
-    public static boolean checkNetwork() {
-        return checkNetwork(GlobalContext.get());
+    public static boolean checkNetworkAvailable() {
+        return checkNetworkAvailable(GlobalContext.get());
     }
 
-    public static boolean checkNetwork(Context context) {
+    public static boolean checkNetworkAvailable(Context context) {
         NetworkInfo networkInfo = getActiveNetworkInfo(context);
         return networkInfo != null && networkInfo.isConnected();
     }
