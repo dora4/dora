@@ -12,14 +12,14 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 二、功能介绍
 
 - 在Android手机系统进行文件读写的API，比JDK更简洁
-- Android6.0以上手机需要的运行时权限的申请
-- 不同分辨率Android手机的显示效果适配
-- 更换APP皮肤
-- 使用ORM将数据存储在Android手机系统数据库SQLite
+- Android6.0以上手机需要的运行时权限的申请（已移除）
+- 不同分辨率Android手机的显示效果适配（已移除）
+- 更换APP皮肤（已移除）
+- 使用ORM将数据存储在Android手机系统数据库SQLite（已剥离为单独项目 https://github.com/dora4/dcache-android ）
 - 自动监听手机网络的变化
 - 可使用内存低的时候自动杀死本APP进程，在下次重启APP的时候不会有黑屏或白屏现象
 - 处理加载在Android手机上的图形，图像变换
-- 基于RecyclerView的列表视图API
+- 基于RecyclerView的列表视图API（已移除）
 - 代码任意位置使用Toast，无需关心当前是否是子线程
 - 系统状态栏和导航栏的沉浸式
 - 汉字转拼音的API
