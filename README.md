@@ -10,7 +10,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 二、功能介绍
 
 - 全局生命周期配置DefaultGlobalConfig、TaskStackGlobalConfig以及自定义配置，支持配置Application、Activity和Fragment的生命周期，一次编写，所有项目复用。
-    <!-- 全局生命周期配置，value配置为GlobalConfig，name为映射的配置类即可，可配置多个 -->
+       <!-- 全局生命周期配置，value配置为GlobalConfig，name为映射的配置类即可，可配置多个 -->
        <application>
             <meta-data
                 android:name="dora.TaskStackGlobalConfig"
@@ -28,13 +28,14 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
                 android:name="com.example.dora.lifecycle.YourCustomGlobalConfig"
                 android:value="GlobalConfig" />
         </application>
-    
+   
 - BaseActivity、BaseFragment封装，基于MVVM架构。支持Activity中Fragment的流式切换，完美的Fragment切换方案，无Fragment重叠情况。并支持在Activity中监听手机网络的变化。
 - DoraCrash一行代码配置将Crash信息写入文件。
 - 可使用内存低的时候自动杀死本APP进程，在下次重启APP的时候不会有黑屏或白屏现象。
 - 各种各样的工具类，开发无忧。如自动处理线程切换的ToastUtils让你更爽地弹吐司，复杂的Java文件读写等操作的封装，系统状态栏和导航栏适配工具、多语言国际化相关工具、图像处理相关工具、反射相关工具等。
 
 三、开始使用（教程 https://github.com/dora4/dora_samples ）
+
 ```groovy
 //添加以下代码到项目根目录下的build.gradle
 allprojects {
