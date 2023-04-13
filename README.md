@@ -10,6 +10,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 二、功能介绍
 
 - 全局生命周期配置DefaultGlobalConfig、TaskStackGlobalConfig以及自定义配置，支持配置Application、Activity和Fragment的生命周期，一次编写，所有项目复用。
+    
        <!-- 全局生命周期配置，value配置为GlobalConfig，name为映射的配置类即可，可配置多个 -->
        <application>
             <meta-data
