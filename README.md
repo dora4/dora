@@ -20,7 +20,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
                 android:name="dora.lifecycle.config.EventBusGlobalConfig"
                 android:value="GlobalConfig" />
             <meta-data
-                android:name="com.example.dora.lifecycle.ARouterGlobalConfig"
+                android:name="dora.lifecycle.config.ARouterGlobalConfig"
                 android:value="GlobalConfig" />
             <meta-data
                 android:name="com.example.dora.lifecycle.RetrofitGlobalConfig"
