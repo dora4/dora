@@ -7,29 +7,33 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 
 ![avatar](https://github.com/dora4/dora/blob/master/Dora.gif)
 
-
-
 二、功能介绍
 
-- 在Android手机系统进行文件读写的API，比JDK更简洁
-- Android6.0以上手机需要的运行时权限的申请（已移除）
-- 不同分辨率Android手机的显示效果适配（已移除）
-- 更换APP皮肤（已移除）
-- 使用ORM将数据存储在Android手机系统数据库SQLite（已剥离为单独项目 https://github.com/dora4/dcache-android ）
-- 自动监听手机网络的变化
-- 可使用内存低的时候自动杀死本APP进程，在下次重启APP的时候不会有黑屏或白屏现象
-- 处理加载在Android手机上的图形，图像变换
-- 基于RecyclerView的列表视图API（已移除）
-- 代码任意位置使用Toast，无需关心当前是否是子线程
-- 系统状态栏和导航栏的沉浸式
-- 汉字转拼音的API
-
-
+- 全局生命周期配置DefaultGlobalConfig、TaskStackGlobalConfig以及自定义配置，支持配置Application、Activity和Fragment的生命周期，一次编写，所有项目复用。
+ 		<!-- 全局生命周期配置，value配置为GlobalConfig，name为映射的配置类即可，可配置多个 -->
+   <application>
+        <meta-data
+            android:name="dora.TaskStackGlobalConfig"
+            android:value="GlobalConfig" /> 
+        <meta-data
+            android:name="dora.lifecycle.config.EventBusGlobalConfig"
+            android:value="GlobalConfig" />
+        <meta-data
+            android:name="com.example.dora.lifecycle.ARouterGlobalConfig"
+            android:value="GlobalConfig" />
+        <meta-data
+            android:name="com.example.dora.lifecycle.RetrofitGlobalConfig"
+            android:value="GlobalConfig" />
+        <meta-data
+            android:name="com.example.dora.lifecycle.YourCustomGlobalConfig"
+            android:value="GlobalConfig" />
+    </application>
+- BaseActivity、BaseFragment封装，基于MVVM架构。支持Activity中Fragment的流式切换，完美的Fragment切换方案，无Fragment重叠情况。并支持在Activity中监听手机网络的变化。
+- DoraCrash一行代码配置将Crash信息写入文件。
+- 可使用内存低的时候自动杀死本APP进程，在下次重启APP的时候不会有黑屏或白屏现象。
+- 各种各样的工具类，开发无忧。如自动处理线程切换的ToastUtils让你更爽地弹吐司，复杂的Java文件读写等操作的封装，系统状态栏和导航栏适配工具、多语言国际化相关工具、图像处理相关工具、反射相关工具等。
 
 三、开始使用（教程 https://github.com/dora4/dora_samples ）
-
-由于此SDK仅支持Android Studio的开发，不支持Eclipse的开发。如果你使用Eclipse开发的话，可以从Github下载一份最新的源代码，添加到项目中。
-
 ```groovy
 //添加以下代码到项目根目录下的build.gradle
 allprojects {
@@ -42,11 +46,8 @@ dependencies {
     implementation 'com.github.dora4:dora:latest'
 }
 ```
-
 latest换成JitPack编译出来的最新绿色可用版本，如1.0.0，这样代码就变成了implementation 'com.github.dora4:dora:1.0.0'。
 
 
 
 如果你觉得有用的话，不妨点击Github网页右上角的Fork按钮，让更多的人受益！
-
-Git命令克隆一份源代码到本地： git clone https://github.com/dora4/dora
