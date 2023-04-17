@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 import dora.net.NetworkStateReceiver;
 import dora.util.KVUtils;
-import dora.util.ReflectUtils;
+import dora.util.ReflectionUtils;
 
 public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
@@ -17,10 +17,10 @@ public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
     @Override
     public void onCreate(Application application) {
-        Method getInstance = ReflectUtils.newMethod(KVUtils.class,
+        Method getInstance = ReflectionUtils.findMethod(KVUtils.class,
                 true, "getInstance", Context.class);
         if (getInstance != null) {
-            ReflectUtils.invokeMethod(null, getInstance, application);
+            ReflectionUtils.invokeMethod(null, getInstance, application);
         }
         NetworkStateReceiver.registerNetworkStateReceiver(application);
     }

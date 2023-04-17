@@ -2,6 +2,9 @@ package dora.util;
 
 import android.app.Application;
 
+/**
+ * 如果是动态加载到JVM的Application，如插件化，会读取不到Context，使用需谨慎。
+ */
 public class GlobalContext {
 
     private static final Application mInstance;

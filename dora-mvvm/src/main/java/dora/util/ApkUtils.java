@@ -154,10 +154,8 @@ public final class ApkUtils {
             return null;
         }
         ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            applicationInfo.sourceDir = apkPath;
-            applicationInfo.publicSourceDir = apkPath;
-        }
+        applicationInfo.sourceDir = apkPath;
+        applicationInfo.publicSourceDir = apkPath;
         return packageManager.getApplicationIcon(applicationInfo);
     }
 

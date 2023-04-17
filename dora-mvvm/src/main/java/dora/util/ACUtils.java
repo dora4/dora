@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A tool that can transform arrays and collections.
+ * 数组和集合转换工具。
  */
 public final class ACUtils {
 

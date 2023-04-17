@@ -137,11 +137,24 @@ public final class Calculator implements Number {
 
     // <editor-folder desc="随机数生成">
 
+    /**
+     * 获取一个随机数。
+     *
+     * @param min 最小值
+     * @param max 最大值
+     */
     public static int getRandom(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
     }
 
+    /**
+     * 获取可重复的随机数。
+     *
+     * @param min 最小值
+     * @param max 最大值
+     * @param count 生成随机数的数量
+     */
     public static int[] getRandoms(int min, int max, int count) {
         int[] randoms = new int[count];
         if (max < min || count <= 0) {
@@ -154,6 +167,13 @@ public final class Calculator implements Number {
         }
     }
 
+    /**
+     * 获取不重复的随机数。
+     *
+     * @param min 最小值
+     * @param max 最大值
+     * @param count 生成随机数的数量
+     */
     public static int[] getUniqueRandoms(int min, int max, int count) {
         int[] randoms = new int[count];
         List<Integer> randomList = new ArrayList<>();

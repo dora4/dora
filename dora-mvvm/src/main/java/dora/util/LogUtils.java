@@ -3,8 +3,7 @@ package dora.util;
 import android.util.Log;
 
 /**
- * A system that controls log output globally. When flag is closed, you can't output logs anywhere.
- * Instead, you can output logs anywhere.<note>The log system is opened by default.</note>
+ * 日志工具，默认过滤标签为[dora-log]。
  */
 public class LogUtils {
 

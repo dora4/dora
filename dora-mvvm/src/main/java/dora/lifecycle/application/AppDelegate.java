@@ -49,9 +49,9 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
             mApplication.registerActivityLifecycleCallbacks(lifecycle);
         }
         mComponentCallback = new AppComponentCallbacks(mApplication);
-        //注册回调，内存紧张时释放部分内存
+        // 注册回调，内存紧张时释放部分内存
         mApplication.registerComponentCallbacks(mComponentCallback);
-        //执行框架外部，开发者扩展的 App onCreate 逻辑
+        // 执行框架外部，开发者扩展的 App onCreate 逻辑
         for (ApplicationLifecycleCallbacks lifecycle : mApplicationLifecycles) {
             lifecycle.onCreate(mApplication);
         }

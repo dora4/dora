@@ -23,15 +23,24 @@ import java.math.BigDecimal;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 
+/**
+ * 文件操作相关工具。
+ */
 public final class IoUtils {
 
     private IoUtils() {
     }
 
+    /**
+     * 检测SD卡（内置）是否准备就绪。
+     */
     public static boolean checkMediaMounted() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
+    /**
+     * 读取手机文件系统根目录。
+     */
     public static String getSdRoot() {
         if (checkMediaMounted()) {
             return Environment.getExternalStorageDirectory().getAbsolutePath();

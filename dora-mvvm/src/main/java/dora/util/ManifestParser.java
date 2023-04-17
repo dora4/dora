@@ -13,7 +13,7 @@ public final class ManifestParser {
     private static final String METADATA_VALUE = "GlobalConfig";
 
     private static GlobalConfig parseModule(String className) {
-        Object config = ReflectUtils.newInstance(className);
+        Object config = ReflectionUtils.newInstance(className);
         if (!(config instanceof GlobalConfig)) {
             throw new RuntimeException("Expected instanceof GlobalConfig, but found: " + config);
         }

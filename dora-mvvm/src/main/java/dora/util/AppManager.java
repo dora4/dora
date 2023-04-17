@@ -140,7 +140,7 @@ public final class AppManager {
     }
 
     /**
-     * 销毁本app所有activity，只保留栈底的activity。
+     * 销毁本app所有activity，只保留栈底的activity，通常主界面一个在栈底。
      */
     public void finishActivityUntilBottom() {
         synchronized (AppManager.class) {

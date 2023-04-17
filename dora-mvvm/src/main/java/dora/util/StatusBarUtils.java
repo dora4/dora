@@ -16,6 +16,12 @@ import java.lang.reflect.Method;
 
 public final class StatusBarUtils {
 
+    /**
+     * 检测是否有刘海屏。
+     *
+     * @param activity
+     * @return
+     */
     public static boolean hasNotchInScreen(Activity activity) {
         // android  P 以上有标准 API 来判断是否有刘海屏
         if (Build.VERSION.SDK_INT >= 28) {
@@ -34,7 +40,7 @@ public final class StatusBarUtils {
             if (manufacturer == null || manufacturer.length() == 0) {
                 return false;
             } else if (manufacturer.equalsIgnoreCase("HUAWEI")) {
-                return hasNotchHw(activity);
+                return hasNotchHuawei(activity);
             } else if (manufacturer.equalsIgnoreCase("xiaomi")) {
                 return hasNotchXiaoMi(activity);
             } else if (manufacturer.equalsIgnoreCase("oppo")) {
@@ -48,7 +54,7 @@ public final class StatusBarUtils {
         return false;
     }
 
-    public static boolean hasNotchVIVO(Activity activity) {
+    private static boolean hasNotchVIVO(Activity activity) {
         try {
             Class<?> c = Class.forName("android.util.FtFeature");
             Method get = c.getMethod("isFeatureSupport", int.class);
@@ -59,7 +65,7 @@ public final class StatusBarUtils {
         }
     }
 
-    public static boolean hasNotchOPPO(Activity activity) {
+    private static boolean hasNotchOPPO(Activity activity) {
         try {
             return activity.getPackageManager().hasSystemFeature("com.oppo.feature.screen.heteromorphism");
         } catch (Exception e) {
@@ -68,7 +74,7 @@ public final class StatusBarUtils {
         return false;
     }
 
-    public static boolean hasNotchXiaoMi(Activity activity) {
+    private static boolean hasNotchXiaoMi(Activity activity) {
         try {
             Class<?> c = Class.forName("android.os.SystemProperties");
             Method get = c.getMethod("getInt", String.class, int.class);
@@ -79,7 +85,7 @@ public final class StatusBarUtils {
         }
     }
 
-    public static boolean hasNotchHw(Activity activity) {
+    private static boolean hasNotchHuawei(Activity activity) {
         try {
             ClassLoader cl = activity.getClassLoader();
             Class HwNotchSizeUtil = cl.loadClass("com.huawei.android.util.HwNotchSizeUtil");

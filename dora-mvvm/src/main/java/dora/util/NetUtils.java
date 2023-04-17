@@ -6,6 +6,9 @@ import android.net.NetworkInfo;
 
 import java.util.Locale;
 
+/**
+ * 网络相关工具。
+ */
 public final class NetUtils {
 
     public enum ApnType {

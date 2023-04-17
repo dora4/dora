@@ -1,7 +1,7 @@
 package dora.util;
 
 /**
- * Enumeration of commonly used integers and fractions.
+ * 整数和分数的近似值，通常用于自定义View的计算。
  */
 public interface Number {
 

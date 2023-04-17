@@ -199,6 +199,13 @@ public final class ImageUtils {
         saveAsPng(bitmap, path, 100);
     }
 
+    /**
+     * 加载缩略图。
+     *
+     * @param imagePath 图片的文件路径
+     * @param width 要加载的宽度
+     * @param height 要加载的高度
+     */
     public static Bitmap loadImageThumbnail(String imagePath, int width, int height) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -272,6 +279,11 @@ public final class ImageUtils {
         return outputBitmap;
     }
 
+    /**
+     * 制作倒影位图。
+     *
+     * @param bitmap 位图
+     */
     public static Bitmap makeReflectionBitmap(Bitmap bitmap) {
         int reflectionGap = 4;
         int width = bitmap.getWidth();
@@ -297,6 +309,11 @@ public final class ImageUtils {
         return bitmapWithReflection;
     }
 
+    /**
+     * 制作黑白位图。
+     *
+     * @param bitmap 位图
+     */
     public static Bitmap makeBlackBitmap(Bitmap bitmap) {
         Bitmap outputBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
                 Bitmap.Config.RGB_565);
@@ -310,6 +327,11 @@ public final class ImageUtils {
         return outputBitmap;
     }
 
+    /**
+     * 将位图裁剪成圆形。
+     *
+     * @param bitmap 位图
+     */
     public static Bitmap makeRoundBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
@@ -346,7 +368,14 @@ public final class ImageUtils {
         return outputBitmap;
     }
 
-    public static Bitmap makeRoundCornerBitmap(Bitmap bitmap, int pixels, int color) {
+    /**
+     * 将位图裁剪成圆角矩形。
+     *
+     * @param bitmap 位图
+     * @param pixels 圆角半径的像素px
+     * @param bgColor 背景色
+     */
+    public static Bitmap makeRoundCornerBitmap(Bitmap bitmap, int pixels, int bgColor) {
         Bitmap outputBitmap = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(outputBitmap);
@@ -356,7 +385,7 @@ public final class ImageUtils {
         float roundPx = pixels;
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
+        paint.setColor(bgColor);
         canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
@@ -389,6 +418,9 @@ public final class ImageUtils {
         return BitmapFactory.decodeResource(res, resId, options);
     }
 
+    /**
+     * 截图界面。
+     */
     public static Bitmap takeScreenShot(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);

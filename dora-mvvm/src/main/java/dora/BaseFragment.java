@@ -39,7 +39,6 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         mBinding = DataBindingUtil.bind(view);
         assert mBinding != null;
         mBinding.setLifecycleOwner(this);
-        onSetupComponent();
         initData(savedInstanceState);
     }
 
@@ -154,12 +153,6 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         Intent intent = new Intent(activity, activityClazz);
         intent = extras.parseData(intent);
         activity.startActivity(intent);
-    }
-
-    /**
-     * 安装Dagger的Component。
-     */
-    protected void onSetupComponent() {
     }
 
     /**

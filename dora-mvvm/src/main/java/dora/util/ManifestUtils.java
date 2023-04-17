@@ -27,8 +27,7 @@ public final class ManifestUtils {
         try {
             ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(
                     context.getPackageName(), PackageManager.GET_META_DATA);
-            String value = (String) appInfo.metaData.get(name);
-            return value;
+            return (String) appInfo.metaData.get(name);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return "";
