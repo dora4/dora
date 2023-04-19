@@ -21,9 +21,12 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public final class SecurityUtils {
+/**
+ * 密码学相关工具。
+ */
+public final class CryptoUtils {
 
-    private SecurityUtils() {
+    private CryptoUtils() {
     }
 
     // <editor-folder desc="DES加密">
@@ -34,12 +37,12 @@ public final class SecurityUtils {
         Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, zeroIv);
         byte[] encryptedData = cipher.doFinal(encryptString.getBytes());
-        return Calculator.bs2H(encryptedData);
+        return MathUtils.bs2H(encryptedData);
     }
 
     public static String decryptDES(byte[] key, String decryptString) throws Exception {
         if (TextUtils.isNotEmpty(decryptString)) {
-            byte[] byteMi = Calculator.H2bs(decryptString, "");
+            byte[] byteMi = MathUtils.H2bs(decryptString, "");
             IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
             SecretKeySpec secretKeySpec = new SecretKeySpec(key, "DES");
             Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");

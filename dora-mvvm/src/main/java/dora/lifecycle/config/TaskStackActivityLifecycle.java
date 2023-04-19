@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import dora.util.AppManager;
+import dora.util.TaskStackManager;
 
 /**
  * 一个保存Activity堆栈情况的生命周期实现。
@@ -13,7 +13,7 @@ public class TaskStackActivityLifecycle implements Application.ActivityLifecycle
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        AppManager.getInstance().pushTask(activity);
+        TaskStackManager.getInstance().pushTask(activity);
     }
 
     @Override
@@ -38,6 +38,6 @@ public class TaskStackActivityLifecycle implements Application.ActivityLifecycle
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        AppManager.getInstance().popTaskWithChecking(activity.getClass());
+        TaskStackManager.getInstance().popTaskWithChecking(activity.getClass());
     }
 }

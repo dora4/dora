@@ -5,6 +5,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+/**
+ * 吐司工具。
+ */
 public final class ToastUtils {
 
     private static Toast mToast;

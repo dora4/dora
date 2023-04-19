@@ -1,12 +1,10 @@
-package dora.util;
+package dora.memory;
 
 import androidx.annotation.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import dora.Cache;
 
 public class LruCache<K, V> implements Cache<K, V> {
     private final LinkedHashMap<K, V> cache = new LinkedHashMap<>(100, 0.75f, true);

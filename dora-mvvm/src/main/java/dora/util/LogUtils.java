@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * 日志工具，默认过滤标签为[dora-log]。
  */
-public class LogUtils {
+public final class LogUtils {
 
     /**
      * The default log output tag.

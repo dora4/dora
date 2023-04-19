@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public final class Calculator implements Number {
+/**
+ * 数学计算相关工具。
+ */
+public final class MathUtils implements Number {
 
-    private Calculator() {
+    private MathUtils() {
     }
 
     // <editor-folder desc="进制转换">

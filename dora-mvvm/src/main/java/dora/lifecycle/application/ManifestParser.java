@@ -1,4 +1,4 @@
-package dora.util;
+package dora.lifecycle.application;
 
 import android.content.Context;
 
@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import dora.lifecycle.config.GlobalConfig;
+import dora.util.ManifestUtils;
+import dora.util.ReflectionUtils;
 
 public final class ManifestParser {
 

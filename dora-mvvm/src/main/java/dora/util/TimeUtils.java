@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * 日期时间相关工具。
+ */
 public final class TimeUtils {
 
     public final static String FORMAT_TYPE_DATE = "yyyy.MM.dd"; //yyyy.MM.dd

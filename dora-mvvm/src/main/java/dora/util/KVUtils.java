@@ -4,11 +4,12 @@ import android.content.Context;
 
 import java.util.Set;
 
-import dora.Cache;
-import dora.CacheType;
+import dora.memory.Cache;
+import dora.memory.CacheType;
+import dora.memory.LruCache;
 
 /**
- * 内存缓存工具。
+ * 键值对工具，用于内存缓存。
  */
 public final class KVUtils {
 

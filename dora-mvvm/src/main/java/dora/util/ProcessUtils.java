@@ -5,9 +5,12 @@ import android.content.Context;
 
 import java.util.List;
 
-public final class AppProcessUtils {
+/**
+ * 进程管理相关工具。
+ */
+public final class ProcessUtils {
 
-    private AppProcessUtils() {
+    private ProcessUtils() {
     }
 
     public static boolean isRunInBackground() {

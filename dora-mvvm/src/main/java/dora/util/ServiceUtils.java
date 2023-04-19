@@ -11,6 +11,9 @@ import android.os.Vibrator;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+/**
+ * 更便捷获取系统服务的工具。
+ */
 public final class ServiceUtils {
 
     private ServiceUtils() {

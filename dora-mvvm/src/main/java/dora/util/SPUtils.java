@@ -10,6 +10,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * SharedPreferences存取相关工具。
+ */
 public final class SPUtils {
 
     private SPUtils() {
@@ -39,79 +42,79 @@ public final class SPUtils {
         return sInstance;
     }
 
-    private void _putString(String key, String value) {
+    private void _writeString(String key, String value) {
         getEditor().putString(key, value).apply();
     }
 
-    public static void putString(String key, String value) {
-        putString(GlobalContext.get(), key, value);
+    public static void writeString(String key, String value) {
+        writeString(GlobalContext.get(), key, value);
     }
 
-    public static void putString(Context context, String key, String value) {
-        getInstance(context)._putString(key, value);
+    public static void writeString(Context context, String key, String value) {
+        getInstance(context)._writeString(key, value);
     }
 
-    private String _obtainString(String key) {
+    private String _readString(String key) {
         return sPreferences.getString(key, null);
     }
 
-    public static String obtainString(String key) {
-        return obtainString(GlobalContext.get(), key);
+    public static String readString(String key) {
+        return readString(GlobalContext.get(), key);
     }
 
-    public static String obtainString(Context context, String key) {
-        return getInstance(context)._obtainString(key);
+    public static String readString(Context context, String key) {
+        return getInstance(context)._readString(key);
     }
 
-    private void _putInteger(String key, int value) {
+    private void _writeInteger(String key, int value) {
         getEditor().putInt(key, value).apply();
     }
 
-    public static void putInteger(String key, int value) {
-        putInteger(GlobalContext.get(), key, value);
+    public static void writeInteger(String key, int value) {
+        writeInteger(GlobalContext.get(), key, value);
     }
 
-    public static void putInteger(Context context, String key, int value) {
-        getInstance(context)._putInteger(key, value);
+    public static void writeInteger(Context context, String key, int value) {
+        getInstance(context)._writeInteger(key, value);
     }
 
-    private int _obtainInteger(String key) {
+    private int _readInteger(String key) {
         return sPreferences.getInt(key, 0);
     }
 
-    public static int obtainInteger(String key) {
-        return obtainInteger(GlobalContext.get(), key);
+    public static int readInteger(String key) {
+        return readInteger(GlobalContext.get(), key);
     }
 
-    public static int obtainInteger(Context context, String key) {
-        return getInstance(context)._obtainInteger(key);
+    public static int readInteger(Context context, String key) {
+        return getInstance(context)._readInteger(key);
     }
 
-    private void _putBoolean(String key, boolean value) {
+    private void _writeBoolean(String key, boolean value) {
         getEditor().putBoolean(key, value).apply();
     }
 
-    public static void putBoolean(String key, boolean value) {
-        putBoolean(GlobalContext.get(), key, value);
+    public static void writeBoolean(String key, boolean value) {
+        writeBoolean(GlobalContext.get(), key, value);
     }
 
-    public static void putBoolean(Context context, String key, boolean value) {
-        getInstance(context)._putBoolean(key, value);
+    public static void writeBoolean(Context context, String key, boolean value) {
+        getInstance(context)._writeBoolean(key, value);
     }
 
-    private boolean _obtainBoolean(String key, boolean defValue) {
+    private boolean _readBoolean(String key, boolean defValue) {
         return sPreferences.getBoolean(key, defValue);
     }
 
-    public static boolean obtainBoolean(String key, boolean defValue) {
-        return obtainBoolean(GlobalContext.get(), key, defValue);
+    public static boolean readBoolean(String key, boolean defValue) {
+        return readBoolean(GlobalContext.get(), key, defValue);
     }
 
-    public static boolean obtainBoolean(Context context, String key, boolean defValue) {
-        return getInstance(context)._obtainBoolean(key, defValue);
+    public static boolean readBoolean(Context context, String key, boolean defValue) {
+        return getInstance(context)._readBoolean(key, defValue);
     }
 
-    private <T> boolean _putObject(String key, T value) {
+    private <T> boolean _writeObject(String key, T value) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = null;
         try {
@@ -131,15 +134,15 @@ public final class SPUtils {
         }
     }
 
-    public static <T> boolean putObject(String key, T value) {
-        return putObject(GlobalContext.get(), key, value);
+    public static <T> boolean writeObject(String key, T value) {
+        return writeObject(GlobalContext.get(), key, value);
     }
 
-    public static <T> boolean putObject(Context context, String key, T value) {
-        return getInstance(context)._putObject(key, value);
+    public static <T> boolean writeObject(Context context, String key, T value) {
+        return getInstance(context)._writeObject(key, value);
     }
 
-    private <T> T _obtainObject(String key) {
+    private <T> T _readObject(String key) {
         T value = null;
         String base64Val = sPreferences.getString(key, null);
         if (base64Val == null) {
@@ -162,12 +165,12 @@ public final class SPUtils {
         return value;
     }
 
-    public static <T> T obtainObject(String key) {
-        return obtainObject(GlobalContext.get(), key);
+    public static <T> T readObject(String key) {
+        return readObject(GlobalContext.get(), key);
     }
 
-    public static <T> T obtainObject(Context context, String key) {
-        return getInstance(context)._obtainObject(key);
+    public static <T> T readObject(Context context, String key) {
+        return getInstance(context)._readObject(key);
     }
 
     private void _remove(String key) {

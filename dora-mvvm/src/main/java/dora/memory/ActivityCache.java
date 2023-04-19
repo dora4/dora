@@ -1,4 +1,4 @@
-package dora;
+package dora.memory;
 
 import android.os.Bundle;
 

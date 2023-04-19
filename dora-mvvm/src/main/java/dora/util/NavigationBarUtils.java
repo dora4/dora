@@ -9,6 +9,9 @@ import android.view.WindowManager;
 
 import java.lang.reflect.Field;
 
+/**
+ * 系统底部导航栏相关工具。
+ */
 public final class NavigationBarUtils {
 
     private static WindowManager wm;

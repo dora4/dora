@@ -2,6 +2,9 @@ package dora.util;
 
 import java.io.UnsupportedEncodingException;
 
+/**
+ * 用于汉字拼音相互转换。
+ */
 public final class PinyinUtils {
 
     private PinyinUtils() {

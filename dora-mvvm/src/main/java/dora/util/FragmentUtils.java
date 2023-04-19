@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Fragment管理相关工具。
+ */
 public final class FragmentUtils {
 
     private static final int TYPE_ADD_FRAGMENT = 0x01;

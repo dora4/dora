@@ -35,6 +35,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * 图像处理相关工具。
+ */
 public final class ImageUtils {
 
     private ImageUtils() {

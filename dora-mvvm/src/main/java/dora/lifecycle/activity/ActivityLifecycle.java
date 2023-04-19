@@ -11,12 +11,12 @@ import androidx.fragment.app.FragmentManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import dora.ActivityCache;
-import dora.Cache;
+import dora.memory.ActivityCache;
+import dora.memory.Cache;
 import dora.lifecycle.config.DefaultGlobalConfig;
 import dora.lifecycle.fragment.FragmentLifecycle;
 import dora.lifecycle.config.GlobalConfig;
-import dora.util.ManifestParser;
+import dora.lifecycle.application.ManifestParser;
 
 public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks {
 

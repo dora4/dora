@@ -20,9 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import dora.memory.Cache;
+import dora.memory.CacheType;
+import dora.memory.FragmentCache;
 import dora.util.IntentUtils;
 import dora.util.KVUtils;
-import dora.util.LruCache;
+import dora.memory.LruCache;
 import dora.util.MultiLanguageUtils;
 import dora.util.ToastUtils;
 
@@ -54,16 +57,16 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void showPage(String name) {
+    public void showPage(String key) {
         if (getPageSwitcher() != null) {
-            getPageSwitcher().showPage(name);
+            getPageSwitcher().showPage(key);
         }
     }
 
     @Override
-    public void showPage(String name, IntentUtils.Extras extras) {
+    public void showPage(String key, IntentUtils.Extras extras) {
         if (getPageSwitcher() != null) {
-            getPageSwitcher().showPage(name);
+            getPageSwitcher().showPage(key);
         }
     }
 

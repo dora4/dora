@@ -11,7 +11,10 @@ import android.util.Log;
 
 import java.util.Locale;
 
-public class MultiLanguageUtils {
+/**
+ * 多语言与国际化相关工具。
+ */
+public final class MultiLanguageUtils {
 
     public static final String SAVE_LANGUAGE = "dora.util.LanguageUtils";
     private static final String TAG = "MultiLanguageUtils";
@@ -85,7 +88,7 @@ public class MultiLanguageUtils {
      * @return
      */
     private Locale getLanguageLocale(Context context) {
-        int languageType = SPUtils.getInstance(context).obtainInteger(context, MultiLanguageUtils.SAVE_LANGUAGE);
+        int languageType = SPUtils.getInstance(context).readInteger(context, MultiLanguageUtils.SAVE_LANGUAGE);
         if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) {
             return getSysLocale();
         } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
@@ -115,7 +118,7 @@ public class MultiLanguageUtils {
      * @param languageType
      */
     public void updateLanguage(Context context, int languageType) {
-        SPUtils.getInstance(context).putInteger(context, MultiLanguageUtils.SAVE_LANGUAGE, languageType);
+        SPUtils.getInstance(context).writeInteger(context, MultiLanguageUtils.SAVE_LANGUAGE, languageType);
         MultiLanguageUtils.getInstance().setConfiguration(context);
     }
 
@@ -125,7 +128,7 @@ public class MultiLanguageUtils {
      * @return
      */
     public int getLanguageType(Context context) {
-        int languageType = SPUtils.getInstance(context).obtainInteger(context, MultiLanguageUtils.SAVE_LANGUAGE);
+        int languageType = SPUtils.getInstance(context).readInteger(context, MultiLanguageUtils.SAVE_LANGUAGE);
         Log.e(TAG, "getLanguageType" + languageType);
         return languageType;
     }

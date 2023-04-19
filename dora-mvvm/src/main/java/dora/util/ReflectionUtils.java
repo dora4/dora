@@ -105,7 +105,7 @@ public final class ReflectionUtils {
      * 获取某个类的方法。
      *
      * @param clazz 类的class对象
-     * @param isDeclared 是否是改类自身定义的，如果是则传true。如果是继承自基类的，则传false
+     * @param isDeclared 是否是该类自身定义的，如果是则传true。如果是继承自基类的，则传false
      * @param methodName 方法名称
      * @param parameterTypes 方法的参数列表的类型数组
      */
@@ -145,7 +145,7 @@ public final class ReflectionUtils {
      * 获取某个类的属性。
      *
      * @param clazz 类的class对象
-     * @param isDeclared 是否是改类自身定义的，如果是则传true。如果是继承自基类的，则传false
+     * @param isDeclared 是否是该类自身定义的，如果是则传true。如果是继承自基类的，则传false
      * @param fieldName 属性名称
      */
     public static Field findField(Class<?> clazz, boolean isDeclared, String fieldName) {

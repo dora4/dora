@@ -7,8 +7,8 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import dora.Cache;
-import dora.FragmentCache;
+import dora.memory.Cache;
+import dora.memory.FragmentCache;
 
 public class FragmentLifecycle extends FragmentManager.FragmentLifecycleCallbacks {
 

@@ -20,6 +20,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * APK文件相关工具，读取文件信息、安装、启动等。
+ */
 public final class ApkUtils {
 
     private static final String CLASS_PACKAGE_PARSER = "android.content.pm.PackageParser";

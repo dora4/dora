@@ -17,12 +17,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import dora.memory.ActivityCache;
+import dora.memory.Cache;
+import dora.memory.CacheType;
 import dora.net.NetworkChangeObserver;
 import dora.net.NetworkStateReceiver;
 import dora.util.FragmentUtils;
 import dora.util.IntentUtils;
 import dora.util.KVUtils;
-import dora.util.LruCache;
+import dora.memory.LruCache;
 import dora.util.MultiLanguageUtils;
 import dora.util.NetUtils;
 import dora.util.ToastUtils;
@@ -107,38 +110,38 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
-    public void showPage(String name) {
-        if (mFragmentCache.containsKey(name)) {
-            BaseFragment<?> fragment = mFragmentCache.get(name);
+    public void showPage(String key) {
+        if (mFragmentCache.containsKey(key)) {
+            BaseFragment<?> fragment = mFragmentCache.get(key);
             if (fragment != null) {
                 FragmentUtils.show(fragment);
             }
         } else {
-            BaseFragment<?> fragment = getFlowFragment(name);
+            BaseFragment<?> fragment = getFlowFragment(key);
             hideFragments(mFragmentCache.values());
             mFragmentCache.clear();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getDefaultFlowFragmentContainerId());
-            mFragmentCache.put(name, fragment);
+            mFragmentCache.put(key, fragment);
         }
     }
 
     @Override
-    public void showPage(String name, IntentUtils.Extras extras) {
-        if (mFragmentCache.containsKey(name)) {
-            BaseFragment<?> fragment = mFragmentCache.get(name);
+    public void showPage(String key, IntentUtils.Extras extras) {
+        if (mFragmentCache.containsKey(key)) {
+            BaseFragment<?> fragment = mFragmentCache.get(key);
             if (fragment != null) {
                 fragment.setArguments(extras.convertToBundle());
                 fragment.onGetExtras(extras.convertToBundle());
                 FragmentUtils.show(fragment);
             }
         } else {
-            BaseFragment<?> fragment = getFlowFragment(name);
+            BaseFragment<?> fragment = getFlowFragment(key);
             fragment.setArguments(extras.convertToBundle());
             fragment.onGetExtras(extras.convertToBundle());
             hideFragments(mFragmentCache.values());
             mFragmentCache.clear();
             FragmentUtils.add(getSupportFragmentManager(), fragment, getDefaultFlowFragmentContainerId());
-            mFragmentCache.put(name, fragment);
+            mFragmentCache.put(key, fragment);
         }
     }
 
@@ -187,28 +190,28 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
      *
      * @return
      */
-    protected String[] getFlowFragmentPages() {
+    protected String[] getFlowFragmentPageKeys() {
         return new String[0];
     }
 
     @Override
     public void nextPage() {
-        if (mFragmentPageIndex == getFlowFragmentPages().length - 1) {
+        if (mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
             mFragmentPageIndex = -1;
         }
-        if (getFlowFragmentPages().length > 1 && mFragmentPageIndex < getFlowFragmentPages().length - 1) {
-            String pageName = getFlowFragmentPages()[++mFragmentPageIndex];
+        if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex < getFlowFragmentPageKeys().length - 1) {
+            String pageName = getFlowFragmentPageKeys()[++mFragmentPageIndex];
             showPage(pageName);
         }
     }
 
     @Override
     public void nextPage(IntentUtils.Extras extras) {
-        if (mFragmentPageIndex == getFlowFragmentPages().length - 1) {
+        if (mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
             mFragmentPageIndex = -1;
         }
-        if (getFlowFragmentPages().length > 1 && mFragmentPageIndex < getFlowFragmentPages().length - 1) {
-            String pageName = getFlowFragmentPages()[++mFragmentPageIndex];
+        if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex < getFlowFragmentPageKeys().length - 1) {
+            String pageName = getFlowFragmentPageKeys()[++mFragmentPageIndex];
             showPage(pageName, extras);
         }
     }

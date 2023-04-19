@@ -14,6 +14,9 @@ import androidx.annotation.RequiresApi;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+/**
+ * 手机系统状态栏相关工具。
+ */
 public final class StatusBarUtils {
 
     /**

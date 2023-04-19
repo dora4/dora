@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+/**
+ * 手机ROM信息读取工具。
+ */
 public final class RomUtils {
 
     private RomUtils() {

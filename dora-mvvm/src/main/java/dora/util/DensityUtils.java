@@ -3,6 +3,9 @@ package dora.util;
 import android.content.Context;
 import android.util.TypedValue;
 
+/**
+ * 尺寸单位转换工具。
+ */
 public final class DensityUtils {
 
     private DensityUtils() {

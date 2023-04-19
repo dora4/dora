@@ -9,9 +9,12 @@ import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Stack;
 
-public final class AppManager {
+/**
+ * Activity堆栈管理器。
+ */
+public final class TaskStackManager {
 
-    private static AppManager sAppManager;
+    private static TaskStackManager sTaskStackManager;
     private Application mApplication;
 
     /**
@@ -20,18 +23,18 @@ public final class AppManager {
     protected Stack<WeakReference<? extends Activity>>
             mActivityStacks = new Stack<>();
 
-    private AppManager() {
+    private TaskStackManager() {
     }
 
-    public static AppManager getInstance() {
-        if (sAppManager == null) {
-            synchronized (AppManager.class) {
-                if (sAppManager == null) {
-                    sAppManager = new AppManager();
+    public static TaskStackManager getInstance() {
+        if (sTaskStackManager == null) {
+            synchronized (TaskStackManager.class) {
+                if (sTaskStackManager == null) {
+                    sTaskStackManager = new TaskStackManager();
                 }
             }
         }
-        return sAppManager;
+        return sTaskStackManager;
     }
 
     /**
@@ -40,9 +43,9 @@ public final class AppManager {
      * @param application
      * @return
      */
-    public AppManager init(Application application) {
+    public TaskStackManager init(Application application) {
         this.mApplication = application;
-        return sAppManager;
+        return sTaskStackManager;
     }
 
     /**
@@ -51,7 +54,7 @@ public final class AppManager {
      * @param activity
      */
     public void pushTask(Activity activity) {
-        synchronized (AppManager.class) {
+        synchronized (TaskStackManager.class) {
             mActivityStacks.add(new WeakReference<>(activity));
         }
     }
@@ -62,7 +65,7 @@ public final class AppManager {
      * @param activityClazz
      */
     public void popTaskWithChecking(Class<? extends Activity> activityClazz) {
-        synchronized (AppManager.class) {
+        synchronized (TaskStackManager.class) {
             WeakReference<? extends Activity> ref = mActivityStacks.peek(); //只查看不移除
             if (ref != null) {
                 Activity activity = ref.get();
@@ -77,7 +80,7 @@ public final class AppManager {
      * 销毁栈顶的activity。
      */
     public void popTask() {
-        synchronized (AppManager.class) {
+        synchronized (TaskStackManager.class) {
             WeakReference<? extends Activity> ref = mActivityStacks.peek(); //只查看不移除
             if (ref != null) {
                 mActivityStacks.pop();
@@ -127,7 +130,7 @@ public final class AppManager {
      * @param activityClazz
      */
     public void finishActivity(Class<?> activityClazz) {
-        synchronized (AppManager.class) {
+        synchronized (TaskStackManager.class) {
             Iterator<WeakReference<? extends Activity>> iterator = mActivityStacks.iterator();
             while (iterator.hasNext()) {
                 Activity next = iterator.next().get();
@@ -143,7 +146,7 @@ public final class AppManager {
      * 销毁本app所有activity，只保留栈底的activity，通常主界面一个在栈底。
      */
     public void finishActivityUntilBottom() {
-        synchronized (AppManager.class) {
+        synchronized (TaskStackManager.class) {
             int size = mActivityStacks.size();
             for (int i = size - 1; i > 0; i--) {
                 WeakReference<? extends Activity> ref = mActivityStacks.get(i);
@@ -161,7 +164,7 @@ public final class AppManager {
      * 销毁本app所有activity。
      */
     public void finishAllActivities() {
-        synchronized (AppManager.class) {
+        synchronized (TaskStackManager.class) {
             Iterator<WeakReference<? extends Activity>> iterator = mActivityStacks.iterator();
             while (iterator.hasNext()) {
                 if (iterator.next() != null && iterator.next().get() != null) {
@@ -177,9 +180,9 @@ public final class AppManager {
      * 完全杀死本app，包括所有activity和其进程。
      */
     public void killAll(Context context) {
-        synchronized (AppManager.class) {
+        synchronized (TaskStackManager.class) {
             finishAllActivities();
-            AppProcessUtils.killAllProcesses(context);
+            ProcessUtils.killAllProcesses(context);
         }
     }
 }

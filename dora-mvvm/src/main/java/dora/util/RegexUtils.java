@@ -3,6 +3,9 @@ package dora.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 正则表达式验证工具。
+ */
 public final class RegexUtils {
 
     private static final String REGEX_EMAIL = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";

@@ -2,6 +2,9 @@ package dora.util;
 
 import android.content.Context;
 
+/**
+ * 用于计算和清除应用缓存。
+ */
 public final class CacheUtils {
 
     private CacheUtils() {

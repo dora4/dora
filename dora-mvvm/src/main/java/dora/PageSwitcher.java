@@ -7,8 +7,23 @@ import dora.util.IntentUtils;
  */
 public interface PageSwitcher {
 
-    void showPage(String name);
-    void showPage(String name, IntentUtils.Extras extras);
+    /**
+     * Fragment流式切换之显示页面。
+     */
+    void showPage(String key);
+
+    /**
+     * Fragment流式切换之显示页面。
+     */
+    void showPage(String key, IntentUtils.Extras extras);
+
+    /**
+     * Fragment流式切换之显示下一页。
+     */
     void nextPage();
+
+    /**
+     * Fragment流式切换之显示下一页。
+     */
     void nextPage(IntentUtils.Extras extras);
 }

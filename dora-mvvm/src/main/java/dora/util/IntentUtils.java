@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 用于连接Android各大组件以及组件直接的传参。
+ */
 public final class IntentUtils {
 
     private IntentUtils() {
@@ -36,17 +39,17 @@ public final class IntentUtils {
     }
 
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz) {
-        Activity topActivity = AppManager.getInstance().getTopActivity();
+        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
         if (topActivity != null) {
-            Intent intent = new Intent(AppManager.getInstance().getTopActivity(), activityClazz);
+            Intent intent = new Intent(TaskStackManager.getInstance().getTopActivity(), activityClazz);
             topActivity.startActivity(intent);
         } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
     }
 
     public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz, int requestCode) {
-        Activity topActivity = AppManager.getInstance().getTopActivity();
+        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
         if (topActivity != null) {
-            Intent intent = new Intent(AppManager.getInstance().getTopActivity(), activityClazz);
+            Intent intent = new Intent(TaskStackManager.getInstance().getTopActivity(), activityClazz);
             topActivity.startActivityForResult(intent, requestCode);
         } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
     }
@@ -59,16 +62,16 @@ public final class IntentUtils {
      */
     @Deprecated
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz, Bundle bundle) {
-        Activity topActivity = AppManager.getInstance().getTopActivity();
+        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
         if (topActivity != null) {
-            Intent intent = new Intent(AppManager.getInstance().getTopActivity(), activityClazz);
+            Intent intent = new Intent(TaskStackManager.getInstance().getTopActivity(), activityClazz);
             intent.putExtras(bundle);
             topActivity.startActivity(intent);
         } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
     }
 
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz, Extras extras) {
-        Activity topActivity = AppManager.getInstance().getTopActivity();
+        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
         if (topActivity != null) {
             Intent intent = new Intent(topActivity, activityClazz);
             intent = extras.parseData(intent);
@@ -77,7 +80,7 @@ public final class IntentUtils {
     }
 
     public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz, Extras extras, int requestCode) {
-        Activity topActivity = AppManager.getInstance().getTopActivity();
+        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
         if (topActivity != null) {
             Intent intent = new Intent(topActivity, activityClazz);
             intent = extras.parseData(intent);

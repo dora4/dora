@@ -7,6 +7,9 @@ import android.content.pm.PackageManager;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 清单文件相关信息读取工具。
+ */
 public final class ManifestUtils {
 
     private static ManifestUtils sInstance;

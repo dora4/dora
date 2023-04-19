@@ -19,7 +19,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.net.ssl.SSLHandshakeException;
 
-public class Web3Utils {
+/**
+ * Web3区块链工具。
+ */
+public final class Web3Utils {
 
     public static final String RPC_URL = "https://eth-mainnet.token.im";
 
