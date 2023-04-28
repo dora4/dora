@@ -22,9 +22,7 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * 默认配置。
-     *
-     * @param recyclerView
+     * RecyclerView默认配置。
      */
     public static RecyclerView configRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
@@ -36,10 +34,7 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * 自定义配置。
-     *
-     * @param recyclerView
-     * @param layoutManager
+     * RecyclerView自定义配置。
      */
     public static RecyclerView configRecyclerView(RecyclerView recyclerView, RecyclerView.LayoutManager layoutManager) {
         recyclerView.setLayoutManager(layoutManager);
@@ -48,6 +43,9 @@ public final class ViewUtils implements Number {
         return recyclerView;
     }
 
+    /**
+     * 获取文本控件或输入框控件的文本。
+     */
     public static String getText(TextView textView) {
         return textView.getText().toString().trim();
     }
@@ -56,9 +54,7 @@ public final class ViewUtils implements Number {
     /**
      * 设置wrap_content的情况下，给定默认宽高。
      *
-     * @param measureSpec
      * @param expected 期望的值
-     * @return
      */
     public static int applyWrapContentSize(int measureSpec, int expected) {
         int mode = View.MeasureSpec.getMode(measureSpec);
@@ -69,6 +65,11 @@ public final class ViewUtils implements Number {
         return measureSpec;
     }
 
+    /**
+     * 获取普通的画笔，不带描边。
+     *
+     * @param color 画笔的颜色
+     */
     public static Paint getPaint(int color) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
@@ -77,6 +78,11 @@ public final class ViewUtils implements Number {
         return paint;
     }
 
+    /**
+     * 获取像铅笔一样的画笔，用于绘制线条。
+     *
+     * @param color 画笔的颜色
+     */
     public static Paint getPencil(int color) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.STROKE);
@@ -85,6 +91,11 @@ public final class ViewUtils implements Number {
         return paint;
     }
 
+    /**
+     * 获取像刷子一样的画笔，带描边。
+     *
+     * @param color 画笔的颜色
+     */
     public static Paint getBrush(int color) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);

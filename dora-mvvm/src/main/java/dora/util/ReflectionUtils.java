@@ -327,10 +327,11 @@ public final class ReflectionUtils {
     // <editor-folder desc="获取泛型">
 
     /**
-     * 获取一个对象的泛型类型。
+     * 获取一个对象的泛型类型，这个对象需要实现带泛型的接口或继承带泛型的类。在这个对象指定具体的泛型，可通过这个方法
+     * 获取到。
      *
-     * @param obj 带泛型的对象
-     * @return 泛型的类型
+     * @param obj 这个对象的类必须实现带泛型的接口或继承带泛型的类
+     * @return 这个对象指定给实现的接口或基类的泛型
      */
     public static Class<?> getGenericType(Object obj) {
         if (obj.getClass().getGenericSuperclass() instanceof ParameterizedType &&
@@ -400,7 +401,7 @@ public final class ReflectionUtils {
     /**
      * 获取基本数据类型的默认值。
      */
-    private static Object getPrimitiveDefaultValue(Class<?> primitiveClazz) {
+    public static Object getPrimitiveDefaultValue(Class<?> primitiveClazz) {
         if (primitiveClazz.isPrimitive()) {
             return primitiveClazz == boolean.class ? false : 0;
         }

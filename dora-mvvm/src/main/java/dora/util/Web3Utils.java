@@ -32,8 +32,7 @@ public final class Web3Utils {
      * @param calendarInFuture 未来某个时刻的calendar对象
      * @param candidateUrl     候选以太坊客户端的RPC地址，建议10个或以上
      * @param errorReturnTrue  当错误（小概率事件）发生的时候，是否提前解锁，即return true，如果不想数据永久丢失，
-     *                         * 应该设置为true
-     * @return
+     *                         应该设置为true
      */
     @WorkerThread
     public static boolean isFutureTimeArrived(Calendar calendarInFuture, List<String> candidateUrl,
