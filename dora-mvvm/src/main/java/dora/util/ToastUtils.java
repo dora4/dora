@@ -3,6 +3,7 @@ package dora.util;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Gravity;
 import android.widget.Toast;
 
 /**
@@ -52,8 +53,11 @@ public final class ToastUtils {
     private static void showShortInternal(Context context, String msg) {
         if (mToast == null) {
             synchronized (ToastUtils.class) {
-                if (mToast == null)
+                if (mToast == null) {
                     mToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+                    mToast.setGravity(Gravity.CENTER, 0, 0);
+                }
+
             }
         } else {
             mToast.setText(msg);
@@ -64,8 +68,10 @@ public final class ToastUtils {
     private static void showLongInternal(Context context, String msg) {
         if (mToast == null) {
             synchronized (ToastUtils.class) {
-                if (mToast == null)
+                if (mToast == null) {
                     mToast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+                    mToast.setGravity(Gravity.CENTER, 0, 0);
+                }
             }
         } else {
             mToast.setText(msg);
