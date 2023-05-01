@@ -71,7 +71,7 @@ public final class SPUtils {
         return getPreferences().getBoolean(key, defValue);
     }
 
-    private <T> boolean _writeObject(Context context, String key, T value) {
+    public <T> boolean writeObject(Context context, String key, T value) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = null;
         try {
