@@ -44,7 +44,7 @@ public final class SPUtils {
 
 
     public static void writeString(Context context, String key, String value) {
-        getInstance(context).getEditor().putString(key, value);
+        getInstance(context).getEditor().putString(key, value).apply();
     }
 
     public static String readString(Context context, String key, String defValue) {
@@ -53,7 +53,7 @@ public final class SPUtils {
     }
 
     public static void writeInteger(Context context, String key, int value) {
-        getInstance(context).getEditor().putInt(key, value);
+        getInstance(context).getEditor().putInt(key, value).apply();
     }
 
     public static int readInteger(Context context, String key, int defValue) {
@@ -63,7 +63,7 @@ public final class SPUtils {
 
 
     public static void writeBoolean(Context context, String key, boolean value) {
-        getInstance(context).getEditor().putBoolean(key, value);
+        getInstance(context).getEditor().putBoolean(key, value).apply();
     }
 
     public static boolean readBoolean(Context context, String key, boolean defValue) {
@@ -116,10 +116,10 @@ public final class SPUtils {
     }
 
     public static void remove(Context context, String key) {
-        getInstance(context).getEditor().remove(key);
+        getInstance(context).getEditor().remove(key).apply();
     }
 
     public static void clear(Context context) {
-        getInstance(context).getEditor().clear();
+        getInstance(context).getEditor().clear().apply();
     }
 }

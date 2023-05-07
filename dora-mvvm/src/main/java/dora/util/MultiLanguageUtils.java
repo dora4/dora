@@ -56,7 +56,7 @@ public final class MultiLanguageUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return createConfigurationResources(context);
         } else {
-            getInstance().onUpdateConfiguration(context);
+            onUpdateConfiguration(context);
             return context;
         }
     }
@@ -126,7 +126,7 @@ public final class MultiLanguageUtils {
      */
     public static void updateLang(Context context, String lang) {
         SPUtils.writeString(context, MultiLanguageUtils.PREFS_LANGUAGE, lang);
-        getInstance().onUpdateConfiguration(context);
+        onUpdateConfiguration(context);
     }
 
     /**
