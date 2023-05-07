@@ -1,7 +1,5 @@
 package dora.util;
 
-import static dora.util.MultiLanguageUtils.LanguageType.LANGUAGE_FOLLOW_SYSTEM;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -17,43 +15,48 @@ import java.util.Locale;
  */
 public final class MultiLanguageUtils {
 
-    public static final String SAVE_LANGUAGE = "dora.util.LanguageUtils";
-    private static final String TAG = "MultiLanguageUtils";
-    private static MultiLanguageUtils instance;
+    private static MultiLanguageUtils sInstance;
+
+    public static final String PREFS_LANGUAGE = "dora_lang";
+
+    public static final String ENGLISH = "en";
+
+    public static final String FRENCH = "fr";
+
+    public static final String GERMAN = "de";
+
+    public static final String ITALIAN = "it";
+
+    public static final String JAPANESE = "ja";
+
+    public static final String KOREAN = "ko";
+
+    public static final String SIMPLIFIED_CHINESE = "zh_CN";
+
+    public static final String TRADITIONAL_CHINESE = "zh_TW";
 
     private MultiLanguageUtils() {
     }
 
-    public interface LanguageType {
-        int LANGUAGE_FOLLOW_SYSTEM = 0; //跟随系统
-        int LANGUAGE_CHINESE_TRADITIONAL = 1;    //繁体中文
-        int LANGUAGE_CHINESE_SIMPLIFIED = 2; //简体
-        int LANGUAGE_ENGLISH = 3; //英语
-    }
-
-    public static MultiLanguageUtils init() {
-        if (instance == null) {
+    private static MultiLanguageUtils getInstance() {
+        if (sInstance == null) {
             synchronized (MultiLanguageUtils.class) {
-                if (instance == null) {
-                    instance = new MultiLanguageUtils();
+                if (sInstance == null) {
+                    sInstance = new MultiLanguageUtils();
                 }
             }
         }
-        return instance;
+        return sInstance;
     }
 
-    public static MultiLanguageUtils getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException("You must be init MultiLanguageUtils first");
-        }
-        return instance;
-    }
-
+    /**
+     * 在Application中替换Context。
+     */
     public static Context attachBaseContext(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return createConfigurationResources(context);
         } else {
-            MultiLanguageUtils.getInstance().setConfiguration(context);
+            getInstance().onUpdateConfiguration(context);
             return context;
         }
     }
@@ -62,47 +65,46 @@ public final class MultiLanguageUtils {
     private static Context createConfigurationResources(Context context) {
         Resources resources = context.getResources();
         Configuration configuration = resources.getConfiguration();
-        Locale locale = getInstance().getLanguageLocale(context);
+        Locale locale = getInstance().getSavedLangLocale(context);
         configuration.setLocale(locale);
         return context.createConfigurationContext(configuration);
     }
 
-    /**
-     * 设置语言
-     */
-    public void setConfiguration(Context context) {
-        Locale targetLocale = getLanguageLocale(context);
+    private void onUpdateConfiguration(Context context) {
+        Locale targetLocale = getInstance().getSavedLangLocale(context);
         Configuration configuration = context.getResources().getConfiguration();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            configuration.setLocale(targetLocale);
-        } else {
-            configuration.locale = targetLocale;
-        }
+        configuration.setLocale(targetLocale);
         Resources resources = context.getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
-        resources.updateConfiguration(configuration, dm);//语言更换生效的代码!
+        resources.updateConfiguration(configuration, dm);
     }
 
-    /**
-     * 如果不是英文、简体中文、繁体中文，默认返回简体中文
-     *
-     * @return
-     */
-    private Locale getLanguageLocale(Context context) {
-        int languageType = SPUtils.readInteger(context, MultiLanguageUtils.SAVE_LANGUAGE, 0 );
-        if (languageType == LANGUAGE_FOLLOW_SYSTEM) {
+    private Locale getSavedLangLocale(Context context) {
+        String lang = SPUtils.readString(context, MultiLanguageUtils.PREFS_LANGUAGE, "");
+        if (TextUtils.isEmpty(lang)) {  // 跟随系统
             return getSysLocale();
-        } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
-            return Locale.TRADITIONAL_CHINESE;
-        } else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
+        } else if (lang.equals(ENGLISH)) {
+            return Locale.ENGLISH;
+        } else if (lang.equals(SIMPLIFIED_CHINESE)) {
             return Locale.SIMPLIFIED_CHINESE;
-        } else if (languageType == LanguageType.LANGUAGE_ENGLISH) {
+        } else if (lang.equals(TRADITIONAL_CHINESE)) {
+            return Locale.TRADITIONAL_CHINESE;
+        } else if (lang.equals(FRENCH)) {
+            return Locale.FRENCH;
+        } else if (lang.equals(GERMAN)) {
+            return Locale.GERMAN;
+        } else if (lang.equals(ITALIAN)) {
+            return Locale.ITALIAN;
+        } else if (lang.equals(JAPANESE)) {
+            return Locale.JAPANESE;
+        } else if (lang.equals(KOREAN)) {
+            return Locale.KOREAN;
+        } else {
             return Locale.ENGLISH;
         }
-        return Locale.ENGLISH;
     }
 
-    public Locale getSysLocale() {
+    private Locale getSysLocale() {
         Locale locale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             locale = LocaleList.getDefault().get(0);
@@ -113,22 +115,17 @@ public final class MultiLanguageUtils {
     }
 
     /**
-     * 更新语言
-     *
-     * @param context
-     * @param languageType
+     * 更新语言。
      */
-    public void updateLanguage(Context context, int languageType) {
-        SPUtils.writeInteger(context, MultiLanguageUtils.SAVE_LANGUAGE, languageType);
-        MultiLanguageUtils.getInstance().setConfiguration(context);
+    public static void updateLang(Context context, String lang) {
+        SPUtils.writeString(context, MultiLanguageUtils.PREFS_LANGUAGE, lang);
+        getInstance().onUpdateConfiguration(context);
     }
 
     /**
-     * 获取到用户保存的语言类型
-     *
-     * @return
+     * 获取到用户保存的语言类型。
      */
-    public int getLanguageType(Context context) {
-        return SPUtils.readInteger(context, MultiLanguageUtils.SAVE_LANGUAGE, LANGUAGE_FOLLOW_SYSTEM);
+    public static String getLangTag(Context context) {
+        return SPUtils.readString(context, MultiLanguageUtils.PREFS_LANGUAGE, "");
     }
 }

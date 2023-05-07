@@ -17,8 +17,7 @@ public class BaseApplication extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(MultiLanguageUtils.init().attachBaseContext(base));
-        MultiLanguageUtils.getInstance().setConfiguration(this);
+        super.attachBaseContext(MultiLanguageUtils.attachBaseContext(base));
         if (mAppDelegate == null) {
             mAppDelegate = new AppDelegate(base);
         }
