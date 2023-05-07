@@ -50,7 +50,7 @@ public final class MultiLanguageUtils {
     }
 
     /**
-     * 在Application中替换Context。
+     * 在Application和Activity中替换Context。
      */
     public static Context attachBaseContext(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -70,10 +70,7 @@ public final class MultiLanguageUtils {
         return context.createConfigurationContext(configuration);
     }
 
-    /**
-     * 在Activity的onResume()和Fragment的setUserVisibleHint()中调用。
-     */
-    public static void onUpdateConfiguration(Context context) {
+    private static void onUpdateConfiguration(Context context) {
         getInstance().updateConfiguration(context);
     }
 

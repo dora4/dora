@@ -50,12 +50,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        MultiLanguageUtils.onUpdateConfiguration(this);
-    }
-
-    @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 状态栏优先于布局设置
