@@ -52,7 +52,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onResume() {
         super.onResume();
-        MultiLanguageUtils.getInstance().setConfiguration(this);
+        MultiLanguageUtils.onUpdateConfiguration(this);
     }
 
     @Override

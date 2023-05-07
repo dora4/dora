@@ -177,9 +177,11 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     protected abstract int getLayoutId();
 
     @Override
-    public void onResume() {
-        super.onResume();
-        MultiLanguageUtils.getInstance().setConfiguration(getContext());
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            MultiLanguageUtils.onUpdateConfiguration(getContext());
+        }
     }
 
     @NonNull

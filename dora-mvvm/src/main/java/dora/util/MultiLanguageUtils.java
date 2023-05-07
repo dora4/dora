@@ -70,7 +70,14 @@ public final class MultiLanguageUtils {
         return context.createConfigurationContext(configuration);
     }
 
-    private void onUpdateConfiguration(Context context) {
+    /**
+     * 在Activity的onResume()和Fragment的setUserVisibleHint()中调用。
+     */
+    public static void onUpdateConfiguration(Context context) {
+        getInstance().updateConfiguration(context);
+    }
+
+    private void updateConfiguration(Context context) {
         Locale targetLocale = getInstance().getSavedLangLocale(context);
         Configuration configuration = context.getResources().getConfiguration();
         configuration.setLocale(targetLocale);
