@@ -47,6 +47,10 @@ public final class SPUtils {
         getInstance(context).getEditor().putString(key, value).apply();
     }
 
+    public static void writeStringAsync(Context context, String key, String value) {
+        getInstance(context).getEditor().putString(key, value).commit();
+    }
+
     public static String readString(Context context, String key, String defValue) {
         getInstance(context);
         return getPreferences().getString(key, defValue);
@@ -56,14 +60,21 @@ public final class SPUtils {
         getInstance(context).getEditor().putInt(key, value).apply();
     }
 
+    public static void writeIntegerAsync(Context context, String key, int value) {
+        getInstance(context).getEditor().putInt(key, value).commit();
+    }
+
     public static int readInteger(Context context, String key, int defValue) {
         getInstance(context);
         return getPreferences().getInt(key, defValue);
     }
 
-
     public static void writeBoolean(Context context, String key, boolean value) {
         getInstance(context).getEditor().putBoolean(key, value).apply();
+    }
+
+    public static void writeBooleanAsync(Context context, String key, boolean value) {
+        getInstance(context).getEditor().putBoolean(key, value).commit();
     }
 
     public static boolean readBoolean(Context context, String key, boolean defValue) {
@@ -81,6 +92,26 @@ public final class SPUtils {
             String base64 = new String(Base64.encode(baos
                     .toByteArray(), Base64.DEFAULT));
             getInstance(context).getEditor().putString(key, base64).apply();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            IoUtils.close(baos);
+            IoUtils.close(oos);
+        }
+    }
+
+    public <T> boolean writeObjectAsync(Context context, String key, T value) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(baos);
+            oos.writeObject(value);
+            // 将字节流编码成base64的字符串
+            String base64 = new String(Base64.encode(baos
+                    .toByteArray(), Base64.DEFAULT));
+            getInstance(context).getEditor().putString(key, base64).commit();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,7 +150,15 @@ public final class SPUtils {
         getInstance(context).getEditor().remove(key).apply();
     }
 
+    public static void removeAsync(Context context, String key) {
+        getInstance(context).getEditor().remove(key).commit();
+    }
+
     public static void clear(Context context) {
         getInstance(context).getEditor().clear().apply();
+    }
+
+    public static void clearAsync(Context context) {
+        getInstance(context).getEditor().clear().commit();
     }
 }

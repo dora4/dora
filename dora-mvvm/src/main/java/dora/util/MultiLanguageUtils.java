@@ -17,7 +17,7 @@ public final class MultiLanguageUtils {
 
     private static MultiLanguageUtils sInstance;
 
-    public static final String PREFS_LANGUAGE = "dora_lang";
+    private static final String PREFS_LANGUAGE = "dora_lang";
 
     public static final String ENGLISH = "en";
 
@@ -122,7 +122,7 @@ public final class MultiLanguageUtils {
      * 更新语言。
      */
     public static void updateLang(Context context, String lang) {
-        SPUtils.writeString(context, MultiLanguageUtils.PREFS_LANGUAGE, lang);
+        SPUtils.writeStringAsync(context, MultiLanguageUtils.PREFS_LANGUAGE, lang);
         onUpdateConfiguration(context);
     }
 
@@ -131,5 +131,9 @@ public final class MultiLanguageUtils {
      */
     public static String getLangTag(Context context) {
         return SPUtils.readString(context, MultiLanguageUtils.PREFS_LANGUAGE, "");
+    }
+
+    public static void clearLangTag(Context context) {
+        SPUtils.clearAsync(context);
     }
 }
