@@ -13,9 +13,11 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
     
        <!-- 全局生命周期配置，value配置为GlobalConfig，name为映射的配置类即可，可配置多个 -->
        <application>
+            <!-- dora.TaskStackGlobalConfig为默认配置，即使不配置任何GlobalConfig，也至少配置了它，请不要重复配置 -->
             <meta-data
                 android:name="dora.TaskStackGlobalConfig"
-                android:value="GlobalConfig" /> 
+                android:value="GlobalConfig" />
+            <!-- 神奇的分割线 -->
             <meta-data
                 android:name="dora.lifecycle.config.EventBusGlobalConfig"
                 android:value="GlobalConfig" />
