@@ -78,10 +78,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     /**
      * 如果需要支持在Activity中流式切换Fragment，重写它。
      *
-     * @param name
+     * @param key
      * @return
      */
-    protected BaseFragment<?> getFlowFragment(String name) {
+    protected BaseFragment<?> getFlowFragment(String key) {
         return null;
     }
 
@@ -148,7 +148,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
      *             xxxFragment = new XxxFragment();
      *             FragmentUtils.add(getSupportFragmentManager(), xxxFragment, R.id.fragmentContainer);
      *         }
-     *         FragmentUtils.show(privateKeyInputFragment);
+     *         FragmentUtils.show(xxxFragment);
      *     }
      *
      * 另外，初始化所有Fragment应该在最前面。
