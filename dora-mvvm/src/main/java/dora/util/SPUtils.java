@@ -56,6 +56,10 @@ public final class SPUtils {
         return getPreferences().getString(key, defValue);
     }
 
+    public static String readString(Context context, String key) {
+        return readString(context, key, null);
+    }
+
     public static void writeInteger(Context context, String key, int value) {
         getInstance(context).getEditor().putInt(key, value).apply();
     }
@@ -69,6 +73,10 @@ public final class SPUtils {
         return getPreferences().getInt(key, defValue);
     }
 
+    public static int readInteger(Context context, String key) {
+        return readInteger(context, key, 0);
+    }
+
     public static void writeBoolean(Context context, String key, boolean value) {
         getInstance(context).getEditor().putBoolean(key, value).apply();
     }
@@ -80,6 +88,10 @@ public final class SPUtils {
     public static boolean readBoolean(Context context, String key, boolean defValue) {
         getInstance(context);
         return getPreferences().getBoolean(key, defValue);
+    }
+
+    public static boolean readBoolean(Context context, String key) {
+        return readBoolean(context, key, false);
     }
 
     public <T> boolean writeObject(Context context, String key, T value) {
