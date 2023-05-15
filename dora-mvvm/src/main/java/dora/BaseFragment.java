@@ -57,6 +57,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     @Override
+    public final boolean isLoop() {
+        // 由activity决定
+        return getPageSwitcher().isLoop();
+    }
+
+    @Override
     public void showPage(String key) {
         if (getPageSwitcher() != null) {
             getPageSwitcher().showPage(key);
@@ -67,6 +73,20 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public void showPage(String key, IntentUtils.Extras extras) {
         if (getPageSwitcher() != null) {
             getPageSwitcher().showPage(key);
+        }
+    }
+
+    @Override
+    public void lastPage() {
+        if (getPageSwitcher() != null) {
+            getPageSwitcher().lastPage();
+        }
+    }
+
+    @Override
+    public void lastPage(IntentUtils.Extras extras) {
+        if (getPageSwitcher() != null) {
+            getPageSwitcher().lastPage(extras);
         }
     }
 

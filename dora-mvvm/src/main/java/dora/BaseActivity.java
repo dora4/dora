@@ -52,8 +52,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 状态栏优先于布局设置
         onSetStatusBar();
+        onSetNavigationBar();
         mBinding = DataBindingUtil.setContentView(this, getLayoutId());
         mBinding.setLifecycleOwner(this);
         mNetworkChangeObserver = new NetworkChangeObserver() {
@@ -101,6 +101,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         } else {
             return android.R.id.content;
         }
+    }
+
+    @Override
+    public boolean isLoop() {
+        return true;
     }
 
     @Override
@@ -189,11 +194,33 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
+    public void lastPage() {
+        if (isLoop() && mFragmentPageIndex == 0) {
+            mFragmentPageIndex = getFlowFragmentPageKeys().length;
+        }
+        if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex > 0) {
+            String pageName = getFlowFragmentPageKeys()[--mFragmentPageIndex];
+            showPage(pageName);
+        }
+    }
+
+    @Override
+    public void lastPage(IntentUtils.Extras extras) {
+        if (isLoop() && mFragmentPageIndex == 0) {
+            mFragmentPageIndex = getFlowFragmentPageKeys().length;
+        }
+        if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex > 0) {
+            String pageName = getFlowFragmentPageKeys()[--mFragmentPageIndex];
+            showPage(pageName, extras);
+        }
+    }
+
+    @Override
     public void nextPage() {
-        if (mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
+        if (isLoop() && mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
             mFragmentPageIndex = -1;
         }
-        if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex < getFlowFragmentPageKeys().length - 1) {
+        if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex > 0) {
             String pageName = getFlowFragmentPageKeys()[++mFragmentPageIndex];
             showPage(pageName);
         }
@@ -201,7 +228,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     @Override
     public void nextPage(IntentUtils.Extras extras) {
-        if (mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
+        if (isLoop() && mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
             mFragmentPageIndex = -1;
         }
         if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex < getFlowFragmentPageKeys().length - 1) {
@@ -262,7 +289,16 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         IntentUtils.startActivity(activityClazz, extras);
     }
 
+    /**
+     * 设置系统状态栏。
+     */
     protected void onSetStatusBar() {
+    }
+
+    /**
+     * 设置系统导航栏。
+     */
+    protected void onSetNavigationBar() {
     }
 
     @Override
