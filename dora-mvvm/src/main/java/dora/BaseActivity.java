@@ -220,7 +220,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         if (isLoop() && mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
             mFragmentPageIndex = -1;
         }
-        if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex > 0) {
+        if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex < getFlowFragmentPageKeys().length - 1) {
             String pageName = getFlowFragmentPageKeys()[++mFragmentPageIndex];
             showPage(pageName);
         }
