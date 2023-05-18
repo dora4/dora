@@ -48,12 +48,12 @@ public final class StatusBarUtils {
             }
             activity.getWindow().getDecorView().setSystemUiVisibility(option);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // 5.1
+            // 5.x
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             activity.getWindow().setStatusBarColor(calculateColor(statusBarColor, statusBarAlpha));
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // 4.4 ~ 5.0 自己创建一个色块加到DecorView
+            // 4.4 自己创建一个色块加到DecorView
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             View doraStatusBarView = decorView.findViewById(DORA_STATUS_BAR_VIEW_ID);
