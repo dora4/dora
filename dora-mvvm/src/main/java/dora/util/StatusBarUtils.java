@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.IntRange;
 import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -28,7 +29,7 @@ public final class StatusBarUtils {
     private static final int DORA_STATUS_BAR_VIEW_ID = R.id.dora_status_bar_view_id;
 
     /**
-     * 设置不全屏内容的状态栏颜色，6.0以上手机自动根据颜色适应亮暗色。
+     * 设置不全屏内容的状态栏颜色，6.0以上手机自动根据颜色适应亮暗色，常用。
      *
      * @param activity       需要设置的activity
      * @param statusBarColor 状态栏颜色值
@@ -68,6 +69,55 @@ public final class StatusBarUtils {
             setFitsSystemWindow(activity);
         } else {
             // < 4.4 不可定制，黑色状态栏，无解
+        }
+    }
+
+    /**
+     * 让布局内容的顶部成为状态栏的一部分，状态栏透明，常用。
+     */
+    public static void setFullScreenStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+        } else {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        activity.getWindow()
+                .getDecorView()
+                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    /**
+     * 简单设置状态栏为半透明颜色，不考虑6.0新增的亮暗色状态栏图标文字的问题。
+     */
+    public static void setTransparencyStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+    }
+
+    /**
+     * 简单改变Android 5.0以上状态栏的色值，不考虑6.0新增的亮暗色状态栏图标文字的问题。
+     */
+    public static void setStatusBarColorRes(Activity activity, @ColorRes int colorResId) {
+        setStatusBarColor(activity, activity.getResources().getColor(colorResId));
+    }
+
+    /**
+     * 简单改变Android 5.0以上状态栏的色值，不考虑6.0新增的亮暗色状态栏图标文字的问题。
+     */
+    public static void setStatusBarColor(Activity activity, @ColorInt int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(color);
         }
     }
 
@@ -126,36 +176,6 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 让布局内容的顶部成为状态栏的一部分，状态栏透明。
-     */
-    public static void setFullScreenStatusBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else {
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-        activity.getWindow()
-                .getDecorView()
-                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-    }
-
-    /**
-     * 设置状态栏为半透明。
-     */
-    public static void setTransparencyStatusBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-    }
-
-    /**
      * 设置DrawerLayout的状态栏一半的颜色。
      *
      * @param activity
@@ -163,7 +183,7 @@ public final class StatusBarUtils {
      * @param statusBarColor
      * @param statusBarAlpha
      */
-    public static void setStatusBar(Activity activity, DrawerLayout drawerLayout, @ColorInt int statusBarColor,
+    public static void setStatusBarWithDrawerLayout(Activity activity, DrawerLayout drawerLayout, @ColorInt int statusBarColor,
                                     @IntRange(from = 0, to = 255) int statusBarAlpha) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return;
