@@ -24,6 +24,9 @@ import javax.net.ssl.SSLHandshakeException;
  */
 public final class Web3Utils {
 
+    /**
+     * imToken的以太坊主网的RPC地址，比较稳定。
+     */
     public static final String RPC_URL = "https://eth-mainnet.token.im";
 
     /**

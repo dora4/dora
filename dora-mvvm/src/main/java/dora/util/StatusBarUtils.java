@@ -4,165 +4,146 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.view.DisplayCutout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntRange;
 import androidx.annotation.RequiresApi;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import dora.R;
 
 /**
  * 手机系统状态栏相关工具。
  */
 public final class StatusBarUtils {
 
+    private static final int DORA_STATUS_BAR_VIEW_ID = R.id.dora_status_bar_view_id;
+
     /**
-     * 检测是否有刘海屏。
+     * 设置不全屏内容的状态栏颜色，6.0以上手机自动根据颜色适应亮暗色。
      *
-     * @param activity
-     * @return
+     * @param activity       需要设置的activity
+     * @param statusBarColor 状态栏颜色值
+     * @param statusBarAlpha 状态栏透明度
      */
-    public static boolean hasNotchInScreen(Activity activity) {
-        // android  P 以上有标准 API 来判断是否有刘海屏
-        if (Build.VERSION.SDK_INT >= 28) {
-            try {
-                DisplayCutout displayCutout = activity.getWindow().getDecorView().getRootWindowInsets().getDisplayCutout();
-                if (displayCutout != null) {
-                    // 说明有刘海屏
-                    return true;
-                }
-            } catch (Exception e) {
-                return false;
+    public static void setStatusBar(Activity activity, @ColorInt int statusBarColor, @IntRange(from = 0, to = 255) int statusBarAlpha) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // >= 6.0 支持根据状态栏颜色定制浅色和深色的文字和图标
+            activity.getWindow().setStatusBarColor(statusBarColor);
+            int option;
+            if (isDarkColor(statusBarColor)) {
+                // 深色状态栏，则让状态栏文字和图标变白
+                option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            } else {
+                // 浅色状态栏，则让状态栏文字和图标变黑
+                option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_VISIBLE;
             }
+            activity.getWindow().getDecorView().setSystemUiVisibility(option);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // 5.1
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().setStatusBarColor(calculateColor(statusBarColor, statusBarAlpha));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // 4.4 ~ 5.0 自己创建一个色块加到DecorView
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            View doraStatusBarView = decorView.findViewById(DORA_STATUS_BAR_VIEW_ID);
+            if (doraStatusBarView != null) {
+                if (doraStatusBarView.getVisibility() == View.GONE) {
+                    doraStatusBarView.setVisibility(View.VISIBLE);
+                }
+                doraStatusBarView.setBackgroundColor(calculateColor(statusBarColor, statusBarAlpha));
+            } else {
+                decorView.addView(createStatusBarView(activity, statusBarColor, statusBarAlpha));
+            }
+            setFitsSystemWindow(activity);
         } else {
-            // 通过其他方式判断是否有刘海屏  目前官方提供有开发文档的就 小米，vivo，华为（荣耀），oppo
-            String manufacturer = Build.MANUFACTURER;
-            if (manufacturer == null || manufacturer.length() == 0) {
-                return false;
-            } else if (manufacturer.equalsIgnoreCase("HUAWEI")) {
-                return hasNotchHuawei(activity);
-            } else if (manufacturer.equalsIgnoreCase("xiaomi")) {
-                return hasNotchXiaoMi(activity);
-            } else if (manufacturer.equalsIgnoreCase("oppo")) {
-                return hasNotchOPPO(activity);
-            } else if (manufacturer.equalsIgnoreCase("vivo")) {
-                return hasNotchVIVO(activity);
-            } else {
-                return false;
-            }
+            // < 4.4 不可定制，黑色状态栏，无解
         }
-        return false;
-    }
-
-    private static boolean hasNotchVIVO(Activity activity) {
-        try {
-            Class<?> c = Class.forName("android.util.FtFeature");
-            Method get = c.getMethod("isFeatureSupport", int.class);
-            return (boolean) (get.invoke(c, 0x20));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private static boolean hasNotchOPPO(Activity activity) {
-        try {
-            return activity.getPackageManager().hasSystemFeature("com.oppo.feature.screen.heteromorphism");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private static boolean hasNotchXiaoMi(Activity activity) {
-        try {
-            Class<?> c = Class.forName("android.os.SystemProperties");
-            Method get = c.getMethod("getInt", String.class, int.class);
-            return (int) (get.invoke(c, "ro.miui.notch", 1)) == 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private static boolean hasNotchHuawei(Activity activity) {
-        try {
-            ClassLoader cl = activity.getClassLoader();
-            Class HwNotchSizeUtil = cl.loadClass("com.huawei.android.util.HwNotchSizeUtil");
-            Method get = HwNotchSizeUtil.getMethod("hasNotchInScreen");
-            return (boolean) get.invoke(HwNotchSizeUtil);
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public static void setStatusBar(Activity activity, int bgColor, boolean isFullScreen, boolean isDarkStatusBarIcon) {
-        //5.0以下不处理
-        if (Build.VERSION.SDK_INT < 21) {
-            return;
-        }
-        int option = 0;
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //只有在6.0以上才改变状态栏颜色，否则在5.0机器上，电量条图标是白色的，标题栏也是白色的，就看不见电量条了了
-        //在5.0上显示默认灰色背景色
-        if (Build.VERSION.SDK_INT >= 23) {
-            // 设置状态栏底色颜色
-            activity.getWindow().setStatusBarColor(bgColor);
-            //浅色状态栏，则让状态栏图标变黑，深色状态栏，则让状态栏图标变白
-            if (isDarkStatusBarIcon) {
-                if (isFullScreen) {
-                    option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                } else {
-                    option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                }
-            } else {
-                if (isFullScreen) {
-                    option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_VISIBLE;
-                } else {
-                    option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_VISIBLE;
-                }
-            }
-        } else {
-            if (isFullScreen) {
-                activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
-                option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            } else {
-                activity.getWindow().setStatusBarColor(bgColor);
-                option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            }
-        }
-        activity.getWindow().getDecorView().setSystemUiVisibility(option);
     }
 
     /**
-     * 检测状态栏背景颜色是否为深色。
+     * 状态栏是否是深色。
+     *
+     * @param color 状态栏颜色值
      */
-    public static boolean isDarkColor(int colorInt) {
-        int gray = (int) (Color.red(colorInt) * 0.299 + Color.green(colorInt) * 0.587 + Color.blue(colorInt) * 0.114);
+    public static boolean isDarkColor(@ColorInt int color) {
+        int gray = (int) (Color.red(color) * 0.299 + Color.green(color) * 0.587 + Color.blue(color) * 0.114);
         return gray >= 192;
     }
 
-    public static void setFullScreenWithCheckNotch(Activity activity, int statusBarColor) {
-        if (hasNotchInScreen(activity)) {
-            setStatusBar(activity, statusBarColor, false, true);
-        } else {
-            activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    /**
+     * 生成一个和状态栏大小相同的矩形条。
+     *
+     * @param activity 需要设置的activity
+     * @param color    状态栏颜色值
+     * @param alpha    状态栏透明度
+     * @return 状态栏矩形条
+     */
+    private static View createStatusBarView(Activity activity, @ColorInt int color, int alpha) {
+        // 绘制一个和状态栏一样高的矩形
+        View statusBarView = new View(activity);
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(activity));
+        statusBarView.setLayoutParams(params);
+        statusBarView.setBackgroundColor(calculateColor(color, alpha));
+        statusBarView.setId(DORA_STATUS_BAR_VIEW_ID);
+        return statusBarView;
+    }
+
+    private static void setFitsSystemWindow(Activity activity) {
+        ViewGroup parent = (ViewGroup) activity.findViewById(android.R.id.content);
+        for (int i = 0, count = parent.getChildCount(); i < count; i++) {
+            View childView = parent.getChildAt(i);
+            if (childView instanceof ViewGroup) {
+                childView.setFitsSystemWindows(true);
+                ((ViewGroup) childView).setClipToPadding(true);
+            }
         }
     }
 
-    public static void setFullScreen(Activity activity) {
-        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    private static int calculateColor(@ColorInt int color, int alpha) {
+        if (alpha == 0) {
+            return color;
+        }
+        float a = 1 - alpha / 255f;
+        int red = color >> 16 & 0xff;
+        int green = color >> 8 & 0xff;
+        int blue = color & 0xff;
+        red = (int) (red * a + 0.5);
+        green = (int) (green * a + 0.5);
+        blue = (int) (blue * a + 0.5);
+        return 0xff << 24 | red << 16 | green << 8 | blue;
     }
 
+    /**
+     * 让布局内容的顶部成为状态栏的一部分，状态栏透明。
+     */
+    public static void setFullScreenStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+        } else {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        activity.getWindow()
+                .getDecorView()
+                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    /**
+     * 设置状态栏为半透明。
+     */
     public static void setTransparencyStatusBar(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
@@ -171,45 +152,116 @@ public final class StatusBarUtils {
             window.setStatusBarColor(Color.TRANSPARENT);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = activity.getWindow();
-            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }
 
-    public static void setStatusBarColorRes(Activity activity, int colorResId) {
-        setStatusBarColor(activity, activity.getResources().getColor(colorResId));
-    }
-
-    public static void setStatusBarColor(Activity activity, int color) {
+    /**
+     * 设置DrawerLayout的状态栏一半的颜色。
+     *
+     * @param activity
+     * @param drawerLayout
+     * @param statusBarColor
+     * @param statusBarAlpha
+     */
+    public static void setStatusBar(Activity activity, DrawerLayout drawerLayout, @ColorInt int statusBarColor,
+                                    @IntRange(from = 0, to = 255) int statusBarAlpha) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(color);
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+        } else {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        ViewGroup contentLayout = (ViewGroup) drawerLayout.getChildAt(0);
+        View doraStatusBarView = contentLayout.findViewById(DORA_STATUS_BAR_VIEW_ID);
+        if (doraStatusBarView != null) {
+            if (doraStatusBarView.getVisibility() == View.GONE) {
+                doraStatusBarView.setVisibility(View.VISIBLE);
+            }
+            doraStatusBarView.setBackgroundColor(statusBarColor);
+        } else {
+            contentLayout.addView(createStatusBarView(activity, statusBarColor, 0));
+        }
+        if (!(contentLayout instanceof LinearLayout) && contentLayout.getChildAt(1) != null) {
+            contentLayout.getChildAt(1)
+                    .setPadding(contentLayout.getPaddingLeft(), getStatusBarHeight(activity) + contentLayout.getPaddingTop(),
+                            contentLayout.getPaddingRight(), contentLayout.getPaddingBottom());
+        }
+        setFitsSystemWindow(drawerLayout, contentLayout);
+        addStatusBarView(activity, statusBarAlpha);
+    }
+
+    private static void setFitsSystemWindow(DrawerLayout drawerLayout, ViewGroup drawerLayoutContentLayout) {
+        ViewGroup drawer = (ViewGroup) drawerLayout.getChildAt(1);
+        drawerLayout.setFitsSystemWindows(false);
+        drawerLayoutContentLayout.setFitsSystemWindows(false);
+        drawerLayoutContentLayout.setClipToPadding(true);
+        drawer.setFitsSystemWindows(false);
+    }
+
+    /**
+     * 添加半透明矩形条。
+     *
+     * @param activity       需要设置的 activity
+     * @param statusBarAlpha 状态栏透明度
+     */
+    private static void addStatusBarView(Activity activity, @IntRange(from = 0, to = 255) int statusBarAlpha) {
+        ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content);
+        View doraStatusBarView = contentView.findViewById(DORA_STATUS_BAR_VIEW_ID);
+        if (doraStatusBarView != null) {
+            if (doraStatusBarView.getVisibility() == View.GONE) {
+                doraStatusBarView.setVisibility(View.VISIBLE);
+            }
+            doraStatusBarView.setBackgroundColor(Color.argb(statusBarAlpha, 0, 0, 0));
+        } else {
+            contentView.addView(createTranslucentStatusBarView(activity, statusBarAlpha));
+        }
+    }
+
+    /**
+     * 生成一个和状态栏大小相同的矩形条。
+     *
+     * @param activity 需要设置的activity
+     * @param alpha    状态栏透明度
+     * @return 状态栏矩形条
+     */
+    private static View createTranslucentStatusBarView(Activity activity, int alpha) {
+        // 绘制一个和状态栏一样高的矩形
+        View statusBarView = new View(activity);
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(activity));
+        statusBarView.setLayoutParams(params);
+        statusBarView.setBackgroundColor(calculateColor(Color.BLACK, alpha));
+        statusBarView.setId(DORA_STATUS_BAR_VIEW_ID);
+        return statusBarView;
+    }
+
+    public static void setFullScreen(Activity activity) {
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void setLightStatusBar(final Window window, final boolean dark, boolean isFullMode) {
+    public static void setLightDarkStatusBar(final Window window, final boolean dark, boolean isFullMode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             switch (RomUtils.getLightStatusBarAvailableRomType()) {
                 case RomUtils.AvailableRomType.MIUI:
-                    setMIUIStatusBarLightMode(window, dark);
+                    setMIUIStatusBarLightDarkMode(window, dark);
                     break;
 
                 case RomUtils.AvailableRomType.FLYME:
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-                        setAndroidNativeLightStatusBar(window, dark, isFullMode);
+                        setAndroidNativeLightDarkStatusBar(window, dark, isFullMode);
                     } else {
-                        setFlymeLightStatusBar(window, dark);
+                        setFlymeLightDarkStatusBar(window, dark);
                     }
                     break;
 
                 case RomUtils.AvailableRomType.ANDROID_NATIVE:
-                    setAndroidNativeLightStatusBar(window, dark, isFullMode);
+                    setAndroidNativeLightDarkStatusBar(window, dark, isFullMode);
                     break;
 
                 case RomUtils.AvailableRomType.NA:
@@ -228,19 +280,19 @@ public final class StatusBarUtils {
             int romType = RomUtils.getLightStatusBarAvailableRomType();
             switch (romType) {
                 case RomUtils.AvailableRomType.MIUI:
-                    setMIUIStatusBarLightMode(activity, dark);
+                    setMIUIStatusBarLightDarkMode(activity, dark);
                     break;
 
                 case RomUtils.AvailableRomType.FLYME:
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-                        setAndroidNativeLightStatusBar(activity, dark, isFullMode);
+                        setAndroidNativeLightDarkStatusBar(activity, dark, isFullMode);
                     } else {
-                        setFlymeLightStatusBar(activity, dark);
+                        setFlymeLightDarkStatusBar(activity, dark);
                     }
                     break;
 
                 case RomUtils.AvailableRomType.ANDROID_NATIVE:
-                    setAndroidNativeLightStatusBar(activity, dark, isFullMode);
+                    setAndroidNativeLightDarkStatusBar(activity, dark, isFullMode);
                     break;
 
                 case RomUtils.AvailableRomType.NA:
@@ -250,14 +302,13 @@ public final class StatusBarUtils {
         }
     }
 
-
     /**
      * 需要MIUIV6以上。
      *
      * @param dark 是否把状态栏文字及图标颜色设置为深色
      * @return boolean 成功执行返回true
      */
-    private static void setMIUIStatusBarLightMode(Object object, boolean dark) {
+    private static void setMIUIStatusBarLightDarkMode(Object object, boolean dark) {
         Window window = null;
         if (object instanceof Activity) {
             window = ((Activity) object).getWindow();
@@ -294,7 +345,7 @@ public final class StatusBarUtils {
         }
     }
 
-    private static boolean setFlymeLightStatusBar(Object obj, boolean dark) {
+    private static boolean setFlymeLightDarkStatusBar(Object obj, boolean dark) {
         boolean result = false;
         Window window = null;
         if (obj instanceof Activity) {
@@ -328,7 +379,7 @@ public final class StatusBarUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private static void setAndroidNativeLightStatusBar(Object obj, boolean dark, boolean isFullMode) {
+    private static void setAndroidNativeLightDarkStatusBar(Object obj, boolean dark, boolean isFullMode) {
         View decor = null;
         if (obj instanceof Activity) {
             decor = ((Activity) obj).getWindow().getDecorView();

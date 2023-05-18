@@ -42,12 +42,11 @@ public final class SPUtils {
         return sInstance;
     }
 
-
     public static void writeString(Context context, String key, String value) {
         getInstance(context).getEditor().putString(key, value).apply();
     }
 
-    public static void writeStringAsync(Context context, String key, String value) {
+    public static void writeStringSync(Context context, String key, String value) {
         getInstance(context).getEditor().putString(key, value).commit();
     }
 
@@ -64,7 +63,7 @@ public final class SPUtils {
         getInstance(context).getEditor().putInt(key, value).apply();
     }
 
-    public static void writeIntegerAsync(Context context, String key, int value) {
+    public static void writeIntegerSync(Context context, String key, int value) {
         getInstance(context).getEditor().putInt(key, value).commit();
     }
 
@@ -81,7 +80,7 @@ public final class SPUtils {
         getInstance(context).getEditor().putBoolean(key, value).apply();
     }
 
-    public static void writeBooleanAsync(Context context, String key, boolean value) {
+    public static void writeBooleanSync(Context context, String key, boolean value) {
         getInstance(context).getEditor().putBoolean(key, value).commit();
     }
 
@@ -114,7 +113,7 @@ public final class SPUtils {
         }
     }
 
-    public <T> boolean writeObjectAsync(Context context, String key, T value) {
+    public <T> boolean writeObjectSync(Context context, String key, T value) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = null;
         try {
@@ -162,7 +161,7 @@ public final class SPUtils {
         getInstance(context).getEditor().remove(key).apply();
     }
 
-    public static void removeAsync(Context context, String key) {
+    public static void removeSync(Context context, String key) {
         getInstance(context).getEditor().remove(key).commit();
     }
 
@@ -170,7 +169,7 @@ public final class SPUtils {
         getInstance(context).getEditor().clear().apply();
     }
 
-    public static void clearAsync(Context context) {
+    public static void clearSync(Context context) {
         getInstance(context).getEditor().clear().commit();
     }
 }

@@ -636,7 +636,7 @@ public final class MultiLanguageUtils {
      * 更新语言。
      */
     public static void updateLang(Context context, String lang) {
-        SPUtils.writeStringAsync(context, MultiLanguageUtils.PREFS_LANGUAGE, lang);
+        SPUtils.writeStringSync(context, MultiLanguageUtils.PREFS_LANGUAGE, lang);
         onUpdateConfiguration(context);
     }
 
@@ -651,6 +651,6 @@ public final class MultiLanguageUtils {
      * 清除用户保存的语言类型。
      */
     public static void clearLangTag(Context context) {
-        SPUtils.clearAsync(context);
+        SPUtils.clearSync(context);
     }
 }
