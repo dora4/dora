@@ -341,9 +341,9 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     public synchronized Cache<String, Object> loadCache() {
         if (mCache == null) {
             mCache = cacheFactory().build(CacheType.ACTIVITY_CACHE, this);
-            Set<String> keys = KVUtils.getInstance().cacheKeys();
+            Set<String> keys = KVUtils.getInstance(this).cacheKeys();
             for (String key : keys) {
-                Object cache = KVUtils.getInstance().getCacheFromMemory(key);
+                Object cache = KVUtils.getInstance(this).getCacheFromMemory(key);
                 mCache.put(key, cache);
             }
         }

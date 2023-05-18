@@ -201,9 +201,9 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public synchronized Cache<String, Object> loadCache() {
         if (mCache == null) {
             mCache = cacheFactory().build(CacheType.FRAGMENT_CACHE, getContext());
-            Set<String> keys = KVUtils.getInstance().cacheKeys();
+            Set<String> keys = KVUtils.getInstance(getContext()).cacheKeys();
             for (String key : keys) {
-                Object cache = KVUtils.getInstance().getCacheFromMemory(key);
+                Object cache = KVUtils.getInstance(getContext()).getCacheFromMemory(key);
                 mCache.put(key, cache);
             }
         }

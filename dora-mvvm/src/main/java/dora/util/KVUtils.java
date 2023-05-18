@@ -40,21 +40,20 @@ public final class KVUtils {
         return mCache.get(name);
     }
 
-    public void removeCacheAtMemory(String name) {
+    public void removeCache(String name) {
         if (mCache.containsKey(name)) {
             mCache.remove(name);
         }
     }
 
     /**
-     * 推荐使用这个方法而不是{@link #setCacheToMemory(String, Object)}，{@link #updateCacheAtMemory}
+     * 推荐使用这个方法而不是{@link #setCacheToMemory(String, Object)}，{@link #updateCache}
      * 这个方法能保证更新成功。
-     *
-     * @param name
+     *  @param name
      * @param cache
      */
-    public void updateCacheAtMemory(String name, Object cache) {
-        removeCacheAtMemory(name);
+    public void updateCache(String name, Object cache) {
+        removeCache(name);
         setCacheToMemory(name, cache);
     }
 
@@ -70,14 +69,7 @@ public final class KVUtils {
         return "no key found";
     }
 
-    public static KVUtils getInstance() {
-        if (mInstance == null) {
-            throw new IllegalStateException("dora.BaseApplication未被使用");
-        }
-        return mInstance;
-    }
-
-    private static KVUtils getInstance(Context context) {
+    public static KVUtils getInstance(Context context) {
         if (mInstance == null) {
             synchronized (KVUtils.class) {
                 if (mInstance == null)
