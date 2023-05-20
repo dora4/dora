@@ -38,7 +38,7 @@ Features
 
   ```java
           DoraCrash.initCrash(this, "YourLogFolder/log");
-```
+  ```
 
 - The app process can be automatically killed when the memory is low, and there won't be a black or white screen issue when the app is restarted.
 
