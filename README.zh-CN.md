@@ -1,3 +1,5 @@
+<a href="./README.zh-CN.md">简体中文</a> ｜ <a href="./README.md">English</a>
+
 Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 --------------------------------
 
