@@ -23,10 +23,9 @@ import java.util.Set;
 import dora.memory.Cache;
 import dora.memory.CacheType;
 import dora.memory.FragmentCache;
+import dora.memory.LruCache;
 import dora.util.IntentUtils;
 import dora.util.KVUtils;
-import dora.memory.LruCache;
-import dora.util.MultiLanguageUtils;
 import dora.util.ToastUtils;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements

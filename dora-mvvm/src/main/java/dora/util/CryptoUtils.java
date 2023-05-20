@@ -37,6 +37,7 @@ import javax.crypto.spec.SecretKeySpec;
  * 其中，ECB、CBC、CTR 为块加密模式，CFB、OFB 为流加密模式。
  */
 public final class CryptoUtils {
+
     public static final String AES = "AES";
     public static final String DES = "DES";
     public static final String RSA = "RSA";
