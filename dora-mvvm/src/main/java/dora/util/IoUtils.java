@@ -20,8 +20,12 @@ import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 文件操作相关工具。
@@ -429,6 +433,61 @@ public final class IoUtils {
     }
 
     // </editor-folder>
+
+    public static InputStream getNetworkStream(String url) {
+        try {
+            URL wurl = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) wurl.openConnection();
+            conn.connect();
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                return conn.getInputStream();
+            } else {
+                LogUtils.e(conn.getResponseMessage());
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<String> getTextFileLines(String url) {
+        return getTextFileLines(url, false, "");
+    }
+
+    /**
+     * 读取网络文本文件的数据。
+     *
+     * @param url 请求的文本文件url地址
+     * @param hasIgnoreLines 如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
+     * @param ignoreLineChars 如果文件的一行以该字符串开始，则跳过该行的读取，如m3u文件#为Metadata信息，不是有效
+     *                        的url地址，你应该忽略以"#"开头的行
+     * @return
+     */
+    public static List<String> getTextFileLines(String url, boolean hasIgnoreLines, String ignoreLineChars) {
+        List<String> lines = new ArrayList<>();
+        InputStream inputStream = getNetworkStream(url);
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line = "";
+            while((line = reader.readLine()) != null){
+                if (hasIgnoreLines && line.startsWith(ignoreLineChars)){
+                } else if(line.length() > 0) {
+                    lines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
+
+    public static File download(String url, String savePath) {
+        InputStream inputStream = getNetworkStream(url);
+        File file = write(inputStream, savePath);
+        close(inputStream);
+        return file;
+    }
 
     public static byte[] bytes(Object obj) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

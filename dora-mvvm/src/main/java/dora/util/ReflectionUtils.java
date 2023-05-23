@@ -242,7 +242,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 检测一个属性是否是static方法。
+     * 检测一个方法是否是static方法。
      *
      * @param method 方法
      */
@@ -260,7 +260,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 检测一个属性是否是final方法。
+     * 检测一个方法是否是final方法。
      *
      * @param method 方法
      */
@@ -269,7 +269,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 检测一个属性是否是synchronized方法。
+     * 检测一个方法是否是synchronized方法。
      *
      * @param method 方法
      */
