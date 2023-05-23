@@ -251,19 +251,71 @@ public final class IoUtils {
         return sb.toString();
     }
 
-    public static String readText(File file) throws IOException {
-        FileInputStream is = new FileInputStream(file);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024 * 4];
-        int len;
-        while ((len = is.read(buffer)) != -1) {
-            baos.write(buffer, 0, len);
-        }
-        byte[] data = baos.toByteArray();
-        return new String(data);
+    public static List<String> readTextLines(File file) {
+        return readTextLines(file, false, "");
     }
 
-    public static String readText(String filePath) throws IOException {
+    public static List<String> readM3U8URLs(File m3u8File) {
+        return readTextLines(m3u8File, true, "#");
+    }
+
+    /**
+     * 读取本地文本文件的数据。
+     *
+     * @param file 本地的文本文件
+     * @param hasIgnoreLines 如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
+     * @param ignoreLineChars 如果文件的一行以该字符串开始，则跳过该行的读取，如m3u文件#为Metadata信息，不是有效
+     *                        的url地址，你应该忽略以"#"开头的行
+     * @return
+     */
+    public static List<String> readTextLines(File file, boolean hasIgnoreLines, String ignoreLineChars) {
+        List<String> lines = new ArrayList<>();
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line = "";
+            while((line = reader.readLine()) != null){
+                if (hasIgnoreLines && line.startsWith(ignoreLineChars)){
+                } else if(line.length() > 0) {
+                    lines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
+
+    public static List<String> readTextLines(String filePath) {
+        return readTextLines(filePath, false, "");
+    }
+
+    public static List<String> readM3U8URLs(String m3u8FilePath) {
+        return readTextLines(m3u8FilePath, true, "#");
+    }
+
+    public static List<String> readTextLines(String filePath, boolean hasIgnoreLines, String ignoreLineChars)  {
+        return readTextLines(new File(filePath), hasIgnoreLines, ignoreLineChars);
+    }
+
+    public static String readText(File file) {
+        try {
+            FileInputStream is = new FileInputStream(file);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024 * 4];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                baos.write(buffer, 0, len);
+            }
+            byte[] data = baos.toByteArray();
+            return new String(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String readText(String filePath)  {
         return readText(new File(filePath));
     }
 
