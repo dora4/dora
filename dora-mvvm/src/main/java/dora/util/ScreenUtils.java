@@ -13,6 +13,7 @@ import android.view.WindowManager;
 public final class ScreenUtils {
 
     private static ScreenUtils sInstance;
+    private static WindowManager wm;
 
     private ScreenUtils() {
     }
@@ -28,6 +29,30 @@ public final class ScreenUtils {
         return sInstance;
     }
 
+    public static int getRealHeight() {
+        return getRealHeight(GlobalContext.get());
+    }
+
+    /**
+     * 获取真实高度，等价于屏幕高度。它是指包括Display类绘制的高度，包括系统状态栏、DecorView和系统导航栏。无论是否
+     * 显示系统导航栏，都不影响其值。
+     *
+     * @param context
+     * @return
+     */
+    public static int getRealHeight(Context context) {
+        if (wm == null) {
+            wm = (WindowManager)
+                    context.getSystemService(Context.WINDOW_SERVICE);
+        }
+        Point point = new Point();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            wm.getDefaultDisplay().getRealSize(point);
+        } else {
+            wm.getDefaultDisplay().getSize(point);
+        }
+        return point.y;
+    }
 
     public static int getScreenWidth() {
         return getScreenWidth(GlobalContext.get());

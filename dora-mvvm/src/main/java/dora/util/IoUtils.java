@@ -28,11 +28,8 @@ import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
-
-import dora.R;
 
 /**
  * 文件操作相关工具。
@@ -105,15 +102,8 @@ public final class IoUtils {
                 outStream.write(buf, 0, len);
             }
             outStream.flush();
-            if (outStream != null) {
-                outStream.close();
-            }
-            if (inStream != null) {
-                inStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
+            close(outStream);
+            close(inStream);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -170,6 +160,9 @@ public final class IoUtils {
     }
 
     public static boolean delete(File file) {
+        if (!file.exists()) {
+            return false;
+        }
         if (file.isFile()) {
             return deleteFile(file);
         } else {
@@ -442,12 +435,8 @@ public final class IoUtils {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                fc.close();
-                fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            close(fc);
+            close(fis);
         }
         return "";
     }
@@ -544,9 +533,7 @@ public final class IoUtils {
     public static File download(String url, String savePath) {
         try {
             return Executors.newSingleThreadExecutor().submit(() -> downloadInBackground(url, savePath)).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
@@ -578,9 +565,7 @@ public final class IoUtils {
     public static File downloadFileToFolder(String url, String folder) {
         try {
             return Executors.newSingleThreadExecutor().submit(() -> downloadFileToFolderInBackground(url, folder)).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
@@ -608,12 +593,9 @@ public final class IoUtils {
      * @param folder 保存到的文件夹
      */
     public static void batchDownloadFileToFolder(String[] urls, String folder) {
-        Executors.newCachedThreadPool().submit(new Runnable() {
-            @Override
-            public void run() {
-                for (String url : urls) {
-                    downloadFileToFolder(url, folder);
-                }
+        Executors.newCachedThreadPool().submit(() -> {
+            for (String url : urls) {
+                downloadFileToFolder(url, folder);
             }
         });
     }

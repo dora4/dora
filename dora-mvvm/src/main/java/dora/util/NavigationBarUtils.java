@@ -14,27 +14,7 @@ import java.lang.reflect.Field;
  */
 public final class NavigationBarUtils {
 
-    private static WindowManager wm;
-
     private NavigationBarUtils() {
-    }
-
-    public static int getRealHeight() {
-        return getRealHeight(GlobalContext.get());
-    }
-
-    public static int getRealHeight(Context context) {
-        if (wm == null) {
-            wm = (WindowManager)
-                    context.getSystemService(Context.WINDOW_SERVICE);
-        }
-        Point point = new Point();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            wm.getDefaultDisplay().getRealSize(point);
-        } else {
-            wm.getDefaultDisplay().getSize(point);
-        }
-        return point.y;
     }
 
     public static boolean isShowNavigationBar(Activity activity) {
@@ -50,7 +30,7 @@ public final class NavigationBarUtils {
         }
         int activityHeight = contentRect.height();
         int statusBarHeight = StatusBarUtils.getStatusBarHeight(activity);
-        int remainHeight = getRealHeight(activity) - statusBarHeight;
+        int remainHeight = ScreenUtils.getRealHeight(activity) - statusBarHeight;
         if (activityHeight == remainHeight) {
             return false;
         } else {
