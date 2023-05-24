@@ -6,6 +6,8 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.text.format.Formatter;
 
+import androidx.annotation.WorkerThread;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -26,6 +28,11 @@ import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+
+import dora.R;
 
 /**
  * 文件操作相关工具。
@@ -255,7 +262,7 @@ public final class IoUtils {
         return readTextLines(file, false, "");
     }
 
-    public static List<String> readM3U8URLs(File m3u8File) {
+    public static List<String> readM3U8Urls(File m3u8File) {
         return readTextLines(m3u8File, true, "#");
     }
 
@@ -290,7 +297,7 @@ public final class IoUtils {
         return readTextLines(filePath, false, "");
     }
 
-    public static List<String> readM3U8URLs(String m3u8FilePath) {
+    public static List<String> readM3U8Urls(String m3u8FilePath) {
         return readTextLines(m3u8FilePath, true, "#");
     }
 
@@ -456,36 +463,9 @@ public final class IoUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="路径处理">
+    // <editor-folder desc="文件下载">
 
-    public static String getParentPath(String path) {
-        if (path.endsWith(File.separator)) {
-            path = path.substring(0, path.length() - 1);
-        }
-        int start = path.lastIndexOf(File.separator);
-        return path.substring(0, start);
-    }
-
-    public static String getFileNameFromPath(String path) {
-        return getFileNameFromPath(path, true);
-    }
-
-    public static String getNameFromPath(String path) {
-        return getFileNameFromPath(path, false);
-    }
-
-    private static String getFileNameFromPath(String path, boolean withSuffix) {
-        int start = path.lastIndexOf(File.separator) + 1;
-        int end = path.lastIndexOf(".");
-        if (withSuffix) {
-            return path.substring(start);
-        } else {
-            return path.substring(start, end);
-        }
-    }
-
-    // </editor-folder>
-
+    @WorkerThread
     public static InputStream getNetworkStream(String url) {
         try {
             URL wurl = new URL(url);
@@ -503,6 +483,13 @@ public final class IoUtils {
         }
     }
 
+    /**
+     * 读取网络文本文件的数据。
+     *
+     * @param url 请求的文本文件url地址
+     * @return 文本文件的每一行的字符串
+     */
+    @WorkerThread
     public static List<String> getTextFileLines(String url) {
         return getTextFileLines(url, false, "");
     }
@@ -514,8 +501,9 @@ public final class IoUtils {
      * @param hasIgnoreLines 如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
      * @param ignoreLineChars 如果文件的一行以该字符串开始，则跳过该行的读取，如m3u文件#为Metadata信息，不是有效
      *                        的url地址，你应该忽略以"#"开头的行
-     * @return
+     * @return 文本文件的每一行的字符串
      */
+    @WorkerThread
     public static List<String> getTextFileLines(String url, boolean hasIgnoreLines, String ignoreLineChars) {
         List<String> lines = new ArrayList<>();
         InputStream inputStream = getNetworkStream(url);
@@ -534,13 +522,147 @@ public final class IoUtils {
         return lines;
     }
 
+    /**
+     * 文件下载。
+     *
+     * @param url 下载的文件地址
+     * @param savePath 保存的文件路径
+     * @return 返回保存后的文件路径
+     */
     public static File download(String url, String savePath) {
+        try {
+            return Executors.newSingleThreadExecutor().submit(() -> downloadInBackground(url, savePath)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 文件下载。
+     *
+     * @param url 下载的文件地址
+     * @param savePath 保存的文件路径
+     * @return 返回保存后的文件路径
+     */
+    @WorkerThread
+    public static File downloadInBackground(String url, String savePath) {
         InputStream inputStream = getNetworkStream(url);
         File file = write(inputStream, savePath);
         close(inputStream);
         return file;
     }
 
+    /**
+     * 将文件下载到指定文件夹，需要自行在子线程执行。
+     *
+     * @param url 下载的文件地址
+     * @param folder 保存到的文件夹
+     * @return 返回保存后的文件路径
+     */
+    @WorkerThread
+    public static File downloadFileToFolder(String url, String folder) {
+        try {
+            return Executors.newSingleThreadExecutor().submit(() -> downloadFileToFolderInBackground(url, folder)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将文件下载到指定文件夹，需要自行在子线程执行。
+     *
+     * @param url 下载的文件地址
+     * @param folder 保存到的文件夹
+     * @return 返回保存后的文件路径
+     */
+    @WorkerThread
+    public static File downloadFileToFolderInBackground(String url, String folder) {
+        InputStream inputStream = getNetworkStream(url);
+        File file = write(inputStream, folder + "/" + getFileNameFromPath(url));
+        close(inputStream);
+        return file;
+    }
+
+    /**
+     * 批量下载文件。
+     *
+     * @param urls 要下载的所有文件的url
+     * @param folder 保存到的文件夹
+     */
+    public static void batchDownloadFileToFolder(String[] urls, String folder) {
+        Executors.newCachedThreadPool().submit(new Runnable() {
+            @Override
+            public void run() {
+                for (String url : urls) {
+                    downloadFileToFolder(url, folder);
+                }
+            }
+        });
+    }
+
+    // </editor-folder>
+
+    // <editor-folder desc="路径处理">
+
+    public static String getParentPath(String path) {
+        if (path.endsWith(File.separator)) {
+            path = path.substring(0, path.length() - 1);
+        }
+        int start = path.lastIndexOf(File.separator);
+        return path.substring(0, start);
+    }
+
+    /**
+     * 获取路径中的文件名，带文件名后缀。
+     *
+     * @param path 文件路径
+     * @return 文件名，带后缀
+     */
+    public static String getFileNameFromPath(String path) {
+        return getFileNameFromPath(path, true);
+    }
+
+    /**
+     * 从文件路径中提取文件名，不带文件名后缀。
+     *
+     * @param path 文件路径
+     * @return 文件名，不带后缀
+     */
+    public static String getNameFromPath(String path) {
+        return getFileNameFromPath(path, false);
+    }
+
+    /**
+     * 从文件路径中提取文件名，可指定是否需要文件名后缀。
+     *
+     * @param path 文件路径
+     * @param withSuffix 是否需要文件名后缀
+     * @return 文件名
+     */
+    private static String getFileNameFromPath(String path, boolean withSuffix) {
+        int start = path.lastIndexOf(File.separator) + 1;
+        int end = path.lastIndexOf(".");
+        if (withSuffix) {
+            return path.substring(start);
+        } else {
+            return path.substring(start, end);
+        }
+    }
+
+    // </editor-folder>
+
+    /**
+     * 将对象转换为字节数组。
+     *
+     * @param obj 要转化的对象
+     * @return 字节数组
+     */
     public static byte[] bytes(Object obj) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos;
@@ -553,6 +675,12 @@ public final class IoUtils {
         return baos.toByteArray();
     }
 
+    /**
+     * 获取文件夹的子目录的数量，包括文件和文件夹，如果本身为文件，则返回-1。
+     *
+     * @param file 文件夹
+     * @return 文件夹的子目录数
+     */
     public static int getSubCount(File file) {
         if (file != null) {
             if (!file.isDirectory()) {
@@ -564,6 +692,12 @@ public final class IoUtils {
         throw new NullPointerException("File can\'t be null.");
     }
 
+    /**
+     * 读取文件的MD5值，用于比对两个文件是否是同一个文件。
+     *
+     * @param file 要读取的文件对象
+     * @return 文件的MD5值
+     */
     public static String getMD5(File file) {
         FileInputStream fis = null;
         try {
@@ -584,6 +718,11 @@ public final class IoUtils {
         }
     }
 
+    /**
+     * 关闭流，自动忽略异常处理。
+     *
+     * @param closeableList 可关闭的流的列表
+     */
     public static void close(Closeable... closeableList) {
         try {
             for (Closeable closeable : closeableList) {
