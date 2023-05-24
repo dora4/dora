@@ -69,6 +69,13 @@ public final class IoUtils {
         }
     }
 
+    public static void recreateFolder(String[] dirs) {
+        for (String dir : dirs) {
+            delete(new File(dir));
+        }
+        createFolder(dirs);
+    }
+
     public static void createFolder(String dir) {
         if (TextUtils.isNotEmpty(dir)) {
             File folder = new File(dir);
@@ -76,6 +83,11 @@ public final class IoUtils {
                 folder.mkdirs();
             }
         }
+    }
+
+    public static void recreateFolder(String dir) {
+        delete(new File(dir));
+        createFolder(dir);
     }
 
     private static boolean copyFile(File file, String target) {
@@ -484,7 +496,7 @@ public final class IoUtils {
     }
 
     /**
-     * 读取网络文本文件的数据。
+     * 读取网络文本文件的数据，需在子线程执行。
      *
      * @param url 请求的文本文件url地址
      * @return 文本文件的每一行的字符串
@@ -495,7 +507,7 @@ public final class IoUtils {
     }
 
     /**
-     * 读取网络文本文件的数据。
+     * 读取网络文本文件的数据，需要自行在子线程执行。
      *
      * @param url 请求的文本文件url地址
      * @param hasIgnoreLines 如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
@@ -541,7 +553,7 @@ public final class IoUtils {
     }
 
     /**
-     * 文件下载。
+     * 文件下载，需要自行在子线程执行。
      *
      * @param url 下载的文件地址
      * @param savePath 保存的文件路径
