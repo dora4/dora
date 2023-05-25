@@ -5,7 +5,11 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
+import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 
 import java.lang.reflect.Field;
 
@@ -15,6 +19,19 @@ import java.lang.reflect.Field;
 public final class NavigationBarUtils {
 
     private NavigationBarUtils() {
+    }
+
+    public static void setNavigationBarColorRes(Activity activity, @ColorRes int colorResId) {
+        setNavigationBarColor(activity, activity.getResources().getColor(colorResId));
+    }
+
+    public static void setNavigationBarColor(Activity activity, @ColorInt int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setNavigationBarColor(color);
+        }
     }
 
     public static boolean isShowNavigationBar(Activity activity) {

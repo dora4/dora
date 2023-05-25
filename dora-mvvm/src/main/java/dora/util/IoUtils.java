@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * 文件操作相关工具。
  */
@@ -470,13 +472,24 @@ public final class IoUtils {
     public static InputStream getNetworkStream(String url) {
         try {
             URL wurl = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) wurl.openConnection();
-            conn.connect();
-            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                return conn.getInputStream();
+            if (wurl.getProtocol().equals("https")) {
+                HttpsURLConnection conn = (HttpsURLConnection) wurl.openConnection();
+                conn.connect();
+                if (conn.getResponseCode() == HttpsURLConnection.HTTP_OK) {
+                    return conn.getInputStream();
+                } else {
+                    LogUtils.e(conn.getResponseMessage());
+                    return null;
+                }
             } else {
-                LogUtils.e(conn.getResponseMessage());
-                return null;
+                HttpURLConnection conn = (HttpURLConnection) wurl.openConnection();
+                conn.connect();
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    return conn.getInputStream();
+                } else {
+                    LogUtils.e(conn.getResponseMessage());
+                    return null;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
