@@ -1,11 +1,15 @@
 package dora.util;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -44,12 +48,22 @@ public final class ViewUtils implements Number {
     }
 
     /**
+     * 将View从父控件中移除。
+     *
+     * @param view 要移除的view
+     */
+    public static void removeViewFormParent(View view) {
+        if (view == null) return;
+        ViewParent parent = view.getParent();
+        ((ViewGroup)parent).removeView(view);
+    }
+
+    /**
      * 获取文本控件或输入框控件的文本。
      */
     public static String getText(TextView textView) {
         return textView.getText().toString().trim();
     }
-
 
     /**
      * 设置wrap_content的情况下，给定默认宽高。
@@ -63,6 +77,16 @@ public final class ViewUtils implements Number {
             measureSpec = View.MeasureSpec.makeMeasureSpec(expected, View.MeasureSpec.EXACTLY);
         }
         return measureSpec;
+    }
+
+    /**
+     * 边缘检测。
+     */
+    public static boolean isTouchEdge(int edgeSize, Context context, MotionEvent e) {
+        return e.getRawX() < edgeSize
+                || e.getRawX() > ScreenUtils.getScreenWidth(context) - edgeSize
+                || e.getRawY() < edgeSize
+                || e.getRawY() > ScreenUtils.getScreenHeight(context) - edgeSize;
     }
 
     /**

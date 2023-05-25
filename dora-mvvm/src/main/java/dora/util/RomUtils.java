@@ -1,14 +1,19 @@
 package dora.util;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.view.DisplayCutout;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -107,8 +112,8 @@ public final class RomUtils {
      * @return
      */
     public static boolean hasNotchInScreen(Activity activity) {
-        // android  P 以上有标准 API 来判断是否有刘海屏
-        if (Build.VERSION.SDK_INT >= 28) {
+        // android P 以上有标准 API 来判断是否有刘海屏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             try {
                 DisplayCutout displayCutout = activity.getWindow().getDecorView().getRootWindowInsets().getDisplayCutout();
                 if (displayCutout != null) {
@@ -177,6 +182,47 @@ public final class RomUtils {
             return (boolean) get.invoke(HwNotchSizeUtil);
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    /**
+     * 是否为允许全屏界面显示内容到刘海区域的刘海屏机型（与AndroidManifest中配置对应）。
+     */
+    public static boolean allowDisplayToNotch(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // 9.0系统全屏界面默认会保留黑边，不允许显示内容到刘海区域
+            Window window = activity.getWindow();
+            WindowInsets windowInsets = window.getDecorView().getRootWindowInsets();
+            if (windowInsets == null) {
+                return false;
+            }
+            DisplayCutout displayCutout = windowInsets.getDisplayCutout();
+            if (displayCutout == null) {
+                return false;
+            }
+            List<Rect> boundingRects = displayCutout.getBoundingRects();
+            return boundingRects.size() > 0;
+        } else {
+            return hasNotchHuawei(activity)
+                    || hasNotchOPPO(activity)
+                    || hasNotchVIVO(activity)
+                    || hasNotchXiaoMi(activity);
+        }
+    }
+
+    /**
+     * 适配刘海屏，针对Android P以上系统。
+     */
+    public static void adaptNotchAboveAndroidP(Activity activity, boolean isAdapt) {
+        if (activity == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+            if (isAdapt) {
+                lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            } else {
+                lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT;
+            }
+            activity.getWindow().setAttributes(lp);
         }
     }
 }
