@@ -3,6 +3,7 @@ package dora.util;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
@@ -81,6 +82,14 @@ public final class ServiceUtils {
 
     public static AlarmManager getAlarmManager(Context context) {
         return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    }
+
+    public static ClipboardManager getClipboardManager() {
+        return getClipboardManager(GlobalContext.get());
+    }
+
+    public static ClipboardManager getClipboardManager(Context context) {
+        return (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     }
 
     public static Vibrator getVibrator() {
