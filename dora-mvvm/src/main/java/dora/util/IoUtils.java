@@ -27,6 +27,7 @@ import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -606,6 +607,16 @@ public final class IoUtils {
      * @param folder 保存到的文件夹
      */
     public static void batchDownloadFileToFolder(String[] urls, String folder) {
+        batchDownloadFileToFolder(Arrays.asList(urls), folder);
+    }
+
+    /**
+     * 批量下载文件。
+     *
+     * @param urls 要下载的所有文件的url
+     * @param folder 保存到的文件夹
+     */
+    public static void batchDownloadFileToFolder(List<String> urls, String folder) {
         Executors.newCachedThreadPool().submit(() -> {
             for (String url : urls) {
                 downloadFileToFolder(url, folder);
@@ -680,6 +691,17 @@ public final class IoUtils {
             e.printStackTrace();
         }
         return baos.toByteArray();
+    }
+
+    /**
+     * 检测一个文件或文件夹是否存在。
+     *
+     * @param path 文件或文件夹目录
+     * @return 是否存在
+     */
+    public static boolean checkExists(String path) {
+        File file = new File(path);
+        return file.exists();
     }
 
     /**
