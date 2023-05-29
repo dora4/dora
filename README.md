@@ -34,6 +34,28 @@ Features
   </application>
 
 - BaseActivity and BaseFragment encapsulation based on the MVVM architecture. It supports seamless switching of Fragments in Activity, providing a perfect solution for Fragment switching without overlap. It also supports monitoring network changes in Activity. You can use the IDE plugin for more convenient development, available at https://github.com/dora4/dora-studio-plugin.
+  1. showShortToast() and showLongToast()
+
+     Convenient methods to display a Toast message at any point in your code. Automatically handles thread switching, so you don't need to worry about errors.
+  2. openActivity() and openActivityForResult() series
+
+     Alternative methods to startActivity and startActivityForResult, providing a more convenient way to pass parameters.
+
+  3. onGetExtras()
+
+     Convenient method to retrieve parameters passed through an intent. Should be called before initData(). This ensures that all the required parameters are available during the initData() process.
+
+  4. onNetworkConnected() and onNetworkDisconnected()
+
+     Listeners for network connection status, indicating when the network is connected or disconnected.
+
+  5. onSetStatusBar()
+    
+     Convenient method for initializing the status bar.
+  
+  6. showPage(), nextPage(), and getFlowFragmentPageKeys()
+  
+     This framework automatically manages the switching of Fragments within BaseActivity. It is commonly used in scenarios where there is no need for activity transition animations but rather direct changes to the overall layout of the interface. A detailed explanation is not provided here, but you can refer to the source code if you're interested.
 
 - DoraCrash allows configuring crash information to be written into files with just one line of code, making bugs easier to identify.
 
