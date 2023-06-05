@@ -3,6 +3,9 @@ package dora;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +34,7 @@ import dora.util.IntentUtils;
 import dora.util.KVUtils;
 import dora.util.MultiLanguageUtils;
 import dora.util.NetUtils;
+import dora.util.ReflectionUtils;
 import dora.util.ToastUtils;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
@@ -44,13 +51,53 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         return this;
     }
 
+    private boolean isTranslucentOrFloating() {
+        Class<?> styleableClazz = ReflectionUtils.findClass("com.android.internal.R.styleable");
+        Field windowField = ReflectionUtils.findField(styleableClazz, false, "Window");
+        if (windowField == null) {
+            return false;
+        }
+        int[] styleableRes = (int[]) ReflectionUtils.getFieldValue(windowField, null);
+        TypedArray a = obtainStyledAttributes(styleableRes);
+        Method m = ReflectionUtils.findMethod(ActivityInfo.class, false, "isTranslucentOrFloating", TypedArray.class);
+        return  (boolean) ReflectionUtils.invokeMethod(null, m, a);
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(MultiLanguageUtils.attachBaseContext(newBase));
     }
 
+    /**
+     * 修复8.x半透明主题旋转屏幕问题。
+     */
+    private void fixOrientation() {
+        Field field = ReflectionUtils.findField(Activity.class, true, "mActivityInfo");
+        if (field != null) {
+            ActivityInfo activityInfo = (ActivityInfo) ReflectionUtils.getFieldValue(field, this);
+            if (activityInfo != null) {
+                activityInfo.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+            }
+        }
+    }
+
+    @Override
+    public void setRequestedOrientation(int requestedOrientation) {
+        if ((Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT
+                == Build.VERSION_CODES.O_MR1) && isTranslucentOrFloating()) {
+            return;
+        }
+        super.setRequestedOrientation(requestedOrientation);
+    }
+
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
+        if ((Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT
+                == Build.VERSION_CODES.O_MR1) && isTranslucentOrFloating()) {
+            // 修复Android8.0和8.1系统的半透明主题旋转屏幕BUG，需要关掉锁定屏幕方向按钮复现，该问题只出现在8.x手
+            // 机上，可想而知，官方在9.0中修复了此问题
+            fixOrientation();
+        }
         super.onCreate(savedInstanceState);
         onSetStatusBar();
         onSetNavigationBar();
