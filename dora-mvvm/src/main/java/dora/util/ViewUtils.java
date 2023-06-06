@@ -10,7 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+
+import androidx.annotation.AnimRes;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -55,7 +59,9 @@ public final class ViewUtils implements Number {
     public static void removeViewFormParent(View view) {
         if (view == null) return;
         ViewParent parent = view.getParent();
-        ((ViewGroup)parent).removeView(view);
+        if (parent != null) {
+            ((ViewGroup) parent).removeView(view);
+        }
     }
 
     /**
@@ -170,5 +176,16 @@ public final class ViewUtils implements Number {
 
     public static float clamp(float value, float max, float min) {
         return Math.max(Math.min(value, max), min);
+    }
+
+    public static void runAnimation(Context context, View view, @AnimRes int animResId) {
+        Animation animation = AnimationUtils.loadAnimation(context, animResId);
+        if (animation != null) {
+            runAnimation(view, animation);
+        }
+    }
+
+    public static void runAnimation(View view, Animation animation) {
+        view.startAnimation(animation);
     }
 }
