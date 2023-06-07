@@ -116,6 +116,27 @@ public final class ImageUtils {
         }
     }
 
+    /**
+     * 创建位图。
+     *
+     * @param base64Img base64编码的图片字符串
+     * @return 位图
+     */
+    public static Bitmap createBitmap(String base64Img) {
+        if (TextUtils.isEmpty(base64Img)) {
+            return null;
+        }
+        if (base64Img.contains("data:image/jpeg;base64,")) {
+            base64Img = base64Img.replace("data:image/jpeg;base64,", "");
+        } else if (base64Img.contains("data:image/jpg;base64,")) {
+            base64Img = base64Img.replace("data:image/jpg;base64,", "");
+        } else if (base64Img.contains("data:image/png;base64,")) {
+            base64Img = base64Img.replace("data:image/png;base64,", "");
+        }
+        byte[] imgBytes = CryptoUtils.base64Decode(base64Img);
+        return BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
+    }
+
     public static void recycle(Bitmap bitmap) {
         if (bitmap != null && !bitmap.isRecycled()) {
             bitmap.recycle();
