@@ -42,6 +42,11 @@ public final class SPUtils {
         return sInstance;
     }
 
+    public static boolean hasKey(Context context, String key) {
+        getInstance(context);
+        return getPreferences().contains(key);
+    }
+
     public static void writeString(Context context, String key, String value) {
         getInstance(context).getEditor().putString(key, value).apply();
     }
