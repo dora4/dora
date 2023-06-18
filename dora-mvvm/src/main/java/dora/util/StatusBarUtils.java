@@ -217,8 +217,8 @@ public final class StatusBarUtils {
 
     private static void setFitsSystemWindow(DrawerLayout drawerLayout, ViewGroup drawerLayoutContentLayout) {
         ViewGroup drawer = (ViewGroup) drawerLayout.getChildAt(1);
-        drawerLayout.setFitsSystemWindows(true);
-        drawerLayoutContentLayout.setFitsSystemWindows(true);
+        drawerLayout.setFitsSystemWindows(false);
+        drawerLayoutContentLayout.setFitsSystemWindows(false);
         drawerLayoutContentLayout.setClipToPadding(true);
         drawer.setFitsSystemWindows(false);
     }
