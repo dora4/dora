@@ -5,7 +5,7 @@ import android.content.Context;
 
 import dora.lifecycle.application.AppDelegate;
 import dora.lifecycle.application.ApplicationLifecycleCallbacks;
-import dora.util.MultiLanguageUtils;
+import dora.util.LanguageUtils;
 
 /**
  * 继承这个类就相当于在AndroidManifest.xml中的application节点自动添加了
@@ -17,7 +17,7 @@ public class BaseApplication extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(MultiLanguageUtils.attachBaseContext(base));
+        super.attachBaseContext(LanguageUtils.attachBaseContext(base));
         if (mAppDelegate == null) {
             mAppDelegate = new AppDelegate(base);
         }

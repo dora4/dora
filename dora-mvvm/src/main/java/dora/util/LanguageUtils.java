@@ -13,9 +13,9 @@ import java.util.Locale;
 /**
  * 多语言与国际化相关工具。
  */
-public final class MultiLanguageUtils {
+public final class LanguageUtils {
 
-    private static MultiLanguageUtils sInstance;
+    private static LanguageUtils sInstance;
 
     private static final String PREFS_LANGUAGE = "dora_lang";
 
@@ -409,14 +409,14 @@ public final class MultiLanguageUtils {
      */
     public static final String LANG_ZH_TW = "zh_TW";
 
-    private MultiLanguageUtils() {
+    private LanguageUtils() {
     }
 
-    private static MultiLanguageUtils getInstance() {
+    private static LanguageUtils getInstance() {
         if (sInstance == null) {
-            synchronized (MultiLanguageUtils.class) {
+            synchronized (LanguageUtils.class) {
                 if (sInstance == null) {
-                    sInstance = new MultiLanguageUtils();
+                    sInstance = new LanguageUtils();
                 }
             }
         }
@@ -458,7 +458,7 @@ public final class MultiLanguageUtils {
     }
 
     private Locale getSavedLangLocale(Context context) {
-        String lang = SPUtils.readString(context, MultiLanguageUtils.PREFS_LANGUAGE, "");
+        String lang = SPUtils.readString(context, LanguageUtils.PREFS_LANGUAGE, "");
         if (TextUtils.isEmpty(lang)) {  // 跟随系统
             return getSysLocale();
         } else if (lang.equals(LANG_AM)) {
@@ -636,7 +636,7 @@ public final class MultiLanguageUtils {
      * 更新语言。
      */
     public static void updateLang(Context context, String lang) {
-        SPUtils.writeStringSync(context, MultiLanguageUtils.PREFS_LANGUAGE, lang);
+        SPUtils.writeStringSync(context, LanguageUtils.PREFS_LANGUAGE, lang);
         onUpdateConfiguration(context);
     }
 
@@ -644,7 +644,7 @@ public final class MultiLanguageUtils {
      * 获取到用户保存的语言类型。
      */
     public static String getLangTag(Context context) {
-        return SPUtils.readString(context, MultiLanguageUtils.PREFS_LANGUAGE, "");
+        return SPUtils.readString(context, LanguageUtils.PREFS_LANGUAGE, "");
     }
 
     /**

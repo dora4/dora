@@ -16,7 +16,6 @@ import androidx.databinding.ViewDataBinding;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ import dora.net.NetworkStateReceiver;
 import dora.util.FragmentUtils;
 import dora.util.IntentUtils;
 import dora.util.KVUtils;
-import dora.util.MultiLanguageUtils;
+import dora.util.LanguageUtils;
 import dora.util.NetUtils;
 import dora.util.ReflectionUtils;
 import dora.util.ToastUtils;
@@ -65,7 +64,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(MultiLanguageUtils.attachBaseContext(newBase));
+        super.attachBaseContext(LanguageUtils.attachBaseContext(newBase));
     }
 
     /**
