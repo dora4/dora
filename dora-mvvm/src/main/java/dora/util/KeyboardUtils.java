@@ -189,8 +189,8 @@ public final class KeyboardUtils {
         Log.d("KeyboardUtils",
             "getDecorViewInvisibleHeight: " + (decorView.getBottom() - outRect.bottom));
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
-        if (delta <= NavigationBarUtils.getNavigationBarHeight(decorView.getContext())
-                + StatusBarUtils.getStatusBarHeight(decorView.getContext())) {
+        if (delta <= NavigationBarUtils.getNavigationBarHeight()
+                + StatusBarUtils.getStatusBarHeight()) {
             sDecorViewDelta = delta;
             return 0;
         }
@@ -306,8 +306,8 @@ public final class KeyboardUtils {
         Log.d("KeyboardUtils",
             "getContentViewInvisibleHeight: " + (contentView.getBottom() - outRect.bottom));
         int delta = Math.abs(contentView.getBottom() - outRect.bottom);
-        if (delta <= StatusBarUtils.getStatusBarHeight(contentView.getContext())
-                + NavigationBarUtils.getNavigationBarHeight(contentView.getContext())) {
+        if (delta <= StatusBarUtils.getStatusBarHeight()
+                + NavigationBarUtils.getNavigationBarHeight()) {
             return 0;
         }
         return delta;

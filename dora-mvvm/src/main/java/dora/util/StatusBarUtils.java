@@ -2,6 +2,7 @@ package dora.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
@@ -143,7 +144,7 @@ public final class StatusBarUtils {
         // 绘制一个和状态栏一样高的矩形
         View statusBarView = new View(activity);
         LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(activity));
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
         statusBarView.setLayoutParams(params);
         statusBarView.setBackgroundColor(calculateColor(color, alpha));
         statusBarView.setId(DORA_STATUS_BAR_VIEW_ID);
@@ -207,7 +208,7 @@ public final class StatusBarUtils {
         }
         if (!(contentLayout instanceof LinearLayout) && contentLayout.getChildAt(1) != null) {
             contentLayout.getChildAt(1)
-                    .setPadding(contentLayout.getPaddingLeft(), getStatusBarHeight(activity) + contentLayout.getPaddingTop(),
+                    .setPadding(contentLayout.getPaddingLeft(), getStatusBarHeight() + contentLayout.getPaddingTop(),
                             contentLayout.getPaddingRight(), contentLayout.getPaddingBottom());
         }
         setFitsSystemWindow(drawerLayout, contentLayout);
@@ -216,8 +217,8 @@ public final class StatusBarUtils {
 
     private static void setFitsSystemWindow(DrawerLayout drawerLayout, ViewGroup drawerLayoutContentLayout) {
         ViewGroup drawer = (ViewGroup) drawerLayout.getChildAt(1);
-        drawerLayout.setFitsSystemWindows(false);
-        drawerLayoutContentLayout.setFitsSystemWindows(false);
+        drawerLayout.setFitsSystemWindows(true);
+        drawerLayoutContentLayout.setFitsSystemWindows(true);
         drawerLayoutContentLayout.setClipToPadding(true);
         drawer.setFitsSystemWindows(false);
     }
@@ -252,7 +253,7 @@ public final class StatusBarUtils {
         // 绘制一个和状态栏一样高的矩形
         View statusBarView = new View(activity);
         LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(activity));
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
         statusBarView.setLayoutParams(params);
         statusBarView.setBackgroundColor(calculateColor(Color.BLACK, alpha));
         statusBarView.setId(DORA_STATUS_BAR_VIEW_ID);
@@ -427,27 +428,12 @@ public final class StatusBarUtils {
         }
     }
 
-    public static int getStatusBarHeight() {
-        return getStatusBarHeight(GlobalContext.get());
-    }
-
     /**
      * 获得状态栏高度。
      */
-    public static int getStatusBarHeight(Context context) {
-        Class<?> clazz;
-        Object obj;
-        Field field;
-        int x, statusBarHeight = 0;
-        try {
-            clazz = Class.forName("com.android.internal.R$dimen");
-            obj = clazz.newInstance();
-            field = clazz.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            statusBarHeight = context.getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        return statusBarHeight;
+    public static int getStatusBarHeight() {
+        Resources resources = Resources.getSystem();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        return resources.getDimensionPixelSize(resourceId);
     }
 }

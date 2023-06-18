@@ -104,7 +104,7 @@ public final class ScreenUtils {
 
         if (!useContentSize) {
             size[0] = widthPixels;
-            size[1] = heightPixels - StatusBarUtils.getStatusBarHeight(context);
+            size[1] = heightPixels - StatusBarUtils.getStatusBarHeight();
 
             return size;
         }

@@ -2,6 +2,7 @@ package dora.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
@@ -46,7 +47,7 @@ public final class NavigationBarUtils {
             return false;
         }
         int activityHeight = contentRect.height();
-        int statusBarHeight = StatusBarUtils.getStatusBarHeight(activity);
+        int statusBarHeight = StatusBarUtils.getStatusBarHeight();
         int remainHeight = ScreenUtils.getRealHeight(activity) - statusBarHeight;
         if (activityHeight == remainHeight) {
             return false;
@@ -55,27 +56,12 @@ public final class NavigationBarUtils {
         }
     }
 
-    public static int getNavigationBarHeight() {
-        return getNavigationBarHeight(GlobalContext.get());
-    }
-
     /**
      * 获得导航栏高度。
      */
-    public static int getNavigationBarHeight(Context context) {
-        Class<?> clazz;
-        Object obj;
-        Field field;
-        int x, navigationBarHeight = 0;
-        try {
-            clazz = Class.forName("com.android.internal.R$dimen");
-            obj = clazz.newInstance();
-            field = clazz.getField("navigation_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            navigationBarHeight = context.getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        return navigationBarHeight;
+    public static int getNavigationBarHeight() {
+        Resources resources = Resources.getSystem();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        return resources.getDimensionPixelSize(resourceId);
     }
 }

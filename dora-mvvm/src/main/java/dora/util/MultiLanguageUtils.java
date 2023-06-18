@@ -407,7 +407,7 @@ public final class MultiLanguageUtils {
     /**
      * 中文繁体/台湾。
      */
-    public static final String LANG_ZH_TW = "zh_TW";//
+    public static final String LANG_ZH_TW = "zh_TW";
 
     private MultiLanguageUtils() {
     }
