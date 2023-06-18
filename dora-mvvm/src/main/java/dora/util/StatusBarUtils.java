@@ -218,7 +218,7 @@ public final class StatusBarUtils {
     private static void setFitsSystemWindow(DrawerLayout drawerLayout, ViewGroup drawerLayoutContentLayout) {
         ViewGroup drawer = (ViewGroup) drawerLayout.getChildAt(1);
         drawerLayout.setFitsSystemWindows(true);
-        drawerLayoutContentLayout.setFitsSystemWindows(true);
+        drawerLayoutContentLayout.setFitsSystemWindows(false);
         drawerLayoutContentLayout.setClipToPadding(true);
         drawer.setFitsSystemWindows(false);
     }
@@ -296,7 +296,7 @@ public final class StatusBarUtils {
      * @param dark       true 字体颜色为黑色，false为白色
      * @param isFullMode 是否在全屏模式下
      */
-    public static void setLightStatusBar(final Activity activity, final boolean dark, boolean isFullMode) {
+    public static void setLightDarkStatusBar(final Activity activity, final boolean dark, boolean isFullMode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int romType = RomUtils.getLightStatusBarAvailableRomType();
             switch (romType) {
