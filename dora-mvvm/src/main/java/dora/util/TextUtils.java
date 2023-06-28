@@ -1,5 +1,9 @@
 package dora.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 
@@ -114,6 +118,10 @@ public final class TextUtils {
             }
         }
         return true;
+    }
+
+    public static String readText(File file) {
+        return IoUtils.readText(file);
     }
 
     public static String combineString(Iterator<String> strings) {
