@@ -127,7 +127,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
      * @param key
      * @return
      */
-    protected BaseFragment<?> getFlowFragment(String key) {
+    protected BaseFragment<?> getFlowFragment(@NonNull String key) {
         return null;
     }
 
