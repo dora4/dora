@@ -1,21 +1,23 @@
 package dora;
 
+import androidx.annotation.NonNull;
+
 import dora.util.IntentUtils;
 
 /**
- * 在Activity中切换多个Fragment时使用。
+ * 用于在Activity中切换多个Fragment。
  */
 public interface PageSwitcher {
 
     /**
      * Fragment非流式切换之显示页面。
      */
-    void showPage(String key);
+    void showPage(@NonNull String key);
 
     /**
      * Fragment非流式切换之显示页面。
      */
-    void showPage(String key, IntentUtils.Extras extras);
+    void showPage(@NonNull String key, IntentUtils.Extras extras);
 
     /**
      * Fragment流式切换之显示上一页。

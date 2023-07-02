@@ -9,12 +9,10 @@ This is a framework for Android application development, which incorporates the 
 ![avatar](https://github.com/dora4/dora/blob/master/Dora.gif)
 
 Features
-- Global lifecycle configuration: DefaultGlobalConfig, TaskStackGlobalConfig, and custom configuration. It supports configuring the lifecycles of Application, Activity, and Fragment, allowing you to write once and reuse in all projects.
+- Global lifecycle configuration: TaskStackGlobalConfig, and custom configuration. It supports configuring the lifecycles of Application, Activity, and Fragment, allowing you to write once and reuse in all projects.
 
  <!-- Global lifecycle configuration, value is configured as GlobalConfig, name is the mapping configuration class, multiple configurations can be set -->
  <application>
-      <!-- DefaultGlobalConfig is the default configuration, even if no GlobalConfig is configured, it should be configured at least. It allows Activity to automatically listen to network conditions. Inherit and use [dora.BaseApplication] for automatic configuration -->
-      
       <!-- TaskStackGlobalConfig must be configured for invoking the openActivity series methods of BaseActivity -->
       <meta-data
           android:name="dora.lifecycle.config.TaskStackGlobalConfig"

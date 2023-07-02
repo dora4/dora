@@ -10,12 +10,10 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 
 二、功能介绍
 
-- 全局生命周期配置DefaultGlobalConfig、TaskStackGlobalConfig以及自定义配置，支持配置Application、Activity和Fragment的生命周期，一次编写，所有项目复用。
+- 全局生命周期配置TaskStackGlobalConfig以及自定义配置，支持配置Application、Activity和Fragment的生命周期，一次编写，所有项目复用。
     
        <!-- 全局生命周期配置，value配置为GlobalConfig，name为映射的配置类即可，可配置多个 -->
        <application>
-            <!-- dora.lifecycle.config.DefaultGlobalConfig为默认配置，即使不配置任何GlobalConfig，也至少配置了它，请不要重复配置，让Activity自动监听了网络状况。继承并使用[dora.BaseApplication]自动配置 -->
-            
             <!-- 调用BaseActivity的openActivity系列方法必须配置TaskStackGlobalConfig -->
             <meta-data
                 android:name="dora.lifecycle.config.TaskStackGlobalConfig"

@@ -155,7 +155,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
-    public void showPage(String key) {
+    public void showPage(@NonNull String key) {
         if (mFragmentCache.containsKey(key)) {
             BaseFragment<?> fragment = mFragmentCache.get(key);
             if (fragment != null) {
@@ -171,7 +171,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
-    public void showPage(String key, IntentUtils.Extras extras) {
+    public void showPage(@NonNull String key, IntentUtils.Extras extras) {
         if (mFragmentCache.containsKey(key)) {
             BaseFragment<?> fragment = mFragmentCache.get(key);
             if (fragment != null) {

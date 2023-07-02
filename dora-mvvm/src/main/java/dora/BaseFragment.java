@@ -62,14 +62,14 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void showPage(String key) {
+    public void showPage(@NonNull String key) {
         if (getPageSwitcher() != null) {
             getPageSwitcher().showPage(key);
         }
     }
 
     @Override
-    public void showPage(String key, IntentUtils.Extras extras) {
+    public void showPage(@NonNull String key, IntentUtils.Extras extras) {
         if (getPageSwitcher() != null) {
             getPageSwitcher().showPage(key);
         }
