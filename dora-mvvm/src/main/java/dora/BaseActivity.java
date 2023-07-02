@@ -291,22 +291,42 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         ToastUtils.showLong(this, msg);
     }
 
+    /**
+     * 将会在未来版本移除。
+     */
+    @Deprecated
     public void openActivity(Class<? extends Activity> activityClazz) {
         IntentUtils.startActivity(activityClazz);
     }
 
+    /**
+     * 将会在未来版本移除。
+     */
+    @Deprecated
     public void openActivityForResult(Class<? extends Activity> activityClazz, int requestCode) {
         IntentUtils.startActivityForResult(activityClazz, requestCode);
     }
 
+    /**
+     * 将会在未来版本移除。
+     */
+    @Deprecated
     public void openActivity(Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
         IntentUtils.startActivity(activityClazz, extras);
     }
 
+    /**
+     * 将会在未来版本移除。
+     */
+    @Deprecated
     public void openActivityForResult(Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
         IntentUtils.startActivityForResult(activityClazz, extras, requestCode);
     }
 
+    /**
+     * 将会在未来版本移除。
+     */
+    @Deprecated
     public void openActivityWithString(Class<? extends Activity> activityClazz, String name, String extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
@@ -314,6 +334,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         IntentUtils.startActivity(activityClazz, extras);
     }
 
+    /**
+     * 将会在未来版本移除。
+     */
+    @Deprecated
     public void openActivityWithInteger(Class<? extends Activity> activityClazz, String name, int extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
@@ -321,6 +345,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         IntentUtils.startActivity(activityClazz, extras);
     }
 
+    /**
+     * 将会在未来版本移除。
+     */
+    @Deprecated
     public void openActivityWithBoolean(Class<? extends Activity> activityClazz, String name, boolean extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
@@ -328,6 +356,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         IntentUtils.startActivity(activityClazz, extras);
     }
 
+    /**
+     * 将会在未来版本移除。
+     */
+    @Deprecated
     public void openActivityWithSerializable(Class<? extends Activity> activityClazz, String name, Serializable extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);

@@ -111,18 +111,36 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         ToastUtils.showLong(getContext(), msg);
     }
 
+    /**
+     * 将会在未来版本移除。
+     *
+     * @param activityClazz
+     */
+    @Deprecated
     public void openActivity(Class<? extends Activity> activityClazz) {
         FragmentActivity activity = requireActivity();
         Intent intent = new Intent(activity, activityClazz);
         activity.startActivity(intent);
     }
 
+    /**
+     * 将会在未来版本移除。
+     *
+     * @param activityClazz
+     */
+    @Deprecated
     public void openActivityForResult(Class<? extends Activity> activityClazz, int requestCode) {
         FragmentActivity activity = requireActivity();
         Intent intent = new Intent(activity, activityClazz);
         activity.startActivityForResult(intent, requestCode);
     }
 
+    /**
+     * 将会在未来版本移除。
+     *
+     * @param activityClazz
+     */
+    @Deprecated
     public void openActivity(Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
         FragmentActivity activity = requireActivity();
         Intent intent = new Intent(activity, activityClazz);
@@ -130,6 +148,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         activity.startActivity(intent);
     }
 
+    /**
+     * 将会在未来版本移除。
+     *
+     * @param activityClazz
+     */
+    @Deprecated
     public void openActivityForResult(Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
         FragmentActivity activity = requireActivity();
         Intent intent = new Intent(activity, activityClazz);
@@ -137,6 +161,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         activity.startActivityForResult(intent, requestCode);
     }
 
+    /**
+     * 将会在未来版本移除。
+     *
+     * @param activityClazz
+     */
+    @Deprecated
     public void openActivityWithString(Class<? extends Activity> activityClazz, String name, String extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
@@ -147,6 +177,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         activity.startActivity(intent);
     }
 
+    /**
+     * 将会在未来版本移除。
+     *
+     * @param activityClazz
+     */
+    @Deprecated
     public void openActivityWithInteger(Class<? extends Activity> activityClazz, String name, int extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
@@ -157,6 +193,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         activity.startActivity(intent);
     }
 
+    /**
+     * 将会在未来版本移除。
+     *
+     * @param activityClazz
+     */
+    @Deprecated
     public void openActivityWithBoolean(Class<? extends Activity> activityClazz, String name, boolean extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
@@ -167,6 +209,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         activity.startActivity(intent);
     }
 
+    /**
+     * 将会在未来版本移除。
+     *
+     * @param activityClazz
+     */
+    @Deprecated
     public void openActivityWithSerializable(Class<? extends Activity> activityClazz, String name, Serializable extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);

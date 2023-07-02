@@ -9,12 +9,14 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dora.lifecycle.config.DefaultGlobalConfig;
+import dora.lifecycle.activity.ActivityLifecycle;
 import dora.lifecycle.config.GlobalConfig;
+import dora.lifecycle.fragment.FragmentLifecycle;
 import dora.util.ProcessUtils;
 
 public class AppDelegate implements ApplicationLifecycleCallbacks {
@@ -150,6 +152,33 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
         public void onLowMemory() {
             //系统正运行于低内存的状态并且你的进程正处于 LRU 列表中最容易被杀掉的位置, 你应该释放任何不影响你的 App 恢复状态的资源
             ProcessUtils.killAllProcesses(mApp);
+        }
+    }
+
+    /**
+     * 默认全局配置实现，让Activity自动监听了网络状况。继承并使用[dora.BaseApplication]自动配置。
+     */
+    private static class DefaultGlobalConfig implements GlobalConfig {
+
+        @Override
+        public void injectApplicationLifecycle(Context context, List<ApplicationLifecycleCallbacks> lifecycles) {
+            //AppLifecycle 中的所有方法都会在基类 Application 的对应生命周期中被调用, 所以在对应的方法中可以扩展一些自己需要的逻辑
+            //可以根据不同的逻辑添加多个实现类
+            lifecycles.add(new AppLifecycle());
+        }
+
+        @Override
+        public void injectActivityLifecycle(Context context, List<Application.ActivityLifecycleCallbacks> lifecycles) {
+            //ActivityLifecycleCallbacks 中的所有方法都会在 Activity (包括三方库) 的对应生命周期中被调用, 所以在对应的方法中可以扩展一些自己需要的逻辑
+            //可以根据不同的逻辑添加多个实现类
+            lifecycles.add(new ActivityLifecycle());
+        }
+
+        @Override
+        public void injectFragmentLifecycle(Context context, List<FragmentManager.FragmentLifecycleCallbacks> lifecycles) {
+            //FragmentLifecycleCallbacks 中的所有方法都会在 Fragment (包括三方库) 的对应生命周期中被调用, 所以在对应的方法中可以扩展一些自己需要的逻辑
+            //可以根据不同的逻辑添加多个实现类
+            lifecycles.add(new FragmentLifecycle());
         }
     }
 }
