@@ -45,7 +45,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(@Nullable Bundle savedInstanceState) {
     }
 
     public PageSwitcher getPageSwitcher() {
