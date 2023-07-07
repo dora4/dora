@@ -5,42 +5,49 @@ import androidx.annotation.NonNull;
 import dora.util.IntentUtils;
 
 /**
- * 用于在Activity中切换多个Fragment。
+ * It is used to switch multiple fragments in an activity. Either activity or fragment，you should
+ * implement this interface.
+ * 简体中文：用于在Activity中切换多个Fragment。无论是activity或fragment，你都应该实现此接口。
  */
 public interface PageSwitcher {
 
     /**
-     * Fragment非流式切换之显示页面。
+     * @see #showPage(String, IntentUtils.Extras)
      */
     void showPage(@NonNull String key);
 
     /**
-     * Fragment非流式切换之显示页面。
+     * Display a fragment in the activity according to key.
+     * 简体中文：根据key显示activity中的某个fragment。
      */
     void showPage(@NonNull String key, IntentUtils.Extras extras);
 
     /**
-     * Fragment流式切换之显示上一页。
+     * @see #lastPage(IntentUtils.Extras)
      */
     void lastPage();
 
     /**
-     * Fragment流式切换之显示上一页。
+     * Display last fragment in the activity.
+     * 简体中文：显示activity中的上一个fragment。
      */
     void lastPage(IntentUtils.Extras extras);
 
     /**
-     * Fragment流式切换之显示下一页。
+     * @see #nextPage(IntentUtils.Extras)
      */
     void nextPage();
 
     /**
-     * Fragment流式切换之显示下一页。
+     * Display next fragment in the activity.
+     * 简体中文：显示activity中的下一个fragment。
      */
     void nextPage(IntentUtils.Extras extras);
 
     /**
-     * 到达第一页再往上一页是否显示最后一页，到达最后一页再往下一页是否显示第一页。
+     * Whether to display the last page after reaching the first page, whether to display the
+     * first page after reaching the last page.
+     * 简体中文：到达第一页再往上一页是否显示最后一页，到达最后一页再往下一页是否显示第一页。
      */
     boolean isLoop();
 }
