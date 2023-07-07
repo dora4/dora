@@ -112,9 +112,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     /**
-     * 将会在未来版本移除。
-     *
-     * @param activityClazz
+     * 将会在未来版本移除。推荐使用dora-arouter-support的open系列方法或IntentUtils的startActivity系列方法替代。
      */
     @Deprecated
     public void openActivity(Class<? extends Activity> activityClazz) {
@@ -124,9 +122,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     /**
-     * 将会在未来版本移除。
-     *
-     * @param activityClazz
+     * 将会在未来版本移除。推荐使用dora-arouter-support的open系列方法或IntentUtils的startActivity系列方法替代。
      */
     @Deprecated
     public void openActivityForResult(Class<? extends Activity> activityClazz, int requestCode) {
@@ -136,9 +132,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     /**
-     * 将会在未来版本移除。
-     *
-     * @param activityClazz
+     * 将会在未来版本移除。推荐使用dora-arouter-support的open系列方法或IntentUtils的startActivity系列方法替代。
      */
     @Deprecated
     public void openActivity(Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
@@ -149,9 +143,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     /**
-     * 将会在未来版本移除。
-     *
-     * @param activityClazz
+     * 将会在未来版本移除。推荐使用dora-arouter-support的open系列方法或IntentUtils的startActivity系列方法替代。
      */
     @Deprecated
     public void openActivityForResult(Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
@@ -162,9 +154,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     /**
-     * 将会在未来版本移除。
-     *
-     * @param activityClazz
+     * 将会在未来版本移除。推荐使用dora-arouter-support的open系列方法或IntentUtils的startActivity系列方法替代。
      */
     @Deprecated
     public void openActivityWithString(Class<? extends Activity> activityClazz, String name, String extra) {
@@ -178,9 +168,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     /**
-     * 将会在未来版本移除。
-     *
-     * @param activityClazz
+     * 将会在未来版本移除。推荐使用dora-arouter-support的open系列方法或IntentUtils的startActivity系列方法替代。
      */
     @Deprecated
     public void openActivityWithInteger(Class<? extends Activity> activityClazz, String name, int extra) {
@@ -194,9 +182,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     /**
-     * 将会在未来版本移除。
-     *
-     * @param activityClazz
+     * 将会在未来版本移除。推荐使用dora-arouter-support的open系列方法或IntentUtils的startActivity系列方法替代。
      */
     @Deprecated
     public void openActivityWithBoolean(Class<? extends Activity> activityClazz, String name, boolean extra) {
@@ -210,9 +196,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     /**
-     * 将会在未来版本移除。
-     *
-     * @param activityClazz
+     * 将会在未来版本移除。推荐使用dora-arouter-support的open系列方法或IntentUtils的startActivity系列方法替代。
      */
     @Deprecated
     public void openActivityWithSerializable(Class<? extends Activity> activityClazz, String name, Serializable extra) {
