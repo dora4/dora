@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -86,6 +88,64 @@ public final class IntentUtils {
             intent = extras.parseData(intent);
             topActivity.startActivityForResult(intent, requestCode);
         } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
+    }
+
+    public void startActivity(Activity activity, Class<? extends Activity> activityClazz) {
+        Intent intent = new Intent(activity, activityClazz);
+        activity.startActivity(intent);
+    }
+
+    public void startActivityForResult(Activity activity, Class<? extends Activity> activityClazz, int requestCode) {
+        Intent intent = new Intent(activity, activityClazz);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public void startActivity(Activity activity, Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
+    }
+
+    public void startActivityForResult(Activity activity, Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public void startActivityWithString(Activity activity, Class<? extends Activity> activityClazz, String name, String extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
+    }
+
+    public void startActivityWithInteger(Activity activity, Class<? extends Activity> activityClazz, String name, int extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
+    }
+
+    public void startActivityWithBoolean(Activity activity, Class<? extends Activity> activityClazz, String name, boolean extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
+    }
+
+    public void startActivityWithSerializable(Activity activity, Class<? extends Activity> activityClazz, String name, Serializable extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        IntentUtils.Extras extras = new IntentUtils.Extras(map);
+        Intent intent = new Intent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivity(intent);
     }
 
     public static void startService(@NonNull String action) {
