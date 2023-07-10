@@ -23,7 +23,7 @@ import dora.util.KVUtils;
 import dora.util.ToastUtils;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
-        DataLoader<T>, PageSwitcher {
+        DataLoader<T>, PageTransformer {
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
@@ -47,9 +47,9 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public void initData(@Nullable Bundle savedInstanceState, @NonNull T binding) {
     }
 
-    public PageSwitcher getPageSwitcher() {
-        if (getActivity() instanceof PageSwitcher) {
-            return (PageSwitcher) getActivity();
+    public PageTransformer getPageSwitcher() {
+        if (getActivity() instanceof PageTransformer) {
+            return (PageTransformer) getActivity();
         }
         return null;
     }

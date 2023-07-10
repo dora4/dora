@@ -8,16 +8,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import dora.memory.Cache;
-import dora.memory.FragmentCache;
+import dora.memory.DataLoader;
 
 public class FragmentLifecycle extends FragmentManager.FragmentLifecycleCallbacks {
 
     @Override
     public void onFragmentAttached(FragmentManager fm, Fragment f, Context context) {
-        if (f instanceof FragmentCache) {
+        if (f instanceof DataLoader) {
             FragmentDelegate fragmentDelegate = fetchFragmentDelegate(f);
             if (fragmentDelegate == null || !fragmentDelegate.isAdded()) {
-                Cache<String, Object> cache = ((FragmentCache) f).loadCache();
+                Cache<String, Object> cache = ((DataLoader) f).loadCache();
                 fragmentDelegate = new FragmentDelegateImpl(f);
                 cache.put(FragmentDelegate.CACHE_KEY, fragmentDelegate);
             }
@@ -114,8 +114,8 @@ public class FragmentLifecycle extends FragmentManager.FragmentLifecycleCallback
     }
 
     private FragmentDelegate fetchFragmentDelegate(Fragment fragment) {
-        if (fragment instanceof FragmentCache) {
-            Cache<String, Object> cache = ((FragmentCache) fragment).loadCache();
+        if (fragment instanceof DataLoader) {
+            Cache<String, Object> cache = ((DataLoader) fragment).loadCache();
             return (FragmentDelegate) cache.get(FragmentDelegate.CACHE_KEY);
         }
         return null;

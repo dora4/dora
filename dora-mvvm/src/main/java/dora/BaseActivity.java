@@ -36,7 +36,7 @@ import dora.util.ReflectionUtils;
 import dora.util.ToastUtils;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
-        implements DataLoader<T>, PageSwitcher {
+        implements DataLoader<T>, PageTransformer {
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();

@@ -9,7 +9,7 @@ import dora.util.IntentUtils;
  * implement this interface.
  * 简体中文：用于在Activity中切换多个Fragment。无论是activity或fragment，你都应该实现此接口。
  */
-public interface PageSwitcher {
+public interface PageTransformer {
 
     /**
      * @see #showPage(String, IntentUtils.Extras)
