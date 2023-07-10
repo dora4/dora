@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import dora.memory.ActivityCache;
+import dora.memory.DataLoader;
 import dora.memory.Cache;
 import dora.lifecycle.fragment.FragmentLifecycle;
 import dora.lifecycle.config.GlobalConfig;
@@ -23,10 +23,10 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        if (activity instanceof ActivityCache) {
+        if (activity instanceof DataLoader) {
             ActivityDelegate activityDelegate = fetchActivityDelegate(activity);
             if (activityDelegate == null) {
-                Cache<String, Object> cache = ((ActivityCache) activity).loadCache();
+                Cache<String, Object> cache = ((DataLoader) activity).loadCache();
                 activityDelegate = new ActivityDelegateImpl(activity);
                 cache.put(ActivityDelegate.CACHE_KEY, activityDelegate);
             }
@@ -80,8 +80,8 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
         ActivityDelegate activityDelegate = fetchActivityDelegate(activity);
         if (activityDelegate != null) {
             activityDelegate.onDestroy();
-            if (activity instanceof ActivityCache) {
-                ((ActivityCache) activity).loadCache().clear();
+            if (activity instanceof DataLoader) {
+                ((DataLoader) activity).loadCache().clear();
             }
         }
     }
@@ -107,8 +107,8 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
 
     private ActivityDelegate fetchActivityDelegate(Activity activity) {
         ActivityDelegate activityDelegate = null;
-        if (activity instanceof ActivityCache) {
-            Cache<String, Object> cache = ((ActivityCache) activity).loadCache();
+        if (activity instanceof DataLoader) {
+            Cache<String, Object> cache = ((DataLoader) activity).loadCache();
             activityDelegate = (ActivityDelegate) cache.get(ActivityDelegate.CACHE_KEY);
         }
         return activityDelegate;

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -22,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import dora.memory.ActivityCache;
+import dora.memory.DataLoader;
 import dora.memory.Cache;
 import dora.memory.CacheType;
 import dora.memory.LruCache;
@@ -37,12 +36,12 @@ import dora.util.ReflectionUtils;
 import dora.util.ToastUtils;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
-        implements ActivityCache, PageSwitcher {
+        implements DataLoader<T>, PageSwitcher {
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
     protected Cache<String, Object> mCache;
-    private Map<String, BaseFragment<?>> mFragmentCache = new HashMap<>();
+    private final Map<String, BaseFragment<?>> mFragmentCache = new HashMap<>();
     protected NetworkChangeObserver mNetworkChangeObserver = null;
     private int mFragmentPageIndex;
 
@@ -119,6 +118,15 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         // 在initData之前读取必要的extras
         onGetExtras(intent.getAction(), bundle, intent);
         initData(savedInstanceState);
+        initData(savedInstanceState, mBinding);
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState, @NonNull T binding) {
     }
 
     /**

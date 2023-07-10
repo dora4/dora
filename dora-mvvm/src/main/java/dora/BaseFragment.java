@@ -1,8 +1,6 @@
 package dora;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,23 +11,19 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
+import dora.memory.DataLoader;
 import dora.memory.Cache;
 import dora.memory.CacheType;
-import dora.memory.FragmentCache;
 import dora.memory.LruCache;
 import dora.util.IntentUtils;
 import dora.util.KVUtils;
 import dora.util.ToastUtils;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
-        FragmentCache, PageSwitcher {
+        DataLoader<T>, PageSwitcher {
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
@@ -42,10 +36,15 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         assert mBinding != null;
         mBinding.setLifecycleOwner(this);
         initData(savedInstanceState);
+        initData(savedInstanceState, mBinding);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState, @NonNull T binding) {
     }
 
     public PageSwitcher getPageSwitcher() {
@@ -57,7 +56,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
 
     @Override
     public final boolean isLoop() {
-        // 由activity决定
+        // Dependents on activity.
         return getPageSwitcher().isLoop();
     }
 
