@@ -24,11 +24,18 @@ public class FragmentDelegateImpl implements FragmentDelegate {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         LogUtils.iformat(LogUtils.TAG, "%s - onCreate", mFragment.getClass().getSimpleName());
-        // 在配置变化的时候将这个 Fragment 保存下来,在 Activity 由于配置变化重建时重复利用已经创建的 Fragment。
-        // https://developer.android.com/reference/android/app/Fragment.html?hl=zh-cn#setRetainInstance(boolean)
-        // 如果在 XML 中使用 <Fragment/> 标签,的方式创建 Fragment 请务必在标签中加上 android:id 或者
-        // android:tag 属性,否则 setRetainInstance(true) 无效在 Activity 中绑定少量的 Fragment 建议这样做，
-        // 如果需要绑定较多的 Fragment 不建议设置此参数,如 ViewPager 需要展示较多 Fragment
+        // Save this fragment during configuration changes and reuse the created fragment when the
+        // activity is recreated due to configuration changes.
+        // If using the <Fragment/> tag in XML to create the fragment, be sure to include the
+        // android:id or android:tag attribute in the tag. Otherwise, setRetainInstance(true) will
+        // not work.It is recommended to set this parameter when binding a small number of fragments
+        // in an activity. If you need to bind a large number of fragments, it is not recommended to
+        // set this parameter, such as when using a ViewPager to display multiple fragments.
+        // 简体中文：在配置变化的时候将这个 Fragment 保存下来,在 Activity 由于配置变化重建时重复利用已经创建的
+        // Fragment。https://developer.android.com/reference/android/app/Fragment.html?hl=zh-cn#setRetainInstance(boolean)
+        // 如果在XML中使用 <Fragment/> 标签的方式创建Fragment请务必在标签中加上 android:id 或者
+        // android:tag 属性，否则setRetainInstance(true)无效在Activity中绑定少量的Fragment建议这样做，
+        // 如果需要绑定较多的Fragment不建议设置此参数，如ViewPager需要展示较多Fragment
         mFragment.setRetainInstance(true);
     }
 
@@ -85,6 +92,7 @@ public class FragmentDelegateImpl implements FragmentDelegate {
 
     /**
      * Return true if the fragment is currently added to its activity.
+     * 简体中文：如果Fragment当前已经添加到其Activity中，则返回true。
      */
     @Override
     public boolean isAdded() {

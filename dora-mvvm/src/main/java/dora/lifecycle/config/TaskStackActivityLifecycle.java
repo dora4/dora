@@ -7,7 +7,8 @@ import android.os.Bundle;
 import dora.util.TaskStackManager;
 
 /**
- * 一个保存Activity堆栈情况的生命周期实现。
+ * A lifecycle implementation that saves the state of the activity stack.
+ * 简体中文：一个保存Activity堆栈情况的生命周期实现。
  */
 public class TaskStackActivityLifecycle implements Application.ActivityLifecycleCallbacks {
 

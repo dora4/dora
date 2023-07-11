@@ -27,7 +27,7 @@ import dora.crash.group.Group;
  */
 public abstract class PolicyWrapper<I extends Info, P extends Policy> implements Policy<I> {
 
-    private Group mGroup;   //策略自己的分组
+    private Group mGroup;
     private P mBasePolicy;
 
     protected PolicyWrapper(Group group, P policy) {

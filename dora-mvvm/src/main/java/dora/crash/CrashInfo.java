@@ -21,6 +21,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+
 /**
  * Developers can extend this custom crash information so that the toString() method must be
  * overridden to take effect.
@@ -28,21 +30,37 @@ import android.os.Build;
  */
 public class CrashInfo implements Info {
 
-    private String versionName; // 版本名称
+    // Version name
+    // 简体中文：版本名称
+    private String versionName;
 
-    private int versionCode;    // 版本号
+    // Version code
+    // 简体中文：版本号
+    private int versionCode;
 
-    private int sdkVersion; // SDK版本号
+    // Sdk version
+    // 简体中文：SDK版本号
+    private int sdkVersion;
 
-    private String release; // Android版本号
+    // Android release version
+    // 简体中文：Android版本号
+    private String release;
 
-    private String model;   // 手机型号
+    // Mobile model
+    // 简体中文：手机型号
+    private String model;
 
-    private String brand;   // 手机制造商
+    // Mobile brand
+    // 简体中文：手机制造商
+    private String brand;
 
-    private Thread thread;  // 崩溃线程
+    // Crash thread
+    // 简体中文：崩溃线程
+    private Thread thread;
 
-    private Throwable throwable;    // 崩溃异常信息
+    // Crash exception information
+    // 简体中文：崩溃异常信息
+    private Throwable throwable;
     private Context context;
 
     public CrashInfo(Context context) {
@@ -116,16 +134,17 @@ public class CrashInfo implements Info {
         return context;
     }
 
+    @NonNull
     @Override
     public String toString() {
-        return "\nCrash线程：" + thread.getName() + "#" + thread.getId()
-                + "\n手机型号：" + model
-                + "\n手机品牌：" + brand
-                + "\nSDK版本：" + sdkVersion
-                + "\nAndroid版本：" + release
-                + "\n版本名称：" + versionName
-                + "\n版本号：" + versionCode
-                + "\n异常信息：" + throwable.toString()
+        return "\nCrash Thread:" + thread.getName() + "#" + thread.getId()
+                + "\nMobile Model:" + model
+                + "\nMobile Brand:" + brand
+                + "\nSDK Version:" + sdkVersion
+                + "\nAndroid Version:" + release
+                + "\nVersion Name:" + versionName
+                + "\nVersion Code:" + versionCode
+                + "\nException Information:" + throwable.toString()
                 + getException();
     }
 

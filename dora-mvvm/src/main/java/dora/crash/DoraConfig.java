@@ -29,12 +29,27 @@ import dora.crash.policy.StoragePolicy;
  */
 public class DoraConfig {
 
-    CrashReportPolicy policy;   // 崩溃信息上报策略，提供本地存储、邮件接收、网页查看等内置策略，也可自定义
-    CrashReportFilter filter;   // 决定是否要上报该次崩溃信息
-    CrashInfo info;     // 包含崩溃信息内容
-    boolean enabled;    // 是否开启崩溃日志收集功能
-    boolean interceptCrash; // 收集崩溃信息后，是否让应用闪退，true则不闪退
-    boolean initLogNotification;    // 是否初始化日志通知服务
+    // Crash information reporting strategy, providing built-in strategies such as local storage,
+    // email reception, web page viewing, etc., and also allowing customization.
+    // 简体中文：崩溃信息上报策略，提供本地存储、邮件接收、网页查看等内置策略，也可自定义
+    CrashReportPolicy policy;
+
+    // Decide whether to report the crash information or not.
+    // 简体中文：决定是否要上报该次崩溃信息
+    CrashReportFilter filter;
+    // Include the content of the crash information.
+    // 简体中文：包含崩溃信息内容
+    CrashInfo info;
+    // Whether to enable crash log collection feature.
+    // 简体中文：是否开启崩溃日志收集功能
+    boolean enabled;
+    // After collecting crash information, whether to allow the application to crash abruptly.
+    // If "true," the application will not crash abruptly.
+    // 简体中文：收集崩溃信息后，是否让应用闪退，true则不闪退
+    boolean interceptCrash;
+    // Whether to initialize the log notification service.
+    // 简体中文：是否初始化日志通知服务
+    boolean initLogNotification;
 
     public DoraConfig(Builder builder) {
         policy = builder.policy;

@@ -17,10 +17,10 @@
 package dora.crash.policy;
 
 import android.os.Environment;
-import android.util.Log;
 import dora.crash.CrashInfo;
 import dora.crash.group.DefaultGroup;
 import dora.crash.group.Group;
+import dora.util.LogUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -91,7 +91,7 @@ public class StoragePolicy extends CrashReportPolicy {
                 fileOutputStream.close();
             }
         } catch (IOException e) {
-            Log.e("dora", "崩溃日志信息存储失败");
+            LogUtils.e(e.toString());
         }
     }
 }

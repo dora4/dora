@@ -10,7 +10,8 @@ import java.util.List;
 import dora.lifecycle.application.ApplicationLifecycleCallbacks;
 
 /**
- * 用来配置自动保存Activity堆栈情况。
+ * Used to configure automatic saving of the activity stack.
+ * 简体中文：用来配置自动保存Activity堆栈情况。
  */
 public class TaskStackGlobalConfig implements GlobalConfig {
 

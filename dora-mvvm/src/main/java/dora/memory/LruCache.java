@@ -13,9 +13,8 @@ public class LruCache<K, V> implements Cache<K, V> {
     private int currentSize = 0;
 
     /**
-     * Constructor for LruCache.
-     *
-     * @param size 这个缓存的最大 size,这个 size 所使用的单位必须和 {@link #getItemSize(Object)} 所使用的单位一致.
+     * @param size The maximum size of this cache, where the unit of size used must be consistent
+     *            with the unit used in {@link #getItemSize(Object)}.
      */
     public LruCache(int size) {
         this.initialMaxSize = size;
@@ -23,10 +22,11 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 设置一个系数应用于当时构造函数中所传入的 size, 从而得到一个新的 {@link #maxSize}
-     * 并会立即调用 {@link #evict} 开始清除满足条件的条目
-     *
-     * @param multiplier 系数
+     * Set a coefficient to be applied to the size passed in the constructor to obtain a new
+     * {@link #maxSize}.It will immediately call {@link #evict} to start clearing the entries that
+     * meet the criteria.
+     * 简体中文：设置一个系数应用于当时构造函数中所传入的size，从而得到一个新的{@link #maxSize}
+     * 并会立即调用{@link #evict}开始清除满足条件的条目。
      */
     public synchronized void setSizeMultiplier(float multiplier) {
         if (multiplier < 0) {
@@ -37,30 +37,31 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 返回每个 {@code item} 所占用的 size,默认为1,这个 size 的单位必须和构造函数所传入的 size 一致
-     * 子类可以重写这个方法以适应不同的单位,比如说 bytes
+     * Returns the size occupied by each {@code item}, which is initially set to 1. The unit of
+     * this size must be consistent with the size passed in the constructor.Subclasses can override
+     * this method to adapt to different units, such as bytes.
+     * 简体中文：返回每个{@code item}所占用的size，默认为1，这个size的单位必须和构造函数所传入的size一致
+     * 子类可以重写这个方法以适应不同的单位，比如说bytes
      *
-     * @param item 每个 {@code item} 所占用的 size
-     * @return 单个 item 的 {@code size}
+     * @param item The size occupied by each {@code item}.
+     * @return The size of an individual item.
      */
     protected int getItemSize(V item) {
         return 1;
     }
 
     /**
-     * 当缓存中有被驱逐的条目时,会回调此方法,默认空实现,子类可以重写这个方法
-     *
-     * @param key   被驱逐条目的 {@code key}
-     * @param value 被驱逐条目的 {@code value}
+     * This method is called when an entry is evicted from the cache. It has a default empty
+     * implementation, and subclasses can override it.
+     * 简体中文：当缓存中有被驱逐的条目时，会回调此方法，默认空实现，子类可以重写这个方法。
      */
     protected void onItemEvicted(K key, V value) {
         // optional override
     }
 
     /**
-     * 返回当前缓存所能允许的最大 size
-     *
-     * @return {@code maxSize}
+     * Return the maximum size allowed by the current cache.
+     * 简体中文：返回当前缓存所能允许的最大size。
      */
     @Override
     public synchronized int getMaxSize() {
@@ -68,9 +69,8 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 返回当前缓存已占用的总 size
-     *
-     * @return {@code size}
+     * Return the total size currently occupied by the cache.
+     * 简体中文：返回当前缓存已占用的总size。
      */
     @Override
     public synchronized int size() {
@@ -78,10 +78,10 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 如果这个 {@code key} 在缓存中有对应的 {@code value} 并且不为 {@code null},则返回 true
+     * If there is a corresponding non-null value for this key in the cache, return true.
+     * 简体中文：如果这个key在缓存中有对应的value并且不为null，则返回true。
      *
-     * @param key 用来映射的 {@code key}
-     * @return {@code true} 为在容器中含有这个 {@code key}, 否则为 {@code false}
+     * @return true if the container contains the key, false otherwise.
      */
     @Override
     public synchronized boolean containsKey(K key) {
@@ -89,9 +89,8 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 返回当前缓存中含有的所有 {@code key}
-     *
-     * @return {@code keySet}
+     * Return all the keys contained in the current cache.
+     * 简体中文：返回当前缓存中含有的所有key。
      */
     @Override
     public synchronized Set<K> keySet() {
@@ -99,10 +98,9 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 返回这个 {@code key} 在缓存中对应的 {@code value}, 如果返回 {@code null} 说明这个 {@code key} 没有对应的 {@code value}
-     *
-     * @param key 用来映射的 {@code key}
-     * @return {@code value}
+     * Return the value corresponding to the key in the cache. If null is returned, it means that
+     * the key does not have a corresponding value in the cache.
+     * 简体中文：返回这个key在缓存中对应的value，如果返回null，说明这个key没有对应的value。
      */
     @Override
     @Nullable
@@ -111,15 +109,14 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 将 {@code key} 和 {@code value} 以条目的形式加入缓存,如果这个 {@code key} 在缓存中已经有对应的 {@code value}
-     * 则此 {@code value} 被新的 {@code value} 替换并返回,如果为 {@code null} 说明是一个新条目
-     * <p>
-     * 如果 {@link #getItemSize} 返回的 size 大于或等于缓存所能允许的最大 size, 则不能向缓存中添加此条目
-     * 此时会回调 {@link #onItemEvicted(Object, Object)} 通知此方法当前被驱逐的条目
+     * Add the key and value as an entry to the cache. If the key already has a corresponding value
+     * in the cache, the existing value will be replaced with the new value and returned. If the
+     * return value is null, it indicates a new entry.
+     * 简体中文：将key和value以条目的形式加入缓存,如果这个key在缓存中已经有对应的value，则此value被新的value替换
+     * 并返回，如果为null，说明是一个新条目。
      *
-     * @param key   通过这个 {@code key} 添加条目
-     * @param value 需要添加的 {@code value}
-     * @return 如果这个 {@code key} 在容器中已经储存有 {@code value}, 则返回之前的 {@code value} 否则返回 {@code null}
+     * @return If the key is already stored with a value in the container, return the previous
+     * value; otherwise, return null.
      */
     @Override
     @Nullable
@@ -143,11 +140,14 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 移除缓存中这个 {@code key} 所对应的条目,并返回所移除条目的 {@code value}
-     * 如果返回为 {@code null} 则有可能时因为这个 {@code key} 对应的 {@code value} 为 {@code null} 或条目不存在
+     * Remove the entry corresponding to the key in the cache and return the value of the removed
+     * entry. If the return value is null, it is possible that either the value corresponding to
+     * the key is null or the entry does not exist.
+     * 简体中文：移除缓存中这个key所对应的条目，并返回所移除条目的value。如果返回为null，则有可能时因为这个key对应
+     * 的value为null或条目不存在。
      *
-     * @param key 使用这个 {@code key} 移除对应的条目
-     * @return 如果这个 {@code key} 在容器中已经储存有 {@code value} 并且删除成功则返回删除的 {@code value}, 否则返回 {@code null}
+     * @return If the key is already stored with a value in the container and the deletion is
+     * successful, return the deleted value; otherwise, return null.
      */
     @Override
     @Nullable
@@ -160,7 +160,8 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 清除缓存中所有的内容
+     * Clear all contents in the cache.
+     * 简体中文：清除缓存中所有的内容。
      */
     @Override
     public void clear() {
@@ -168,9 +169,9 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 当指定的 size 小于当前缓存已占用的总 size 时,会开始清除缓存中最近最少使用的条目
-     *
-     * @param size {@code size}
+     * When the specified size is smaller than the current total size occupied by the cache, it will
+     * start clearing the least recently used entries in the cache.
+     * 简体中文：当指定的size小于当前缓存已占用的总size时，会开始清除缓存中最近最少使用的条目。
      */
     protected synchronized void trimToSize(int size) {
         Map.Entry<K, V> last;
@@ -185,7 +186,10 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     /**
-     * 当缓存中已占用的总 size 大于所能允许的最大 size ,会使用  {@link #trimToSize(int)} 开始清除满足条件的条目
+     * When the total size occupied by the cache exceeds the maximum allowed size,
+     * {@link #trimToSize(int)} is used to start clearing the entries that meet the criteria.
+     * 简体中文：当缓存中已占用的总size大于所能允许的最大size，会使用{@link #trimToSize(int)}开始清除满足条件的
+     * 条目
      */
     private void evict() {
         trimToSize(maxSize);
