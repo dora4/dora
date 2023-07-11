@@ -24,31 +24,31 @@ import android.os.Build;
 /**
  * Developers can extend this custom crash information so that the toString() method must be
  * overridden to take effect.
- * 开发者可以扩展此类来自定义崩溃信息，这样的话，必须重写toString()方法生效。
+ * 简体中文：开发者可以扩展此类来自定义崩溃信息，这样的话，必须重写toString()方法生效。
  */
 public class CrashInfo implements Info {
 
-    private String versionName; //版本名称
+    private String versionName; // 版本名称
 
-    private int versionCode;    //版本号
+    private int versionCode;    // 版本号
 
-    private int sdkVersion; //SDK版本号
+    private int sdkVersion; // SDK版本号
 
-    private String release; //Android版本号
+    private String release; // Android版本号
 
-    private String model;   //手机型号
+    private String model;   // 手机型号
 
-    private String brand;   //手机制造商
+    private String brand;   // 手机制造商
 
-    private Thread thread;  //崩溃线程
+    private Thread thread;  // 崩溃线程
 
-    private Throwable throwable;    //崩溃异常信息
+    private Throwable throwable;    // 崩溃异常信息
     private Context context;
 
     public CrashInfo(Context context) {
         this.context = context;
-        //Gets some information about mobile phone.
-        //获取手机的一些信息
+        // Gets some information about mobile phone.
+        // 简体中文：获取手机的一些信息
         PackageManager pm = context.getPackageManager();
         PackageInfo pkgInfo;
         try {

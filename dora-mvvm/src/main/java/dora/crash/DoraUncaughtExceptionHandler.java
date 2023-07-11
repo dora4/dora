@@ -21,7 +21,7 @@ import android.os.Process;
 
 /**
  * It is used to intercept all exceptions thrown by the application.
- * 它被用于拦截应用抛出的所有异常。
+ * 简体中文：它被用于拦截应用抛出的所有异常。
  */
 class DoraUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
@@ -61,13 +61,13 @@ class DoraUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
         if (!mConfig.interceptCrash) {
             // If the Android system provides an exception handling class, it shall have handled
             // by the system.
-            // 如果系统提供了异常处理类，则交给系统去处理
+            // 简体中文：如果系统提供了异常处理类，则交给系统去处理
             if (mDefaultExceptionHandler != null) {
                 mDefaultExceptionHandler.uncaughtException(t, e);
             } else {
                 // Otherwise we handle it ourselves, we handle it ourselves usually by letting
                 // the app exit
-                // 否则我们自己处理，自己处理通常是让app退出
+                // 简体中文：否则我们自己处理，自己处理通常是让app退出
                 Process.killProcess(Process.myPid());
                 System.exit(0);
             }
@@ -76,7 +76,7 @@ class DoraUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
     public void interceptException(Thread t, Throwable e) {
         // Collect exception information and do our own handling
-        // 收集异常信息，做我们自己的处理
+        // 简体中文：收集异常信息，做我们自己的处理
         Collector collector = new CrashCollector();
         CrashInfo info = mConfig.info;
         info.setThrowable(e);

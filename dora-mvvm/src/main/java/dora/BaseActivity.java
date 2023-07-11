@@ -67,7 +67,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     /**
-     * 修复8.x半透明主题旋转屏幕问题。
+     * Fix the translucent theme rotation screen issue on Android 8.x.
+     * 简体中文：修复8.x半透明主题旋转屏幕问题。
      */
     private void fixOrientation() {
         Field field = ReflectionUtils.findField(Activity.class, true, "mActivityInfo");
@@ -92,8 +93,12 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         if ((Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT
                 == Build.VERSION_CODES.O_MR1) && isTranslucentOrFloating()) {
-            // 修复Android8.0和8.1系统的半透明主题旋转屏幕BUG，需要关掉锁定屏幕方向按钮复现，该问题只出现在8.x手
-            // 机上，可想而知，官方在9.0中修复了此问题
+            // Fix the translucent theme rotation screen bug on Android 8.0 and 8.1 systems.
+            // To reproduce the issue, the screen orientation lock button needs to be turned
+            // off. This problem only occurs on 8.x devices, and as you can imagine, it has
+            // been fixed by the official in 9.0.
+            // 简体中文：修复Android8.0和8.1系统的半透明主题旋转屏幕BUG，需要关掉锁定屏幕方向按钮复现，该问题只
+            // 出现在8.x手机上，可想而知，官方在9.0中修复了此问题
             fixOrientation();
         }
         super.onCreate(savedInstanceState);
@@ -115,7 +120,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         NetworkStateReceiver.registerObserver(mNetworkChangeObserver);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        // 在initData之前读取必要的extras
+        // Read necessary extras before the initData function.
+        // 简体中文：在initData之前读取必要的extras
         onGetExtras(intent.getAction(), bundle, intent);
         initData(savedInstanceState);
         initData(savedInstanceState, mBinding);
@@ -130,19 +136,23 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     /**
-     * 如果需要支持在Activity中流式切换Fragment，重写它。
+     * If you need to support seamless switching of fragments in an Activity, override it.
+     * 简体中文：如果需要支持在Activity中流式切换Fragment，重写它。
      *
-     * @param key
-     * @return
+     * @param key fragment page key
+     * @see #getFlowFragmentContainerId()
+     * @see #getFlowFragmentPageKeys()
      */
     protected BaseFragment<?> getFlowFragment(@NonNull String key) {
         return null;
     }
 
     /**
-     * 重写它指定流式切换Fragment的容器ID。
+     * Override it to specify the container ID for seamless switching of fragments.
+     * 简体中文：重写它指定流式切换Fragment的容器ID。
      *
-     * @return
+     * @see #getFlowFragment(String)
+     * @see #getFlowFragmentPageKeys()
      */
     protected int getFlowFragmentContainerId() {
         return 0;
@@ -157,6 +167,26 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         }
     }
 
+    /**
+     * Get the custom key name for all fragments that support seamless switching in the Activity.
+     * 简体中文：获取Activity中所有支持流式切换的Fragment的自定义key的名称。
+     *
+     * @see #getFlowFragment(String)
+     * @see #getFlowFragmentContainerId()
+     */
+    protected String[] getFlowFragmentPageKeys() {
+        return new String[0];
+    }
+
+    /**
+     * Whether to display the last page after reaching the first page, whether to display the
+     * first page after reaching the last page.
+     * 简体中文：到达第一页再往上一页是否显示最后一页，到达最后一页再往下一页是否显示第一页。
+     *
+     * @see #getFlowFragment(String)
+     * @see #getFlowFragmentContainerId()
+     * @see #getFlowFragmentPageKeys()
+     */
     @Override
     public boolean isLoop() {
         return true;
@@ -199,35 +229,18 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     /**
-     * 在显示Fragment之前要先调用这个方法。
+     * Call this method before FragmentUtils.show().
+     * 简体中文：在显示Fragment之前要先调用这个方法。
      *
-     *     private void showXxxFragment() {
+     * Like this:
+     *     private void showSampleFragment() {
      *         hideFragments(allFragments);
-     *         if (xxxFragment == null) {
-     *             xxxFragment = new XxxFragment();
+     *         if (sampleFragment == null) {
+     *             sampleFragment = new SampleFragment();
      *             FragmentUtils.add(getSupportFragmentManager(), xxxFragment, R.id.fragmentContainer);
      *         }
-     *         FragmentUtils.show(xxxFragment);
+     *         FragmentUtils.show(sampleFragment);
      *     }
-     *
-     * 另外，初始化所有Fragment应该在最前面。
-     *
-     *     private void initFragments() {
-     *         if (xxxFragment == null) {
-     *             xxxFragment = XxxFragment();
-     *             FragmentUtils.add(getSupportFragmentManager(), xxxFragment, R.id.fragmentContainer);
-     *         }
-     *         if (yyyFragment == null) {
-     *             yyyFragment = YyyFragment();
-     *             FragmentUtils.add(getSupportFragmentManager(), yyyFragment, R.id.fragmentContainer);
-     *         }
-     *         if (zzzFragment == null) {
-     *             zzzFragment = ZzzFragment();
-     *             FragmentUtils.add(getSupportFragmentManager(), zzzFragment, R.id.fragmentContainer);
-     *         }
-     *     }
-     *
-     * @param fragments
      */
     protected void hideFragments(Collection<BaseFragment<?>> fragments) {
         if (fragments == null) {
@@ -236,15 +249,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         for (BaseFragment<?> fragment : fragments) {
             FragmentUtils.hide(fragment);
         }
-    }
-
-    /**
-     * 获取Activity中所有支持流式切换的Fragment的自定义key的名称。
-     *
-     * @return
-     */
-    protected String[] getFlowFragmentPageKeys() {
-        return new String[0];
     }
 
     @Override
@@ -300,13 +304,15 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     /**
-     * 设置系统状态栏。
+     * Set the system status bar.
+     * 简体中文：设置系统状态栏。
      */
     protected void onSetStatusBar() {
     }
 
     /**
-     * 设置系统导航栏。
+     * Set the system navigation bar.
+     * 简体中文：设置系统导航栏。
      */
     protected void onSetNavigationBar() {
     }
@@ -317,17 +323,9 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         super.onDestroy();
     }
 
-    /**
-     * 网络已连接，需要使用到{@link dora.BaseApplication}，才会有回调。
-     *
-     * @param type
-     */
     protected void onNetworkConnected(NetUtils.ApnType type) {
     }
 
-    /**
-     * 网络连接已断开，需要使用到{@link dora.BaseApplication}，才会有回调。
-     */
     protected void onNetworkDisconnected() {
     }
 

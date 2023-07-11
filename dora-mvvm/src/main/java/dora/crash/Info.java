@@ -18,7 +18,7 @@ package dora.crash;
 
 /**
  * The tag can be used to collect information.
- * 标记可以用来收集的信息。
+ * 简体中文：标记可以用来收集的信息。
  */
 public interface Info {
 }

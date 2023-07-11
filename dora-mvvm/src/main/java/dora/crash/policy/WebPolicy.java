@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 /**
  * I make it out of okhttp3 network framework.
- * 我以网络框架okhttp3为原材料制作了它。
+ * 简体中文：我以网络框架okhttp3为原材料制作了它。
  */
 public class WebPolicy extends WebPolicyBase {
 

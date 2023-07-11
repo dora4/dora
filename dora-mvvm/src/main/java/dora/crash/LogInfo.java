@@ -18,7 +18,7 @@ package dora.crash;
 
 /**
  * The log information that the developer himself needs to print.
- * 开发者自己需要打印的日志信息。
+ * 简体中文：开发者自己需要打印的日志信息。
  */
 public class LogInfo implements Info {
 

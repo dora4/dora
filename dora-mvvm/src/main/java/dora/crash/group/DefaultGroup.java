@@ -18,7 +18,7 @@ package dora.crash.group;
 
 /**
  * Default group, is no group.
- * 默认的分组，即不分组。
+ * 简体中文：默认的分组，即不分组。
  */
 public class DefaultGroup implements Group {
 

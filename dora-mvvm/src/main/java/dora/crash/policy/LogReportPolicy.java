@@ -21,7 +21,7 @@ import dora.crash.group.Group;
 
 /**
  * A policy for sending log information.
- * 发送日志信息的策略。
+ * 简体中文：发送日志信息的策略。
  */
 public abstract class LogReportPolicy extends PolicyWrapper<LogInfo, LogReportPolicy> {
 

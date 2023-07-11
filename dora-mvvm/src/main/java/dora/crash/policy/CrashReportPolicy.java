@@ -21,7 +21,7 @@ import dora.crash.group.Group;
 
 /**
  * A channel used to represent crash information.
- * 用来表示崩溃信息的通道。
+ * 简体中文：用来表示崩溃信息的通道。
  */
 public abstract class CrashReportPolicy extends PolicyWrapper<CrashInfo, CrashReportPolicy> {
 

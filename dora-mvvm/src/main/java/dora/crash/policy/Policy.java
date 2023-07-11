@@ -21,7 +21,7 @@ import dora.crash.group.Group;
 
 /**
  * Strategies. You can use different strategies to distribute information.
- * 策略，你可以使用不同的策略来分发信息。
+ * 简体中文：策略，你可以使用不同的策略来分发信息。
  *
  * @param <I>
  */

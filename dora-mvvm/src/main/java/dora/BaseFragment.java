@@ -111,10 +111,11 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     /**
-     * 由于fragment的构造方法不能传参，所以通过调用{@link Fragment#setArguments(Bundle)}传参后，可以在
-     * {@link #onGetExtras(Bundle)}中拿到这些Extras。
-     *
-     * @param bundle
+     * Since the constructor of a Fragment cannot accept parameters, you can pass arguments by
+     * calling {@link Fragment#setArguments(Bundle)}. Afterwards, you can access these arguments
+     * in {@link #onGetExtras(Bundle)}.
+     * 简体中文：由于fragment的构造方法不能传参，所以通过调用{@link Fragment#setArguments(Bundle)}传参后，可
+     * 以在{@link #onGetExtras(Bundle)}中拿到这些Extras。
      */
     protected void onGetExtras(@Nullable Bundle bundle) {
     }
@@ -126,6 +127,10 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         return inflater.inflate(getLayoutId(), container, false);
     }
 
+    /**
+     * Specify the name of the fragment layout file.
+     * 简体中文：指定fragment布局文件的名称。
+     */
     protected abstract int getLayoutId();
 
     @NonNull

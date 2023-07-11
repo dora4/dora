@@ -30,7 +30,7 @@ import java.util.Date;
 
 /**
  * Save crash log information to SD card, please apply for storage permission by yourself.
- * 把崩溃日志信息保存到SD卡，请自行申请存储权限。
+ * 简体中文：把崩溃日志信息保存到SD卡，请自行申请存储权限。
  */
 public class StoragePolicy extends CrashReportPolicy {
 

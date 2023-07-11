@@ -25,16 +25,16 @@ import dora.crash.policy.StoragePolicy;
 /**
  * Configuration of global crash information collection, as well as partial log information
  * collection.
- * 全局崩溃信息收集的配置，也包括部分日志信息收集的配置。
+ * 简体中文：全局崩溃信息收集的配置，也包括部分日志信息收集的配置。
  */
 public class DoraConfig {
 
-    CrashReportPolicy policy;   //崩溃信息上报策略，提供本地存储、邮件接收、网页查看等内置策略，也可自定义
-    CrashReportFilter filter;   //决定是否要上报该次崩溃信息
-    CrashInfo info;     //包含崩溃信息内容
-    boolean enabled;    //是否开启崩溃日志收集功能
-    boolean interceptCrash; //收集崩溃信息后，是否让应用闪退，true则不闪退
-    boolean initLogNotification;    //是否初始化日志通知服务
+    CrashReportPolicy policy;   // 崩溃信息上报策略，提供本地存储、邮件接收、网页查看等内置策略，也可自定义
+    CrashReportFilter filter;   // 决定是否要上报该次崩溃信息
+    CrashInfo info;     // 包含崩溃信息内容
+    boolean enabled;    // 是否开启崩溃日志收集功能
+    boolean interceptCrash; // 收集崩溃信息后，是否让应用闪退，true则不闪退
+    boolean initLogNotification;    // 是否初始化日志通知服务
 
     public DoraConfig(Builder builder) {
         policy = builder.policy;
@@ -67,7 +67,7 @@ public class DoraConfig {
 
         // Either you create a CrashReportFilter directly, or you use the method named
         // "CrashReportFilterChain#getFilter()".
-        // 要么你直接创建一个CrashReportFilter，要么你使用CrashReportFilterChain的getFilter()方法。
+        // 简体中文：要么你直接创建一个CrashReportFilter，要么你使用CrashReportFilterChain的getFilter()方法。
         public Builder filterChain(CrashReportFilter filter) {
             this.filter = filter;
             return this;
@@ -79,7 +79,7 @@ public class DoraConfig {
         }
 
         // Determines if you want to activate all functions of this framework.
-        // 确定你是否想要激活属于这个框架的所有功能。
+        // 简体中文：确定你是否想要激活属于这个框架的所有功能。
         public Builder enabled(boolean enabled) {
             this.enabled = enabled;
             return this;

@@ -27,7 +27,7 @@ import java.util.HashMap;
 /**
  * Save the crash information to the crash information management system of DORA, and the server
  * is not online yet.
- * 保存崩溃信息到dora的崩溃信息管理系统，暂未上线服务器。
+ * 简体中文：保存崩溃信息到dora的崩溃信息管理系统，暂未上线服务器。
  */
 public class DoraWebPolicy extends WebPolicyBase {
 

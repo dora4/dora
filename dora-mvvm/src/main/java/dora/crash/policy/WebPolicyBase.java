@@ -22,7 +22,7 @@ import dora.crash.group.Group;
 
 /**
  * You can use it to customize the implementation of collecting crash information to a web page.
- * 你可以用它自定义收集崩溃信息到网页的实现。
+ * 简体中文：你可以用它自定义收集崩溃信息到网页的实现。
  */
 public abstract class WebPolicyBase extends CrashReportPolicy {
 
@@ -54,7 +54,7 @@ public abstract class WebPolicyBase extends CrashReportPolicy {
 
     /**
      * Sends crash log information to the remote server.
-     * 把崩溃日志信息发送到远端服务器。
+     * 简体中文：把崩溃日志信息发送到远端服务器。
      */
     public abstract void sendCrashInfoToWeb(String url, CrashInfo info, Group group);
 }

@@ -23,7 +23,7 @@ import dora.crash.policy.Policy;
 /**
  * A system that controls log output globally. When flag is closed, you can't output logs anywhere.
  * Instead, you can output logs anywhere.<note>The log system is opened by default.</note>
- * 控制全局日志输出的系统。当关闭标志时，您不能将日志输出到任何地方。
+ * 简体中文：控制全局日志输出的系统。当关闭标志时，您不能将日志输出到任何地方。
  * 相反，您可以将日志输出到任何地方。注意：日志系统默认开启。
  */
 public class DoraLog {

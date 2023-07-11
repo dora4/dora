@@ -22,17 +22,17 @@ import java.util.Calendar;
 
 /**
  * Filter crash information by time.
- * 按时间过滤崩溃信息。
+ * 简体中文：按时间过滤崩溃信息。
  */
 public class TimeFilter extends CrashReportFilter {
 
     @Override
     public boolean handle(CrashInfo info) {
         // 24-hour
-        // 24小时制
+        // 简体中文：24小时制
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         // Only process logs during office hours
-        // 只处理上班时间的日志
+        // 简体中文：只处理上班时间的日志
         if (hour >= 8 && hour < 20) {
             return true;
         }

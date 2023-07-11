@@ -20,7 +20,7 @@ import dora.crash.policy.LogReportPolicy;
 
 /**
  * Log information collector.
- * 日志信息收集器。
+ * 简体中文：日志信息收集器。
  */
 public class LogCollector extends Collector<LogInfo, LogReportPolicy> {
 

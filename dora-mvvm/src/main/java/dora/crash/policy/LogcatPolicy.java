@@ -23,7 +23,7 @@ import dora.crash.group.Group;
 
 /**
  * This class is used only for test apis and is rarely used in a real production environment.
- * 此类仅作测试API使用，很少用于实际的生产环境。
+ * 简体中文：此类仅作测试API使用，很少用于实际的生产环境。
  */
 public class LogcatPolicy extends CrashReportPolicy {
 

@@ -18,25 +18,25 @@ package dora.crash.group;
 
 /**
  * It can combine two or more groups.
- * 可以用来组合2种或2种以上的分组。
+ * 简体中文：可以用来组合2种或2种以上的分组。
  */
 public class ComplexGroup implements Group {
 
     /**
      * Intersection.
-     * 交集。
+     * 简体中文：交集。
      */
     public static final String SYMBOL_INTERSECTION = "∩";
 
     /**
      * Union set.
-     * 并集。
+     * 简体中文：并集。
      */
     public static final String SYMBOL_UNION_SET = "∪";
 
     /**
      * Supplementary set.
-     * 补集。
+     * 简体中文：补集。
      */
     public static final String SYMBOL_SUPPLEMENTARY_SET = "^";
 

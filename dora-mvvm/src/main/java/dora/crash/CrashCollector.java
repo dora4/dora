@@ -21,7 +21,7 @@ import dora.crash.policy.CrashReportPolicy;
 
 /**
  * It is designed to collect exceptions thrown by the application.
- * 专门用来收集应用抛出的异常。
+ * 简体中文：专门用来收集应用抛出的异常。
  */
 public class CrashCollector extends Collector<CrashInfo, CrashReportPolicy> {
 

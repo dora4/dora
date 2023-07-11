@@ -18,19 +18,19 @@ package dora.crash.group;
 
 /**
  * Groups are used to distribute policies.
- * 分组被用来分发策略。
+ * 简体中文：分组被用来分发策略。
  */
 public interface Group {
 
     /**
      * Through calculation, determine whether the group of rules.
-     * 通过计算，判断是否符合该组规则。
+     * 简体中文：通过计算，判断是否符合该组规则。
      */
     boolean counts();
 
     /**
      * The name of group.
-     * 分组的名称。
+     * 简体中文：分组的名称。
      */
     String name();
 }

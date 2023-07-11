@@ -20,7 +20,7 @@ import dora.crash.CrashInfo;
 
 /**
  * At the beginning, affects whether the crash info will report.
- * 在一开始的时候，影响崩溃信息是否会上报。
+ * 简体中文：在一开始的时候，影响崩溃信息是否会上报。
  */
 public abstract class CrashReportFilter {
 

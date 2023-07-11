@@ -20,7 +20,7 @@ import dora.crash.CrashInfo;
 
 /**
  * No filtering is done by default.
- * 默认不作过滤处理。
+ * 简体中文：默认不作过滤处理。
  */
 public class DefaultFilter extends CrashReportFilter {
 
