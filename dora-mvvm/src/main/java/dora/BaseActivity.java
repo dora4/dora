@@ -237,7 +237,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
      *         hideFragments(allFragments);
      *         if (sampleFragment == null) {
      *             sampleFragment = new SampleFragment();
-     *             FragmentUtils.add(getSupportFragmentManager(), xxxFragment, R.id.fragmentContainer);
+     *             FragmentUtils.add(getSupportFragmentManager(), sampleFragment, R.id.fragmentContainer);
      *         }
      *         FragmentUtils.show(sampleFragment);
      *     }

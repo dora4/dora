@@ -96,7 +96,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
                     config.injectFragmentLifecycle(activity, mFragmentLifecycles);
                 }
                 fragmentManager.registerFragmentLifecycleCallbacks(new FragmentLifecycle(), true);
-                //注册框架外部, 开发者扩展的 Fragment 生命周期逻辑
+                // 注册框架外部, 开发者扩展的 Fragment 生命周期逻辑
                 for (FragmentManager.FragmentLifecycleCallbacks fragmentLifecycle : mFragmentLifecycles) {
                     ((FragmentActivity) activity).getSupportFragmentManager()
                             .registerFragmentLifecycleCallbacks(fragmentLifecycle, true);

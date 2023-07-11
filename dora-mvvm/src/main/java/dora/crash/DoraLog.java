@@ -16,7 +16,6 @@
 
 package dora.crash;
 
-import dora.crash.policy.LogFilePolicy;
 import dora.crash.policy.LogReportPolicy;
 import dora.crash.policy.Policy;
 
