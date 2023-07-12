@@ -108,13 +108,18 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         mBinding.setLifecycleOwner(this);
         mNetworkChangeObserver = new NetworkChangeObserver() {
             @Override
-            public void onNetworkConnect(NetUtils.ApnType type) {
-                onNetworkConnected(type);
+            public void onNetworkConnect(@NonNull NetUtils.ApnType type) {
+                BaseActivity.this.onNetworkConnected(type);
+            }
+
+            @Override
+            public void onNetworkPending() {
+                BaseActivity.this.onNetworkPending();
             }
 
             @Override
             public void onNetworkDisconnect() {
-                onNetworkDisconnected();
+                BaseActivity.this.onNetworkDisconnected();
             }
         };
         NetworkStateReceiver.registerObserver(mNetworkChangeObserver);
@@ -324,6 +329,9 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     protected void onNetworkConnected(NetUtils.ApnType type) {
+    }
+
+    protected void onNetworkPending() {
     }
 
     protected void onNetworkDisconnected() {
