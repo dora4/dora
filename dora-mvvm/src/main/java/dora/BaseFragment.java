@@ -47,7 +47,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public void initData(@Nullable Bundle savedInstanceState, @NonNull T binding) {
     }
 
-    public PageTransformer getPageSwitcher() {
+    public PageTransformer getPageTransformer() {
         if (getActivity() instanceof PageTransformer) {
             return (PageTransformer) getActivity();
         }
@@ -57,48 +57,48 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     @Override
     public final boolean isLoop() {
         // Dependents on activity.
-        return getPageSwitcher().isLoop();
+        return getPageTransformer().isLoop();
     }
 
     @Override
     public void showPage(@NonNull String key) {
-        if (getPageSwitcher() != null) {
-            getPageSwitcher().showPage(key);
+        if (getPageTransformer() != null) {
+            getPageTransformer().showPage(key);
         }
     }
 
     @Override
     public void showPage(@NonNull String key, IntentUtils.Extras extras) {
-        if (getPageSwitcher() != null) {
-            getPageSwitcher().showPage(key);
+        if (getPageTransformer() != null) {
+            getPageTransformer().showPage(key);
         }
     }
 
     @Override
     public void lastPage() {
-        if (getPageSwitcher() != null) {
-            getPageSwitcher().lastPage();
+        if (getPageTransformer() != null) {
+            getPageTransformer().lastPage();
         }
     }
 
     @Override
     public void lastPage(IntentUtils.Extras extras) {
-        if (getPageSwitcher() != null) {
-            getPageSwitcher().lastPage(extras);
+        if (getPageTransformer() != null) {
+            getPageTransformer().lastPage(extras);
         }
     }
 
     @Override
     public void nextPage() {
-        if (getPageSwitcher() != null) {
-            getPageSwitcher().nextPage();
+        if (getPageTransformer() != null) {
+            getPageTransformer().nextPage();
         }
     }
 
     @Override
     public void nextPage(IntentUtils.Extras extras) {
-        if (getPageSwitcher() != null) {
-            getPageSwitcher().nextPage(extras);
+        if (getPageTransformer() != null) {
+            getPageTransformer().nextPage(extras);
         }
     }
 
