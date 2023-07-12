@@ -234,9 +234,8 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
     }
 
     /**
-     * Default global configuration implementation that enables automatic network state monitoring
-     * for activities.Inherit and use [dora.BaseApplication] for automatic configuration.
-     * 简体中文：默认全局配置实现，让Activity自动监听了网络状况。继承并使用[dora.BaseApplication]自动配置。
+     * Default global configuration implementation.
+     * 简体中文：默认全局配置实现。
      */
     private static class DefaultGlobalConfig implements GlobalConfig {
 
