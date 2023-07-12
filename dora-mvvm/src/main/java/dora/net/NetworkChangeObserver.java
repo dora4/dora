@@ -7,6 +7,5 @@ import dora.util.NetUtils;
 public interface NetworkChangeObserver {
 
     void onNetworkConnect(@NonNull NetUtils.ApnType type);
-    void onNetworkPending();
     void onNetworkDisconnect();
 }

@@ -61,6 +61,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         return  (boolean) ReflectionUtils.invokeMethod(null, m, a);
     }
 
+    protected boolean isDetectNet() {
+        return false;
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LanguageUtils.attachBaseContext(newBase));
@@ -106,23 +110,20 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         onSetNavigationBar();
         mBinding = DataBindingUtil.setContentView(this, getLayoutId());
         mBinding.setLifecycleOwner(this);
-        mNetworkChangeObserver = new NetworkChangeObserver() {
-            @Override
-            public void onNetworkConnect(@NonNull NetUtils.ApnType type) {
-                BaseActivity.this.onNetworkConnected(type);
-            }
+        if (isDetectNet()) {
+            mNetworkChangeObserver = new NetworkChangeObserver() {
+                @Override
+                public void onNetworkConnect(@NonNull NetUtils.ApnType type) {
+                    BaseActivity.this.onNetworkConnected(type);
+                }
 
-            @Override
-            public void onNetworkPending() {
-                BaseActivity.this.onNetworkPending();
-            }
-
-            @Override
-            public void onNetworkDisconnect() {
-                BaseActivity.this.onNetworkDisconnected();
-            }
-        };
-        NetworkStateReceiver.registerObserver(mNetworkChangeObserver);
+                @Override
+                public void onNetworkDisconnect() {
+                    BaseActivity.this.onNetworkDisconnected();
+                }
+            };
+            NetworkStateReceiver.registerObserver(mNetworkChangeObserver);
+        }
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         // Read necessary extras before the initData function.

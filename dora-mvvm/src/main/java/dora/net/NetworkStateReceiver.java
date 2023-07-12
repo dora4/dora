@@ -84,7 +84,6 @@ public class NetworkStateReceiver extends BroadcastReceiver {
             for (int i = 0; i < size; i++) {
                 NetworkChangeObserver observer = mNetChangeObservers.get(i);
                 if (observer != null) {
-                    observer.onNetworkPending();
                     if (isNetworkAvailable()) {
                         observer.onNetworkConnect(mApnType);
                     } else {

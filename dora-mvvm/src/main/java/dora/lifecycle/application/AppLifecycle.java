@@ -22,11 +22,9 @@ public class AppLifecycle implements ApplicationLifecycleCallbacks {
         if (getInstance != null) {
             ReflectionUtils.invokeMethod(null, getInstance, application);
         }
-        NetworkStateReceiver.registerNetworkStateReceiver(application);
     }
 
     @Override
     public void onTerminate(Application application) {
-        NetworkStateReceiver.unregisterNetworkStateReceiver(application);
     }
 }
