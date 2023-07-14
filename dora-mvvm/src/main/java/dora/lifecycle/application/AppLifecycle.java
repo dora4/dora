@@ -3,20 +3,21 @@ package dora.lifecycle.application;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import java.lang.reflect.Method;
 
-import dora.net.NetworkStateReceiver;
 import dora.util.KVUtils;
 import dora.util.ReflectionUtils;
 
 public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
     @Override
-    public void attachBaseContext(Context base) {
+    public void attachBaseContext(@NonNull Context base) {
     }
 
     @Override
-    public void onCreate(Application application) {
+    public void onCreate(@NonNull Application application) {
         Method getInstance = ReflectionUtils.findMethod(KVUtils.class,
                 true, "getInstance", Context.class);
         if (getInstance != null) {
@@ -25,6 +26,6 @@ public class AppLifecycle implements ApplicationLifecycleCallbacks {
     }
 
     @Override
-    public void onTerminate(Application application) {
+    public void onTerminate(@NonNull Application application) {
     }
 }

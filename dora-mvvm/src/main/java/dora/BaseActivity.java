@@ -332,9 +332,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onNetworkConnected(NetUtils.ApnType type) {
     }
 
-    protected void onNetworkPending() {
-    }
-
     protected void onNetworkDisconnected() {
     }
 

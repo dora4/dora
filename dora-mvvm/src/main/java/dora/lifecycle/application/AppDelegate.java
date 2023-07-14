@@ -8,6 +8,7 @@ import android.content.ContentProvider;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -37,14 +38,14 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
     }
 
     @Override
-    public void attachBaseContext(Context base) {
+    public void attachBaseContext(@NonNull Context base) {
         for (ApplicationLifecycleCallbacks lifecycle : mApplicationLifecycles) {
             lifecycle.attachBaseContext(base);
         }
     }
 
     @Override
-    public void onCreate(Application application) {
+    public void onCreate(@NonNull Application application) {
         this.mApplication = application;
         for (Application.ActivityLifecycleCallbacks lifecycle : mActivityLifecycles) {
             mApplication.registerActivityLifecycleCallbacks(lifecycle);
@@ -61,7 +62,7 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
     }
 
     @Override
-    public void onTerminate(Application application) {
+    public void onTerminate(@NonNull Application application) {
         if (mComponentCallback != null) {
             mApplication.unregisterComponentCallbacks(mComponentCallback);
         }
