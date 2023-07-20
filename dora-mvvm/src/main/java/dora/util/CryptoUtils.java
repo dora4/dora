@@ -28,7 +28,15 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * 密码学相关工具。AES加密方式比DES加密更安全，但是速度比不上DES。RSA用于最高安全级别的数据加密。
+ * Cryptography-related tools. AES encryption is more secure than DES encryption, but it is slower
+ * than DES. RSA is used for the highest level of data encryption security.
+ * ECB (Electronic Code Book) Mode: Electronic Code Book mode.
+ * CBC (Cipher Block Chaining) Mode: Cipher Block Chaining mode.
+ * CFB (Cipher Feedback Mode) Mode: Cipher Feedback mode.
+ * OFB (Output Feedback) Mode: Output Feedback mode.
+ * CTR (Counter) Mode: Counter mode (less common).
+ * Among them, ECB, CBC, and CTR are block cipher modes, while CFB and OFB are stream cipher modes.
+ * 简体中文：密码学相关工具。AES加密方式比DES加密更安全，但是速度比不上DES。RSA用于最高安全级别的数据加密。
  * ECB(Electronic Code Book) 电子密码本模式
  * CBC(Cipher Block Chaining) 加密块链模式
  * CFB(Cipher FeedBack Mode) 加密反馈模式
@@ -59,17 +67,19 @@ public final class CryptoUtils {
     private CryptoUtils() {
     }
 
-    // <editor-folder desc="base64编解码">
+    // <editor-folder desc="Base64 Encoding and Decoding">
 
     /**
-     * 将Base64字符串解码成字节数组。
+     * Decode the Base64 string into a byte array.
+     * 简体中文：将Base64字符串解码成字节数组。
      */
     public static byte[] base64Decode(String data) {
         return Base64.decode(data, Base64.NO_WRAP);
     }
 
     /**
-     * 将字节数组转换成Base64编码。
+     * Convert the byte array to Base64 encoding.
+     * 简体中文：将字节数组转换成Base64编码。
      */
     public static String base64Encode(byte[] data) {
         return Base64.encodeToString(data, Base64.NO_WRAP);
@@ -78,10 +88,11 @@ public final class CryptoUtils {
     // </editor-folder>
 
     /**
-     * 使用密码获取密钥。
+     * Acquiring a key using a password.
+     * 简体中文：使用密码获取密钥。
      *
-     * @param secretKey 密钥字符串
-     * @param algorithm "AES"或"DES"
+     * @param secretKey Key string
+     * @param algorithm "AES" or "DES"
      */
     public static SecretKeySpec getSecretKey(String secretKey, String algorithm) {
         secretKey = makeKey(secretKey, 32, "0");
@@ -89,27 +100,23 @@ public final class CryptoUtils {
     }
 
     /**
-     * 如果AES的密钥小于 {@code length} 的长度，就对秘钥进行补位，保证秘钥安全。
+     * If the AES key is shorter than the length of {@code length}, padding will be applied to the
+     * key to ensure key security.
+     * 简体中文：如果AES的密钥小于 {@code length} 的长度，就对秘钥进行补位，保证秘钥安全。
      *
-     * @param secretKey 密钥 key
-     * @param length    密钥应有的长度
-     * @param text      默认补的文本
-     * @return 密钥
+     * @param secretKey The secret cryptographic key used in encryption and decryption algorithms
+     * @param length    The required length of the key
+     * @param text      Default padding text
+     * @return secret key
      */
     private static String makeKey(String secretKey, int length, String text) {
-        // 获取密钥长度
         int strLen = secretKey.length();
-        // 判断长度是否小于应有的长度
         if (strLen < length) {
-            // 补全位数
             StringBuilder builder = new StringBuilder();
-            // 将key添加至builder中
             builder.append(secretKey);
-            // 遍历添加默认文本
             for (int i = 0; i < length - strLen; i++) {
                 builder.append(text);
             }
-            // 赋值
             secretKey = builder.toString();
         }
         return secretKey;
@@ -511,29 +518,35 @@ public final class CryptoUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="RSA加解密">
+    // <editor-folder desc="RSA encryption and decryption">
 
     /**
-     * 生成一对RSA公钥和私钥。
+     * Generate a pair of RSA public and private keys.
+     * 简体中文：生成一对RSA公钥和私钥。
      *
-     * @param keySize key的长度，如1024
+     * @param keySize The length of the key, such as 1024
      */
     public static Map<String, String> generateRSAKeyPair(int keySize) {
-        // 为RSA算法创建一个KeyPairGenerator对象
+        // Create a KeyPairGenerator object for the RSA algorithm.
+        // 简体中文：为RSA算法创建一个KeyPairGenerator对象
         KeyPairGenerator kpg;
         try {
             kpg = KeyPairGenerator.getInstance(RSA);
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalArgumentException("No such algorithm-->[RSA]");
         }
-        // 初始化KeyPairGenerator对象,密钥长度
+        // Initialize the KeyPairGenerator object with the key length.
+        // 简体中文：初始化KeyPairGenerator对象,密钥长度
         kpg.initialize(keySize);
-        // 生成密钥对
+        // Translation: Generate a key pair.
+        // 简体中文：生成密钥对
         KeyPair keyPair = kpg.generateKeyPair();
-        // 得到公钥
+        // Get the public key.
+        // 简体中文：得到公钥
         Key publicKey = keyPair.getPublic();
         String publicKeyStr = base64Encode(publicKey.getEncoded());
-        // 得到私钥
+        // Get the private key.
+        // 简体中文：得到私钥
         Key privateKey = keyPair.getPrivate();
         String privateKeyStr = base64Encode(privateKey.getEncoded());
         Map<String, String> keyPairMap = new HashMap<String, String>();
@@ -543,10 +556,11 @@ public final class CryptoUtils {
     }
 
     /**
-     * 使用公钥加密。
+     * Encrypt using the public key.
+     * 简体中文：使用公钥加密。
      *
-     * @param rsaPublic RSA公钥字符串
-     * @param content 待加密的内容
+     * @param rsaPublic RSA public key string
+     * @param content The content to be encrypted
      */
     public static String encryptByPublic(String rsaPublic, String content) {
         try {
@@ -561,10 +575,11 @@ public final class CryptoUtils {
     }
 
     /**
-     * 使用私钥解密。
+     * Decrypt using the private key.
+     * 简体中文：使用公钥加密。
      *
-     * @param rsaPrivate RSA私钥字符串
-     * @param content 待解密的内容
+     * @param rsaPrivate RSA private key string
+     * @param content The content to be decrypted
      */
     public static String decryptByPrivate(String rsaPrivate, String content) {
         try {
@@ -580,10 +595,11 @@ public final class CryptoUtils {
     }
 
     /**
-     * 使用私钥加密。
+     * Encrypt using the private key.
+     * 简体中文：使用私钥加密。
      *
-     * @param rsaPrivate RSA私钥字符串
-     * @param content 待加密的内容
+     * @param rsaPrivate RSA private key string
+     * @param content The content to be decrypted
      */
     public static String encryptByPrivate(String rsaPrivate, String content) {
         try {
@@ -599,10 +615,11 @@ public final class CryptoUtils {
     }
 
     /**
-     * 使用公钥解密。
+     * Decrypt using the public key.
+     * 简体中文：使用公钥解密。
      *
-     * @param rsaPublic RSA公钥字符串
-     * @param content 待解密的内容
+     * @param rsaPublic RSA public key string
+     * @param content The content to be encrypted
      */
     public static String decryptByPublic(String rsaPublic, String content) {
         try {
@@ -617,27 +634,33 @@ public final class CryptoUtils {
     }
 
     /**
-     * 通过公钥字符串获取RSA公钥。
+     * Obtain the RSA public key from the public key string.
+     * 简体中文：通过公钥字符串获取RSA公钥。
      */
     public static RSAPublicKey getPublicKey(String publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        // 通过X509编码的Key指令获得公钥对象
+        // Obtain the public key object from the Key instruction encoded in X509 format.
+        // 简体中文：通过X509编码的Key指令获得公钥对象
         KeyFactory keyFactory = KeyFactory.getInstance(RSA);
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(base64Decode(publicKey));
         return (RSAPublicKey) keyFactory.generatePublic(x509KeySpec);
     }
 
     /**
-     * 通过私钥字符串获取RSA私钥。
+     * Obtain the RSA private key from the private key string.
+     * 简体中文：通过私钥字符串获取RSA私钥。
      */
     public static RSAPrivateKey getPrivateKey(String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        // 通过PKCS#8编码的Key指令获得私钥对象，安卓中暂不考虑PKCS#1
+        // Obtain a private key object through a Key instruction encoded in PKCS#8 format; PKCS#1
+        // is not currently considered in Android.
+        // 简体中文：通过PKCS#8编码的Key指令获得私钥对象，安卓中暂不考虑PKCS#1
         KeyFactory keyFactory = KeyFactory.getInstance(RSA);
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(base64Decode(privateKey));
         return (RSAPrivateKey) keyFactory.generatePrivate(pkcs8KeySpec);
     }
 
     /**
-     * 用于拆分大的数据块。
+     * Used for splitting large data blocks.
+     * 简体中文：用于拆分大的数据块。
      */
     private static byte[] rsaSplitCodec(Cipher cipher, int opmode, byte[] datas, int keySize) {
         int maxBlock;
@@ -662,7 +685,8 @@ public final class CryptoUtils {
                 offSet = i * maxBlock;
             }
         } catch (Exception e) {
-            throw new RuntimeException("加解密阀值为[" + maxBlock + "]的数据时发生异常", e);
+            throw new RuntimeException("An exception occurred while encrypting or decrypting data" +
+                    " with a threshold of [" + maxBlock + "].", e);
         }
         byte[] resultDatas = out.toByteArray();
         try {
