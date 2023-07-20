@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * APK文件相关工具，读取文件信息、安装、启动等。
+ * APK file-related tools, capable of reading file information, installing, and launching, among
+ * other functions.
+ * 简体中文：APK文件相关工具，读取文件信息、安装、启动等。
  */
 public final class ApkUtils {
 
@@ -34,7 +36,7 @@ public final class ApkUtils {
     private ApkUtils() {
     }
 
-    // <editor-folder desc="获取apk包信息">
+    // <editor-folder desc="Get APK package information">
 
     public static String getAppName() {
         return getAppName(GlobalContext.get());
@@ -173,10 +175,8 @@ public final class ApkUtils {
             return null;
         }
         ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            applicationInfo.sourceDir = apkPath;
-            applicationInfo.publicSourceDir = apkPath;
-        }
+        applicationInfo.sourceDir = apkPath;
+        applicationInfo.publicSourceDir = apkPath;
         return packageManager.getApplicationLabel(applicationInfo);
     }
 
@@ -254,7 +254,7 @@ public final class ApkUtils {
 
     /**
      * Uri contentUri = FileProvider.getUriForFile(context,
-     * BuildConfig.APPLICATION_ID+".fileprovider", file);
+     * BuildConfig.APPLICATION_ID+".file-provider", file);
      */
     public static void install(Context context, File file, Uri contentUri) {
         Intent intent = new Intent();
