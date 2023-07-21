@@ -22,7 +22,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Fragment管理相关工具。
+ * Fragment Management-related Tool.
+ * 简体中文：Fragment管理相关工具。
  */
 public final class FragmentUtils {
 

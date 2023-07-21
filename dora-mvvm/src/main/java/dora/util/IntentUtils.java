@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
