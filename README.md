@@ -35,7 +35,7 @@ Features
   1. showShortToast() and showLongToast()
 
      Convenient methods to display a Toast message at any point in your code. Automatically handles thread switching, so you don't need to worry about errors.
-  2. openActivity() and openActivityForResult() series
+  2. openActivity() and openActivityForResult() serie, deprecated, moved to IntentUtils.
 
      Alternative methods to startActivity and startActivityForResult, providing a more convenient way to pass parameters.
 
