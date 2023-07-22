@@ -37,7 +37,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 
      方便你在任意代码处弹出Toast，自动帮你切换线程，所以无需担心会报错
 
-  2. openActivity()和openActivityForResult()系列
+  2. openActivity()和openActivityForResult()系列，过时，已移动到IntentUtils
 
      替代startActivity和startActivityForResult，传递参数更为方便
 
