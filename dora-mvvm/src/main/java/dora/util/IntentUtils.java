@@ -89,29 +89,29 @@ public final class IntentUtils {
         } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
     }
 
-    public void startActivity(Activity activity, Class<? extends Activity> activityClazz) {
+    public static void startActivity(Activity activity, Class<? extends Activity> activityClazz) {
         Intent intent = new Intent(activity, activityClazz);
         activity.startActivity(intent);
     }
 
-    public void startActivityForResult(Activity activity, Class<? extends Activity> activityClazz, int requestCode) {
+    public static void startActivityForResult(Activity activity, Class<? extends Activity> activityClazz, int requestCode) {
         Intent intent = new Intent(activity, activityClazz);
         activity.startActivityForResult(intent, requestCode);
     }
 
-    public void startActivity(Activity activity, Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
+    public static void startActivity(Activity activity, Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
         Intent intent = new Intent(activity, activityClazz);
         intent = extras.parseData(intent);
         activity.startActivity(intent);
     }
 
-    public void startActivityForResult(Activity activity, Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
+    public static void startActivityForResult(Activity activity, Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
         Intent intent = new Intent(activity, activityClazz);
         intent = extras.parseData(intent);
         activity.startActivityForResult(intent, requestCode);
     }
 
-    public void startActivityWithString(Activity activity, Class<? extends Activity> activityClazz, String name, String extra) {
+    public static void startActivityWithString(Activity activity, Class<? extends Activity> activityClazz, String name, String extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         IntentUtils.Extras extras = new IntentUtils.Extras(map);
@@ -120,7 +120,7 @@ public final class IntentUtils {
         activity.startActivity(intent);
     }
 
-    public void startActivityWithInteger(Activity activity, Class<? extends Activity> activityClazz, String name, int extra) {
+    public static void startActivityWithInteger(Activity activity, Class<? extends Activity> activityClazz, String name, int extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         IntentUtils.Extras extras = new IntentUtils.Extras(map);
@@ -129,7 +129,7 @@ public final class IntentUtils {
         activity.startActivity(intent);
     }
 
-    public void startActivityWithBoolean(Activity activity, Class<? extends Activity> activityClazz, String name, boolean extra) {
+    public static void startActivityWithBoolean(Activity activity, Class<? extends Activity> activityClazz, String name, boolean extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         IntentUtils.Extras extras = new IntentUtils.Extras(map);
@@ -138,7 +138,7 @@ public final class IntentUtils {
         activity.startActivity(intent);
     }
 
-    public void startActivityWithSerializable(Activity activity, Class<? extends Activity> activityClazz, String name, Serializable extra) {
+    public static void startActivityWithSerializable(Activity activity, Class<? extends Activity> activityClazz, String name, Serializable extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         IntentUtils.Extras extras = new IntentUtils.Extras(map);
