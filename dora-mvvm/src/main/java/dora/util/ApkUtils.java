@@ -246,7 +246,7 @@ public final class ApkUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="安装和启动">
+    // <editor-folder desc="Install and launch">
 
     public static void install(File file, Uri contentUri) {
         install(GlobalContext.get(), file, contentUri);

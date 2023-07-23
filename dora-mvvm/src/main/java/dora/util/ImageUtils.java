@@ -36,14 +36,15 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 图像处理相关工具。
+ * Image processing related tools.
+ * 简体中文： 图像处理相关工具。
  */
 public final class ImageUtils {
 
     private ImageUtils() {
     }
 
-    // <editor-folder desc="像素单位转换">
+    // <editor-folder desc="Pixel unit conversion">
 
     public static float dp2px(float dpVal) {
         return dp2px(GlobalContext.get(), dpVal);
@@ -79,7 +80,7 @@ public final class ImageUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="Bitmap创建和回收">
+    // <editor-folder desc="Bitmap creation and recycling">
 
     public static Bitmap createBitmap(int resId) {
         return createBitmap(GlobalContext.get(), resId);
@@ -117,10 +118,11 @@ public final class ImageUtils {
     }
 
     /**
-     * 创建位图。
+     * Create bitmap.
+     * 简体中文：创建位图。
      *
-     * @param base64Img base64编码的图片字符串
-     * @return 位图
+     * @param base64Img Base64-encoded image string
+     * @return bitmap
      */
     public static Bitmap createBitmap(String base64Img) {
         if (TextUtils.isEmpty(base64Img)) {
@@ -146,18 +148,20 @@ public final class ImageUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="保存和加载图片">
+    // <editor-folder desc="Save and load images">
 
     public static void saveImgToAlbum(File file, String fileName) {
         saveImgToAlbum(GlobalContext.get(), file, fileName);
     }
 
     public static void saveImgToAlbum(Context context, File file, String fileName) {
-        //把文件插入到系统图库
+        // Inserting the file into the system gallery
+        // 简体中文：把文件插入到系统图库
         try {
             MediaStore.Images.Media.insertImage(context.getContentResolver(),
                     file.getAbsolutePath(), fileName, null);
-            //保存图片后发送广播通知更新数据库
+            // After saving the image, send a broadcast to notify and update the database.
+            // 简体中文：保存图片后发送广播通知更新数据库
             Uri uri = Uri.fromFile(file);
             context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
         } catch (FileNotFoundException e) {
@@ -224,11 +228,12 @@ public final class ImageUtils {
     }
 
     /**
-     * 加载缩略图。
+     * Load thumbnail.
+     * 简体中文：加载缩略图。
      *
-     * @param imagePath 图片的文件路径
-     * @param width 要加载的宽度
-     * @param height 要加载的高度
+     * @param imagePath Image file path
+     * @param width Width to load
+     * @param height Height to load
      */
     public static Bitmap loadImageThumbnail(String imagePath, int width, int height) {
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -279,7 +284,7 @@ public final class ImageUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="图像处理或变换">
+    // <editor-folder desc="Image processing or transformation">
 
     public static Bitmap scaleBitmap(Bitmap bitmap, int requiredWidth, int requiredHeight) {
         return Bitmap.createScaledBitmap(bitmap, requiredWidth, requiredHeight, true);
@@ -304,9 +309,8 @@ public final class ImageUtils {
     }
 
     /**
-     * 制作倒影位图。
-     *
-     * @param bitmap 位图
+     * Create reflection bitmap.
+     * 简体中文：制作倒影位图。
      */
     public static Bitmap makeReflectionBitmap(Bitmap bitmap) {
         int reflectionGap = 4;
@@ -334,9 +338,8 @@ public final class ImageUtils {
     }
 
     /**
-     * 制作黑白位图。
-     *
-     * @param bitmap 位图
+     * Create black and white bitmap.
+     * 简体中文：制作黑白位图。
      */
     public static Bitmap makeBlackBitmap(Bitmap bitmap) {
         Bitmap outputBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
@@ -352,9 +355,8 @@ public final class ImageUtils {
     }
 
     /**
-     * 将位图裁剪成圆形。
-     *
-     * @param bitmap 位图
+     * Crop bitmap into a circle.
+     * 简体中文：将位图裁剪成圆形。
      */
     public static Bitmap makeRoundBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
@@ -393,11 +395,8 @@ public final class ImageUtils {
     }
 
     /**
-     * 将位图裁剪成圆角矩形。
-     *
-     * @param bitmap 位图
-     * @param pixels 圆角半径的像素px
-     * @param bgColor 背景色
+     * Crop bitmap into a rounded rectangle.
+     * 简体中文：将位图裁剪成圆角矩形。
      */
     public static Bitmap makeRoundCornerBitmap(Bitmap bitmap, int pixels, int bgColor) {
         Bitmap outputBitmap = Bitmap.createBitmap(bitmap.getWidth(),
@@ -443,7 +442,8 @@ public final class ImageUtils {
     }
 
     /**
-     * 截图界面。
+     * Screen capture.
+     * 简体中文：屏幕截图。
      */
     public static Bitmap takeScreenShot(Activity activity) {
         View view = activity.getWindow().getDecorView();
