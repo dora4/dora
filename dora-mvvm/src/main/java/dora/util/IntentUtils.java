@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 
+import androidx.annotation.AnimRes;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
@@ -17,7 +18,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 用于连接Android各大组件以及组件直接的传参。
+ * It is used to connect various components within Android and facilitate data transfer between
+ * components.
+ * 简体中文：用于连接Android各大组件以及组件直接的传参。
  */
 public final class IntentUtils {
 
@@ -31,87 +34,83 @@ public final class IntentUtils {
     public static boolean hasExtras(@NonNull Intent intent, @NonNull String[] keys) {
         int length = keys.length;
         int count = 0;
-        for (int i = 0; i < length; i++) {
-            if (hasExtra(intent, keys[i])) {
+        for (String key : keys) {
+            if (hasExtra(intent, key)) {
                 count++;
             }
         }
         return count == length;
     }
 
+    public static Intent getActivityIntent(@NonNull Context context, @NonNull Class<? extends Activity> activityClazz) {
+        return new Intent(context, activityClazz);
+    }
+
+    public static Intent getActivityIntent(@NonNull Class<? extends Activity> activityClazz) {
+        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
+        if (topActivity == null) {
+            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
+        }
+        return new Intent(topActivity, activityClazz);
+    }
+
+    public static void startActivity(@NonNull Context context, @NonNull Class<? extends Activity> activityClazz) {
+        context.startActivity(getActivityIntent(context, activityClazz));
+    }
+
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz) {
         Activity topActivity = TaskStackManager.getInstance().getTopActivity();
-        if (topActivity != null) {
-            Intent intent = new Intent(TaskStackManager.getInstance().getTopActivity(), activityClazz);
-            topActivity.startActivity(intent);
-        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
+        if (topActivity == null) {
+            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
+        }
+        startActivity(topActivity, activityClazz);
+    }
+
+    public static void startActivityForResult(@NonNull Activity activity, @NonNull Class<? extends
+            Activity> activityClazz, int requestCode) {
+        activity.startActivityForResult(getActivityIntent(activity, activityClazz), requestCode);
     }
 
     public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz, int requestCode) {
         Activity topActivity = TaskStackManager.getInstance().getTopActivity();
-        if (topActivity != null) {
-            Intent intent = new Intent(TaskStackManager.getInstance().getTopActivity(), activityClazz);
-            topActivity.startActivityForResult(intent, requestCode);
-        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
+        if (topActivity == null) {
+            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
+        }
+        startActivityForResult(topActivity, activityClazz, requestCode);
     }
 
-    /**
-     * 使用{@link #startActivity(Class, Extras)}替代。
-     *
-     * @param activityClazz
-     * @param bundle
-     */
-    @Deprecated
-    public static void startActivity(@NonNull Class<? extends Activity> activityClazz, Bundle bundle) {
-        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
-        if (topActivity != null) {
-            Intent intent = new Intent(TaskStackManager.getInstance().getTopActivity(), activityClazz);
-            intent.putExtras(bundle);
-            topActivity.startActivity(intent);
-        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
+    public static void startActivity(@NonNull Context context,
+                                     @NonNull Class<? extends Activity> activityClazz, Extras extras) {
+        Intent intent = getActivityIntent(context, activityClazz);
+        intent = extras.parseData(intent);
+        context.startActivity(intent);
     }
 
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz, Extras extras) {
         Activity topActivity = TaskStackManager.getInstance().getTopActivity();
-        if (topActivity != null) {
-            Intent intent = new Intent(topActivity, activityClazz);
-            intent = extras.parseData(intent);
-            topActivity.startActivity(intent);
-        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
+        if (topActivity == null) {
+            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
+        }
+        startActivity(topActivity, activityClazz, extras);
     }
 
-    public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz, Extras extras, int requestCode) {
+    public static void startActivityForResult(@NonNull Activity activity, @NonNull Class<? extends Activity>
+            activityClazz, Extras extras, int requestCode) {
+        Intent intent = getActivityIntent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static void startActivityForResult(@NonNull Class<? extends Activity>
+            activityClazz, Extras extras, int requestCode) {
         Activity topActivity = TaskStackManager.getInstance().getTopActivity();
-        if (topActivity != null) {
-            Intent intent = new Intent(topActivity, activityClazz);
-            intent = extras.parseData(intent);
-            topActivity.startActivityForResult(intent, requestCode);
-        } else throw new IllegalStateException("dora.TaskStackGlobalConfig未被配置");
+        if (topActivity == null) {
+            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
+        }
+        startActivityForResult(topActivity, activityClazz, extras, requestCode);
     }
 
-    public static void startActivity(Activity activity, Class<? extends Activity> activityClazz) {
-        Intent intent = new Intent(activity, activityClazz);
-        activity.startActivity(intent);
-    }
-
-    public static void startActivityForResult(Activity activity, Class<? extends Activity> activityClazz, int requestCode) {
-        Intent intent = new Intent(activity, activityClazz);
-        activity.startActivityForResult(intent, requestCode);
-    }
-
-    public static void startActivity(Activity activity, Class<? extends Activity> activityClazz, IntentUtils.Extras extras) {
-        Intent intent = new Intent(activity, activityClazz);
-        intent = extras.parseData(intent);
-        activity.startActivity(intent);
-    }
-
-    public static void startActivityForResult(Activity activity, Class<? extends Activity> activityClazz, IntentUtils.Extras extras, int requestCode) {
-        Intent intent = new Intent(activity, activityClazz);
-        intent = extras.parseData(intent);
-        activity.startActivityForResult(intent, requestCode);
-    }
-
-    public static void startActivityWithString(Activity activity, Class<? extends Activity> activityClazz, String name, String extra) {
+    public static void startActivityWithString(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, String extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         IntentUtils.Extras extras = new IntentUtils.Extras(map);
@@ -120,31 +119,36 @@ public final class IntentUtils {
         activity.startActivity(intent);
     }
 
-    public static void startActivityWithInteger(Activity activity, Class<? extends Activity> activityClazz, String name, int extra) {
+    public static void startActivityWithInteger(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, int extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
-        IntentUtils.Extras extras = new IntentUtils.Extras(map);
-        Intent intent = new Intent(activity, activityClazz);
-        intent = extras.parseData(intent);
-        activity.startActivity(intent);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        activity.startActivity(Extras.fromMap(map).parseData(intent));
     }
 
-    public static void startActivityWithBoolean(Activity activity, Class<? extends Activity> activityClazz, String name, boolean extra) {
+    public static void startActivityWithBoolean(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, boolean extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
-        IntentUtils.Extras extras = new IntentUtils.Extras(map);
-        Intent intent = new Intent(activity, activityClazz);
-        intent = extras.parseData(intent);
-        activity.startActivity(intent);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        activity.startActivity(Extras.fromMap(map).parseData(intent));
     }
 
-    public static void startActivityWithSerializable(Activity activity, Class<? extends Activity> activityClazz, String name, Serializable extra) {
+    public static void startActivityWithSerializable(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, Serializable extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
-        IntentUtils.Extras extras = new IntentUtils.Extras(map);
-        Intent intent = new Intent(activity, activityClazz);
-        intent = extras.parseData(intent);
-        activity.startActivity(intent);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        activity.startActivity(Extras.fromMap(map).parseData(intent));
+    }
+
+    public static void startActivity(@NonNull Activity activity, Class<? extends Activity> activityClazz,
+                                     @AnimRes int inAnim, @AnimRes int outAnim) {
+        startActivity(activityClazz);
+        activity.overridePendingTransition(inAnim, outAnim);
+    }
+
+    public static void finishActivity(@NonNull Activity activity, @AnimRes int inAnim, @AnimRes int outAnim) {
+        activity.finish();
+        activity.overridePendingTransition(inAnim, outAnim);
     }
 
     public static void startService(@NonNull String action) {
@@ -385,10 +389,16 @@ public final class IntentUtils {
 
     public static class Extras implements Serializable {
 
+        private static Extras instance;
         private Map<String, Object> extrasMap;
 
-        public Extras(Map<String, Object> map) {
+        private Extras(Map<String, Object> map) {
             this.extrasMap = map;
+        }
+
+        public static Extras fromMap(Map<String, Object> map) {
+            instance = new Extras(map);
+            return instance;
         }
 
         public Bundle convertToBundle() {
