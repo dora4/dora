@@ -113,10 +113,8 @@ public final class IntentUtils {
     public static void startActivityWithString(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, String extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
-        IntentUtils.Extras extras = new IntentUtils.Extras(map);
-        Intent intent = new Intent(activity, activityClazz);
-        intent = extras.parseData(intent);
-        activity.startActivity(intent);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        activity.startActivity(Extras.fromMap(map).parseData(intent));
     }
 
     public static void startActivityWithInteger(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, int extra) {
