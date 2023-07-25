@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 进程管理相关工具。
+ * Process management-related tools.
+ * 简体中文：进程管理相关工具。
  */
 public final class ProcessUtils {
 
@@ -28,13 +29,15 @@ public final class ProcessUtils {
      * Return the foreground process name.
      * <p>Target APIs greater than 21 must hold
      * {@code <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />}</p>
+     * 简体中文：返回前台进程名称。
+     * <p>目标 API 大于 21 的设备必须持有以下权限：</p>
+     * {@code <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />}
      *
      * @return the foreground process name
      */
     public static String getForegroundProcessName(Context context) {
         ActivityManager am =
                 (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        //noinspection ConstantConditions
         List<ActivityManager.RunningAppProcessInfo> pInfo = am.getRunningAppProcesses();
         if (pInfo != null && pInfo.size() > 0) {
             for (ActivityManager.RunningAppProcessInfo aInfo : pInfo) {
@@ -54,7 +57,9 @@ public final class ProcessUtils {
                 LogUtils.i("getForegroundProcessName: noun of access to usage information.");
                 return "";
             }
-            try {// Access to usage information.
+            try {
+                // Access to usage information.
+                // 简体中文：访问使用信息。
                 ApplicationInfo info =
                         pm.getApplicationInfo(context.getPackageName(), 0);
                 AppOpsManager aom =
@@ -100,6 +105,8 @@ public final class ProcessUtils {
     /**
      * Return all background processes.
      * <p>Must hold {@code <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />}</p>
+     * 简体中文：返回所有后台进程。
+     * <p>必须持有以下权限：</p> {@code <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />}
      *
      * @return all background processes
      */
@@ -118,6 +125,7 @@ public final class ProcessUtils {
 
     /**
      * Return whether app running in the main process.
+     * 简体中文：返回应用程序是否在主进程中运行。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -165,7 +173,8 @@ public final class ProcessUtils {
     }
 
     public static void killAllProcesses(Context context) {
-        //杀死相关进程
+        // Terminate related processes.
+        // 简体中文：杀死相关进程
         ActivityManager activityManager = ServiceUtils.getActivityManager(context);
         List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo processInfo : processes) {
@@ -173,7 +182,8 @@ public final class ProcessUtils {
                 android.os.Process.killProcess(processInfo.pid);
             }
         }
-        //杀死本进程
+        // Terminate this process.
+        // 简体中文：杀死本进程
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
     }

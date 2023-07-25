@@ -228,8 +228,8 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
             // The system is running in a low memory state, and your process is in the most likely
             // position to be killed in the LRU (Least Recently Used) list.
             // You should release any resources that do not affect the recovery state of your app.
-            // 简体中文：系统正运行于低内存的状态并且你的进程正处于 LRU 列表中最容易被杀掉的位置, 你应该释放任何不影响你的
-            // App恢复状态的资源
+            // 简体中文：系统正运行于低内存的状态并且你的进程正处于 LRU 列表中最容易被杀掉的位置, 你应该释放任何不
+            // 影响你的App恢复状态的资源
             ProcessUtils.killAllProcesses(mApp);
         }
     }
@@ -246,8 +246,8 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
             // the base Application class,
             // so you can extend your own logic in the respective methods.
             // Multiple implementation classes can be added based on different logic requirements.
-            // 简体中文：AppLifecycle 中的所有方法都会在基类 Application 的对应生命周期中被调用, 所以在对应的方法中可以扩
-            // 展一些自己需要的逻辑
+            // 简体中文：AppLifecycle 中的所有方法都会在基类 Application 的对应生命周期中被调用, 所以在对应的方
+            // 法中可以扩展一些自己需要的逻辑
             // 可以根据不同的逻辑添加多个实现类
             lifecycles.add(new AppLifecycle());
         }
