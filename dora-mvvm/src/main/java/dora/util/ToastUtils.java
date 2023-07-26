@@ -7,7 +7,8 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 /**
- * 吐司工具。
+ * Toast tools.
+ * 简体中文：吐司工具。
  */
 public final class ToastUtils {
 

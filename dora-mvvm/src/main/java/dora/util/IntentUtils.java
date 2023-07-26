@@ -5,8 +5,10 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.Settings;
 
 import androidx.annotation.AnimRes;
 import androidx.annotation.NonNull;
@@ -383,6 +385,33 @@ public final class IntentUtils {
             return new ArrayList<>();
         }
         return intent.getStringArrayListExtra(name);
+    }
+
+    /**
+     * Return the intent of launch app details settings.
+     * 简体中文：返回启动应用程序详细设置的意图。
+     *
+     * @param pkgName The name of the package.
+     * @return the intent of launch app details settings
+     */
+    public static Intent getLaunchAppDetailsSettingsIntent(final String pkgName) {
+        return getLaunchAppDetailsSettingsIntent(pkgName, false);
+    }
+
+    /**
+     * Return the intent of launch app details settings.
+     * 简体中文：返回启动应用程序详细设置的意图。
+     *
+     * @param pkgName The name of the package.
+     * @return the intent of launch app details settings
+     */
+    public static Intent getLaunchAppDetailsSettingsIntent(final String pkgName, final boolean isNewTask) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + pkgName));
+        if (isNewTask) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        return intent;
     }
 
     public static class Extras implements Serializable {

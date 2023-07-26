@@ -22,7 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * 视图相关工具。
+ * View-related tools.
+ * 简体中文：视图相关工具。
  */
 public final class ViewUtils implements Number {
 
@@ -30,7 +31,8 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * RecyclerView默认配置。
+     * Default configuration for RecyclerView.
+     * 简体中文：RecyclerView默认配置。
      */
     public static RecyclerView configRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
@@ -42,7 +44,8 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * RecyclerView自定义配置。
+     * Custom configuration for RecyclerView.
+     * 简体中文：RecyclerView自定义配置。
      */
     public static RecyclerView configRecyclerView(RecyclerView recyclerView, RecyclerView.LayoutManager layoutManager) {
         recyclerView.setLayoutManager(layoutManager);
@@ -52,9 +55,10 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * 将View从父控件中移除。
+     * Remove the View from its parent container.
+     * 简体中文：将View从父控件中移除。
      *
-     * @param view 要移除的view
+     * @param view View to be removed.
      */
     public static void removeViewFormParent(View view) {
         if (view == null) return;
@@ -65,16 +69,18 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * 获取文本控件或输入框控件的文本。
+     * Retrieve the text from a text view or an input box control.
+     * 简体中文：获取文本控件或输入框控件的文本。
      */
     public static String getText(TextView textView) {
         return textView.getText().toString().trim();
     }
 
     /**
-     * 设置wrap_content的情况下，给定默认宽高。
+     * Providing default width and height when using wrap_content.
+     * 简体中文：设置wrap_content的情况下，给定默认宽高。
      *
-     * @param expected 期望的值
+     * @param expected Expected value.
      */
     public static int applyWrapContentSize(int measureSpec, int expected) {
         int mode = View.MeasureSpec.getMode(measureSpec);
@@ -86,7 +92,8 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * 边缘检测。
+     * Edge Detection.
+     * 简体中文：边缘检测。
      */
     public static boolean isTouchEdge(int edgeSize, Context context, MotionEvent e) {
         return e.getRawX() < edgeSize
@@ -96,9 +103,10 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * 获取普通的画笔，不带描边。
+     * Get a regular brush without stroke.
+     * 简体中文：获取普通的画笔，不带描边。
      *
-     * @param color 画笔的颜色
+     * @param color Color of the paint.
      */
     public static Paint getPaint(int color) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -109,9 +117,10 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * 获取像铅笔一样的画笔，用于绘制线条。
+     * Get a pencil-like brush for drawing lines.
+     * 简体中文：获取像铅笔一样的画笔，用于绘制线条。
      *
-     * @param color 画笔的颜色
+     * @param color Color of the paint.
      */
     public static Paint getPencil(int color) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -122,9 +131,10 @@ public final class ViewUtils implements Number {
     }
 
     /**
-     * 获取像刷子一样的画笔，带描边。
+     * Get a brush-like brush with stroke.
+     * 简体中文：获取像刷子一样的画笔，带描边。
      *
-     * @param color 画笔的颜色
+     * @param color Color of the paint.
      */
     public static Paint getBrush(int color) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);

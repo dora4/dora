@@ -271,6 +271,13 @@ public final class ApkUtils {
         context.startActivity(intent);
     }
 
+    public static void uninstall(Context context, final String pkgName) {
+        Intent intent = new Intent(Intent.ACTION_DELETE);
+        intent.setData(Uri.parse("package:" + pkgName));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
     public static void launch(String packageName, String className) {
         launch(GlobalContext.get(), packageName, className);
     }
