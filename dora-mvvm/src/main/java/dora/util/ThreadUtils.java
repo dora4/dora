@@ -26,7 +26,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * 线程相关工具。
+ * Thread-related Tools.
+ * 简体中文：线程相关工具。
  */
 public final class ThreadUtils {
 
@@ -69,6 +70,8 @@ public final class ThreadUtils {
      * Return a thread pool that reuses a fixed number of threads
      * operating off a shared unbounded queue, using the provided
      * ThreadFactory to create new threads when needed.
+     * 简体中文：返回一个线程池，它重用固定数量的线程，这些线程在共享的无界队列上运行，使用提供的ThreadFactory
+     * 在需要时创建新线程。
      *
      * @param size The size of thread in the pool.
      * @return a fixed thread pool
@@ -81,6 +84,8 @@ public final class ThreadUtils {
      * Return a thread pool that reuses a fixed number of threads
      * operating off a shared unbounded queue, using the provided
      * ThreadFactory to create new threads when needed.
+     * 简体中文：返回一个线程池，它重用固定数量的线程，这些线程在共享的无界队列上运行，使用提供的ThreadFactory
+     * 在需要时创建新线程。
      *
      * @param size     The size of thread in the pool.
      * @param priority The priority of thread in the poll.
@@ -95,6 +100,7 @@ public final class ThreadUtils {
      * Return a thread pool that uses a single worker thread operating
      * off an unbounded queue, and uses the provided ThreadFactory to
      * create a new thread when needed.
+     * 简体中文：返回一个线程池，它使用单个工作线程，在无界队列上运行，并使用提供的ThreadFactory在需要时创建新线程。
      *
      * @return a single thread pool
      */
@@ -106,6 +112,8 @@ public final class ThreadUtils {
      * Return a thread pool that uses a single worker thread operating
      * off an unbounded queue, and uses the provided ThreadFactory to
      * create a new thread when needed.
+     * 简体中文：返回一个使用单个工作线程的线程池，该工作线程在无界队列上运行，并使用提供的ThreadFactory在需要时创
+     * 建新线程。
      *
      * @param priority The priority of thread in the poll.
      * @return a single thread pool
@@ -118,6 +126,7 @@ public final class ThreadUtils {
      * Return a thread pool that creates new threads as needed, but
      * will reuse previously constructed threads when they are
      * available.
+     * 简体中文：返回一个线程池，在需要时创建新的线程，但会在有可用线程时重用先前构造的线程。
      *
      * @return a cached thread pool
      */
@@ -129,6 +138,7 @@ public final class ThreadUtils {
      * Return a thread pool that creates new threads as needed, but
      * will reuse previously constructed threads when they are
      * available.
+     * 简体中文：返回一个线程池，根据需要创建新线程，但在有可用线程时会重用先前构建的线程。
      *
      * @param priority The priority of thread in the poll.
      * @return a cached thread pool
@@ -140,6 +150,8 @@ public final class ThreadUtils {
     /**
      * Return a thread pool that creates (2 * CPU_COUNT + 1) threads
      * operating off a queue which size is 128.
+     * 简体中文：返回一个线程池，它创建 (2 * CPU_COUNT + 1) 个线程，并且这些线程在大小为 128 的队列上运行。其中，
+     * CPU_COUNT表示计算机的CPU核心数量。
      *
      * @return a IO thread pool
      */
@@ -150,6 +162,8 @@ public final class ThreadUtils {
     /**
      * Return a thread pool that creates (2 * CPU_COUNT + 1) threads
      * operating off a queue which size is 128.
+     * 简体中文：返回一个线程池，它创建 (2 * CPU_COUNT + 1) 个线程，并且这些线程在大小为 128 的队列上运行。其中，
+     * CPU_COUNT 表示计算机的CPU核心数量。
      *
      * @param priority The priority of thread in the poll.
      * @return a IO thread pool
@@ -162,6 +176,8 @@ public final class ThreadUtils {
      * Return a thread pool that creates (CPU_COUNT + 1) threads
      * operating off a queue which size is 128 and the maximum
      * number of threads equals (2 * CPU_COUNT + 1).
+     * 简体中文：返回一个线程池，它创建 (CPU_COUNT + 1) 个线程，并且这些线程在大小为 128 的队列上运行。同时，线程
+     * 池的最大线程数为 (2 * CPU_COUNT + 1)。其中，CPU_COUNT 表示计算机的 CPU 核心数量。
      *
      * @return a cpu thread pool for
      */
@@ -173,6 +189,8 @@ public final class ThreadUtils {
      * Return a thread pool that creates (CPU_COUNT + 1) threads
      * operating off a queue which size is 128 and the maximum
      * number of threads equals (2 * CPU_COUNT + 1).
+     * 简体中文：返回一个线程池，它创建 (CPU_COUNT + 1) 个线程，并且这些线程在大小为 128 的队列上运行。同时，线程
+     * 池的最大线程数为 (2 * CPU_COUNT + 1)。其中，CPU_COUNT 表示计算机的 CPU 核心数量。
      *
      * @param priority The priority of thread in the poll.
      * @return a cpu thread pool for
@@ -183,6 +201,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a fixed thread pool.
+     * 简体中文：在一个固定大小的线程池中执行给定的任务。
      *
      * @param size The size of thread in the fixed thread pool.
      * @param task The task to execute.
@@ -194,6 +213,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a fixed thread pool.
+     * 简体中文：在一个固定大小的线程池中执行给定的任务。
      *
      * @param size     The size of thread in the fixed thread pool.
      * @param task     The task to execute.
@@ -208,6 +228,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a fixed thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个固定大小的线程池中执行。
      *
      * @param size  The size of thread in the fixed thread pool.
      * @param task  The task to execute.
@@ -224,6 +245,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a fixed thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个固定大小的线程池中执行。
      *
      * @param size     The size of thread in the fixed thread pool.
      * @param task     The task to execute.
@@ -242,6 +264,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a fixed thread pool at fix rate.
+     * 简体中文：在一个固定的频率下，在一个固定大小的线程池中执行给定的任务。
      *
      * @param size   The size of thread in the fixed thread pool.
      * @param task   The task to execute.
@@ -258,6 +281,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a fixed thread pool at fix rate.
+     * 简体中文：在一个固定的频率下，在一个固定大小的线程池中执行给定的任务。
      *
      * @param size     The size of thread in the fixed thread pool.
      * @param task     The task to execute.
@@ -276,6 +300,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a fixed thread pool at fix rate.
+     * 简体中文：在一个固定频率下，在一个固定大小的线程池中执行给定的任务。
      *
      * @param size         The size of thread in the fixed thread pool.
      * @param task         The task to execute.
@@ -294,6 +319,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a fixed thread pool at fix rate.
+     * 简体中文：在一个固定频率下，在一个固定大小的线程池中执行给定的任务。
      *
      * @param size         The size of thread in the fixed thread pool.
      * @param task         The task to execute.
@@ -314,6 +340,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a single thread pool.
+     * 简体中文：在一个单线程池中执行给定的任务。
      *
      * @param task The task to execute.
      * @param <T>  The type of the task's result.
@@ -324,6 +351,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a single thread pool.
+     * 简体中文：在一个单线程池中执行给定的任务。
      *
      * @param task     The task to execute.
      * @param priority The priority of thread in the poll.
@@ -336,6 +364,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a single thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个单线程池中执行。
      *
      * @param task  The task to execute.
      * @param delay The time from now to delay execution.
@@ -350,6 +379,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a single thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个单线程池中执行。
      *
      * @param task     The task to execute.
      * @param delay    The time from now to delay execution.
@@ -366,6 +396,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a single thread pool at fix rate.
+     * 简体中文：在一个单线程池中以固定的频率执行给定的任务。
      *
      * @param task   The task to execute.
      * @param period The period between successive executions.
@@ -380,6 +411,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a single thread pool at fix rate.
+     * 简体中文：在一个单线程池中以固定的频率执行给定的任务。
      *
      * @param task     The task to execute.
      * @param period   The period between successive executions.
@@ -396,6 +428,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a single thread pool at fix rate.
+     * 简体中文：在一个单线程池中以固定的频率执行给定的任务。
      *
      * @param task         The task to execute.
      * @param initialDelay The time to delay first execution.
@@ -412,6 +445,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a single thread pool at fix rate.
+     * 简体中文：在一个单线程池中以固定的频率执行给定的任务。
      *
      * @param task         The task to execute.
      * @param initialDelay The time to delay first execution.
@@ -432,6 +466,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cached thread pool.
+     * 简体中文：在一个缓存线程池中执行给定的任务。
      *
      * @param task The task to execute.
      * @param <T>  The type of the task's result.
@@ -442,6 +477,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cached thread pool.
+     * 简体中文：在一个缓存线程池中执行给定的任务。
      *
      * @param task     The task to execute.
      * @param priority The priority of thread in the poll.
@@ -454,6 +490,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cached thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个缓存线程池中执行。
      *
      * @param task  The task to execute.
      * @param delay The time from now to delay execution.
@@ -468,6 +505,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cached thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个缓存线程池中执行。
      *
      * @param task     The task to execute.
      * @param delay    The time from now to delay execution.
@@ -484,6 +522,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cached thread pool at fix rate.
+     * 简体中文：在一个缓存线程池中以固定的频率执行给定的任务。
      *
      * @param task   The task to execute.
      * @param period The period between successive executions.
@@ -498,6 +537,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cached thread pool at fix rate.
+     * 简体中文：在一个缓存线程池中以固定的频率执行给定的任务。
      *
      * @param task     The task to execute.
      * @param period   The period between successive executions.
@@ -514,6 +554,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cached thread pool at fix rate.
+     * 简体中文：在一个缓存线程池中以固定的频率执行给定的任务。
      *
      * @param task         The task to execute.
      * @param initialDelay The time to delay first execution.
@@ -530,6 +571,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cached thread pool at fix rate.
+     * 简体中文：在一个缓存线程池中以固定的频率执行给定的任务。
      *
      * @param task         The task to execute.
      * @param initialDelay The time to delay first execution.
@@ -550,6 +592,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in an IO thread pool.
+     * 简体中文：在一个I/O线程池中执行给定的任务。
      *
      * @param task The task to execute.
      * @param <T>  The type of the task's result.
@@ -560,6 +603,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in an IO thread pool.
+     * 简体中文：在一个I/O线程池中执行给定的任务。
      *
      * @param task     The task to execute.
      * @param priority The priority of thread in the poll.
@@ -572,6 +616,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in an IO thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个I/O线程池中执行。
      *
      * @param task  The task to execute.
      * @param delay The time from now to delay execution.
@@ -586,6 +631,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in an IO thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个I/O线程池中执行。
      *
      * @param task     The task to execute.
      * @param delay    The time from now to delay execution.
@@ -602,6 +648,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in an IO thread pool at fix rate.
+     * 简体中文：在一个I/O线程池中以固定的频率执行给定的任务。
      *
      * @param task   The task to execute.
      * @param period The period between successive executions.
@@ -616,6 +663,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in an IO thread pool at fix rate.
+     * 简体中文：Executes the given task in an IO thread pool at fix rate.
      *
      * @param task     The task to execute.
      * @param period   The period between successive executions.
@@ -632,6 +680,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in an IO thread pool at fix rate.
+     * 简体中文：在一个I/O线程池中以固定的频率执行给定的任务。
      *
      * @param task         The task to execute.
      * @param initialDelay The time to delay first execution.
@@ -648,6 +697,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in an IO thread pool at fix rate.
+     * 简体中文：在一个I/O线程池中以固定的频率执行给定的任务。
      *
      * @param task         The task to execute.
      * @param initialDelay The time to delay first execution.
@@ -668,6 +718,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cpu thread pool.
+     * 简体中文：在一个CPU线程池中执行给定的任务。
      *
      * @param task The task to execute.
      * @param <T>  The type of the task's result.
@@ -678,6 +729,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cpu thread pool.
+     * 简体中文：在一个CPU线程池中执行给定的任务。
      *
      * @param task     The task to execute.
      * @param priority The priority of thread in the poll.
@@ -690,6 +742,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cpu thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个CPU线程池中执行。
      *
      * @param task  The task to execute.
      * @param delay The time from now to delay execution.
@@ -704,6 +757,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cpu thread pool after the given delay.
+     * 简体中文：在给定的延迟之后，将给定的任务在一个CPU线程池中执行。
      *
      * @param task     The task to execute.
      * @param delay    The time from now to delay execution.
@@ -720,6 +774,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cpu thread pool at fix rate.
+     * 简体中文：在一个CPU线程池中以固定的频率执行给定的任务。
      *
      * @param task   The task to execute.
      * @param period The period between successive executions.
@@ -734,6 +789,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cpu thread pool at fix rate.
+     * 简体中文：在一个CPU线程池中以固定的频率执行给定的任务。
      *
      * @param task     The task to execute.
      * @param period   The period between successive executions.
@@ -750,6 +806,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cpu thread pool at fix rate.
+     * 简体中文：在一个CPU线程池中以固定的频率执行给定的任务。
      *
      * @param task         The task to execute.
      * @param initialDelay The time to delay first execution.
@@ -766,6 +823,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a cpu thread pool at fix rate.
+     * 简体中文：在一个CPU线程池中以固定的频率执行给定的任务。
      *
      * @param task         The task to execute.
      * @param initialDelay The time to delay first execution.
@@ -786,6 +844,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a custom thread pool.
+     * 简体中文：在一个自定义线程池中执行给定的任务。
      *
      * @param pool The custom thread pool.
      * @param task The task to execute.

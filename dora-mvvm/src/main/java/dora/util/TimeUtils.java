@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * 日期时间相关工具。
+ * Date and Time Related Tools.
+ * 简体中文：日期时间相关工具。
  */
 public final class TimeUtils {
 
@@ -19,7 +20,7 @@ public final class TimeUtils {
     private TimeUtils() {
     }
 
-    // <editor-folder desc="日期时间转换">
+    // <editor-folder desc="Date and time conversion.">
 
     public static String getTimeString(String formatType) {
         return getTimeString(getTimeLong(), formatType);
