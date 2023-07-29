@@ -856,6 +856,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a custom thread pool after the given delay.
+     * 简体中文：在给定的延迟后，将指定的任务在自定义线程池中执行。
      *
      * @param pool  The custom thread pool.
      * @param task  The task to execute.
@@ -872,6 +873,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a custom thread pool at fix rate.
+     * 简体中文：在自定义线程池中以固定速率执行给定的任务。
      *
      * @param pool   The custom thread pool.
      * @param task   The task to execute.
@@ -888,6 +890,7 @@ public final class ThreadUtils {
 
     /**
      * Executes the given task in a custom thread pool at fix rate.
+     * 简体中文：以固定的速率在自定义线程池中执行给定的任务。
      *
      * @param pool         The custom thread pool.
      * @param task         The task to execute.
@@ -906,6 +909,7 @@ public final class ThreadUtils {
 
     /**
      * Cancel the given task.
+     * 简体中文：取消给定的任务。
      *
      * @param task The task to cancel.
      */
@@ -916,6 +920,7 @@ public final class ThreadUtils {
 
     /**
      * Cancel the given tasks.
+     * 简体中文：取消给定的任务。
      *
      * @param tasks The tasks to cancel.
      */
@@ -929,6 +934,7 @@ public final class ThreadUtils {
 
     /**
      * Cancel the given tasks.
+     * 简体中文：取消给定的任务。
      *
      * @param tasks The tasks to cancel.
      */
@@ -942,6 +948,7 @@ public final class ThreadUtils {
 
     /**
      * Cancel the tasks in pool.
+     * 简体中文：取消线程池中的任务。
      *
      * @param executorService The pool.
      */
@@ -959,6 +966,7 @@ public final class ThreadUtils {
 
     /**
      * Set the deliver.
+     * 简体中文：设置投递者（deliver）。
      *
      * @param deliver The deliver.
      */
@@ -1148,6 +1156,7 @@ public final class ThreadUtils {
             if (mCapacity <= size() &&
                     mPool != null && mPool.getPoolSize() < mPool.getMaximumPoolSize()) {
                 // create a non-core thread
+                // 简体中文：创建一个非核心线程。
                 return false;
             }
             return super.offer(runnable);
@@ -1354,6 +1363,7 @@ public final class ThreadUtils {
 
         /**
          * Scheduled task doesn't support timeout.
+         * 简体中文：计划任务不支持超时。
          */
         public Task<T> setTimeout(final long timeoutMillis, final OnTimeoutListener listener) {
             mTimeoutMillis = timeoutMillis;
@@ -1455,8 +1465,10 @@ public final class ThreadUtils {
             }
         }
     }
+
     /**
-     * 检测当前代码环境是否是主线程。
+     * Check if the current code environment is the main thread.
+     * 简体中文：检测当前代码环境是否是主线程。
      */
     public static boolean isMainThread() {
         return Looper.getMainLooper() == Looper.myLooper();
