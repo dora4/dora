@@ -10,7 +10,8 @@ import java.util.Iterator;
 import java.util.Stack;
 
 /**
- * Activity堆栈管理器。
+ * Activity Stack Manager.
+ * 简体中文：Activity堆栈管理器。
  */
 public final class TaskStackManager {
 
@@ -19,8 +20,9 @@ public final class TaskStackManager {
 
     /**
      * Only a mirror used to record the activity created.
+     * 简体中文：仅使用镜像来记录所创建的活动。
      */
-    protected Stack<WeakReference<? extends Activity>>
+    private final Stack<WeakReference<? extends Activity>>
             mActivityStacks = new Stack<>();
 
     private TaskStackManager() {
@@ -37,21 +39,14 @@ public final class TaskStackManager {
         return sTaskStackManager;
     }
 
-    /**
-     * 依附到application。
-     *
-     * @param application
-     * @return
-     */
     public TaskStackManager init(Application application) {
         this.mApplication = application;
         return sTaskStackManager;
     }
 
     /**
-     * 保存activity信息到栈。
-     *
-     * @param activity
+     * Save activity information to the stack.
+     * 简体中文：保存activity信息到栈。
      */
     public void pushTask(Activity activity) {
         synchronized (TaskStackManager.class) {
@@ -60,13 +55,14 @@ public final class TaskStackManager {
     }
 
     /**
-     * 检测销毁栈顶的activity。
-     *
-     * @param activityClazz
+     * Detect the destruction of the activity at the top of the stack.
+     * 简体中文：检测销毁栈顶的activity。
      */
     public void popTaskWithChecking(Class<? extends Activity> activityClazz) {
         synchronized (TaskStackManager.class) {
-            WeakReference<? extends Activity> ref = mActivityStacks.peek(); //只查看不移除
+            // Peek without removal
+            // 只查看不移除
+            WeakReference<? extends Activity> ref = mActivityStacks.peek();
             if (ref != null) {
                 Activity activity = ref.get();
                 if (activityClazz.isAssignableFrom(activity.getClass())) {
@@ -77,7 +73,8 @@ public final class TaskStackManager {
     }
 
     /**
-     * 销毁栈顶的activity。
+     * Destroy the activity at the top of the stack.
+     * 简体中文：销毁栈顶的activity。
      */
     public void popTask() {
         synchronized (TaskStackManager.class) {
@@ -89,18 +86,16 @@ public final class TaskStackManager {
     }
 
     /**
-     * 让在栈顶的activity ,打开指定的activity。
-     *
-     * @param activityClass
+     * Make the activity at the top of the stack open the specified activity.
+     * 简体中文：让在栈顶的activity打开指定的activity。
      */
     public void startActivity(Class activityClass) {
         startActivity(new Intent(mApplication, activityClass));
     }
 
     /**
-     * 开启一个新的activity。
-     *
-     * @param intent
+     * Start a new activity.
+     * 简体中文：开启一个新的activity。
      */
     private void startActivity(Intent intent) {
         if (getTopActivity() == null) {
@@ -113,9 +108,8 @@ public final class TaskStackManager {
     }
 
     /**
-     * 获取栈顶activity。
-     *
-     * @return
+     * Get the top activity of the stack.
+     * 简体中文：获取栈顶activity。
      */
     public Activity getTopActivity() {
         if (mActivityStacks.peek() != null) {
@@ -125,9 +119,8 @@ public final class TaskStackManager {
     }
 
     /**
-     * 销毁指定activity。
-     *
-     * @param activityClazz
+     * Destroy the specified activity.
+     * 简体中文：销毁指定activity。
      */
     public void finishActivity(Class<?> activityClazz) {
         synchronized (TaskStackManager.class) {
@@ -143,7 +136,9 @@ public final class TaskStackManager {
     }
 
     /**
-     * 销毁本app所有activity，只保留栈底的activity，通常主界面一个在栈底。
+     * Destroy all activities of this app, leaving only the bottom activity in the stack,
+     * usually the main interface.
+     * 简体中文：销毁本app所有activity，只保留栈底的activity，通常主界面在栈底。
      */
     public void finishActivityUntilBottom() {
         synchronized (TaskStackManager.class) {
@@ -161,7 +156,8 @@ public final class TaskStackManager {
     }
 
     /**
-     * 销毁本app所有activity。
+     * Destroy all activities of this app.
+     * 简体中文：销毁本app所有activity。
      */
     public void finishAllActivities() {
         synchronized (TaskStackManager.class) {
@@ -177,7 +173,8 @@ public final class TaskStackManager {
     }
 
     /**
-     * 完全杀死本app，包括所有activity和其进程。
+     * Completely kill this app, including all activities and its processes.
+     * 简体中文：完全杀死本app，包括所有activity和其进程。
      */
     public void killAll(Context context) {
         synchronized (TaskStackManager.class) {

@@ -5,14 +5,15 @@ import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 
 /**
- * 文本工具。
+ * Text Tools.
+ * 简体中文：文本工具。
  */
 public final class TextUtils {
 
     private TextUtils() {
     }
 
-    // <editor-folder desc="编码转换">
+    // <editor-folder desc="Encoding Conversion">
 
     public static String toASCIIString(String str) {
         try {
@@ -97,7 +98,7 @@ public final class TextUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="字符格式校验或比对">
+    // <editor-folder desc="Character Format Validation or Comparison">
 
     public static boolean isEmpty(CharSequence str) {
         return android.text.TextUtils.isEmpty(str);
