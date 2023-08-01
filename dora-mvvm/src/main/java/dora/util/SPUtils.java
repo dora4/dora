@@ -11,7 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * SharedPreferences存取相关工具。
+ * SharedPreferences storage and retrieval related utility.
+ * 简体中文：SharedPreferences存取相关工具。
  */
 public final class SPUtils {
 
@@ -124,7 +125,6 @@ public final class SPUtils {
         try {
             oos = new ObjectOutputStream(baos);
             oos.writeObject(value);
-            // 将字节流编码成base64的字符串
             String base64 = new String(Base64.encode(baos
                     .toByteArray(), Base64.DEFAULT));
             getInstance(context).getEditor().putString(key, base64).commit();
@@ -145,14 +145,11 @@ public final class SPUtils {
         if (base64Val == null) {
             return null;
         }
-        // 读取字节
         byte[] base64 = Base64.decode(base64Val.getBytes(), Base64.DEFAULT);
-        // 封装到字节流
         ByteArrayInputStream bais = new ByteArrayInputStream(base64);
         ObjectInputStream bis;
         try {
             bis = new ObjectInputStream(bais);
-            // 读取对象
             value = (T) bis.readObject();
         } catch (Exception e) {
             e.printStackTrace();
