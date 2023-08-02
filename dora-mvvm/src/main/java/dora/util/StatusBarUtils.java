@@ -1,7 +1,6 @@
 package dora.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,39 +22,48 @@ import java.lang.reflect.Method;
 import dora.R;
 
 /**
- * 手机系统状态栏相关工具。
+ * Mobile System Status Bar Related Tools.
+ * 简体中文：手机系统状态栏相关工具。
  */
 public final class StatusBarUtils {
 
     private static final int DORA_STATUS_BAR_VIEW_ID = R.id.dora_status_bar_view_id;
 
     /**
-     * 设置不全屏内容的状态栏颜色，6.0以上手机自动根据颜色适应亮暗色，常用。
+     * Set the status bar color for non-fullscreen content, automatically adapt to light or dark
+     * color based on the color, commonly used in phones with Android 6.0 and above.
+     * 简体中文：设置不全屏内容的状态栏颜色，6.0以上手机自动根据颜色适应亮暗色，常用。
      *
-     * @param activity       需要设置的activity
-     * @param statusBarColor 状态栏颜色值
-     * @param statusBarAlpha 状态栏透明度
+     * @param activity       The activity that needs to be set.
+     * @param statusBarColor Status bar color value.
+     * @param statusBarAlpha Status bar transparency/opacity.
      */
     public static void setStatusBar(Activity activity, @ColorInt int statusBarColor, @IntRange(from = 0, to = 255) int statusBarAlpha) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // >= 6.0 支持根据状态栏颜色定制浅色和深色的文字和图标
+            // >= 6.0 supports customizing light and dark text and icons based on the status bar
+            // color.
+            // 简体中文：>= 6.0 支持根据状态栏颜色定制浅色和深色的文字和图标
             activity.getWindow().setStatusBarColor(statusBarColor);
             int option;
             if (isDarkColor(statusBarColor)) {
-                // 深色状态栏，则让状态栏文字和图标变白
+                // If the status bar is in dark mode, then make the status bar text and icons white.
+                // 简体中文：深色状态栏，则让状态栏文字和图标变白
                 option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             } else {
-                // 浅色状态栏，则让状态栏文字和图标变黑
+                // If the status bar is in light mode, then make the status bar text and icons black.
+                // 简体中文：浅色状态栏，则让状态栏文字和图标变黑
                 option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_VISIBLE;
             }
             activity.getWindow().getDecorView().setSystemUiVisibility(option);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // 5.x
+            // 简体中文：Android 5.x版本
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             activity.getWindow().setStatusBarColor(calculateColor(statusBarColor, statusBarAlpha));
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // 4.4 自己创建一个色块加到DecorView
+            // In Android 4.4, create a color block and add it to the DecorView.
+            // 简体中文：Android 4.4 自己创建一个色块加到DecorView
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             View doraStatusBarView = decorView.findViewById(DORA_STATUS_BAR_VIEW_ID);
@@ -69,12 +77,15 @@ public final class StatusBarUtils {
             }
             setFitsSystemWindow(activity);
         } else {
-            // < 4.4 不可定制，黑色状态栏，无解
+            // < 4.4 Not customizable, black status bar, no solution.
+            // 简体中文：< 4.4 不可定制，黑色状态栏，无解
         }
     }
 
     /**
-     * 让布局内容的顶部成为状态栏的一部分，状态栏透明，常用。
+     * Make the top of the layout content become part of the status bar, with a transparent status
+     * bar. This is commonly used.
+     * 简体中文：让布局内容的顶部成为状态栏的一部分，状态栏透明，常用。
      */
     public static void setFullScreenStatusBar(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -90,7 +101,9 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 简单设置状态栏为半透明颜色，不考虑6.0新增的亮暗色状态栏图标文字的问题。
+     * Simply set the status bar to a translucent color without considering the issue of the light
+     * and dark status bar icon and text introduced in Android 6.0.
+     * 简体中文：简单设置状态栏为半透明颜色，不考虑6.0新增的亮暗色状态栏图标文字的问题。
      */
     public static void setTransparencyStatusBar(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -104,14 +117,18 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 简单改变Android 5.0以上状态栏的色值，不考虑6.0新增的亮暗色状态栏图标文字的问题。
+     * Simply change the color of the status bar in Android 5.0 and above, without considering the
+     * issue of the light and dark status bar icon and text introduced in Android 6.0.
+     * 简体中文：简单改变Android 5.0以上状态栏的色值，不考虑6.0新增的亮暗色状态栏图标文字的问题。
      */
     public static void setStatusBarColorRes(Activity activity, @ColorRes int colorResId) {
         setStatusBarColor(activity, activity.getResources().getColor(colorResId));
     }
 
     /**
-     * 简单改变Android 5.0以上状态栏的色值，不考虑6.0新增的亮暗色状态栏图标文字的问题。
+     * Simply change the color of the status bar in Android 5.0 and above, without considering the
+     * issue of the light and dark status bar icon and text introduced in Android 6.0.
+     * 简体中文：简单改变Android 5.0以上状态栏的色值，不考虑6.0新增的亮暗色状态栏图标文字的问题。
      */
     public static void setStatusBarColor(Activity activity, @ColorInt int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -123,9 +140,10 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 状态栏是否是深色。
+     * Whether the status bar is in dark mode.
+     * 简体中文：状态栏是否是深色。
      *
-     * @param color 状态栏颜色值
+     * @param color Status bar color value.
      */
     public static boolean isDarkColor(@ColorInt int color) {
         int gray = (int) (Color.red(color) * 0.299 + Color.green(color) * 0.587 + Color.blue(color) * 0.114);
@@ -133,15 +151,17 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 生成一个和状态栏大小相同的矩形条。
+     * Generate a rectangle bar with the same size as the status bar.
+     * 简体中文：生成一个和状态栏大小相同的矩形条。
      *
-     * @param activity 需要设置的activity
-     * @param color    状态栏颜色值
-     * @param alpha    状态栏透明度
-     * @return 状态栏矩形条
+     * @param activity       The activity that needs to be set.
+     * @param color          Status bar color value.
+     * @param alpha          Status bar transparency/opacity.
+     * @return Status bar rectangle view.
      */
     private static View createStatusBarView(Activity activity, @ColorInt int color, int alpha) {
-        // 绘制一个和状态栏一样高的矩形
+        // Draw a rectangle with the same height as the status bar.
+        // 简体中文：绘制一个和状态栏一样高的矩形
         View statusBarView = new View(activity);
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
@@ -177,12 +197,8 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 设置DrawerLayout的状态栏一半的颜色。
-     *
-     * @param activity
-     * @param drawerLayout
-     * @param statusBarColor
-     * @param statusBarAlpha
+     * Set the color of half of the status bar for the DrawerLayout.
+     * 简体中文：设置DrawerLayout的状态栏一半的颜色。
      */
     public static void setStatusBarWithDrawerLayout(Activity activity, DrawerLayout drawerLayout, @ColorInt int statusBarColor,
                                     @IntRange(from = 0, to = 255) int statusBarAlpha) {
@@ -224,10 +240,11 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 添加半透明矩形条。
+     * Add a semi-transparent rectangle bar.
+     * 简体中文：添加半透明矩形条。
      *
-     * @param activity       需要设置的 activity
-     * @param statusBarAlpha 状态栏透明度
+     * @param activity       The activity that needs to be set.
+     * @param statusBarAlpha          Status bar transparency/opacity.
      */
     private static void addStatusBarView(Activity activity, @IntRange(from = 0, to = 255) int statusBarAlpha) {
         ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content);
@@ -243,14 +260,16 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 生成一个和状态栏大小相同的矩形条。
+     * Create a rectangle bar with the same size as the status bar.
+     * 简体中文：生成一个和状态栏大小相同的矩形条。
      *
-     * @param activity 需要设置的activity
-     * @param alpha    状态栏透明度
-     * @return 状态栏矩形条
+     * @param activity       The activity that needs to be set.
+     * @param alpha          Status bar transparency/opacity.
+     * @return Status bar rectangle view.
      */
     private static View createTranslucentStatusBarView(Activity activity, int alpha) {
-        // 绘制一个和状态栏一样高的矩形
+        // Draw a rectangle with the same height as the status bar.
+        // 简体中文：绘制一个和状态栏一样高的矩形
         View statusBarView = new View(activity);
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
@@ -293,8 +312,11 @@ public final class StatusBarUtils {
     }
 
     /**
-     * @param dark       true 字体颜色为黑色，false为白色
-     * @param isFullMode 是否在全屏模式下
+     * Change the light and dark mode of the status bar.
+     * 简体中文：改变状态栏的亮暗色模式。
+     *
+     * @param dark       The font color is black for "true", and white for "false".
+     * @param isFullMode Whether in fullscreen mode.
      */
     public static void setLightDarkStatusBar(final Activity activity, final boolean dark, boolean isFullMode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -324,10 +346,10 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 需要MIUIV6以上。
+     * Changing the light and dark mode of the MIUI 6 and above status bar.
+     * 简体中文：改变MIUI6以上的状态栏的亮暗色模式。
      *
-     * @param dark 是否把状态栏文字及图标颜色设置为深色
-     * @return boolean 成功执行返回true
+     * @param dark Whether to set the status bar text and icon color to dark mode.
      */
     private static void setMIUIStatusBarLightDarkMode(Object object, boolean dark) {
         Window window = null;
@@ -346,13 +368,20 @@ public final class StatusBarUtils {
                 darkModeFlag = field.getInt(layoutParams);
                 Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
                 if (dark) {
-                    extraFlagField.invoke(window, darkModeFlag, darkModeFlag);//状态栏透明且黑色字体
+                    // Transparent status bar with black font.
+                    // 简体中文：状态栏透明且黑色字体
+                    extraFlagField.invoke(window, darkModeFlag, darkModeFlag);
                 } else {
-                    extraFlagField.invoke(window, 0, darkModeFlag);//清除黑色字体
+                    // Remove black font.
+                    // 简体中文：清除黑色字体
+                    extraFlagField.invoke(window, 0, darkModeFlag);
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && RomUtils.isMIUIV7OrAbove()) {
-                    //开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错，所以两个方式都要加上
+                    // Starting from development version 7.7.13 and later, the system API is used.
+                    // The old method is ineffective but won't cause errors, so both methods should
+                    // be included.
+                    // 简体中文：开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错，所以两个方式都要加上
                     if (dark) {
                         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                     } else {
@@ -412,7 +441,8 @@ public final class StatusBarUtils {
         }
         if (dark) {
             if (isFullMode) {
-                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             } else {
                 decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
@@ -420,8 +450,11 @@ public final class StatusBarUtils {
             // We want to change tint color to white again.
             // You can also record the flags in advance so that you can turn UI back completely if
             // you have set other flags before, such as translucent or full screen.
+            // 简体中文：我们想要再次将图标和文字的颜色改为白色。
+            // 你也可以事先记录状态栏的标志，这样如果之前设置了其他标志，如透明或全屏等，你可以完全恢复界面。
             if (isFullMode) {
-                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             } else {
                 decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             }
@@ -429,7 +462,8 @@ public final class StatusBarUtils {
     }
 
     /**
-     * 获得状态栏高度。
+     * Get the status bar height.
+     * 简体中文：获得状态栏高度。
      */
     public static int getStatusBarHeight() {
         Resources resources = Resources.getSystem();
