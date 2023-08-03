@@ -13,7 +13,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 /**
- * 更便捷获取系统服务的工具。
+ * A tool for more convenient access to system services.
+ * 简体中文：更便捷获取系统服务的工具。
  */
 public final class ServiceUtils {
 
