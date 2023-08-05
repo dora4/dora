@@ -7,7 +7,8 @@ import android.net.NetworkInfo;
 import java.util.Locale;
 
 /**
- * 网络相关工具。
+ * Network-related tools.
+ * 简体中文：网络相关工具。
  */
 public final class NetUtils {
 

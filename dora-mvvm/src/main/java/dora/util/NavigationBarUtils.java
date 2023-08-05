@@ -1,9 +1,7 @@
 package dora.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.view.Window;
@@ -12,10 +10,9 @@ import android.view.WindowManager;
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 
-import java.lang.reflect.Field;
-
 /**
- * 系统底部导航栏相关工具。
+ * System bottom navigation bar-related tools.
+ * 简体中文：系统底部导航栏相关工具。
  */
 public final class NavigationBarUtils {
 
@@ -57,7 +54,8 @@ public final class NavigationBarUtils {
     }
 
     /**
-     * 获得导航栏高度。
+     * Get the height of the navigation bar.
+     * 简体中文：获取导航栏高度。
      */
     public static int getNavigationBarHeight() {
         Resources resources = Resources.getSystem();

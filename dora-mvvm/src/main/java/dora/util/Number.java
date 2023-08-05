@@ -1,11 +1,12 @@
 package dora.util;
 
 /**
- * 整数和分数的近似值，通常用于自定义View的计算。
+ * Approximations of integers and fractions are commonly used for calculations in custom views.
+ * 简体中文：整数和分数的近似值，通常用于自定义View的计算。
  */
 public interface Number {
 
-    // <editor-folder desc="整数部分">
+    // <editor-folder desc="Integer part">
 
     int ZERO = 0;
 
@@ -217,7 +218,7 @@ public interface Number {
 
     // </editor-folder>
 
-    // <editor-folder desc="分数部分">
+    // <editor-folder desc="Fractional part">
 
     float ONE_SECOND = (float) ONE / TWO;
 

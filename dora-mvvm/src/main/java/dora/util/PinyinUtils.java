@@ -3,7 +3,8 @@ package dora.util;
 import java.io.UnsupportedEncodingException;
 
 /**
- * 用于汉字拼音相互转换。
+ * Used for mutual conversion of Chinese characters and Pinyin (Romanization of Chinese characters).
+ * 简体中文：用于汉字拼音相互转换。
  */
 public final class PinyinUtils {
 
