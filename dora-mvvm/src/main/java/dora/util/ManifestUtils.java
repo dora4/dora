@@ -8,7 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 清单文件相关信息读取工具。
+ * Checklist File-Related Information Reading Tool.
+ * 简体中文：清单文件相关信息读取工具。
  */
 public final class ManifestUtils {
 

@@ -6,14 +6,15 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * 数学计算相关工具。
+ * Mathematics calculation-related tool.
+ * 简体中文：数学计算相关工具。
  */
 public final class MathUtils implements Number {
 
     private MathUtils() {
     }
 
-    // <editor-folder desc="进制转换">
+    // <editor-folder desc="Base conversion">
 
     public static int H2D(String hexadecimal) {
         return Integer.parseInt(hexadecimal, SIXTEEN);
@@ -106,7 +107,7 @@ public final class MathUtils implements Number {
 
     // </editor-folder>
 
-    // <editor-folder desc="给字符串的前后补0">
+    // <editor-folder desc="Pad zeros to the beginning and end of a string">
 
     public static String zeroH(String num, int requiredLength) {
         if (requiredLength < 0) {
@@ -138,13 +139,14 @@ public final class MathUtils implements Number {
 
     // </editor-folder>
 
-    // <editor-folder desc="随机数生成">
+    // <editor-folder desc="Random number generation">
 
     /**
-     * 获取一个随机数。
+     * Generate a random number.
+     * 简体中文：获取一个随机数。
      *
-     * @param min 最小值
-     * @param max 最大值
+     * @param min Min value
+     * @param max Max value
      */
     public static int getRandom(int min, int max) {
         Random random = new Random();
@@ -152,11 +154,12 @@ public final class MathUtils implements Number {
     }
 
     /**
-     * 获取可重复的随机数。
+     * Generate repeatable random numbers.
+     * 简体中文：获取可重复的随机数。
      *
-     * @param min 最小值
-     * @param max 最大值
-     * @param count 生成随机数的数量
+     * @param min Min value
+     * @param max Max value
+     * @param count Number of generated random numbers
      */
     public static int[] getRandoms(int min, int max, int count) {
         int[] randoms = new int[count];
@@ -171,11 +174,12 @@ public final class MathUtils implements Number {
     }
 
     /**
-     * 获取不重复的随机数。
+     * Generate unique random numbers.
+     * 简体中文：获取不重复的随机数。
      *
-     * @param min 最小值
-     * @param max 最大值
-     * @param count 生成随机数的数量
+     * @param min Min value
+     * @param max Max value
+     * @param count Number of generated random numbers
      */
     public static int[] getUniqueRandoms(int min, int max, int count) {
         int[] randoms = new int[count];
