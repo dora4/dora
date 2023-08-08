@@ -9,7 +9,8 @@ import dora.memory.CacheType;
 import dora.memory.LruCache;
 
 /**
- * 键值对工具，用于内存缓存。
+ * Key-value pair tool for in-memory caching.
+ * 简体中文：键值对工具，用于内存缓存。
  */
 public final class KVUtils {
 
@@ -27,10 +28,8 @@ public final class KVUtils {
     }
 
     /**
-     * 添加缓存，如果name重复则会失败。
-     *
-     * @param name
-     * @param cache
+     * Add caching, failure will occur if the name is duplicated.
+     * 简体中文：添加缓存，如果name重复则会失败。
      */
     private void setCacheToMemory(String name, Object cache) {
         mCache.put(name, cache);
@@ -47,10 +46,10 @@ public final class KVUtils {
     }
 
     /**
-     * 推荐使用这个方法而不是{@link #setCacheToMemory(String, Object)}，{@link #updateCache}
+     * I recommend using this method instead of {@link #setCacheToMemory(String, Object)} and
+     * {@link #updateCache}.This method ensures a successful update.
+     * 简体中文：推荐使用这个方法而不是{@link #setCacheToMemory(String, Object)}，{@link #updateCache}
      * 这个方法能保证更新成功。
-     *  @param name
-     * @param cache
      */
     public void updateCache(String name, Object cache) {
         removeCache(name);
