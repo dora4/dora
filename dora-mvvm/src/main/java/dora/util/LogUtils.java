@@ -3,16 +3,16 @@ package dora.util;
 import android.util.Log;
 
 /**
- * 日志工具，默认过滤标签为[dora-log]。
+ * The logging tool defaults to filtering tags as [dora-log].
+ * 简体中文：日志工具，默认过滤标签为[dora-log]。
  */
 public final class LogUtils {
 
     /**
      * The default log output tag.
+     * 简体中文：默认的日志输出标签。
      */
     public static final String TAG = "dora-log";
-
-    // <editor-folder desc="日志输出">
 
     public static void i(String msg) {
         itag(TAG, msg);
@@ -73,6 +73,4 @@ public final class LogUtils {
     public static void vformat(String tag, String format, String... values) {
         vtag(tag, String.format(format, values));
     }
-
-    // </editor-folder>
 }

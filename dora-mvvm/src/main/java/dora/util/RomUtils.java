@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * 手机ROM信息读取工具。
+ * Mobile ROM information reading tool.
+ * 简体中文：手机ROM信息读取工具。
  */
 public final class RomUtils {
 

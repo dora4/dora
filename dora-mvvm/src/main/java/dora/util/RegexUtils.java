@@ -4,7 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 正则表达式验证工具。
+ * Regular expression validation tool.
+ * 简体中文：正则表达式验证工具。
  */
 public final class RegexUtils {
 

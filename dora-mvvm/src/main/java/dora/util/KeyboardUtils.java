@@ -21,7 +21,8 @@ import androidx.annotation.Nullable;
 import java.lang.reflect.Field;
 
 /**
- * 键盘输入法相关工具。
+ * Keyboard Input Method Related Tools.
+ * 简体中文：键盘输入法相关工具。
  */
 public final class KeyboardUtils {
 
@@ -33,6 +34,7 @@ public final class KeyboardUtils {
 
     /**
      * Show the soft input.
+     * 简体中文：显示软输入法。
      */
     public static void showSoftInput() {
         InputMethodManager imm = ServiceUtils.getInputMethodManager();
@@ -44,6 +46,7 @@ public final class KeyboardUtils {
 
     /**
      * Show the soft input.
+     * 简体中文：显示软输入法。
      */
     public static void showSoftInput(@Nullable Activity activity) {
         if (activity == null) {
