@@ -64,6 +64,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by huawei.
+     * 简体中文：返回ROM是否由华为制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -73,6 +74,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by vivo.
+     * 简体中文：返回ROM是否由vivo制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -82,6 +84,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by xiaomi.
+     * 简体中文：返回ROM是否由小米制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -91,6 +94,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by oppo.
+     * 简体中文：返回ROM是否由OPPO制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -100,6 +104,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by leeco.
+     * 简体中文：返回ROM是否由乐视制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -109,6 +114,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by 360.
+     * 简体中文：返回ROM是否由360制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -118,6 +124,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by zte.
+     * 简体中文：返回ROM是否由中兴制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -127,6 +134,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by oneplus.
+     * 简体中文：返回ROM是否由一加制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -136,6 +144,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by nubia.
+     * 简体中文：返回ROM是否由努比亚制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -145,6 +154,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by coolpad.
+     * 简体中文：返回ROM是否由酷派制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -154,6 +164,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by lg.
+     * 简体中文：返回ROM是否由LG制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -163,6 +174,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by google.
+     * 简体中文：返回ROM是否由谷歌制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -172,6 +184,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by samsung.
+     * 简体中文：返回ROM是否由三星制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -181,6 +194,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by meizu.
+     * 简体中文：返回ROM是否由魅族制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -190,6 +204,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by lenovo.
+     * 简体中文：返回ROM是否由联想制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -199,6 +214,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by smartisan.
+     * 简体中文：返回ROM是否由锤子科技制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -208,6 +224,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by htc.
+     * 简体中文：返回ROM是否由HTC制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -217,6 +234,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by sony.
+     * 简体中文：返回ROM是否由索尼制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -226,6 +244,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by gionee.
+     * 简体中文：返回ROM是否由金立制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -235,6 +254,7 @@ public final class RomUtils {
 
     /**
      * Return whether the rom is made by motorola.
+     * 简体中文：返回ROM是否由摩托罗拉制造。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -244,6 +264,7 @@ public final class RomUtils {
 
     /**
      * Return the rom's information.
+     * 简体中文：返回ROM的信息。
      *
      * @return the rom's information
      */
@@ -349,7 +370,7 @@ public final class RomUtils {
             if (!TextUtils.isEmpty(manufacturer)) {
                 return manufacturer.toLowerCase();
             }
-        } catch (Throwable ignore) {/**/}
+        } catch (Throwable ignore) {}
         return UNKNOWN;
     }
 
@@ -359,7 +380,7 @@ public final class RomUtils {
             if (!TextUtils.isEmpty(brand)) {
                 return brand.toLowerCase();
             }
-        } catch (Throwable ignore) {/**/}
+        } catch (Throwable ignore) {}
         return UNKNOWN;
     }
 
@@ -374,7 +395,7 @@ public final class RomUtils {
                 if (!TextUtils.isEmpty(display)) {
                     ret = display.toLowerCase();
                 }
-            } catch (Throwable ignore) {/**/}
+            } catch (Throwable ignore) {}
         }
         if (TextUtils.isEmpty(ret)) {
             return UNKNOWN;
@@ -408,7 +429,7 @@ public final class RomUtils {
             if (input != null) {
                 try {
                     input.close();
-                } catch (IOException ignore) {/**/}
+                } catch (IOException ignore) {}
             }
         }
         return "";
@@ -422,7 +443,7 @@ public final class RomUtils {
             );
             prop.load(is);
             return prop.getProperty(key, "");
-        } catch (Exception ignore) {/**/}
+        } catch (Exception ignore) {}
         return "";
     }
 
@@ -431,7 +452,7 @@ public final class RomUtils {
             Class<?> clz = Class.forName("android.os.SystemProperties");
             Method getMethod = clz.getMethod("get", String.class, String.class);
             return (String) getMethod.invoke(clz, key, "");
-        } catch (Exception e) {/**/}
+        } catch (Exception e) {}
         return "";
     }
 
@@ -465,7 +486,9 @@ public final class RomUtils {
         if (isFlymeV4OrAbove()) {
             return AvailableRomType.FLYME;
         }
-        //开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错
+        // Starting from development version 7.7.13 and later, the system API is used; the old
+        // method is ineffective but won't result in an error.
+        // 简体中文：开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错
         if (isMIUIV7OrAbove()) {
             return AvailableRomType.ANDROID_NATIVE;
         }
@@ -477,15 +500,17 @@ public final class RomUtils {
         }
         return AvailableRomType.NA;
     }
-
-    //Flyme V4的displayId格式为 [Flyme OS 4.x.x.xA]
-    //Flyme V5的displayId格式为 [Flyme 5.x.x.x beta]
+    // Flyme V4's displayId format is [Flyme OS 4.x.x.xA]
+    // Flyme V5's displayId format is [Flyme 5.x.x.x beta]
+    // 简体中文：Flyme V4的displayId格式为 [Flyme OS 4.x.x.xA]
+    // Flyme V5的displayId格式为 [Flyme 5.x.x.x beta]
     private static boolean isFlymeV4OrAbove() {
         String displayId = Build.DISPLAY;
         if (!TextUtils.isEmpty(displayId) && displayId.contains("Flyme")) {
             String[] displayIdArray = displayId.split(" ");
             for (String temp : displayIdArray) {
-                //版本号4以上，形如4.x.
+                // Version number is 4 or above, in the form of 4.x.
+                // 简体中文：版本号4以上，形如4.x.
                 if (temp.matches("^[4-9]\\.(\\d+\\.)+\\S*")) {
                     return true;
                 }
@@ -494,7 +519,6 @@ public final class RomUtils {
         return false;
     }
 
-    //Android Api 23以上
     private static boolean isAndroidMOrAbove() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
@@ -536,25 +560,28 @@ public final class RomUtils {
     }
 
     /**
-     * 检测是否有刘海屏。
-     *
-     * @param activity
-     * @return
+     * Detect the presence of a notch screen.
+     * 简体中文：检测是否有刘海屏。
      */
     public static boolean hasNotchInScreen(Activity activity) {
-        // android P 以上有标准 API 来判断是否有刘海屏
+        // Android P and above have a standard API for determining the presence of a notch screen.
+        // 简体中文：android P 以上有标准 API 来判断是否有刘海屏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             try {
                 DisplayCutout displayCutout = activity.getWindow().getDecorView().getRootWindowInsets().getDisplayCutout();
                 if (displayCutout != null) {
-                    // 说明有刘海屏
+                    // Indicates the presence of a notch screen.
+                    // 简体中文：说明有刘海屏
                     return true;
                 }
             } catch (Exception e) {
                 return false;
             }
         } else {
-            // 通过其他方式判断是否有刘海屏  目前官方提供有开发文档的就 小米，vivo，华为（荣耀），oppo
+            // Determine the presence of a notch screen through alternative methods. Currently,
+            // official development documentation is available for Xiaomi, Vivo, Huawei (Honor),
+            // and Oppo.
+            // 简体中文：通过其他方式判断是否有刘海屏  目前官方提供有开发文档的就 小米，vivo，华为（荣耀），oppo
             String manufacturer = Build.MANUFACTURER;
             if (manufacturer == null || manufacturer.length() == 0) {
                 return false;
@@ -616,11 +643,15 @@ public final class RomUtils {
     }
 
     /**
-     * 是否为允许全屏界面显示内容到刘海区域的刘海屏机型（与AndroidManifest中配置对应）。
+     * Whether it is a notch screen model that allows full-screen content to be displayed in the
+     * notch area (corresponding to the configuration in AndroidManifest).
+     * 简体中文：是否为允许全屏界面显示内容到刘海区域的刘海屏机型（与AndroidManifest中配置对应）。
      */
     public static boolean allowDisplayToNotch(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            // 9.0系统全屏界面默认会保留黑边，不允许显示内容到刘海区域
+            // On Android 9.0 systems, full-screen interfaces will by default retain black borders
+            // and not allow content to be displayed in the notch area.
+            // 简体中文：9.0系统全屏界面默认会保留黑边，不允许显示内容到刘海区域
             Window window = activity.getWindow();
             WindowInsets windowInsets = window.getDecorView().getRootWindowInsets();
             if (windowInsets == null) {
@@ -641,7 +672,8 @@ public final class RomUtils {
     }
 
     /**
-     * 适配刘海屏，针对Android P以上系统。
+     * Adapt to the notch screen, targeting Android P and above systems.
+     * 简体中文：适配刘海屏，针对Android P以上系统。
      */
     public static void adaptNotchAboveAndroidP(Activity activity, boolean isAdapt) {
         if (activity == null) return;

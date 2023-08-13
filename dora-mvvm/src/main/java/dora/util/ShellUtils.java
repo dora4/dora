@@ -9,7 +9,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 /**
- * Linux命令行相关工具。
+ * Linux command line related tools.
+ * 简体中文：Linux命令行相关工具。
  */
 public final class ShellUtils {
 
@@ -20,6 +21,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command asynchronously.
+     * 简体中文：异步执行该命令。
      *
      * @param command  The command.
      * @param isRooted True to use root, false otherwise.
@@ -34,6 +36,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command asynchronously.
+     * 简体中文：异步执行该命令。
      *
      * @param commands The commands.
      * @param isRooted True to use root, false otherwise.
@@ -48,6 +51,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command asynchronously.
+     * 简体中文：异步执行该命令。
      *
      * @param commands The commands.
      * @param isRooted True to use root, false otherwise.
@@ -62,6 +66,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command asynchronously.
+     * 简体中文：异步执行该命令。
      *
      * @param command         The command.
      * @param isRooted        True to use root, false otherwise.
@@ -78,6 +83,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command asynchronously.
+     * 简体中文：异步执行该命令。
      *
      * @param commands        The commands.
      * @param isRooted        True to use root, false otherwise.
@@ -97,6 +103,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command asynchronously.
+     * 简体中文：异步执行该命令。
      *
      * @param commands        The commands.
      * @param isRooted        True to use root, false otherwise.
@@ -116,9 +123,6 @@ public final class ShellUtils {
         });
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // ThreadUtils
-    ///////////////////////////////////////////////////////////////////////////
     static <T> ThreadUtils.DoraTask<T> doAsync(final ThreadUtils.DoraTask<T> task) {
         ThreadUtils.getCachedPool().execute(task);
         return task;
@@ -126,6 +130,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param command  The command.
      * @param isRooted True to use root, false otherwise.
@@ -137,6 +142,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param command  The command.
      * @param envp     The environment variable settings.
@@ -152,6 +158,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param commands The commands.
      * @param isRooted True to use root, false otherwise.
@@ -163,6 +170,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param commands The commands.
      * @param envp     The environment variable settings.
@@ -180,6 +188,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param commands The commands.
      * @param isRooted True to use root, false otherwise.
@@ -191,6 +200,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param command         The command.
      * @param isRooted        True to use root, false otherwise.
@@ -205,6 +215,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param command         The command.
      * @param envp            The environment variable settings.
@@ -223,6 +234,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param command         The command.
      * @param envp            The environment variable settings array.
@@ -239,6 +251,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param commands        The commands.
      * @param isRooted        True to use root, false otherwise.
@@ -255,6 +268,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param commands        The commands.
      * @param isRooted        True to use root, false otherwise.
@@ -269,6 +283,7 @@ public final class ShellUtils {
 
     /**
      * Execute the command.
+     * 简体中文：执行该命令。
      *
      * @param commands        The commands.
      * @param envp            Array of strings, each element of which
@@ -366,6 +381,7 @@ public final class ShellUtils {
 
     /**
      * The result of command.
+     * 简体中文：命令的结果。
      */
     public static class CommandResult {
         public int    result;
