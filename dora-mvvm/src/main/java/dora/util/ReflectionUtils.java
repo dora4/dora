@@ -9,19 +9,21 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * 反射工具，方便使用Java的反射。
+ * Reflection tool, facilitating the use of Java reflection.
+ * 简体中文：反射工具，方便使用Java的反射。
  */
 public final class ReflectionUtils {
 
     private ReflectionUtils() {
     }
 
-    // <editor-folder desc="Java类、方法、属性的基本操作">
+    // <editor-folder desc="Basic operations for Java classes, methods, and properties.">
 
     /**
-     * 获取一个类的字节码。
+     * Retrieve the bytecode of a class.
+     * 简体中文：获取一个类的字节码。
      *
-     * @param className 带包类名
+     * @param className Fully qualified class name.
      */
     public static Class<?> findClass(String className) {
         try {
@@ -33,9 +35,10 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 是否能找到某个类的字节码。
+     * Whether the bytecode of a certain class can be located.
+     * 简体中文：是否能找到某个类的字节码。
      *
-     * @param className 带包类名
+     * @param className Fully qualified class name.
      */
     public static boolean hasClass(String className) {
         boolean hasClass;
@@ -49,9 +52,10 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 创建一个类的实例。
+     * Instantiate a class.
+     * 简体中文：创建一个类的实例。
      *
-     * @param className 带包类名
+     * @param className Fully qualified class name.
      */
     public static Object newInstance(String className) {
         Class<?> clazz = findClass(className);
@@ -62,10 +66,11 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 创建一个类的实例。
+     * Create an instance of a class.
+     * 简体中文：创建一个类的实例。
      *
-     * @param clazz 类的class对象
-     * @param <T> 要创建类的类型
+     * @param clazz Class object of a class.
+     * @param <T> To create the type of a class.
      */
     public static <T> T newInstance(Class<T> clazz) {
         Constructor<?>[] constructors = clazz.getDeclaredConstructors();
@@ -102,12 +107,14 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取某个类的方法。
+     * Retrieve methods of a certain class.
+     * 简体中文：获取某个类的方法。
      *
-     * @param clazz 类的class对象
-     * @param isDeclared 是否是该类自身定义的，如果是则传true。如果是继承自基类的，则传false
-     * @param methodName 方法名称
-     * @param parameterTypes 方法的参数列表的类型数组
+     * @param clazz Class object of a class.
+     * @param isDeclared Whether it is self-defined by the class, if so, pass true. If it is
+     *                   inherited from a base class, pass false.
+     * @param methodName Method name.
+     * @param parameterTypes Array of parameter types in a method's parameter list.
      */
     public static Method findMethod(Class<?> clazz, boolean isDeclared, String methodName, Class<?>... parameterTypes) {
         try {
@@ -123,11 +130,12 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 调用方法。
+     * Invoke a method.
+     * 简体中文：调用方法。
      *
-     * @param obj 该方法属于的对象
-     * @param method 方法
-     * @param objects 方法的传参的所有值
+     * @param obj The object to which the method belongs.
+     * @param method Method
+     * @param objects All values passed as arguments to a method.
      */
     public static Object invokeMethod(Object obj, Method method, Object... objects) {
         method.setAccessible(true);
@@ -142,11 +150,13 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取某个类的属性。
+     * Retrieve properties/fields of a certain class.
+     * 简体中文：获取某个类的属性。
      *
-     * @param clazz 类的class对象
-     * @param isDeclared 是否是该类自身定义的，如果是则传true。如果是继承自基类的，则传false
-     * @param fieldName 属性名称
+     * @param clazz Class object of a class.
+     * @param isDeclared Whether it is self-defined by the class, if so, pass true. If it is
+     *                   inherited from a base class, pass false.
+     * @param fieldName Property/Field name.
      */
     public static Field findField(Class<?> clazz, boolean isDeclared, String fieldName) {
         try {
@@ -162,10 +172,11 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取非静态属性的值。
+     * Retrieve the value of a non-static property/field.
+     * 简体中文：获取非静态属性的值。
      *
-     * @param field 属性
-     * @param obj 属性所在的对象
+     * @param field Property/Field
+     * @param obj The object containing the property/field.
      */
     public static Object getFieldValue(Field field, Object obj) {
         field.setAccessible(true);
@@ -178,11 +189,12 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 修改非静态属性的值。
+     * Modify the value of a non-static property/field.
+     * 简体中文：修改非静态属性的值。
      *
-     * @param field 属性
-     * @param obj 属性所在的对象
-     * @param value 要修改成的值
+     * @param field Attribute/Property/Field
+     * @param obj The object in which the attribute/property/field is located.
+     * @param value The value to be modified to.
      */
     public static void setFieldValue(Field field, Object obj, Object value) {
         field.setAccessible(true);
@@ -194,9 +206,10 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取静态属性的值。
+     * Retrieve the value of a static property/field.
+     * 简体中文：获取静态属性的值。
      *
-     * @param field 静态属性
+     * @param field Static property/field.
      */
     public static Object getStaticFieldValue(Field field) {
         field.setAccessible(true);
@@ -211,10 +224,11 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 修改静态属性的值。
+     * Modify the value of a static property/field.
+     * 简体中文：修改静态属性的值。
      *
-     * @param field 静态属性
-     * @param value 要修改成的值
+     * @param field Static property/field.
+     * @param value The value to be modified to.
      */
     public static void setStaticFieldValue(Field field, Object value) {
         field.setAccessible(true);
@@ -230,93 +244,103 @@ public final class ReflectionUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="判断属性和方法是否有某关键字">
+    // <editor-folder desc="Determine if an attribute or method has a certain keyword.">
 
     /**
-     * 检测一个属性是否是static属性。
+     * Check if an attribute is a static property/field.
+     * 简体中文：检测一个属性是否是static属性。
      *
-     * @param field 属性
+     * @param field Attribute/Property/Field
      */
     public static boolean isStatic(Field field) {
         return Modifier.isStatic(field.getModifiers());
     }
 
     /**
-     * 检测一个方法是否是static方法。
+     * Check if a method is a static method.
+     * 简体中文：检测一个方法是否是static方法。
      *
-     * @param method 方法
+     * @param method Method
      */
     public static boolean isStatic(Method method) {
         return Modifier.isStatic(method.getModifiers());
     }
 
     /**
-     * 检测一个属性是否是final属性。
+     * Check if an attribute is a final property/field.
+     * 简体中文：检测一个属性是否是final属性。
      *
-     * @param field 属性
+     * @param field Attribute/Property/Field
      */
     public static boolean isFinal(Field field) {
         return Modifier.isFinal(field.getModifiers());
     }
 
     /**
-     * 检测一个方法是否是final方法。
+     * Check if a method is a final method.
+     * 简体中文：检测一个方法是否是final方法。
      *
-     * @param method 方法
+     * @param method Method
      */
     public static boolean isFinal(Method method) {
         return Modifier.isFinal(method.getModifiers());
     }
 
     /**
-     * 检测一个方法是否是synchronized方法。
+     * Check if a method is a synchronized method.
+     * 简体中文：检测一个方法是否是synchronized方法。
      *
-     * @param method 方法
+     * @param method Method
      */
     public static boolean isSynchronized(Method method) {
         return Modifier.isSynchronized(method.getModifiers());
     }
 
     /**
-     * 检测一个属性是否是abstract方法。
+     * Check if an attribute is an abstract property/field.
+     * 简体中文：检测一个属性是否是abstract方法。
      *
-     * @param method 方法
+     * @param method Method
      */
     public static boolean isAbstract(Method method) {
         return Modifier.isAbstract(method.getModifiers());
     }
 
     /**
-     * 检测一个属性是否是native属性。
+     * Check if an attribute is a native property/field.
+     * 简体中文：检测一个属性是否是native属性。
      *
-     * @param field 属性
+     * @param field Attribute/Property/Field
      */
     public static boolean isNative(Field field) {
         return Modifier.isNative(field.getModifiers());
     }
 
     /**
-     * 检测一个属性是否是native方法。
+     * Check if an attribute is a native method.
+     * 简体中文：检测一个属性是否是native方法。
      *
-     * @param method 方法
+     * @param method Method
      */
     public static boolean isNative(Method method) {
         return Modifier.isNative(method.getModifiers());
     }
 
     /**
-     * 检测一个属性是否是volatile属性。
+     * Check if an attribute is a volatile property/field.
+     * 简体中文：检测一个属性是否是volatile属性。
      *
-     * @param field 属性
+     * @param field Attribute/Property/Field
      */
     public static boolean isVolatile(Field field) {
         return Modifier.isVolatile(field.getModifiers());
     }
 
     /**
-     * 检测一个属性是否是transient属性。
+     * Check if an attribute is a transient property/field.
+     * 简体中文：检测一个属性是否是transient属性。
      *
-     * @param field 属性
+     * @param field Attribute/Property/Field
      */
     public static boolean isTransient(Field field) {
         return Modifier.isTransient(field.getModifiers());
@@ -324,14 +348,18 @@ public final class ReflectionUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="获取泛型">
+    // <editor-folder desc="Retrieve generics.">
 
     /**
-     * 获取一个对象的泛型类型，这个对象需要实现带泛型的接口或继承带泛型的类。在这个对象指定具体的泛型，可通过这个方法
-     * 获取到。
+     * Retrieve the generic type of an object, where the object needs to implement an interface or
+     * inherit from a class with generics. By specifying the concrete generic type for this object,
+     * it can be obtained using this method.
+     * 简体中文：获取一个对象的泛型类型，这个对象需要实现带泛型的接口或继承带泛型的类。在这个对象指定具体的泛型，
+     * 可通过这个方法获取到。
      *
-     * @param obj 这个对象的类必须实现带泛型的接口或继承带泛型的类
-     * @return 这个对象指定给实现的接口或基类的泛型
+     * @param obj The class of this object must implement an interface with generics or inherit
+     *            from a class with generics.
+     * @return The generics specified for the implemented interface or base class of this object.
      */
     public static Class<?> getGenericType(Object obj) {
         if (obj.getClass().getGenericSuperclass() instanceof ParameterizedType &&
@@ -344,10 +372,11 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取一个属性的泛型类型。
+     * Retrieve the generic type of a property.
+     * 简体中文：获取一个属性的泛型类型。
      *
-     * @param field 带泛型的属性
-     * @return 泛型的类型
+     * @param field Property with generics.
+     * @return Type of generics.
      */
     public static Class<?> getGenericType(Field field) {
         Type type = field.getGenericType();
@@ -363,11 +392,14 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取一个属性的嵌套泛型类型。
+     * Retrieve the nested generic type of a property.
+     * 简体中文：获取一个属性的嵌套泛型类型。
      *
-     * @param field 带泛型的属性
-     * @param genericTypeIndex 泛型的索引，0代表第一个泛型类型，如class A&lt;B,C&gt;中0代表泛型B，1代表泛型C
-     * @return 泛型的类型
+     * @param field Property with nested generics.
+     * @param genericTypeIndex Generic index, where 0 represents the first generic type. For example,
+     *                        in the class A&lt;B,C&gt;, 0 represents the generic type B,
+     *                         and 1 represents the generic type C.
+     * @return Type of the generic.
      */
     public static Class<?> getNestedGenericType(Field field, int genericTypeIndex) {
         Type type = field.getGenericType();
@@ -385,7 +417,8 @@ public final class ReflectionUtils {
     // </editor-folder>
 
     /**
-     * 检测一个类是否是数字类型。
+     * Check if a class is a numeric type.
+     * 简体中文：检测一个类是否是数字类型。
      */
     public static boolean isNumber(Class<?> numberClazz) {
         return numberClazz == long.class
@@ -399,7 +432,8 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取基本数据类型的默认值。
+     * Retrieve the default value of a primitive data type.
+     * 简体中文：获取基本数据类型的默认值。
      */
     public static Object getPrimitiveDefaultValue(Class<?> primitiveClazz) {
         if (primitiveClazz.isPrimitive()) {
