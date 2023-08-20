@@ -21,7 +21,8 @@ import androidx.core.app.NotificationManagerCompat;
 import static android.Manifest.permission.EXPAND_STATUS_BAR;
 
 /**
- * 系统通知相关工具。
+ * System notification related tools.
+ * 简体中文：系统通知相关工具。
  */
 public class NotificationUtils {
 
@@ -39,6 +40,7 @@ public class NotificationUtils {
 
     /**
      * Return whether the notifications enabled.
+     * 简体中文：返回通知是否已启用。
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
@@ -48,6 +50,7 @@ public class NotificationUtils {
 
     /**
      * Post a notification to be shown in the status bar.
+     * 简体中文：发布一个通知，以显示在状态栏中。
      *
      * @param id       An identifier for this notification.
      * @param consumer The consumer of create the builder of notification.
@@ -58,6 +61,7 @@ public class NotificationUtils {
 
     /**
      * Post a notification to be shown in the status bar.
+     * 简体中文：发布通知，显示在状态栏中。
      *
      * @param tag      A string identifier for this notification.  May be {@code null}.
      * @param id       An identifier for this notification.
@@ -69,6 +73,7 @@ public class NotificationUtils {
 
     /**
      * Post a notification to be shown in the status bar.
+     * 简体中文：发布一条通知，以显示在状态栏中。
      *
      * @param id            An identifier for this notification.
      * @param channelConfig The notification channel of config.
@@ -80,6 +85,7 @@ public class NotificationUtils {
 
     /**
      * Post a notification to be shown in the status bar.
+     * 简体中文：发布通知，显示在状态栏中。
      *
      * @param tag           A string identifier for this notification.  May be {@code null}.
      * @param id            An identifier for this notification.
@@ -94,7 +100,6 @@ public class NotificationUtils {
     public static Notification getNotification(ChannelConfig channelConfig, ThreadUtils.Consumer<NotificationCompat.Builder> consumer) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager nm = (NotificationManager) GlobalContext.get().getSystemService(Context.NOTIFICATION_SERVICE);
-            //noinspection ConstantConditions
             nm.createNotificationChannel(channelConfig.getNotificationChannel());
         }
 
@@ -110,7 +115,8 @@ public class NotificationUtils {
     }
 
     /**
-     * Cancel The notification.
+     * Cancel the notification.
+     * 简体中文：取消该通知。
      *
      * @param tag The tag for the notification will be cancelled.
      * @param id  The identifier for the notification will be cancelled.
@@ -121,6 +127,7 @@ public class NotificationUtils {
 
     /**
      * Cancel The notification.
+     * 简体中文：取消该通知。
      *
      * @param id The identifier for the notification will be cancelled.
      */
@@ -130,6 +137,7 @@ public class NotificationUtils {
 
     /**
      * Cancel all of the notifications.
+     * 简体中文：取消所有通知。
      */
     public static void cancelAll() {
         NotificationManagerCompat.from(GlobalContext.get()).cancelAll();
@@ -138,6 +146,8 @@ public class NotificationUtils {
     /**
      * Set the notification bar's visibility.
      * <p>Must hold {@code <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />}</p>
+     * 简体中文：设置通知栏的可见性。<p>必须具有权限
+     * {@code <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />}。</p>
      *
      * @param isVisible True to set notification bar visible, false otherwise.
      */
@@ -188,6 +198,9 @@ public class NotificationUtils {
          * {@link NotificationManager.Policy#INTERRUPTION_FILTER_PRIORITY} mode.
          * <p>
          * Only modifiable by the system and notification ranker.
+         * 简体中文：设置是否允许发布到此通道的通知在 {@link NotificationManager.Policy
+         * #INTERRUPTION_FILTER_PRIORITY} 模式下打断用户。<p>
+         * 仅系统和通知排序器可修改。
          */
         public ChannelConfig setBypassDnd(boolean bypassDnd) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -198,6 +211,7 @@ public class NotificationUtils {
 
         /**
          * Sets the user visible description of this channel.
+         * 简体中文：设置此通道的用户可见描述。
          *
          * <p>The recommended maximum length is 300 characters; the value may be truncated if it is too
          * long.
@@ -217,6 +231,12 @@ public class NotificationUtils {
          * Only modifiable before the channel is submitted to
          * {@link NotificationManager#createNotificationChannel(NotificationChannel)}, unless the
          * channel is not currently part of a group.
+         * 简体中文：设置此通道所属的组。
+         * <p>
+         * 组信息仅用于呈现，不影响行为。
+         * <p>
+         * 除非通道当前不属于任何组，否则仅可在通道提交给
+         * {@link NotificationManager#createNotificationChannel(NotificationChannel)} 之前进行修改。
          *
          * @param groupId the id of a group created by
          *                {@link NotificationManager#createNotificationChannelGroup)}.
@@ -233,6 +253,10 @@ public class NotificationUtils {
          * <p>
          * Only modifiable before the channel is submitted to
          * {@link NotificationManager#createNotificationChannel(NotificationChannel)}.
+         * 简体中文：设置此通知通道的打扰级别。
+         * <p>
+         * 仅可在通道提交给
+         * {@link NotificationManager#createNotificationChannel(NotificationChannel)} 之前进行修改。
          *
          * @param importance the amount the user should be interrupted by
          *                   notifications from this channel.
@@ -246,10 +270,15 @@ public class NotificationUtils {
 
         /**
          * Sets the notification light color for notifications posted to this channel, if lights are
-         * {@link NotificationChannel#enableLights(boolean) enabled} on this channel and the device supports that feature.
+         * {@link NotificationChannel#enableLights(boolean) enabled} on this channel and the device
+         * supports that feature.
          * <p>
          * Only modifiable before the channel is submitted to
          * {@link NotificationManager#createNotificationChannel(NotificationChannel)}.
+         * 简体中文：如果在此通道上启用了灯光且设备支持该功能，则为发布到此通道的通知设置通知灯光颜色。
+         * <p>
+         * 仅可在通道提交给
+         * {@link NotificationManager#createNotificationChannel(NotificationChannel)} 之前进行修改。
          */
         public ChannelConfig setLightColor(int argb) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -263,6 +292,9 @@ public class NotificationUtils {
          * whether they appear in a redacted form. See e.g. {@link Notification#VISIBILITY_SECRET}.
          * <p>
          * Only modifiable by the system and notification ranker.
+         * 简体中文：设置发布到此通道的通知是否会显示在锁屏上，以及如果显示在锁屏上，是否以删除的形式显示。例如，
+         * 参见 {@link Notification#VISIBILITY_SECRET}。<p>
+         * 仅系统和通知排序器可修改。
          */
         public ChannelConfig setLockscreenVisibility(int lockscreenVisibility) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -276,6 +308,8 @@ public class NotificationUtils {
          *
          * <p>The recommended maximum length is 40 characters; the value may be truncated if it is too
          * long.
+         * 简体中文：设置此通道的用户可见名称。
+         *  <p>建议的最大长度为40个字符；如果太长，值可能会被截断。
          */
         public ChannelConfig setName(CharSequence name) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -290,6 +324,10 @@ public class NotificationUtils {
          * <p>
          * Only modifiable before the channel is submitted to
          * {@link NotificationManager#createNotificationChannel(NotificationChannel)}.
+         * 简体中文：设置是否允许发布到此通道的通知在启动器中显示为应用程序图标徽章。
+         * <p>
+         * 仅可在通道提交给
+         * {@link NotificationManager#createNotificationChannel(NotificationChannel)} 之前进行修改。
          *
          * @param showBadge true if badges should be allowed to be shown.
          */
@@ -307,6 +345,11 @@ public class NotificationUtils {
          * <p>
          * Only modifiable before the channel is submitted to
          * {@link NotificationManager#createNotificationChannel(NotificationChannel)}.
+         * 简体中文：设置应该为发布到此通道的通知播放的声音及其音频属性。具有至少
+         * {@link NotificationManager#IMPORTANCE_DEFAULT} 重要性的通知通道应该具有声音。
+         * <p>
+         * 仅可在通道提交给
+         * {@link NotificationManager#createNotificationChannel(NotificationChannel)} 之前进行修改。
          */
         public ChannelConfig setSound(Uri sound, AudioAttributes audioAttributes) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -322,6 +365,11 @@ public class NotificationUtils {
          * <p>
          * Only modifiable before the channel is submitted to
          * {@link NotificationManager#createNotificationChannel(NotificationChannel)}.
+         * 简体中文：设置发布到此通道的通知的振动模式。如果提供的模式有效（非空，非空数组），将启用振动
+         * {@link NotificationChannel#enableVibration(boolean)}。否则，振动将被禁用。
+         * <p>
+         * 仅可在通道提交给
+         * {@link NotificationManager#createNotificationChannel(NotificationChannel)} 之前进行修改。
          */
         public ChannelConfig setVibrationPattern(long[] vibrationPattern) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
