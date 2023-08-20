@@ -35,7 +35,8 @@ import java.util.concurrent.Executors;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * 文件操作相关工具。
+ * Tools for file operations.
+ * 简体中文：文件操作相关工具。
  */
 public final class IoUtils {
 
@@ -43,14 +44,16 @@ public final class IoUtils {
     }
 
     /**
-     * 检测SD卡（内置）是否准备就绪。
+     * Detect if the SD card (internal) is ready.
+     * 简体中文：检测SD卡（内置）是否准备就绪。
      */
     public static boolean checkMediaMounted() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
     /**
-     * 读取手机文件系统根目录。
+     * Read the root directory of the phone's file system.
+     * 简体中文：读取手机文件系统根目录。
      */
     public static String getSdRoot() {
         if (checkMediaMounted()) {
@@ -59,7 +62,7 @@ public final class IoUtils {
         return "";
     }
 
-    // <editor-folder desc="文件（夹）创建、复制、删除、移动、重命名">
+    // <editor-folder desc="File (Folder) Creation, Copying, Deletion, Moving, Renaming">
 
     public static void createFolder(String[] dirs) {
         if (dirs != null) {
@@ -230,7 +233,7 @@ public final class IoUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="文件读写">
+    // <editor-folder desc="File reading and writing">
 
     public static byte[] read(File file) throws IOException {
         byte[] buffers = new byte[1024];
@@ -275,13 +278,18 @@ public final class IoUtils {
     }
 
     /**
-     * 读取本地文本文件的数据。
+     * Read data from a local text file.
+     * 简体中文：读取本地文本文件的数据。
      *
-     * @param file 本地的文本文件
-     * @param hasIgnoreLines 如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
-     * @param ignoreLineChars 如果文件的一行以该字符串开始，则跳过该行的读取，如m3u文件#为Metadata信息，不是有效
-     *                        的url地址，你应该忽略以"#"开头的行
-     * @return
+     * @param file Local text file
+     * @param hasIgnoreLines If there are lines to be ignored, set to true. If it's true, set
+     *                       ignoreLineChars.
+     *                       简体中文：如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
+     * @param ignoreLineChars If a line of the file starts with this string, skip reading that line.
+     *                       For example, in an m3u file, '#' is used for metadata information and
+     *                        not a valid URL address. You should ignore lines that start with "#".
+     *                        简体中文：如果文件的一行以该字符串开始，则跳过该行的读取，如m3u文件#为Metadata
+     *                        信息，不是有效的url地址，你应该忽略以"#"开头的行。
      */
     public static List<String> readTextLines(File file, boolean hasIgnoreLines, String ignoreLineChars) {
         List<String> lines = new ArrayList<>();
@@ -379,7 +387,7 @@ public final class IoUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="文件（夹）大小">
+    // <editor-folder desc="File (Folder) Size">
 
     public static String getRomTotalSize(Context context) {
         File path = Environment.getDataDirectory();
@@ -467,7 +475,7 @@ public final class IoUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="文件下载">
+    // <editor-folder desc="File Download">
 
     @WorkerThread
     public static InputStream getNetworkStream(String url) {
@@ -499,10 +507,11 @@ public final class IoUtils {
     }
 
     /**
-     * 读取网络文本文件的数据，需在子线程执行。
+     * Read data from a network text file, needs to be executed in a sub-thread.
+     * 简体中文：读取网络文本文件的数据，需在子线程执行。
      *
-     * @param url 请求的文本文件url地址
-     * @return 文本文件的每一行的字符串
+     * @param url URL address of the requested text file.简体中文：请求的文本文件url地址
+     * @return String of each line in the text file.简体中文：文本文件的每一行的字符串
      */
     @WorkerThread
     public static List<String> getTextFileLines(String url) {
@@ -510,13 +519,19 @@ public final class IoUtils {
     }
 
     /**
-     * 读取网络文本文件的数据，需要自行在子线程执行。
+     * Read data from a network text file, you need to execute it in a separate thread on your own.
+     * 简体中文：读取网络文本文件的数据，需要自行在子线程执行。
      *
-     * @param url 请求的文本文件url地址
-     * @param hasIgnoreLines 如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
-     * @param ignoreLineChars 如果文件的一行以该字符串开始，则跳过该行的读取，如m3u文件#为Metadata信息，不是有效
-     *                        的url地址，你应该忽略以"#"开头的行
-     * @return 文本文件的每一行的字符串
+     * @param url URL address of the requested text file.简体中文：请求的文本文件url地址
+     * @param hasIgnoreLines If there are lines to be ignored, set to true. If it's true, set
+     *                       ignoreLineChars.
+     *                       简体中文：如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
+     * @param ignoreLineChars If a line of the file starts with this string, skip reading that line.
+     *                       For example, in an m3u file, '#' is used for metadata information and
+     *                        not a valid URL address. You should ignore lines that start with "#".
+     *                        简体中文：如果文件的一行以该字符串开始，则跳过该行的读取，如m3u文件#为Metadata
+     *                        信息，不是有效的url地址，你应该忽略以"#"开头的行。
+     * @return String of each line in the text file。简体中文：文本文件的每一行的字符串
      */
     @WorkerThread
     public static List<String> getTextFileLines(String url, boolean hasIgnoreLines, String ignoreLineChars) {
@@ -538,11 +553,12 @@ public final class IoUtils {
     }
 
     /**
-     * 文件下载。
+     * File download.
+     * 简体中文：文件下载。
      *
-     * @param url 下载的文件地址
-     * @param savePath 保存的文件路径
-     * @return 返回保存后的文件路径
+     * @param url Downloaded file address.简体中文：下载的文件地址
+     * @param savePath Saved file path.简体中文：保存的文件路径
+     * @return Return the path of the saved file.简体中文：返回保存后的文件路径
      */
     public static File download(String url, String savePath) {
         try {
@@ -554,11 +570,12 @@ public final class IoUtils {
     }
 
     /**
-     * 文件下载，需要自行在子线程执行。
+     * File download, needs to be executed in a separate thread on your own.
+     * 简体中文：文件下载，需要自行在子线程执行。
      *
-     * @param url 下载的文件地址
-     * @param savePath 保存的文件路径
-     * @return 返回保存后的文件路径
+     * @param url Downloaded file address.简体中文：下载的文件地址
+     * @param savePath Saved file path.简体中文：保存的文件路径
+     * @return Return the path of the saved file.简体中文：返回保存后的文件路径
      */
     @WorkerThread
     public static File downloadInBackground(String url, String savePath) {
@@ -569,11 +586,12 @@ public final class IoUtils {
     }
 
     /**
-     * 将文件下载到指定文件夹，需要自行在子线程执行。
+     * Downloading a file to a specified folder needs to be executed in a separate thread on your own.
+     * 简体中文：将文件下载到指定文件夹，需要自行在子线程执行。
      *
-     * @param url 下载的文件地址
-     * @param folder 保存到的文件夹
-     * @return 返回保存后的文件路径
+     * @param url Downloaded file address.简体中文：下载的文件地址
+     * @param folder Destination folder to save.简体中文：保存到的文件夹
+     * @return Return the path of the saved file.简体中文：返回保存后的文件路径
      */
     @WorkerThread
     public static File downloadFileToFolder(String url, String folder) {
@@ -586,11 +604,12 @@ public final class IoUtils {
     }
 
     /**
-     * 将文件下载到指定文件夹，需要自行在子线程执行。
+     * Downloading a file to a specified folder needs to be executed in a separate thread on your own.
+     * 简体中文：将文件下载到指定文件夹，需要自行在子线程执行。
      *
-     * @param url 下载的文件地址
-     * @param folder 保存到的文件夹
-     * @return 返回保存后的文件路径
+     * @param url Downloaded file address.简体中文：下载的文件地址
+     * @param folder Destination folder to save.简体中文：保存到的文件夹
+     * @return Return the path of the saved file.简体中文：返回保存后的文件路径
      */
     @WorkerThread
     public static File downloadFileToFolderInBackground(String url, String folder) {
@@ -601,20 +620,22 @@ public final class IoUtils {
     }
 
     /**
-     * 批量下载文件。
+     * Batch downloading files.
+     * 简体中文：批量下载文件。
      *
-     * @param urls 要下载的所有文件的url
-     * @param folder 保存到的文件夹
+     * @param urls URLs of all the files to be downloaded.简体中文：要下载的所有文件的url
+     * @param folder Destination folder to save.简体中文：保存到的文件夹
      */
     public static void batchDownloadFileToFolder(String[] urls, String folder) {
         batchDownloadFileToFolder(Arrays.asList(urls), folder);
     }
 
     /**
-     * 批量下载文件。
+     * Batch downloading files.
+     * 简体中文：批量下载文件。
      *
-     * @param urls 要下载的所有文件的url
-     * @param folder 保存到的文件夹
+     * @param urls URLs of all the files to be downloaded.简体中文：要下载的所有文件的url
+     * @param folder Destination folder to save.简体中文：保存到的文件夹
      */
     public static void batchDownloadFileToFolder(List<String> urls, String folder) {
         Executors.newCachedThreadPool().submit(() -> {
@@ -626,7 +647,7 @@ public final class IoUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="路径处理">
+    // <editor-folder desc="Path Handling">
 
     public static String getParentPath(String path) {
         if (path.endsWith(File.separator)) {
@@ -637,31 +658,35 @@ public final class IoUtils {
     }
 
     /**
-     * 获取路径中的文件名，带文件名后缀。
+     * Get the file name from the path, including the file extension.
+     * 简体中文：获取路径中的文件名，带文件名后缀。
      *
-     * @param path 文件路径
-     * @return 文件名，带后缀
+     * @param path File path.简体中文：文件路径
+     * @return File name with extension.简体中文：文件名，带后缀
      */
     public static String getFileNameFromPath(String path) {
         return getFileNameFromPath(path, true);
     }
 
     /**
-     * 从文件路径中提取文件名，不带文件名后缀。
+     * Extract the file name from the file path, without the file extension.
+     * 简体中文：从文件路径中提取文件名，不带文件名后缀。
      *
-     * @param path 文件路径
-     * @return 文件名，不带后缀
+     * @param path File path.简体中文：文件路径
+     * @return File name without extension.简体中文：文件名，不带后缀
      */
     public static String getNameFromPath(String path) {
         return getFileNameFromPath(path, false);
     }
 
     /**
-     * 从文件路径中提取文件名，可指定是否需要文件名后缀。
+     * Extract the file name from the file path, with the option to specify whether the file name
+     * extension is needed.
+     * 简体中文：从文件路径中提取文件名，可指定是否需要文件名后缀。
      *
-     * @param path 文件路径
-     * @param withSuffix 是否需要文件名后缀
-     * @return 文件名
+     * @param path File path.简体中文：文件路径
+     * @param withSuffix Whether the file name extension is needed.简体中文：是否需要文件名后缀
+     * @return File name.简体中文：文件名
      */
     private static String getFileNameFromPath(String path, boolean withSuffix) {
         int start = path.lastIndexOf(File.separator) + 1;
@@ -676,10 +701,11 @@ public final class IoUtils {
     // </editor-folder>
 
     /**
-     * 将对象转换为字节数组。
+     * Convert an object to a byte array.
+     * 简体中文：将对象转换为字节数组。
      *
-     * @param obj 要转化的对象
-     * @return 字节数组
+     * @param obj The object to be converted.简体中文：要转化的对象
+     * @return Byte array.简体中文：字节数组
      */
     public static byte[] bytes(Object obj) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -694,10 +720,11 @@ public final class IoUtils {
     }
 
     /**
-     * 检测一个文件或文件夹是否存在。
+     * Check if a file or folder exists.
+     * 简体中文：检测一个文件或文件夹是否存在。
      *
-     * @param path 文件或文件夹目录
-     * @return 是否存在
+     * @param path File or folder directory.简体中文：文件或文件夹目录
+     * @return Whether it exists.简体中文：是否存在
      */
     public static boolean checkExists(String path) {
         File file = new File(path);
@@ -705,10 +732,12 @@ public final class IoUtils {
     }
 
     /**
-     * 获取文件夹的子目录的数量，包括文件和文件夹，如果本身为文件，则返回-1。
+     * Get the count of subdirectories in a folder, including files and folders. If the item itself
+     * is a file, return -1.
+     * 简体中文：获取文件夹的子目录的数量，包括文件和文件夹，如果本身为文件，则返回-1。
      *
-     * @param file 文件夹
-     * @return 文件夹的子目录数
+     * @param file Folder.简体中文：文件夹
+     * @return Number of subdirectories in a folder.简体中文：文件夹的子目录数
      */
     public static int getSubCount(File file) {
         if (file != null) {
@@ -722,10 +751,11 @@ public final class IoUtils {
     }
 
     /**
-     * 读取文件的MD5值，用于比对两个文件是否是同一个文件。
+     * Read the MD5 value of a file, used to compare whether two files are the same.
+     * 简体中文：读取文件的MD5值，用于比对两个文件是否是同一个文件。
      *
-     * @param file 要读取的文件对象
-     * @return 文件的MD5值
+     * @param file The file object to be read.简体中文：要读取的文件对象
+     * @return MD5 value of the file.简体中文：文件的MD5值
      */
     public static String getMD5(File file) {
         FileInputStream fis = null;
@@ -748,9 +778,10 @@ public final class IoUtils {
     }
 
     /**
-     * 关闭流，自动忽略异常处理。
+     * Close the stream, automatically ignoring exception handling.
+     * 简体中文：关闭流，自动忽略异常处理。
      *
-     * @param closeableList 可关闭的流的列表
+     * @param closeableList List of closable streams.简体中文：可关闭的流的列表
      */
     public static void close(Closeable... closeableList) {
         try {
