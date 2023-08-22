@@ -11,7 +11,8 @@ import android.util.DisplayMetrics;
 import java.util.Locale;
 
 /**
- * 多语言与国际化相关工具。
+ * Tools for multilingualism and internationalization.
+ * 简体中文：多语言与国际化相关工具。
  */
 public final class LanguageUtils {
 
@@ -20,346 +21,415 @@ public final class LanguageUtils {
     private static final String PREFS_LANGUAGE = "dora_lang";
 
     /**
-     * 阿姆哈拉语。
+     * Amharic.
+     * 简体中文：阿姆哈拉语。
      */
     public static final String LANG_AM = "am";
 
     /**
+     * Arabic.
      * 阿拉伯语。
      */
     public static final String LANG_AR = "ar";
 
     /**
+     * Assamese.
      * 阿萨姆语。
      */
     public static final String LANG_AS = "as";
 
     /**
+     * Azerbaijani.
      * 阿塞拜疆语。
      */
     public static final String LANG_AZ = "az";
 
     /**
+     * Belarusian.
      * 白俄罗斯语。
      */
     public static final String LANG_BE = "be";
 
     /**
+     * Bulgarian.
      * 保加利亚语。
      */
     public static final String LANG_BG = "bg";
 
     /**
+     * Bengali.
      * 孟加拉语。
      */
     public static final String LANG_BN = "bn";
 
     /**
+     * Tibetan.
      * 藏语。
      */
     public static final String LANG_BO = "bo";
 
     /**
+     * Bosnian.
      * 波斯尼亚语。
      */
     public static final String LANG_BS = "bs";
 
     /**
+     * Catalan.
      * 加泰罗尼亚语。
      */
     public static final String LANG_CA = "ca";
 
     /**
+     * Czech.
      * 捷克语。
      */
     public static final String LANG_CS = "cs";
 
     /**
+     * Danish.
      * 丹麦语。
      */
     public static final String LANG_DA = "da";
 
     /**
+     * German.
      * 德语。
      */
     public static final String LANG_DE = "de";
 
     /**
+     * Greek.
      * 希腊语。
      */
     public static final String LANG_EL = "el";
 
     /**
+     * English.
      * 英文。
      */
     public static final String LANG_EN = "en";
 
     /**
+     * English/American.
      * 英语/美国。
      */
     public static final String LANG_EN_US = "en_US";
 
     /**
+     * Spanish.
      * 西班牙语。
      */
     public static final String LANG_ES = "es";
 
     /**
+     * Spanish/Latin American.
      * 西班牙语/拉美。
      */
     public static final String LANG_ES_LA = "es_LA";
 
     /**
+     * Estonian.
      * 爱沙尼亚语。
      */
     public static final String LANG_ET = "et";
 
     /**
+     * Basque.
      * 巴斯克语。
      */
     public static final String LANG_EU = "eu";
 
     /**
+     * Persian.
      * 波斯语。
      */
     public static final String LANG_FA = "fa";
 
     /**
+     * Finnish.
      * 芬兰语。
      */
     public static final String LANG_FI = "fi";
 
     /**
+     * French.
      * 法语。
      */
     public static final String LANG_FR = "fr";
 
     /**
+     * Galician.
      * 加利西亚语。
      */
     public static final String LANG_GL = "gl";
 
     /**
+     * Gujarati.
      * 古吉拉特语。
      */
     public static final String LANG_GU = "gu";
 
     /**
+     * Hindi.
      * 印地语。
      */
     public static final String LANG_HI = "hi";
 
     /**
+     * Croatian.
      * 克罗地亚语。
      */
     public static final String LANG_HR = "hr";
 
     /**
+     * Hungarian.
      * 匈牙利语。
      */
     public static final String LANG_HU = "hu";
 
     /**
+     * Indonesian.
      * 印尼语。
      */
     public static final String LANG_ID = "id";
 
     /**
+     * Italian.
      * 意大利语。
      */
     public static final String LANG_IT = "it";
 
     /**
+     * Hebrew.
      * 希伯来语。
      */
     public static final String LANG_HE = "he";
 
     /**
+     * Japanese.
      * 日文。
      */
     public static final String LANG_JA = "ja";
 
     /**
+     * Javanese.
      * 爪哇语。
      */
     public static final String LANG_JV = "jv";
 
     /**
+     * Georgian.
      * 格鲁吉亚语。
      */
     public static final String LANG_KA = "ka";
 
     /**
+     * Kazakh.
      * 哈萨克语。
      */
     public static final String LANG_KK = "kk";
 
     /**
+     * Khmer.
      * 高棉语。
      */
     public static final String LANG_KM = "km";
 
     /**
+     * Kannada.
      * 卡纳达语。
      */
     public static final String LANG_KN = "kn";
 
     /**
+     * Korean.
      * 韩文。
      */
     public static final String LANG_KO = "ko";
 
     /**
+     * Lao.
      * 老挝语。
      */
     public static final String LANG_LO = "lo";
 
     /**
+     * Lithuanian.
      * 立陶宛语。
      */
     public static final String LANG_LT = "lt";
 
     /**
+     * Latvian.
      * 拉脱维亚语。
      */
     public static final String LANG_LV = "lv";
 
     /**
+     * Maithili.
      * 迈蒂利语。
      */
     public static final String LANG_MAI = "mai";
 
     /**
+     * Māori.
      * 毛利语。
      */
     public static final String LANG_MI = "mi";
 
     /**
+     * Macedonian.
      * 马其顿语。
      */
     public static final String LANG_MK = "mk";
 
     /**
+     * Malayalam.
      * 马拉亚拉姆语。
      */
     public static final String LANG_ML = "ml";
 
     /**
+     * Mongolian.
      * 蒙古语。
      */
     public static final String LANG_MN = "mn";
 
     /**
+     * Marathi.
      * 马拉地语。
      */
     public static final String LANG_MR = "mr";
 
     /**
+     * Malay.
      * 马来西亚语。
      */
     public static final String LANG_MS = "ms";
 
     /**
+     * Burmese.
      * 缅甸语。
      */
     public static final String LANG_MY = "my";
 
     /**
+     * Norwegian.
      * 挪威语。
      */
     public static final String LANG_NO = "no";
 
     /**
+     * Nepali.
      * 尼泊尔语。
      */
     public static final String LANG_NE = "ne";
 
     /**
+     * Dutch.
      * 荷兰语。
      */
     public static final String LANG_NL = "nl";
 
     /**
+     * Oriya.
      * 欧里亚语。
      */
     public static final String LANG_OR = "or";
 
     /**
+     * Punjabi.
      * 旁遮普语。
      */
     public static final String LANG_PA = "pa";
 
     /**
+     * Polish.
      * 波兰语。
      */
     public static final String LANG_PL = "pl";
 
     /**
+     * Portuguese.
      * 葡萄牙语。
      */
     public static final String LANG_PT = "pt";
 
     /**
+     * Portuguese/Brazilian.
      * 葡萄牙语/巴西。
      */
     public static final String LANG_PT_BR = "pt_BR";
 
     /**
+     * Romanian.
      * 罗马西亚语。
      */
     public static final String LANG_RO = "ro";
 
     /**
+     * Russian.
      * 俄语。
      */
     public static final String LANG_RU = "ru";
 
     /**
+     * Sinhala.
      * 僧加罗语。
      */
     public static final String LANG_SI = "si";
 
     /**
+     * Slovak.
      * 斯洛伐克语。
      */
     public static final String LANG_SK = "sk";
 
     /**
+     * Slovenian.
      * 斯洛文尼亚语。
      */
     public static final String LANG_SL = "sl";
 
     /**
+     * Serbian.
      * 塞尔维亚语。
      */
     public static final String LANG_SR = "sr";
 
     /**
+     * Swedish.
      * 瑞典语。
      */
     public static final String LANG_SV = "sv";
 
     /**
+     * Swahili.
      * 斯瓦希里语。
      */
     public static final String LANG_SW = "sw";
 
     /**
+     * Tamil.
      * 泰米尔语。
      */
     public static final String LANG_TA = "ta";
 
     /**
+     * Telugu.
      * 泰卢固语。
      */
     public static final String LANG_TE = "te";
 
     /**
+     * Thai.
      * 泰语。
      */
     public static final String LANG_TH = "th";
 
     /**
+     * Filipino.
      * 菲律宾语。
      */
     public static final String LANG_FIL = "fil";

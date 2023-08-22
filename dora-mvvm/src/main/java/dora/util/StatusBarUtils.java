@@ -19,7 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import dora.R;
+import dora.mvvm.R;
 
 /**
  * Mobile System Status Bar Related Tools.
