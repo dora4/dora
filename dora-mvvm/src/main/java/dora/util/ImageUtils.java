@@ -24,6 +24,7 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -487,5 +488,18 @@ public final class ImageUtils {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
+    }
+
+    public static void saveToPhotoAlbum(Context activity, File file) {
+        String imageName = IoUtils.getFileNameFromPath(file.getAbsolutePath());
+        try {
+            MediaStore.Images.Media.insertImage(activity.getContentResolver(),
+                    file.getAbsolutePath(), imageName, null);
+            ToastUtils.showShort("Save into photo album successful");
+        } catch (FileNotFoundException e) {
+            ToastUtils.showShort("Failed to save into photo album");
+        }
+        activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                Uri.fromFile(file)));
     }
 }
