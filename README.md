@@ -68,13 +68,13 @@ Features
 Getting Started (Tutorial: https://github.com/dora4/dora_samples)
 
 ```groovy
-// Add the following code to the root build.gradle file of your project
+// Add the following code to the root build.gradle.kts file of your project
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
     }
 }
-// Add the following code to the build.gradle file of your app module
+// Add the following code to the build.gradle.kts file of your app module
 dependencies {
     implementation 'com.github.dora4:dora:latest'
 }
