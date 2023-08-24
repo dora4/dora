@@ -33,4 +33,4 @@ dependencyResolutionManagement {
 }
 
 include(":dora-mvvm")
-rootProject.name = "dora-mvvm"
+rootProject.name = "dora"

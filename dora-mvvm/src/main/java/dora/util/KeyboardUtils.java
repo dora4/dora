@@ -59,8 +59,7 @@ public final class KeyboardUtils {
 
     /**
      * Show the soft input.
-     *
-     * @param view The view.
+     * 简体中文：显示软输入法。
      */
     public static void showSoftInput(@NonNull final View view) {
         showSoftInput(view, 0);
@@ -68,6 +67,7 @@ public final class KeyboardUtils {
 
     /**
      * Show the soft input.
+     * 简体中文：显示软输入法。
      *
      * @param view The view.
      * @param flags Provides additional operating flags.  Currently may be
@@ -95,6 +95,7 @@ public final class KeyboardUtils {
 
     /**
      * Hide the soft input.
+     * 简体中文：隐藏软输入法。
      *
      * @param activity The activity.
      */
@@ -107,6 +108,7 @@ public final class KeyboardUtils {
 
     /**
      * Hide the soft input.
+     * 简体中文：隐藏软输入法。
      *
      * @param window The window.
      */
@@ -132,6 +134,7 @@ public final class KeyboardUtils {
 
     /**
      * Hide the soft input.
+     * 简体中文：隐藏软输入法。
      *
      * @param view The view.
      */
@@ -147,6 +150,7 @@ public final class KeyboardUtils {
 
     /**
      * Hide the soft input.
+     * 简体中文：隐藏软输入法。
      *
      * @param activity The activity.
      */
@@ -164,6 +168,7 @@ public final class KeyboardUtils {
 
     /**
      * Toggle the soft input display or not.
+     * 简体中文：切换软输入显示与否。
      */
     public static void toggleSoftInput() {
         InputMethodManager imm = ServiceUtils.getInputMethodManager();
@@ -177,6 +182,7 @@ public final class KeyboardUtils {
 
     /**
      * Return whether soft input is visible.
+     * 简体中文：返回软输入是否可见。
      *
      * @param activity The activity.
      * @return {@code true}: yes<br>{@code false}: no
@@ -202,6 +208,7 @@ public final class KeyboardUtils {
 
     /**
      * Register soft input changed listener.
+     * 简体中文：注册软输入变更监听器。
      *
      * @param activity The activity.
      * @param listener The soft input changed listener.
@@ -214,6 +221,7 @@ public final class KeyboardUtils {
 
     /**
      * Register soft input changed listener.
+     * 简体中文：注册软输入变化监听器。
      *
      * @param window The window.
      * @param listener The soft input changed listener.
@@ -243,6 +251,7 @@ public final class KeyboardUtils {
 
     /**
      * Unregister soft input changed listener.
+     * 简体中文：取消注册软输入变化监听器。
      *
      * @param window The window.
      */
@@ -264,6 +273,8 @@ public final class KeyboardUtils {
     /**
      * Fix the bug of 5497 in Android.
      * <p>Don't set adjustResize</p>
+     * 简体中文：修复 Android 中的 5497 号错误。
+     * <p>不要设置 adjustResize</p>
      *
      * @param activity The activity.
      */
@@ -273,7 +284,9 @@ public final class KeyboardUtils {
 
     /**
      * Fix the bug of 5497 in Android.
-     * <p>It will clean the adjustResize</p>
+     * <p>Don't set adjustResize</p>
+     * 简体中文：修复 Android 中的 5497 号错误。
+     * <p>不要设置 adjustResize</p>
      *
      * @param window The window.
      */
@@ -318,6 +331,7 @@ public final class KeyboardUtils {
 
     /**
      * Fix the leaks of soft input.
+     * 简体中文：修复软输入的内存泄漏问题。
      *
      * @param activity The activity.
      */
@@ -327,6 +341,7 @@ public final class KeyboardUtils {
 
     /**
      * Fix the leaks of soft input.
+     * 简体中文：修复软输入的内存泄漏问题。
      *
      * @param window The window.
      */
@@ -358,6 +373,8 @@ public final class KeyboardUtils {
     /**
      * Click blank area to hide soft input.
      * <p>Copy the following code in ur activity.</p>
+     * 简体中文：点击空白区域隐藏软输入法。
+     * <p>将以下代码复制到您的活动中。</p>
      */
     public static void clickBlankArea2HideSoftInput() {
         Log.i("KeyboardUtils", "Please refer to the following code.");
@@ -390,9 +407,6 @@ public final class KeyboardUtils {
         */
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // interface
-    ///////////////////////////////////////////////////////////////////////////
     public interface OnSoftInputChangedListener {
         void onSoftInputChanged(int height);
     }
