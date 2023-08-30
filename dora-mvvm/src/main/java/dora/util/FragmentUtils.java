@@ -46,6 +46,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param add         The fragment will be add.
@@ -59,6 +60,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param add         The fragment will be add.
@@ -74,6 +76,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param add         The fragment will be add.
@@ -91,6 +94,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param add         The fragment will be add.
@@ -110,6 +114,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param containerId The id of container.
@@ -131,6 +136,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm           The manager of fragment.
      * @param containerId  The id of container.
@@ -158,6 +164,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm           The manager of fragment.
      * @param containerId  The id of container.
@@ -187,6 +194,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm             The manager of fragment.
      * @param add            The fragment will be add.
@@ -203,6 +211,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm             The manager of fragment.
      * @param add            The fragment will be add.
@@ -221,6 +230,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param adds        The fragments will be add.
@@ -236,6 +246,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param adds        The fragments will be add.
@@ -251,6 +262,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param add         The fragment will be add.
@@ -266,6 +278,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param add         The fragment will be add.
@@ -283,6 +296,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param add         The fragment will be add.
@@ -303,6 +317,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param add         The fragment will be add.
@@ -324,6 +339,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param add         The fragment will be add.
@@ -347,6 +363,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm           The manager of fragment.
      * @param add          The fragment will be add.
@@ -376,6 +393,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm           The manager of fragment.
      * @param add          The fragment will be add.
@@ -410,6 +428,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm             The manager of fragment.
      * @param add            The fragment will be add.
@@ -428,6 +447,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm             The manager of fragment.
      * @param add            The fragment will be add.
@@ -450,6 +470,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param adds        The fragments will be add.
@@ -466,6 +487,7 @@ public final class FragmentUtils {
 
     /**
      * Add fragment.
+     * 简体中文：添加片段。
      *
      * @param fm          The manager of fragment.
      * @param adds        The fragments will be add.
@@ -491,6 +513,7 @@ public final class FragmentUtils {
 
     /**
      * Show fragment.
+     * 简体中文：展示片段。
      *
      * @param show The fragment will be show.
      */
@@ -501,6 +524,7 @@ public final class FragmentUtils {
 
     /**
      * Show fragment.
+     * 简体中文：展示片段。
      *
      * @param fm The manager of fragment.
      */
@@ -518,6 +542,7 @@ public final class FragmentUtils {
 
     /**
      * Hide fragment.
+     * 简体中文：隐藏片段。
      *
      * @param hide The fragment will be hide.
      */
@@ -528,6 +553,7 @@ public final class FragmentUtils {
 
     /**
      * Hide fragment.
+     * 简体中文：隐藏片段。
      *
      * @param fm The manager of fragment.
      */
@@ -545,6 +571,7 @@ public final class FragmentUtils {
 
     /**
      * Show fragment then hide other fragment.
+     * 简体中文：显示片段，然后隐藏其他片段。
      *
      * @param showIndex The index of fragment will be shown.
      * @param fragments The fragments will be hide.
@@ -555,6 +582,7 @@ public final class FragmentUtils {
 
     /**
      * Show fragment then hide other fragment.
+     * 简体中文：显示片段，然后隐藏其他片段。
      *
      * @param show The fragment will be show.
      * @param hide The fragment will be hide.
@@ -569,6 +597,7 @@ public final class FragmentUtils {
 
     /**
      * Show fragment then hide other fragment.
+     * 简体中文：显示片段，然后隐藏其他片段。
      *
      * @param showIndex The index of fragment will be shown.
      * @param fragments The fragment will be hide.
@@ -579,6 +608,7 @@ public final class FragmentUtils {
 
     /**
      * Show fragment then hide other fragment.
+     * 简体中文：显示片段，然后隐藏其他片段。
      *
      * @param show The fragment will be show.
      * @param hide The fragment will be hide.
@@ -592,6 +622,7 @@ public final class FragmentUtils {
 
     /**
      * Show fragment then hide other fragment.
+     * 简体中文：显示片段，然后隐藏其他片段。
      *
      * @param show The fragment will be show.
      * @param hide The fragment will be hide.
@@ -605,6 +636,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -616,6 +648,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -629,6 +662,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -646,6 +680,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -665,6 +700,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -691,6 +727,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -719,6 +756,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment    The source of fragment.
      * @param destFragment   The destination of fragment.
@@ -733,6 +771,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment    The source of fragment.
      * @param destFragment   The destination of fragment.
@@ -749,6 +788,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm          The manager of fragment.
      * @param fragment    The new fragment to place in the container.
@@ -762,6 +802,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm          The manager of fragment.
      * @param containerId The id of container.
@@ -777,6 +818,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm          The manager of fragment.
      * @param containerId The id of container.
@@ -796,6 +838,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm          The manager of fragment.
      * @param containerId The id of container.
@@ -817,6 +860,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm           The manager of fragment.
      * @param containerId  The id of container.
@@ -845,6 +889,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm           The manager of fragment.
      * @param containerId  The id of container.
@@ -875,6 +920,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm             The manager of fragment.
      * @param containerId    The id of container.
@@ -891,6 +937,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm             The manager of fragment.
      * @param containerId    The id of container.
@@ -909,6 +956,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -922,6 +970,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -940,6 +989,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -959,6 +1009,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -980,6 +1031,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -1008,6 +1060,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment  The source of fragment.
      * @param destFragment The destination of fragment.
@@ -1041,6 +1094,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment    The source of fragment.
      * @param destFragment   The destination of fragment.
@@ -1057,6 +1111,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param srcFragment    The source of fragment.
      * @param destFragment   The destination of fragment.
@@ -1084,6 +1139,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm          The manager of fragment.
      * @param fragment    The new fragment to place in the container.
@@ -1099,6 +1155,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm          The manager of fragment.
      * @param fragment    The new fragment to place in the container.
@@ -1118,6 +1175,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm          The manager of fragment.
      * @param fragment    The new fragment to place in the container.
@@ -1139,6 +1197,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm          The manager of fragment.
      * @param fragment    The new fragment to place in the container.
@@ -1162,6 +1221,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm           The manager of fragment.
      * @param fragment     The new fragment to place in the container.
@@ -1192,6 +1252,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm           The manager of fragment.
      * @param fragment     The new fragment to place in the container.
@@ -1226,6 +1287,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm             The manager of fragment.
      * @param fragment       The new fragment to place in the container.
@@ -1244,6 +1306,7 @@ public final class FragmentUtils {
 
     /**
      * Replace fragment.
+     * 简体中文：替换片段。
      *
      * @param fm             The manager of fragment.
      * @param fragment       The new fragment to place in the container.
@@ -1267,6 +1330,7 @@ public final class FragmentUtils {
 
     /**
      * Pop fragment.
+     * 简体中文：弹出片段。
      *
      * @param fm The manager of fragment.
      */
@@ -1276,6 +1340,7 @@ public final class FragmentUtils {
 
     /**
      * Pop fragment.
+     * 简体中文：弹出片段。
      *
      * @param fm          The manager of fragment.
      * @param isImmediate True to pop_2item immediately, false otherwise.
@@ -1291,6 +1356,7 @@ public final class FragmentUtils {
 
     /**
      * Pop to fragment.
+     * 简体中文：弹出片段。
      *
      * @param fm            The manager of fragment.
      * @param popClz        The class of fragment will be popped to.
@@ -1304,6 +1370,7 @@ public final class FragmentUtils {
 
     /**
      * Pop to fragment.
+     * 简体中文：弹出片段。
      *
      * @param fm            The manager of fragment.
      * @param popClz        The class of fragment will be popped to.
@@ -1325,6 +1392,7 @@ public final class FragmentUtils {
 
     /**
      * Pop all fragments.
+     * 简体中文：弹出所有片段。
      *
      * @param fm The manager of fragment.
      */
@@ -1334,6 +1402,7 @@ public final class FragmentUtils {
 
     /**
      * Pop all fragments.
+     * 简体中文：弹出所有片段。
      *
      * @param fm The manager of fragment.
      */
@@ -1350,6 +1419,7 @@ public final class FragmentUtils {
 
     /**
      * Remove fragment.
+     * 简体中文：移除片段。
      *
      * @param remove The fragment will be removed.
      */
@@ -1359,6 +1429,7 @@ public final class FragmentUtils {
 
     /**
      * Remove to fragment.
+     * 简体中文：移除片段。
      *
      * @param removeTo      The fragment will be removed to.
      * @param isIncludeSelf True to include the fragment, false otherwise.
@@ -1370,6 +1441,7 @@ public final class FragmentUtils {
 
     /**
      * Remove all fragments.
+     * 简体中文：移除所有片段。
      *
      * @param fm The manager of fragment.
      */
@@ -1512,6 +1584,7 @@ public final class FragmentUtils {
 
     /**
      * Return the top fragment.
+     * 简体中文：返回顶部片段。
      *
      * @param fm The manager of fragment.
      * @return the top fragment
@@ -1522,6 +1595,7 @@ public final class FragmentUtils {
 
     /**
      * Return the top fragment in stack.
+     * 简体中文：返回堆栈中的顶部片段。
      *
      * @param fm The manager of fragment.
      * @return the top fragment in stack
@@ -1551,6 +1625,7 @@ public final class FragmentUtils {
 
     /**
      * Return the top fragment which is shown.
+     * 简体中文：返回当前显示的顶部片段。
      *
      * @param fm The manager of fragment.
      * @return the top fragment which is shown
@@ -1561,6 +1636,7 @@ public final class FragmentUtils {
 
     /**
      * Return the top fragment which is shown in stack.
+     * 简体中文：返回在堆栈中显示的顶部片段。
      *
      * @param fm The manager of fragment.
      * @return the top fragment which is shown in stack
@@ -1595,6 +1671,7 @@ public final class FragmentUtils {
 
     /**
      * Return the fragments in manager.
+     * 简体中文：返回管理器中的片段。
      *
      * @param fm The manager of fragment.
      * @return the fragments in manager
@@ -1610,6 +1687,7 @@ public final class FragmentUtils {
 
     /**
      * Return the fragments in stack in manager.
+     * 简体中文：返回管理器中堆栈中的片段。
      *
      * @param fm The manager of fragment.
      * @return the fragments in stack in manager
@@ -1630,6 +1708,7 @@ public final class FragmentUtils {
 
     /**
      * Return all fragments in manager.
+     * 简体中文：返回管理器中的所有片段。
      *
      * @param fm The manager of fragment.
      * @return all fragments in manager
@@ -1656,6 +1735,7 @@ public final class FragmentUtils {
 
     /**
      * Return all fragments in stack in manager.
+     * 简体中文：在管理器中返回堆栈中的所有片段。
      *
      * @param fm The manager of fragment.
      * @return all fragments in stack in manager
@@ -1685,6 +1765,7 @@ public final class FragmentUtils {
 
     /**
      * Find fragment.
+     * 简体中文：查找片段。
      *
      * @param fm      The manager of fragment.
      * @param findClz The class of fragment will be found.
@@ -1697,6 +1778,7 @@ public final class FragmentUtils {
 
     /**
      * Find fragment.
+     * 简体中文：查找片段。
      *
      * @param fm  The manager of fragment.
      * @param tag The tag of fragment will be found.
@@ -1709,6 +1791,7 @@ public final class FragmentUtils {
 
     /**
      * Dispatch the back press for fragment.
+     * 简体中文：分发返回按钮按下事件给片段。
      *
      * @param fragment The fragment.
      * @return {@code true}: the fragment consumes the back press<br>{@code false}: otherwise
@@ -1723,6 +1806,7 @@ public final class FragmentUtils {
 
     /**
      * Dispatch the back press for fragment.
+     * 简体中文：分发返回按钮按下事件给片段。
      *
      * @param fm The manager of fragment.
      * @return {@code true}: the fragment consumes the back press<br>{@code false}: otherwise
@@ -1746,6 +1830,7 @@ public final class FragmentUtils {
 
     /**
      * Set background color for fragment.
+     * 简体中文：为片段设置背景资源。
      *
      * @param fragment The fragment.
      * @param color    The background color.
@@ -1760,6 +1845,7 @@ public final class FragmentUtils {
 
     /**
      * Set background resource for fragment.
+     * 简体中文：为片段设置背景资源。
      *
      * @param fragment The fragment.
      * @param resId    The resource id.
@@ -1774,6 +1860,7 @@ public final class FragmentUtils {
 
     /**
      * Set background color for fragment.
+     * 简体中文：为片段设置背景颜色。
      *
      * @param fragment   The fragment.
      * @param background The background.
@@ -1790,6 +1877,7 @@ public final class FragmentUtils {
 
     /**
      * Return the simple name of fragment.
+     * 简体中文：返回片段的简单名称。
      *
      * @param fragment The fragment.
      * @return the simple name of fragment
@@ -1820,10 +1908,6 @@ public final class FragmentUtils {
             this.isAddStack = isAddStack;
         }
     }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // interface
-    ///////////////////////////////////////////////////////////////////////////
 
     public static class FragmentNode {
         final Fragment fragment;
