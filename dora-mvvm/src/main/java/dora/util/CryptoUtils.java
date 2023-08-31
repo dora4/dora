@@ -122,24 +122,23 @@ public final class CryptoUtils {
         return secretKey;
     }
 
-    // <editor-folder desc="AES加解密">
+    // <editor-folder desc="AES encryption and decryption">
 
     /**
-     * AES加密。
+     * AES encryption.
+     * 简体中文：AES加密。
      *
-     * @param secretKey 密码
-     * @param transformation 加密模式
-     * @param iv 偏移量
-     * @param data 要加密的数据
+     * @param secretKey Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     * @param iv Offset
+     * @param data Data to be encrypted
      */
     public static String encryptAES(String secretKey, String transformation, IvParameterSpec iv, String data) {
         try {
-            // 创建密码器
             Cipher cipher = Cipher.getInstance(transformation);
-            // 初始化为加密密码器
             cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(secretKey, AES), iv);
             byte[] encryptByte = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
-            // 将加密以后的数据进行 Base64 编码
             return base64Encode(encryptByte);
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,32 +147,32 @@ public final class CryptoUtils {
     }
 
     /**
-     * AES加密，使用默认的方式。
+     * Encrypting with DES, using the default mode.
+     * 简体中文：AES加密，使用默认的方式。
      *
-     * @param secretKey 密码
-     * @param data 要加密的数据
+     * @param secretKey  Key
+     * @param data Data to be encrypted
      */
     public static String encryptAES(String secretKey, String data) {
-        // 不设置偏移量
         IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
         return encryptAES(secretKey, AES_ECB_PKCS5, zeroIv, data);
     }
 
     /**
-     * AES解密。
+     * Decrypting with AES.
+     * 简体中文：AES解密。
      *
-     * @param secretKey 密码
-     * @param transformation 加密模式
-     * @param iv 偏移量
-     * @param base64Data 要解密的base64数据
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     * @param iv Offset
+     * @param base64Data Base64 data to be decrypted
      */
     public static String decryptAES(String secretKey, String transformation, IvParameterSpec iv, String base64Data) {
         try {
             byte[] data = base64Decode(base64Data);
             Cipher cipher = Cipher.getInstance(transformation);
-            // 设置为解密模式
             cipher.init(Cipher.DECRYPT_MODE, getSecretKey(secretKey, AES), iv);
-            // 执行解密操作
             byte[] result = cipher.doFinal(data);
             return new String(result, StandardCharsets.UTF_8);
         } catch (Exception e) {
@@ -183,48 +182,42 @@ public final class CryptoUtils {
     }
 
     /**
-     * AES解密，使用默认的方式。
+     * Decrypting using AES, using the default mode.
+     * 简体中文：AES解密，使用默认的方式。
      *
-     * @param secretKey 密码
-     * @param base64Data 要解密的base64数据
+     * @param secretKey  Key
+     * @param base64Data Base64 data to be decrypted
      */
     public static String decryptAES(String secretKey, String base64Data) {
-        // 不设置偏移量
         IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
         return decryptAES(secretKey, AES_ECB_PKCS5, zeroIv, base64Data);
     }
 
     /**
-     * 对文件进行AES加密。
+     * Encrypting a file using AES.
+     * 简体中文：对文件进行AES加密。
      *
-     * @param srcFile 待加密文件
-     * @param dir        加密后的文件存储路径
-     * @param dstName 加密后的文件名称
-     * @param secretKey  密钥
-     * @param transformation 加密模式
-     * @return 加密后的文件
+     * @param srcFile Source encrypted file
+     * @param dir     Storage path of the encrypted file
+     * @param dstName Encrypted file name
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     * @return Encrypted file
      */
     public static File encryptFileAES(File srcFile, String dir, String dstName, String secretKey, String transformation) {
         try {
-            // 创建加密后的文件
             File encryptFile = new File(dir, dstName);
-            // 根据文件创建输出流
             FileOutputStream outputStream = new FileOutputStream(encryptFile);
-            // 初始化 Cipher
             Cipher cipher = initFileAESCipher(secretKey, transformation, Cipher.ENCRYPT_MODE);
-            // 以加密流写入文件
             CipherInputStream cipherInputStream = new CipherInputStream(
                     new FileInputStream(srcFile), cipher);
-            // 创建缓存字节数组
             byte[] buffer = new byte[1024 * 2];
-            // 读取
             int len;
-            // 读取加密并写入文件
             while ((len = cipherInputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, len);
                 outputStream.flush();
             }
-            // 关闭加密输入流
             cipherInputStream.close();
             IoUtils.close(outputStream);
             return encryptFile;
@@ -235,46 +228,42 @@ public final class CryptoUtils {
     }
 
     /**
-     * AES加密文件，默认方式。
+     * Encrypting a file using AES, with the default mode.
+     * 简体中文：AES加密文件，默认方式。
      *
-     * @param srcFile 待加密文件
-     * @param dir        加密后的文件存储路径
-     * @param dstName 加密后的文件名称
-     * @param secretKey  密钥
+     * @param srcFile Source encrypted file
+     * @param dir     Storage path of the encrypted file
+     * @param dstName Encrypted file name
+     * @param secretKey  Key
      */
     public static File encryptFileAES(File srcFile, String dir, String dstName, String secretKey) {
         return encryptFileAES(srcFile, dir, dstName, secretKey, AES_CFB_PKCS5);
     }
 
     /**
-     * AES解密文件。
+     * Encrypting a file using AES.
+     * 简体中文：AES解密文件。
      *
-     * @param srcFile 源加密文件
-     * @param dir        解密后的文件存储路径
-     * @param dstName 解密后的文件名称
-     * @param secretKey  密钥
-     * @param transformation 加密模式
+     * @param srcFile Source encrypted file
+     * @param dir        Storage path of the decrypted file
+     * @param dstName Decrypted file name
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
      */
     public static File decryptFileAES(File srcFile, String dir, String dstName, String secretKey, String transformation) {
         try {
-            // 创建解密文件
             File decryptFile = new File(dir, dstName);
-            // 初始化Cipher
             Cipher cipher = initFileAESCipher(secretKey, transformation, Cipher.DECRYPT_MODE);
-            // 根据源文件创建输入流
             FileInputStream inputStream = new FileInputStream(srcFile);
-            // 获取解密输出流
             CipherOutputStream cipherOutputStream = new CipherOutputStream(
                     new FileOutputStream(decryptFile), cipher);
-            // 创建缓冲字节数组
             byte[] buffer = new byte[1024 * 2];
             int len;
-            // 读取解密并写入
             while ((len = inputStream.read(buffer)) >= 0) {
                 cipherOutputStream.write(buffer, 0, len);
                 cipherOutputStream.flush();
             }
-            // 关闭流
             IoUtils.close(cipherOutputStream, inputStream);
             return decryptFile;
         } catch (IOException e) {
@@ -284,32 +273,32 @@ public final class CryptoUtils {
     }
 
     /**
-     * AES解密文件，默认方式。
+     * Decrypting a file using AES, with the default mode.
+     * 简体中文：AES解密文件，默认方式。
      *
-     * @param srcFile 源加密文件
-     * @param dir        解密后的文件存储路径
-     * @param dstName 解密后的文件名称
-     * @param secretKey  密钥
+     * @param srcFile Source encrypted file
+     * @param dir        Storage path of the decrypted file
+     * @param dstName Decrypted file name
+     * @param secretKey  Key
      */
     public static File decryptFileAES(File srcFile, String dir, String dstName, String secretKey) {
         return decryptFileAES(srcFile, dir, dstName, secretKey, AES_CFB_PKCS5);
     }
 
     /**
-     * 初始化AES Cipher。
+     * Initialize AES Cipher.
+     * 简体中文：初始化AES Cipher。
      *
-     * @param secretKey  密钥
-     * @param transformation 加密模式
-     * @param cipherMode 加密模式
-     * @return 密钥
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     * @param cipherMode Encryption mode
+     * @return Cryptographic Algorithm
      */
     private static Cipher initFileAESCipher(String secretKey, String transformation, int cipherMode) {
         try {
-            // 创建密钥规格
             SecretKeySpec secretKeySpec = getSecretKey(secretKey, AES);
-            // 获取密钥
             Cipher cipher = Cipher.getInstance(transformation);
-            // 初始化
             cipher.init(cipherMode, secretKeySpec, new IvParameterSpec(new byte[cipher.getBlockSize()]));
             return cipher;
         } catch (Exception e) {
@@ -323,21 +312,20 @@ public final class CryptoUtils {
     // <editor-folder desc="DES加解密">
 
     /**
-     * DES加密。
+     * Encrypting with DES.
+     * 简体中文：DES加密。
      *
-     * @param secretKey 密码
-     * @param transformation 加密模式
-     * @param iv 偏移量
-     * @param data 要加密的数据
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     * @param iv Offset
+     * @param data Data to be encrypted
      */
     public static String encryptDES(String secretKey, String transformation, IvParameterSpec iv, String data) {
         try {
-            // 创建密码器
             Cipher cipher = Cipher.getInstance(transformation);
-            // 初始化为加密密码器
             cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(secretKey, DES), iv);
             byte[] encryptByte = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
-            // 将加密以后的数据进行 Base64 编码
             return base64Encode(encryptByte);
         } catch (Exception e) {
             e.printStackTrace();
@@ -346,32 +334,32 @@ public final class CryptoUtils {
     }
 
     /**
-     * DES加密，使用默认的方式。
+     * Encrypting with DES, using the default mode.
+     * 简体中文：DES加密，使用默认的方式。
      *
-     * @param secretKey 密码
-     * @param data 要加密的数据
+     * @param secretKey  Key
+     * @param data Data to be encrypted
      */
     public static String encryptDES(String secretKey, String data) {
-        // 不设置偏移量
         IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
         return encryptAES(secretKey, DES_ECB_PKCS5, zeroIv, data);
     }
 
     /**
-     * DES解密。
+     * Decrypting with DES.
+     * 简体中文：DES解密。
      *
-     * @param secretKey 密码
-     * @param transformation 加密模式
-     * @param iv 偏移量
-     * @param base64Data 要解密的base64数据
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     * @param iv Offset
+     * @param base64Data Base64 data to be decrypted
      */
     public static String decryptDES(String secretKey, String transformation, IvParameterSpec iv, String base64Data) {
         try {
             byte[] data = base64Decode(base64Data);
             Cipher cipher = Cipher.getInstance(transformation);
-            // 设置为解密模式
             cipher.init(Cipher.DECRYPT_MODE, getSecretKey(secretKey, DES), iv);
-            // 执行解密操作
             byte[] result = cipher.doFinal(data);
             return new String(result, StandardCharsets.UTF_8);
         } catch (Exception e) {
@@ -381,48 +369,42 @@ public final class CryptoUtils {
     }
 
     /**
-     * DES解密，使用默认的方式。
+     * Decrypting using DES, using the default mode.
+     * 简体中文：DES解密，使用默认的方式。
      *
-     * @param secretKey 密码
-     * @param base64Data 要解密的base64数据
+     * @param secretKey  Key
+     * @param base64Data Base64 data to be decrypted
      */
     public static String decryptDES(String secretKey, String base64Data) {
-        // 不设置偏移量
         IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
         return decryptAES(secretKey, DES_ECB_PKCS5, zeroIv, base64Data);
     }
 
     /**
-     * 对文件进行DES加密。
+     * Encrypting a file using DES.
+     * 简体中文：对文件进行DES加密。
      *
-     * @param srcFile 待加密文件
-     * @param dir        加密后的文件存储路径
-     * @param dstName 加密后的文件名称
-     * @param secretKey  密钥
-     * @param transformation 加密模式
-     * @return 加密后的文件
+     * @param srcFile Source encrypted file
+     * @param dir     Storage path of the encrypted file
+     * @param dstName Encrypted file name
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     * @return Encrypted file
      */
     public static File encryptFileDES(File srcFile, String dir, String dstName, String secretKey, String transformation) {
         try {
-            // 创建加密后的文件
             File encryptFile = new File(dir, dstName);
-            // 根据文件创建输出流
             FileOutputStream outputStream = new FileOutputStream(encryptFile);
-            // 初始化 Cipher
             Cipher cipher = initFileDESCipher(secretKey, transformation, Cipher.ENCRYPT_MODE);
-            // 以加密流写入文件
             CipherInputStream cipherInputStream = new CipherInputStream(
                     new FileInputStream(srcFile), cipher);
-            // 创建缓存字节数组
             byte[] buffer = new byte[1024 * 2];
-            // 读取
             int len;
-            // 读取加密并写入文件
             while ((len = cipherInputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, len);
                 outputStream.flush();
             }
-            // 关闭加密输入流
             cipherInputStream.close();
             IoUtils.close(outputStream);
             return encryptFile;
@@ -433,46 +415,42 @@ public final class CryptoUtils {
     }
 
     /**
-     * DES加密文件，默认方式。
+     * Encrypting a file using DES, with the default mode.
+     * 简体中文：DES加密文件，默认方式。
      *
-     * @param srcFile 待加密文件
-     * @param dir        加密后的文件存储路径
-     * @param dstName 加密后的文件名称
-     * @param secretKey  密钥
+     * @param srcFile Source encrypted file
+     * @param dir     Storage path of the encrypted file
+     * @param dstName Encrypted file name
+     * @param secretKey  Key
      */
     public static File encryptFileDES(File srcFile, String dir, String dstName, String secretKey) {
         return encryptFileDES(srcFile, dir, dstName, secretKey, DES_CFB_PKCS5);
     }
 
     /**
-     * DES解密文件。
+     * Decrypting a file using DES.
+     * 简体中文：DES解密文件。
      *
-     * @param srcFile 源加密文件
-     * @param dir        解密后的文件存储路径
-     * @param dstName 解密后的文件名称
-     * @param secretKey  密钥
-     * @param transformation 加密模式
+     * @param srcFile Source encrypted file
+     * @param dir        Storage path of the decrypted file
+     * @param dstName Decrypted file name
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
      */
     public static File decryptFileDES(File srcFile, String dir, String dstName, String secretKey, String transformation) {
         try {
-            // 创建解密文件
             File decryptFile = new File(dir, dstName);
-            // 初始化Cipher
             Cipher cipher = initFileDESCipher(secretKey, transformation, Cipher.DECRYPT_MODE);
-            // 根据源文件创建输入流
             FileInputStream inputStream = new FileInputStream(srcFile);
-            // 获取解密输出流
             CipherOutputStream cipherOutputStream = new CipherOutputStream(
                     new FileOutputStream(decryptFile), cipher);
-            // 创建缓冲字节数组
             byte[] buffer = new byte[1024 * 2];
             int len;
-            // 读取解密并写入
             while ((len = inputStream.read(buffer)) >= 0) {
                 cipherOutputStream.write(buffer, 0, len);
                 cipherOutputStream.flush();
             }
-            // 关闭流
             IoUtils.close(cipherOutputStream, inputStream);
             return decryptFile;
         } catch (IOException e) {
@@ -482,32 +460,32 @@ public final class CryptoUtils {
     }
 
     /**
-     * DES解密文件，默认方式。
+     * Decrypting a file using DES, with the default mode.
+     * 简体中文：DES解密文件，默认方式。
      *
-     * @param srcFile 源加密文件
-     * @param dir        解密后的文件存储路径
-     * @param dstName 解密后的文件名称
-     * @param secretKey  密钥
+     * @param srcFile Source encrypted file
+     * @param dir        Storage path of the decrypted file
+     * @param dstName Decrypted file name
+     * @param secretKey  Key
      */
     public static File decryptFileDES(File srcFile, String dir, String dstName, String secretKey) {
         return decryptFileDES(srcFile, dir, dstName, secretKey, DES_CFB_PKCS5);
     }
 
     /**
-     * 初始化DES Cipher。
+     * Initialize DES Cipher.
+     * 简体中文：初始化DES Cipher。
      *
-     * @param secretKey  密钥
-     * @param transformation 加密模式
-     * @param cipherMode 加密模式
-     * @return 密钥
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     * @param cipherMode Encryption mode
+     * @return Cryptographic Algorithm
      */
     private static Cipher initFileDESCipher(String secretKey, String transformation, int cipherMode) {
         try {
-            // 创建密钥规格
             SecretKeySpec secretKeySpec = getSecretKey(secretKey, DES);
-            // 获取密钥
             Cipher cipher = Cipher.getInstance(transformation);
-            // 初始化
             cipher.init(cipherMode, secretKeySpec, new IvParameterSpec(new byte[cipher.getBlockSize()]));
             return cipher;
         } catch (Exception e) {
