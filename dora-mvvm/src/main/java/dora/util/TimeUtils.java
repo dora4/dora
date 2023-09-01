@@ -106,4 +106,10 @@ public final class TimeUtils {
     public static boolean isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
     }
+
+    public static int getMonthsDifference(Date date1, Date date2) {
+        int m1 = date1.getYear() * 12 + date1.getMonth();
+        int m2 = date2.getYear() * 12 + date2.getMonth();
+        return m2 - m1 + 1;
+    }
 }

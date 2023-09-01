@@ -1,24 +1,40 @@
 package dora.util;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 import javax.crypto.Cipher;
@@ -26,6 +42,9 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.security.auth.x500.X500Principal;
+
+import dora.mvvm.R;
 
 /**
  * Cryptography-related tools. AES encryption is more secure than DES encryption, but it is slower
@@ -67,26 +86,6 @@ public final class CryptoUtils {
     private CryptoUtils() {
     }
 
-    // <editor-folder desc="Base64 Encoding and Decoding">
-
-    /**
-     * Decode the Base64 string into a byte array.
-     * 简体中文：将Base64字符串解码成字节数组。
-     */
-    public static byte[] base64Decode(String data) {
-        return Base64.decode(data, Base64.NO_WRAP);
-    }
-
-    /**
-     * Convert the byte array to Base64 encoding.
-     * 简体中文：将字节数组转换成Base64编码。
-     */
-    public static String base64Encode(byte[] data) {
-        return Base64.encodeToString(data, Base64.NO_WRAP);
-    }
-
-    // </editor-folder>
-
     /**
      * Acquiring a key using a password.
      * 简体中文：使用密码获取密钥。
@@ -121,6 +120,26 @@ public final class CryptoUtils {
         }
         return secretKey;
     }
+
+    // <editor-folder desc="Base64 Encoding and Decoding">
+
+    /**
+     * Decode the Base64 string into a byte array.
+     * 简体中文：将Base64字符串解码成字节数组。
+     */
+    public static byte[] base64Decode(String data) {
+        return Base64.decode(data, Base64.NO_WRAP);
+    }
+
+    /**
+     * Convert the byte array to Base64 encoding.
+     * 简体中文：将字节数组转换成Base64编码。
+     */
+    public static String base64Encode(byte[] data) {
+        return Base64.encodeToString(data, Base64.NO_WRAP);
+    }
+
+    // </editor-folder>
 
     // <editor-folder desc="AES encryption and decryption">
 
@@ -309,7 +328,7 @@ public final class CryptoUtils {
 
     // </editor-folder>
 
-    // <editor-folder desc="DES加解密">
+    // <editor-folder desc="DES encryption and decryption">
 
     /**
      * Encrypting with DES.
@@ -673,6 +692,118 @@ public final class CryptoUtils {
             e.printStackTrace();
         }
         return resultDatas;
+    }
+
+    // </editor-folder>
+
+    // <editor-folder desc="X.509 Certificate">
+
+    public static Certificate[] getCertificatesFromFile(String certfilename)
+            throws FileNotFoundException, CertificateException {
+        CertificateFactory certFact = CertificateFactory.getInstance("X.509");
+        InputStream inStream = new FileInputStream(certfilename);
+        return new Certificate[]{certFact.generateCertificate(inStream)};
+    }
+
+    public static String getCertificateFriendlyName(Context context, String filename) {
+        if (!TextUtils.isEmpty(filename)) {
+            try {
+                X509Certificate cert = (X509Certificate) getCertificatesFromFile(filename)[0];
+                String friendlycn = getCertificateFriendlyName(cert);
+                friendlycn = getCertificateValidityString(cert, context.getResources()) + friendlycn;
+                return friendlycn;
+            } catch (Exception e) {
+            }
+        }
+        return "it cannot parse cert";
+    }
+
+    public static String getCertificateValidityString(X509Certificate cert, Resources res) {
+        try {
+            cert.checkValidity();
+        } catch (CertificateExpiredException ce) {
+            return "EXPIRED: ";
+        } catch (CertificateNotYetValidException cny) {
+            return "NOT YET VALID: ";
+        }
+        Date certNotAfter = cert.getNotAfter();
+        Date now = new Date();
+        long timeLeft = certNotAfter.getTime() - now.getTime();
+        if (timeLeft > 90l * 24 * 3600 * 1000) {
+            long months = TimeUtils.getMonthsDifference(now, certNotAfter);
+            return res.getQuantityString(R.plurals.months_left, (int) months, months);
+        } else if (timeLeft > 72 * 3600 * 1000) {
+            long days = timeLeft / (24 * 3600 * 1000);
+            return res.getQuantityString(R.plurals.days_left, (int) days, days);
+        } else {
+            long hours = timeLeft / (3600 * 1000);
+            return res.getQuantityString(R.plurals.hours_left, (int) hours, hours);
+        }
+    }
+
+    public static String getCertificateFriendlyName(X509Certificate cert) {
+        X500Principal principal = cert.getSubjectX500Principal();
+        byte[] encodedSubject = principal.getEncoded();
+        String friendlyName = null;
+        /* Hack so we do not have to ship a whole Spongy/bouncycastle */
+        Exception exp = null;
+        try {
+            @SuppressLint("PrivateApi") Class X509NameClass = Class.forName("com.android.org.bouncycastle.asn1.x509.X509Name");
+            Method getInstance = X509NameClass.getMethod("getInstance", Object.class);
+            Hashtable defaultSymbols = (Hashtable) X509NameClass.getField("DefaultSymbols").get(X509NameClass);
+            if (!defaultSymbols.containsKey("1.2.840.113549.1.9.1"))
+                defaultSymbols.put("1.2.840.113549.1.9.1", "eMail");
+            Object subjectName = getInstance.invoke(X509NameClass, encodedSubject);
+            Method toString = X509NameClass.getMethod("toString", boolean.class, Hashtable.class);
+            friendlyName = (String) toString.invoke(subjectName, true, defaultSymbols);
+        } catch (ClassNotFoundException e) {
+            exp = e;
+        } catch (NoSuchMethodException e) {
+            exp = e;
+        } catch (InvocationTargetException e) {
+            exp = e;
+        } catch (IllegalAccessException e) {
+            exp = e;
+        } catch (NoSuchFieldException e) {
+            exp = e;
+        }
+        /* Fallback if the reflection method did not work */
+        if (friendlyName == null)
+            friendlyName = principal.getName();
+        // Really evil hack to decode email address
+        // See: http://code.google.com/p/android/issues/detail?id=21531
+        String[] parts = friendlyName.split(",");
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i];
+            if (part.startsWith("1.2.840.113549.1.9.1=#16")) {
+                parts[i] = "email=" + ia5decode(part.replace("1.2.840.113549.1.9.1=#16", ""));
+            }
+        }
+        friendlyName = TextUtils.join(",", parts);
+        return friendlyName;
+    }
+
+    public static boolean isPrintableChar(char c) {
+        Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
+        return (!Character.isISOControl(c)) &&
+                block != null &&
+                block != Character.UnicodeBlock.SPECIALS;
+    }
+
+    private static String ia5decode(String ia5string) {
+        String d = "";
+        for (int i = 1; i < ia5string.length(); i = i + 2) {
+            String hexstr = ia5string.substring(i - 1, i + 1);
+            char c = (char) Integer.parseInt(hexstr, 16);
+            if (isPrintableChar(c)) {
+                d += c;
+            } else if (i == 1 && (c == 0x12 || c == 0x1b)) {
+                // ignore
+            } else {
+                d += "\\x" + hexstr;
+            }
+        }
+        return d;
     }
 
     // </editor-folder>
