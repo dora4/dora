@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.Settings;
@@ -168,7 +169,19 @@ public final class IntentUtils {
     public static void startService(Context context, @NonNull Class<? extends Service> serviceClazz) {
         Intent intent = new Intent();
         intent.setClass(context, serviceClazz);
-        context.startService(intent);
+        startService(context, intent);
+    }
+
+    public static void startService(@NonNull Intent intent) {
+        startService(GlobalContext.get(), intent);
+    }
+
+    public static void startService(Context context, @NonNull Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
     }
 
     public static void sendBroadcast(@NonNull String action) {

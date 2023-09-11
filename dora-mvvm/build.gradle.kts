@@ -47,7 +47,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.1.25"
+                version = "1.1.26"
             }
         }
     }
