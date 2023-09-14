@@ -687,4 +687,12 @@ public final class RomUtils {
             activity.getWindow().setAttributes(lp);
         }
     }
+
+    public static String getDeviceId() {
+        String brand = Build.BRAND;
+        String model = Build.MODEL;
+        String serial = Build.SERIAL;
+        String manufacturer = Build.MANUFACTURER;
+        return brand + " " + model + " - " + serial + " - " + manufacturer;
+    }
 }
