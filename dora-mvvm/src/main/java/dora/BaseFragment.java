@@ -35,12 +35,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
         mBinding = DataBindingUtil.bind(view);
         assert mBinding != null;
         mBinding.setLifecycleOwner(this);
-        initData(savedInstanceState);
         initData(savedInstanceState, mBinding);
-    }
-
-    @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
     }
 
     @Override

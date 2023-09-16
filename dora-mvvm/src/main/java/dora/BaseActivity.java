@@ -129,12 +129,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         // Read necessary extras before the initData function.
         // 简体中文：在initData之前读取必要的extras
         onGetExtras(intent.getAction(), bundle, intent);
-        initData(savedInstanceState);
         initData(savedInstanceState, mBinding);
-    }
-
-    @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
     }
 
     @Override

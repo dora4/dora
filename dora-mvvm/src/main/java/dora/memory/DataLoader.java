@@ -12,11 +12,5 @@ public interface DataLoader<T extends ViewDataBinding> {
 
     Cache.Factory cacheFactory();
 
-    /**
-     * Use {@link #initData(Bundle, ViewDataBinding)} instead, it will be removed in the future.
-     */
-    @Deprecated
-    void initData(@Nullable Bundle savedInstanceState);
-
     void initData(@Nullable Bundle savedInstanceState, @NonNull T binding);
 }
