@@ -2,6 +2,8 @@ package dora.util;
 
 import android.util.Log;
 
+import androidx.annotation.StringRes;
+
 /**
  * The logging tool defaults to filtering tags as [dora-log].
  * 简体中文：日志工具，默认过滤标签为[dora-log]。
@@ -18,6 +20,10 @@ public final class LogUtils {
         itag(TAG, msg);
     }
 
+    public static void i(@StringRes int resId) {
+        itag(TAG, GlobalContext.get().getString(resId));
+    }
+
     public static void itag(String tag, String msg) {
         Log.i(tag, msg);
     }
@@ -28,6 +34,10 @@ public final class LogUtils {
 
     public static void e(String msg) {
         etag(TAG, msg);
+    }
+
+    public static void e(@StringRes int resId) {
+        etag(TAG, GlobalContext.get().getString(resId));
     }
 
     public static void etag(String tag, String msg) {
@@ -42,6 +52,10 @@ public final class LogUtils {
         dtag(TAG, msg);
     }
 
+    public static void d(@StringRes int resId) {
+        dtag(TAG, GlobalContext.get().getString(resId));
+    }
+
     public static void dtag(String tag, String msg) {
         Log.d(tag, msg);
     }
@@ -52,6 +66,10 @@ public final class LogUtils {
 
     public static void w(String msg) {
         wtag(TAG, msg);
+    }
+
+    public static void w(@StringRes int resId) {
+        wtag(TAG, GlobalContext.get().getString(resId));
     }
 
     public static void wtag(String tag, String msg) {
@@ -66,6 +84,9 @@ public final class LogUtils {
         vtag(TAG, msg);
     }
 
+    public static void v(@StringRes int resId) {
+        vtag(TAG, GlobalContext.get().getString(resId));
+    }
     public static void vtag(String tag, String msg) {
         Log.v(tag, msg);
     }
