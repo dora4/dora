@@ -28,7 +28,7 @@ public final class LogUtils {
         Log.i(tag, msg);
     }
 
-    public static void iformat(String tag, String format, String... values) {
+    public static void iformat(String tag, String format, Object... values) {
         itag(tag, String.format(format, values));
     }
 
@@ -40,11 +40,15 @@ public final class LogUtils {
         etag(TAG, GlobalContext.get().getString(resId));
     }
 
+    public static void e(Exception e) {
+        etag(TAG, e.toString());
+    }
+
     public static void etag(String tag, String msg) {
         Log.e(tag, msg);
     }
 
-    public static void eformat(String tag, String format, String... values) {
+    public static void eformat(String tag, String format, Object... values) {
         etag(tag, String.format(format, values));
     }
 
@@ -60,7 +64,7 @@ public final class LogUtils {
         Log.d(tag, msg);
     }
 
-    public static void dformat(String tag, String format, String... values) {
+    public static void dformat(String tag, String format, Object... values) {
         dtag(tag, String.format(format, values));
     }
 
@@ -76,7 +80,7 @@ public final class LogUtils {
         Log.w(tag, msg);
     }
 
-    public static void wformat(String tag, String format, String... values) {
+    public static void wformat(String tag, String format, Object... values) {
         wtag(tag, String.format(format, values));
     }
 
@@ -91,7 +95,7 @@ public final class LogUtils {
         Log.v(tag, msg);
     }
 
-    public static void vformat(String tag, String format, String... values) {
+    public static void vformat(String tag, String format, Object... values) {
         vtag(tag, String.format(format, values));
     }
 }
