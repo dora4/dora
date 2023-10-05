@@ -1,6 +1,5 @@
 package dora;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +11,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
-import java.util.Set;
-
 import dora.memory.DataLoader;
-import dora.memory.Cache;
-import dora.memory.CacheType;
-import dora.memory.LruCache;
 import dora.util.IntentUtils;
-import dora.util.KVUtils;
 import dora.util.ToastUtils;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
@@ -27,7 +20,6 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
-    protected Cache mCache;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -127,28 +119,4 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
      * 简体中文：指定fragment布局文件的名称。
      */
     protected abstract int getLayoutId();
-
-    @NonNull
-    @Override
-    public synchronized Cache<String, Object> loadCache() {
-        if (mCache == null) {
-            mCache = cacheFactory().build(CacheType.FRAGMENT_CACHE, getContext());
-            Set<String> keys = KVUtils.getInstance(getContext()).cacheKeys();
-            for (String key : keys) {
-                Object cache = KVUtils.getInstance(getContext()).getCacheFromMemory(key);
-                mCache.put(key, cache);
-            }
-        }
-        return mCache;
-    }
-
-    @Override
-    public Cache.Factory cacheFactory() {
-        return new Cache.Factory() {
-            @Override
-            public Cache build(CacheType type, Context context) {
-                return new LruCache(type.calculateCacheSize(context));
-            }
-        };
-    }
 }

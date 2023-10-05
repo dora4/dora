@@ -19,17 +19,12 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import dora.memory.DataLoader;
-import dora.memory.Cache;
-import dora.memory.CacheType;
-import dora.memory.LruCache;
 import dora.net.NetworkChangeObserver;
 import dora.net.NetworkStateReceiver;
 import dora.util.FragmentUtils;
 import dora.util.IntentUtils;
-import dora.util.KVUtils;
 import dora.util.LanguageUtils;
 import dora.util.NetUtils;
 import dora.util.ReflectionUtils;
@@ -40,7 +35,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     protected T mBinding;
     protected final String TAG = this.getClass().getSimpleName();
-    protected Cache<String, Object> mCache;
     private final Map<String, BaseFragment<?>> mFragmentCache = new HashMap<>();
     protected NetworkChangeObserver mNetworkChangeObserver = null;
     private int mFragmentPageIndex;
@@ -333,29 +327,5 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected abstract int getLayoutId();
 
     protected void onGetExtras(@Nullable String action, @Nullable Bundle bundle, @NonNull Intent intent) {
-    }
-
-    @Override
-    public Cache.Factory cacheFactory() {
-        return new Cache.Factory() {
-            @Override
-            public Cache build(CacheType type, Context context) {
-                return new LruCache(type.calculateCacheSize(context));
-            }
-        };
-    }
-
-    @NonNull
-    @Override
-    public synchronized Cache<String, Object> loadCache() {
-        if (mCache == null) {
-            mCache = cacheFactory().build(CacheType.ACTIVITY_CACHE, this);
-            Set<String> keys = KVUtils.getInstance(this).cacheKeys();
-            for (String key : keys) {
-                Object cache = KVUtils.getInstance(this).getCacheFromMemory(key);
-                mCache.put(key, cache);
-            }
-        }
-        return mCache;
     }
 }

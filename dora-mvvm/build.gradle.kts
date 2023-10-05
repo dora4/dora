@@ -5,10 +5,9 @@ plugins {
 }
 
 android {
-    val compile_sdk = 30
+    val compile_sdk = 33
     val min_sdk = 21
-    val target_sdk = 30
-    val build_tools_version = "30.0.0"
+    val target_sdk = 33
     namespace = "dora.mvvm"
     compileSdk = compile_sdk
     defaultConfig {
@@ -32,6 +31,7 @@ android {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
     implementation("com.squareup.okhttp3:okhttp:4.8.0")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.2.0")
@@ -47,7 +47,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.1.30"
+                version = "1.1.31"
             }
         }
     }

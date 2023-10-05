@@ -8,9 +8,5 @@ import androidx.databinding.ViewDataBinding;
 
 public interface DataLoader<T extends ViewDataBinding> {
 
-    Cache<String, Object> loadCache();
-
-    Cache.Factory cacheFactory();
-
     void initData(@Nullable Bundle savedInstanceState, @NonNull T binding);
 }
