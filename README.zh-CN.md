@@ -10,10 +10,12 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 
 二、功能介绍
 
-- 全局生命周期配置TaskStackGlobalConfig以及自定义配置，支持配置Application、Activity和Fragment的生命周期，一次编写，所有项目复用。
+- 全局生命周期配置DefaultGlobalConfig、TaskStackGlobalConfig以及自定义配置，支持配置Application、Activity和Fragment的生命周期，一次编写，所有项目复用。
     
        <!-- 全局生命周期配置，value配置为GlobalConfig，name为映射的配置类即可，可配置多个 -->
        <application>
+            <!-- dora.lifecycle.config.DefaultGlobalConfig为默认配置，即使不配置任何GlobalConfig，也至少配置了它，请不要重复配置，让Activity自动监听了网络状况。继承并使用[dora.BaseApplication]自动配置 -->
+            
             <!-- 调用BaseActivity的openActivity系列方法必须配置TaskStackGlobalConfig -->
             <meta-data
                 android:name="dora.lifecycle.config.TaskStackGlobalConfig"
@@ -33,11 +35,11 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
         </application>
    
 - BaseActivity、BaseFragment封装，基于MVVM架构。支持Activity中Fragment的流式切换，完美的Fragment切换方案，无Fragment重叠情况。并支持在Activity中监听手机网络的变化。
-  1. showShortToast()和showLongToast()
+  1. showShortToast()和showLongToast()，过时，使用ToastUtils替代
 
      方便你在任意代码处弹出Toast，自动帮你切换线程，所以无需担心会报错
 
-  2. openActivity()和openActivityForResult()系列，过时，已移动到IntentUtils
+  2. openActivity()和openActivityForResult()系列，过时，已移到IntentUtils
 
      替代startActivity和startActivityForResult，传递参数更为方便
 
@@ -49,11 +51,11 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 
      网络断开和连接状态的监听
 
-  5. onSetStatusBar()
+  5. onSetStatusBar()和onSetNavigationBar()
     
-     方便初始化状态栏
+     方便初始化系统状态栏和导航栏
   
-  6. showPage()和nextPage()，getFlowFragmentPageKeys()
+  6. showPage()、nextPage()、getFlowFragment()、getFlowFragmentContainerId()、getFlowFragmentPageKeys()和isLoop()
   
      这个是自动管理BaseActivity内部Fragment切换的框架，常用于不需要activity的转场动画，而直接改变整体界面布局的场景。这里暂不做详细介绍，有兴趣的可以阅读源代码。
 - DoraCrash一行代码配置将Crash信息写入文件，让BUG无处遁形。
