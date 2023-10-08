@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import androidx.annotation.StringRes;
+
 /**
  * Toast tools.
  * 简体中文：吐司工具。
@@ -19,6 +21,14 @@ public final class ToastUtils {
 
     public static void showShort(String msg) {
         showShort(GlobalContext.get(), msg);
+    }
+
+    public static void showShort(@StringRes int resId) {
+        showShort(GlobalContext.get().getString(resId));
+    }
+
+    public static void showShort(@StringRes int resId, Object... args) {
+        showShort(String.format(GlobalContext.get().getString(resId), args));
     }
 
     public static void showShort(final Context context, final String msg) {
@@ -36,6 +46,14 @@ public final class ToastUtils {
 
     public static void showLong(String msg) {
         showLong(GlobalContext.get(), msg);
+    }
+
+    public static void showLong(@StringRes int resId) {
+        showLong(GlobalContext.get().getString(resId));
+    }
+
+    public static void showLong(@StringRes int resId, Object... args) {
+        showLong(String.format(GlobalContext.get().getString(resId), args));
     }
 
     public static void showLong(final Context context, final String msg) {
