@@ -175,7 +175,7 @@ public final class CryptoUtils {
      */
     public static String encryptAES(String secretKey, String data) {
         IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
-        return encryptAES(secretKey, AES_ECB_PKCS5, zeroIv, data);
+        return encryptAES(secretKey, AES_CBC_PKCS5, zeroIv, data);
     }
 
     /**
@@ -210,7 +210,7 @@ public final class CryptoUtils {
      */
     public static String decryptAES(String secretKey, String base64Data) {
         IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
-        return decryptAES(secretKey, AES_ECB_PKCS5, zeroIv, base64Data);
+        return decryptAES(secretKey, AES_CBC_PKCS5, zeroIv, base64Data);
     }
 
     /**
@@ -362,7 +362,7 @@ public final class CryptoUtils {
      */
     public static String encryptDES(String secretKey, String data) {
         IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
-        return encryptAES(secretKey, DES_ECB_PKCS5, zeroIv, data);
+        return encryptAES(secretKey, DES_CBC_PKCS5, zeroIv, data);
     }
 
     /**
@@ -397,7 +397,7 @@ public final class CryptoUtils {
      */
     public static String decryptDES(String secretKey, String base64Data) {
         IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
-        return decryptAES(secretKey, DES_ECB_PKCS5, zeroIv, base64Data);
+        return decryptAES(secretKey, DES_CBC_PKCS5, zeroIv, base64Data);
     }
 
     /**
@@ -730,7 +730,7 @@ public final class CryptoUtils {
         Date certNotAfter = cert.getNotAfter();
         Date now = new Date();
         long timeLeft = certNotAfter.getTime() - now.getTime();
-        if (timeLeft > 90l * 24 * 3600 * 1000) {
+        if (timeLeft > 90 * 24 * 3600 * 1000) {
             long months = TimeUtils.getMonthsDifference(now, certNotAfter);
             return res.getQuantityString(R.plurals.months_left, (int) months, months);
         } else if (timeLeft > 72 * 3600 * 1000) {
@@ -752,8 +752,9 @@ public final class CryptoUtils {
             @SuppressLint("PrivateApi") Class X509NameClass = Class.forName("com.android.org.bouncycastle.asn1.x509.X509Name");
             Method getInstance = X509NameClass.getMethod("getInstance", Object.class);
             Hashtable defaultSymbols = (Hashtable) X509NameClass.getField("DefaultSymbols").get(X509NameClass);
-            if (!defaultSymbols.containsKey("1.2.840.113549.1.9.1"))
+            if (!defaultSymbols.containsKey("1.2.840.113549.1.9.1")) {
                 defaultSymbols.put("1.2.840.113549.1.9.1", "eMail");
+            }
             Object subjectName = getInstance.invoke(X509NameClass, encodedSubject);
             Method toString = X509NameClass.getMethod("toString", boolean.class, Hashtable.class);
             friendlyName = (String) toString.invoke(subjectName, true, defaultSymbols);
@@ -769,8 +770,9 @@ public final class CryptoUtils {
             exp = e;
         }
         /* Fallback if the reflection method did not work */
-        if (friendlyName == null)
+        if (friendlyName == null) {
             friendlyName = principal.getName();
+        }
         // Really evil hack to decode email address
         // See: http://code.google.com/p/android/issues/detail?id=21531
         String[] parts = friendlyName.split(",");
