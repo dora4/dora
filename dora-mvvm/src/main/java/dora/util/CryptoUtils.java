@@ -174,7 +174,7 @@ public final class CryptoUtils {
      * @param data Data to be encrypted
      */
     public static String encryptAES(String secretKey, String data) {
-        IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
+        IvParameterSpec zeroIv = new IvParameterSpec(new byte[secretKey.getBytes().length]);
         return encryptAES(secretKey, AES_CBC_PKCS5, zeroIv, data);
     }
 
@@ -209,7 +209,7 @@ public final class CryptoUtils {
      * @param base64Data Base64 data to be decrypted
      */
     public static String decryptAES(String secretKey, String base64Data) {
-        IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
+        IvParameterSpec zeroIv = new IvParameterSpec(new byte[secretKey.getBytes().length]);
         return decryptAES(secretKey, AES_CBC_PKCS5, zeroIv, base64Data);
     }
 
@@ -361,7 +361,7 @@ public final class CryptoUtils {
      * @param data Data to be encrypted
      */
     public static String encryptDES(String secretKey, String data) {
-        IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
+        IvParameterSpec zeroIv = new IvParameterSpec(new byte[secretKey.getBytes().length]);
         return encryptAES(secretKey, DES_CBC_PKCS5, zeroIv, data);
     }
 
@@ -396,7 +396,7 @@ public final class CryptoUtils {
      * @param base64Data Base64 data to be decrypted
      */
     public static String decryptDES(String secretKey, String base64Data) {
-        IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);
+        IvParameterSpec zeroIv = new IvParameterSpec(new byte[secretKey.getBytes().length]);
         return decryptAES(secretKey, DES_CBC_PKCS5, zeroIv, base64Data);
     }
 
