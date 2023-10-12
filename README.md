@@ -81,4 +81,6 @@ dependencies {
 ```
 Replace "latest" with the latest stable version available on JitPack, such as 1.0.0. So the code will become implementation 'com.github.dora4:dora:1.0.0'.
 
+Android Studio IDE Plugin (Jar: [https://github.com/dora4/dora_samples](https://github.com/dora4/dora-studio-plugin/blob/main/art/dora-studio-plugin-1.1.jar))
+
 If you find it useful, you may wish to click the Fork button in the upper right corner of the Github page to benefit more people!
