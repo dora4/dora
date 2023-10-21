@@ -212,45 +212,80 @@ public final class IntentUtils {
     }
 
     public static byte getByteExtra(@NonNull Intent intent, @NonNull String name) {
+        return getByteExtra(intent, name, (byte) 0);
+    }
+
+    public static byte getByteExtra(@NonNull Intent intent, @NonNull String name, byte defaultValue) {
         if (!hasExtra(intent, name)) {
-            return 0;
+            return defaultValue;
         }
-        return intent.getByteExtra(name, (byte) 0);
+        return intent.getByteExtra(name, defaultValue);
     }
 
     public static short getShortExtra(@NonNull Intent intent, @NonNull String name) {
+        return getShortExtra(intent, name, (short) 0);
+    }
+
+    public static short getShortExtra(@NonNull Intent intent, @NonNull String name, short defaultValue) {
         if (!hasExtra(intent, name)) {
-            return 0;
+            return defaultValue;
         }
-        return intent.getShortExtra(name, (short) 0);
+        return intent.getShortExtra(name, defaultValue);
     }
 
     public static char getCharExtra(@NonNull Intent intent, @NonNull String name) {
+        return getCharExtra(intent, name, '\n');
+    }
+
+    public static char getCharExtra(@NonNull Intent intent, @NonNull String name, char defaultValue) {
         if (!hasExtra(intent, name)) {
-            return '\n';
+            return defaultValue;
         }
-        return intent.getCharExtra(name, '\n');
+        return intent.getCharExtra(name, defaultValue);
     }
 
     public static int getIntExtra(@NonNull Intent intent, @NonNull String name) {
+        return getIntExtra(intent, name, 0);
+    }
+
+    public static int getIntExtra(@NonNull Intent intent, @NonNull String name, int defaultValue) {
         if (!hasExtra(intent, name)) {
-            return 0;
+            return defaultValue;
         }
-        return intent.getIntExtra(name, 0);
+        return intent.getIntExtra(name, defaultValue);
+    }
+
+    public static long getLongExtra(@NonNull Intent intent, @NonNull String name) {
+        return getLongExtra(intent, name, 0);
+    }
+
+    public static long getLongExtra(@NonNull Intent intent, @NonNull String name, long defaultValue) {
+        if (!hasExtra(intent, name)) {
+            return defaultValue;
+        }
+        return intent.getLongExtra(name, defaultValue);
     }
 
     public static float getFloatExtra(@NonNull Intent intent, @NonNull String name) {
+        return getFloatExtra(intent, name, 0);
+    }
+
+    public static float getFloatExtra(@NonNull Intent intent, @NonNull String name, float defaultValue) {
         if (!hasExtra(intent, name)) {
-            return 0;
+            return defaultValue;
         }
-        return intent.getFloatExtra(name, 0);
+        return intent.getFloatExtra(name, defaultValue);
     }
 
     public static double getDoubleExtra(@NonNull Intent intent, @NonNull String name) {
+        return getDoubleExtra(intent, name, 0);
+    }
+
+    public static double getDoubleExtra(@NonNull Intent intent, @NonNull String name, double defaultValue) {
         if (!hasExtra(intent, name)) {
-            return 0;
+            return defaultValue;
         }
-        return intent.getDoubleExtra(name, 0);
+        return intent.getDoubleExtra(name, defaultValue);
     }
 
     public static String getStringExtra(@NonNull Intent intent, @NonNull String name) {
@@ -300,6 +335,13 @@ public final class IntentUtils {
             return new ArrayList<>();
         }
         return intent.getCharSequenceArrayListExtra(name);
+    }
+
+    public static ArrayList<String> getStringArrayListExtra(@NonNull Intent intent, @NonNull String name) {
+        if (!hasExtra(intent, name)) {
+            return new ArrayList<>();
+        }
+        return intent.getStringArrayListExtra(name);
     }
 
     public static String[] getStringArrayExtra(@NonNull Intent intent, @NonNull String name) {
@@ -379,25 +421,11 @@ public final class IntentUtils {
         return intent.getBundleExtra(name);
     }
 
-    public long getLongExtra(@NonNull Intent intent, @NonNull String name) {
-        if (!hasExtra(intent, name)) {
-            return 0;
-        }
-        return intent.getLongExtra(name, 0);
-    }
-
-    public <T extends Parcelable> ArrayList<T> getParcelableArrayListExtra(@NonNull Intent intent, @NonNull String name) {
+    public static <T extends Parcelable> ArrayList<T> getParcelableArrayListExtra(@NonNull Intent intent, @NonNull String name) {
         if (!hasExtra(intent, name)) {
             return null;
         }
         return intent.getParcelableArrayListExtra(name);
-    }
-
-    public ArrayList<String> getStringArrayListExtra(@NonNull Intent intent, @NonNull String name) {
-        if (!hasExtra(intent, name)) {
-            return new ArrayList<>();
-        }
-        return intent.getStringArrayListExtra(name);
     }
 
     /**
@@ -429,16 +457,16 @@ public final class IntentUtils {
 
     public static class Extras implements Serializable {
 
-        private static Extras instance;
-        private Map<String, Object> extrasMap;
+        private static Extras extras;
+        private final Map<String, Object> extrasMap;
 
         private Extras(Map<String, Object> map) {
             this.extrasMap = map;
         }
 
         public static Extras fromMap(Map<String, Object> map) {
-            instance = new Extras(map);
-            return instance;
+            extras = new Extras(map);
+            return extras;
         }
 
         public Bundle convertToBundle() {
@@ -446,6 +474,9 @@ public final class IntentUtils {
             Set<String> keys = extrasMap.keySet();
             for (String key : keys) {
                 Object value = extrasMap.get(key);
+                if (value == null) {
+                    continue;
+                }
                 if (String.class.isAssignableFrom(value.getClass())) {
                     String val = (String) value;
                     bundle.putString(key, val);
@@ -518,6 +549,9 @@ public final class IntentUtils {
             Set<String> keys = extrasMap.keySet();
             for (String key : keys) {
                 Object value = extrasMap.get(key);
+                if (value == null) {
+                    continue;
+                }
                 if (String.class.isAssignableFrom(value.getClass())) {
                     String val = (String) value;
                     intent.putExtra(key, val);
