@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import java.lang.reflect.Method;
 
-import dora.util.KVUtils;
 import dora.util.ReflectionUtils;
 
 public class AppLifecycle implements ApplicationLifecycleCallbacks {

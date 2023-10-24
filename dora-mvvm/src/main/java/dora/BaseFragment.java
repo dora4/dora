@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
-import dora.memory.DataLoader;
 import dora.util.IntentUtils;
 import dora.util.ToastUtils;
 

@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import dora.memory.DataLoader;
 import dora.net.NetworkChangeObserver;
 import dora.net.NetworkStateReceiver;
 import dora.util.FragmentUtils;
