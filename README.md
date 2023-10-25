@@ -32,7 +32,7 @@ Features
   </application>
 
 - BaseActivity and BaseFragment encapsulation based on the MVVM architecture. It supports seamless switching of Fragments in Activity, providing a perfect solution for Fragment switching without overlap. It also supports monitoring network changes in Activity. You can use the IDE plugin for more convenient development, available at https://github.com/dora4/dora-studio-plugin.
-  1. showShortToast() and showLongToast(), deprecated, instead of ToastUtils.
+  1. showShortToast() and showLongToast().
 
      Convenient methods to display a Toast message at any point in your code. Automatically handles thread switching, so you don't need to worry about errors.
   2. openActivity() and openActivityForResult() serie, deprecated, moved to IntentUtils.

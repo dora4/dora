@@ -5,10 +5,6 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import java.lang.reflect.Method;
-
-import dora.util.ReflectionUtils;
-
 public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
     @Override
@@ -17,11 +13,6 @@ public class AppLifecycle implements ApplicationLifecycleCallbacks {
 
     @Override
     public void onCreate(@NonNull Application application) {
-        Method getInstance = ReflectionUtils.findMethod(KVUtils.class,
-                true, "getInstance", Context.class);
-        if (getInstance != null) {
-            ReflectionUtils.invokeMethod(null, getInstance, application);
-        }
     }
 
     @Override

@@ -35,7 +35,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
         </application>
    
 - BaseActivity、BaseFragment封装，基于MVVM架构。支持Activity中Fragment的流式切换，完美的Fragment切换方案，无Fragment重叠情况。并支持在Activity中监听手机网络的变化。
-  1. showShortToast()和showLongToast()，过时，使用ToastUtils替代
+  1. showShortToast()和showLongToast()
 
      方便你在任意代码处弹出Toast，自动帮你切换线程，所以无需担心会报错
 
