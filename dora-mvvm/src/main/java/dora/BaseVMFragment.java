@@ -12,16 +12,16 @@ public abstract class BaseVMFragment<T extends ViewDataBinding, VM extends ViewM
 
     protected VM mVM;
 
-    protected abstract VM createViewModel();
+    protected abstract VM provideViewModel();
 
     @CallSuper
-    protected void bindViewModel(T binding) {
-        this.mVM = createViewModel();
+    protected void onBindViewModel(@NonNull T binding, @NonNull VM viewModel) {
+        this.mVM = provideViewModel();
     }
 
     @CallSuper
     @Override
     public void initData(@Nullable Bundle savedInstanceState, @NonNull T binding) {
-        bindViewModel(binding);
+        onBindViewModel(binding, mVM);
     }
 }
