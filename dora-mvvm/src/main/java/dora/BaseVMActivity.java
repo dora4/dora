@@ -7,12 +7,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.lang.reflect.ParameterizedType;
 
 public abstract class BaseVMActivity<T extends ViewDataBinding, VM extends ViewModel> extends BaseActivity<T> {
 
     protected VM mViewModel;
 
-    protected abstract VM provideViewModel();
+    protected VM provideViewModel() {
+        Class<VM> clazz = (Class<VM>) ((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        return new ViewModelProvider(this).get(clazz);
+    }
 
     protected void onBindViewModel(@NonNull T binding, @NonNull VM viewModel) {
     }
