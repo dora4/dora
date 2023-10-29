@@ -3,6 +3,7 @@ package dora.lifecycle.config;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 
 import java.util.List;
@@ -16,15 +17,15 @@ import dora.lifecycle.application.ApplicationLifecycleCallbacks;
 public class TaskStackGlobalConfig implements GlobalConfig {
 
     @Override
-    public void injectApplicationLifecycle(Context context, List<ApplicationLifecycleCallbacks> lifecycles) {
+    public void injectApplicationLifecycle(@NonNull Context context, @NonNull List<ApplicationLifecycleCallbacks> lifecycles) {
     }
 
     @Override
-    public void injectActivityLifecycle(Context context, List<Application.ActivityLifecycleCallbacks> lifecycles) {
+    public void injectActivityLifecycle(@NonNull Context context, @NonNull List<Application.ActivityLifecycleCallbacks> lifecycles) {
         lifecycles.add(new TaskStackActivityLifecycle());
     }
 
     @Override
-    public void injectFragmentLifecycle(Context context, List<FragmentManager.FragmentLifecycleCallbacks> lifecycles) {
+    public void injectFragmentLifecycle(@NonNull Context context, @NonNull List<FragmentManager.FragmentLifecycleCallbacks> lifecycles) {
     }
 }

@@ -241,7 +241,7 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
     private static class DefaultGlobalConfig implements GlobalConfig {
 
         @Override
-        public void injectApplicationLifecycle(Context context, List<ApplicationLifecycleCallbacks> lifecycles) {
+        public void injectApplicationLifecycle(@NonNull Context context, @NonNull List<ApplicationLifecycleCallbacks> lifecycles) {
             // All methods in AppLifecycle will be called during the corresponding lifecycle of
             // the base Application class,
             // so you can extend your own logic in the respective methods.
@@ -253,7 +253,7 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
         }
 
         @Override
-        public void injectActivityLifecycle(Context context, List<Application.ActivityLifecycleCallbacks> lifecycles) {
+        public void injectActivityLifecycle(@NonNull Context context, @NonNull List<Application.ActivityLifecycleCallbacks> lifecycles) {
             // All methods in ActivityLifecycleCallbacks will be called during the corresponding
             // lifecycle of the Activity (including third-party libraries),
             // so you can extend your own logic in the respective methods.
@@ -265,7 +265,7 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
         }
 
         @Override
-        public void injectFragmentLifecycle(Context context, List<FragmentManager.FragmentLifecycleCallbacks> lifecycles) {
+        public void injectFragmentLifecycle(@NonNull Context context, @NonNull List<FragmentManager.FragmentLifecycleCallbacks> lifecycles) {
             // All methods in FragmentLifecycleCallbacks will be called during the corresponding
             // lifecycle of the Fragment (including third-party libraries),
             // so you can extend your own logic in the respective methods.

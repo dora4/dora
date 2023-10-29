@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 public interface ActivityDelegate {
 
-    String CACHE_KEY = "ActivityDelegate";
-
     void onCreate(Bundle savedInstanceState);
 
     void onStart();
