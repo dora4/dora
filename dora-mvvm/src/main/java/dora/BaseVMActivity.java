@@ -10,18 +10,17 @@ import androidx.lifecycle.ViewModel;
 
 public abstract class BaseVMActivity<T extends ViewDataBinding, VM extends ViewModel> extends BaseActivity<T> {
 
-    protected VM mVM;
+    protected VM mViewModel;
 
     protected abstract VM provideViewModel();
 
-    @CallSuper
     protected void onBindViewModel(@NonNull T binding, @NonNull VM viewModel) {
     }
 
     @CallSuper
     @Override
     public void initData(@Nullable Bundle savedInstanceState, @NonNull T binding) {
-        this.mVM = provideViewModel();
-        onBindViewModel(binding, mVM);
+        this.mViewModel = provideViewModel();
+        onBindViewModel(binding, mViewModel);
     }
 }
