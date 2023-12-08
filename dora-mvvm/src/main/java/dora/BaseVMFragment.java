@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.lang.reflect.ParameterizedType;
 
-public abstract class BaseVMFragment<T extends ViewDataBinding, VM extends ViewModel> extends BaseFragment<T> {
+public abstract class BaseVMFragment<B extends ViewDataBinding, VM extends ViewModel> extends BaseFragment<B> {
 
     protected VM mViewModel;
 
@@ -20,12 +20,12 @@ public abstract class BaseVMFragment<T extends ViewDataBinding, VM extends ViewM
         return new ViewModelProvider(this).get(clazz);
     }
 
-    protected void onBindViewModel(@NonNull T binding, @NonNull VM viewModel) {
+    protected void onBindViewModel(@NonNull B binding, @NonNull VM viewModel) {
     }
 
     @CallSuper
     @Override
-    public void initData(@Nullable Bundle savedInstanceState, @NonNull T binding) {
+    public void initData(@Nullable Bundle savedInstanceState, @NonNull B binding) {
         this.mViewModel = provideViewModel();
         onBindViewModel(binding, mViewModel);
     }

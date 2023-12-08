@@ -76,10 +76,10 @@ allprojects {
 }
 // Add the following code to the build.gradle.kts file of your app module
 dependencies {
-    implementation 'com.github.dora4:dora:latest'
+    implementation 'com.github.dora4:dora:latest-version'
 }
 ```
-Replace "latest" with the latest stable version available on JitPack, such as 1.0.0. So the code will become implementation 'com.github.dora4:dora:1.0.0'.
+Replace "latest-version" with the latest stable version available on JitPack, such as 1.0.0. So the code will become implementation 'com.github.dora4:dora:1.0.0'.
 
 Android Studio IDE Plugin (Jar: [dora-studio-plugin-1.1.jar](https://github.com/dora4/dora-studio-plugin/blob/main/art/dora-studio-plugin-1.1.jar))
 
