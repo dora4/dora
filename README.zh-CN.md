@@ -83,6 +83,6 @@ dependencies {
 ```
 latest-version换成JitPack编译出来的最新绿色可用版本，如1.0.0，这样代码就变成了implementation 'com.github.dora4:dora:1.0.0'。
 
-四、Android Studio IDE插件 (Jar包: [dora-studio-plugin-1.2.jar](https://github.com/dora4/dora-studio-plugin/blob/main/art/dora-studio-plugin-1.2.jar))
+四、Android Studio IDE插件 (Jar包: [dora-studio-plugin-1.2.jar](https://github.com/dora4/dora-studio-plugin/blob/main/art/dora-studio-plugin-1.2.jar)) 阿里云备份: https://dorachat-sdk.oss-cn-hongkong.aliyuncs.com/dora-studio-plugin-1.2.jar
 
 如果你觉得有用的话，不妨点击Github网页右上角的Fork按钮，让更多的人受益！
