@@ -1,6 +1,6 @@
 <a href="./README.zh-CN.md">简体中文</a> ｜ <a href="./README.md">English</a>
 
-Dora SDK Official Documentation![Release](https://jitpack.io/v/dora4/dora.svg)
+Dora SDK Official Document![Release](https://jitpack.io/v/dora4/dora.svg)
 --------------------------------
 
 Introduction to the SDK
@@ -68,19 +68,20 @@ Features
 Getting Started (Tutorial: https://github.com/dora4/dora_samples)
 
 ```groovy
-// Add the following code to the root build.gradle.kts file of your project
+// Add the following code to the root build.gradle file of your project
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
     }
 }
-// Add the following code to the build.gradle.kts file of your app module
+// Add the following code to the build.gradle file of your app module
 dependencies {
     implementation 'com.github.dora4:dora:latest-version'
 }
 ```
 Replace "latest-version" with the latest stable version available on JitPack, such as 1.0.0. So the code will become implementation 'com.github.dora4:dora:1.0.0'.
 
-Android Studio IDE Plugin (Jar: [dora-studio-plugin-1.1.jar](https://github.com/dora4/dora-studio-plugin/blob/main/art/dora-studio-plugin-1.1.jar))
+Android Studio IDE Plugin (Jar: [dora-studio-plugin-1.2.jar](https://github.com/dora4/dora-studio-plugin/blob/main/art/dora-studio-plugin-1.2.jar))
+Aliyun OSS Backup: https://dorachat-sdk.oss-cn-hongkong.aliyuncs.com/dora-studio-plugin-1.2.jar
 
 If you find it useful, you may wish to click the Fork button in the upper right corner of the Github page to benefit more people!
