@@ -1,4 +1,4 @@
-package dora;
+package dora.interfaces;
 
 import android.os.Bundle;
 

@@ -11,13 +11,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
+import dora.interfaces.DataLoader;
+import dora.interfaces.PageTransformer;
 import dora.util.IntentUtils;
 import dora.util.ToastUtils;
 
-public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment implements
-        DataLoader<T>, PageTransformer {
+public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment implements
+        DataLoader<B>, PageTransformer {
 
-    protected T mBinding;
+    protected B mBinding;
     protected final String TAG = this.getClass().getSimpleName();
 
     @Override
@@ -30,7 +32,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState, @NonNull T binding) {
+    public void initData(@Nullable Bundle savedInstanceState, @NonNull B binding) {
     }
 
     public PageTransformer getPageTransformer() {
@@ -41,9 +43,9 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public final boolean isLoop() {
+    public final boolean isPageLoop() {
         // Dependents on activity.
-        return getPageTransformer().isLoop();
+        return getPageTransformer().isPageLoop();
     }
 
     @Override

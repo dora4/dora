@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import dora.util.LogUtils;
@@ -12,12 +13,12 @@ public class FragmentDelegateImpl implements FragmentDelegate {
 
     private Fragment mFragment;
 
-    public FragmentDelegateImpl(Fragment fragment) {
+    public FragmentDelegateImpl(@NonNull Fragment fragment) {
         this.mFragment = fragment;
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         LogUtils.iformat(LogUtils.TAG, "%s - onAttach", mFragment.getClass().getSimpleName());
     }
 

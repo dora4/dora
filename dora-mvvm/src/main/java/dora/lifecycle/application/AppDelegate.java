@@ -28,7 +28,7 @@ public class AppDelegate implements ApplicationLifecycleCallbacks {
     private List<Application.ActivityLifecycleCallbacks> mActivityLifecycles = new ArrayList<>();
     private ComponentCallbacks2 mComponentCallback;
 
-    public AppDelegate(Context context) {
+    public AppDelegate(@NonNull Context context) {
         this.mConfigs = ManifestParser.parse(context);
         this.mConfigs.add(0, new DefaultGlobalConfig());
         for (GlobalConfig config : mConfigs) {

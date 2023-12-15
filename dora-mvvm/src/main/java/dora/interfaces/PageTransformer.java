@@ -1,4 +1,4 @@
-package dora;
+package dora.interfaces;
 
 import androidx.annotation.NonNull;
 
@@ -49,5 +49,5 @@ public interface PageTransformer {
      * first page after reaching the last page.
      * 简体中文：到达第一页再往上一页是否显示最后一页，到达最后一页再往下一页是否显示第一页。
      */
-    boolean isLoop();
+    boolean isPageLoop();
 }

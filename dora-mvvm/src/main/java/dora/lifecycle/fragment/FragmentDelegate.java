@@ -4,9 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 public interface FragmentDelegate {
 
-    void onAttach(Context context);
+    void onAttach(@NonNull Context context);
 
     void onCreate(Bundle savedInstanceState);
 

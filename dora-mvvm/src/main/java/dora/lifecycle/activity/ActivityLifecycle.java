@@ -49,7 +49,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
     public void onActivityDestroyed(@NonNull Activity activity) {
     }
 
-    private void registerFragmentCallbacks(Activity activity) {
+    private void registerFragmentCallbacks(@NonNull Activity activity) {
         if (activity instanceof FragmentActivity) {
             FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
             List<Fragment> fragments = fragmentManager.getFragments();

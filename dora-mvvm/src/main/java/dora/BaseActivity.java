@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import dora.interfaces.DataLoader;
+import dora.interfaces.PageTransformer;
 import dora.net.NetworkChangeObserver;
 import dora.net.NetworkStateReceiver;
 import dora.util.FragmentUtils;
@@ -29,10 +31,10 @@ import dora.util.NetUtils;
 import dora.util.ReflectionUtils;
 import dora.util.ToastUtils;
 
-public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
-        implements DataLoader<T>, PageTransformer {
+public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity
+        implements DataLoader<B>, PageTransformer {
 
-    protected T mBinding;
+    protected B mBinding;
     protected final String TAG = this.getClass().getSimpleName();
     private final Map<String, BaseFragment<?>> mFragmentCache = new HashMap<>();
     protected NetworkChangeObserver mNetworkChangeObserver = null;
@@ -126,7 +128,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState, @NonNull T binding) {
+    public void initData(@Nullable Bundle savedInstanceState, @NonNull B binding) {
     }
 
     /**
@@ -182,7 +184,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
      * @see #getFlowFragmentPageKeys()
      */
     @Override
-    public boolean isLoop() {
+    public boolean isPageLoop() {
         return true;
     }
 
@@ -247,7 +249,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     @Override
     public void lastPage() {
-        if (isLoop() && mFragmentPageIndex == 0) {
+        if (isPageLoop() && mFragmentPageIndex == 0) {
             mFragmentPageIndex = getFlowFragmentPageKeys().length;
         }
         if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex > 0) {
@@ -258,7 +260,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     @Override
     public void lastPage(IntentUtils.Extras extras) {
-        if (isLoop() && mFragmentPageIndex == 0) {
+        if (isPageLoop() && mFragmentPageIndex == 0) {
             mFragmentPageIndex = getFlowFragmentPageKeys().length;
         }
         if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex > 0) {
@@ -269,7 +271,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     @Override
     public void nextPage() {
-        if (isLoop() && mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
+        if (isPageLoop() && mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
             mFragmentPageIndex = -1;
         }
         if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex < getFlowFragmentPageKeys().length - 1) {
@@ -280,7 +282,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     @Override
     public void nextPage(IntentUtils.Extras extras) {
-        if (isLoop() && mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
+        if (isPageLoop() && mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
             mFragmentPageIndex = -1;
         }
         if (getFlowFragmentPageKeys().length > 1 && mFragmentPageIndex < getFlowFragmentPageKeys().length - 1) {

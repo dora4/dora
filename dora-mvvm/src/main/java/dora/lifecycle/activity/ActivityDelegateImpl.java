@@ -3,13 +3,15 @@ package dora.lifecycle.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import dora.util.LogUtils;
 
 public class ActivityDelegateImpl implements ActivityDelegate {
 
     private Activity mActivity;
 
-    public ActivityDelegateImpl(Activity activity) {
+    public ActivityDelegateImpl(@NonNull Activity activity) {
         this.mActivity = activity;
     }
 
