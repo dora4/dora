@@ -61,7 +61,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 - DoraCrash一行代码配置将Crash信息写入文件，让BUG无处遁形。
 
   ```java
-          DoraCrash.initCrash(this, "YourLogFolder/log");
+          DoraCrash.initCrash(this, "YourAppFolder/log");
   ```
 
 - 可使用内存低的时候自动杀死本APP进程，在下次重启APP的时候不会有黑屏或白屏现象。
