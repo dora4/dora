@@ -51,7 +51,7 @@ Features
     
      Convenient method for initializing system status bar and navigation bar.
   
-  6. showPage(), nextPage(), getFlowFragment(), getFlowFragmentContainerId(), getFlowFragmentPageKeys(), and isLoop()
+  6. showPage(), lastPage(), nextPage(), getFlowFragment(), getFlowFragmentContainerId(), getFlowFragmentPageKeys(), and isPageLoop()
   
      This framework automatically manages the switching of Fragments within BaseActivity. It is commonly used in scenarios where there is no need for activity transition animations but rather direct changes to the overall layout of the interface. A detailed explanation is not provided here, but you can refer to the source code if you're interested.
 
