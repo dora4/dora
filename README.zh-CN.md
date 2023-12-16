@@ -55,7 +55,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
     
      方便初始化系统状态栏和导航栏
   
-  6. showPage()、nextPage()、getFlowFragment()、getFlowFragmentContainerId()、getFlowFragmentPageKeys()和isLoop()
+  6. showPage()、lastPage()、nextPage()、getFlowFragment()、getFlowFragmentContainerId()、getFlowFragmentPageKeys()和isPageLoop()
   
      这个是自动管理BaseActivity内部Fragment切换的框架，常用于不需要activity的转场动画，而直接改变整体界面布局的场景。这里暂不做详细介绍，有兴趣的可以阅读源代码。
 - DoraCrash一行代码配置将Crash信息写入文件，让BUG无处遁形。
