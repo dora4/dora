@@ -29,9 +29,6 @@ public class ActivityThreadFilter extends CrashReportFilter {
         String name = info.getThread().getName();
         // Only handle crash information for the main thread.
         // 简体中文：只处理主线程的崩溃信息
-        if (name.equals("main")) {
-            return true;
-        }
-        return false;
+        return name.equals("main");
     }
 }
