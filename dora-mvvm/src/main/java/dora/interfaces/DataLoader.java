@@ -22,7 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
-public interface DataLoader<T extends ViewDataBinding> {
+public interface DataLoader<B extends ViewDataBinding> {
 
-    void initData(@Nullable Bundle savedInstanceState, @NonNull T binding);
+    void initData(@Nullable Bundle savedInstanceState, @NonNull B binding);
 }

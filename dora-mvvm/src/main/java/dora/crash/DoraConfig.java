@@ -47,9 +47,6 @@ public class DoraConfig {
     // If "true," the application will not crash abruptly.
     // 简体中文：收集崩溃信息后，是否让应用闪退，true则不闪退
     boolean interceptCrash;
-    // Whether to initialize the log notification service.
-    // 简体中文：是否初始化日志通知服务
-    boolean initLogNotification;
 
     public DoraConfig(Builder builder) {
         policy = builder.policy;
@@ -57,7 +54,6 @@ public class DoraConfig {
         info = builder.info;
         enabled = builder.enabled;
         interceptCrash = builder.interceptCrash;
-        initLogNotification = builder.initLogNotification;
     }
 
     public static class Builder {
