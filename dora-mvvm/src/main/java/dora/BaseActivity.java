@@ -307,11 +307,11 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         }
     }
 
-    public void showShortToast(String msg) {
+    protected void showShortToast(String msg) {
         ToastUtils.showShort(this, msg);
     }
 
-    public void showLongToast(String msg) {
+    protected void showLongToast(String msg) {
         ToastUtils.showLong(this, msg);
     }
 

@@ -106,11 +106,11 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
         }
     }
 
-    public void showShortToast(String msg) {
+    protected void showShortToast(String msg) {
         ToastUtils.showShort(getContext(), msg);
     }
 
-    public void showLongToast(String msg) {
+    protected void showLongToast(String msg) {
         ToastUtils.showLong(getContext(), msg);
     }
 
