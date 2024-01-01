@@ -61,6 +61,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
     @Override
     public final boolean isPageLoop() {
         // Dependents on activity.
+        // 简体中文：取决于Activity
         return getPageTransformer().isPageLoop();
     }
 
