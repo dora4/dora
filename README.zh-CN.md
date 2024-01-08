@@ -70,13 +70,13 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 三、开始使用（教程 https://github.com/dora4/dora_samples ）
 
 ```groovy
-//添加以下代码到项目根目录下的build.gradle
+// 添加以下代码到项目根目录下的build.gradle
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
     }
 }
-//添加以下代码到app模块的build.gradle
+// 添加以下代码到app模块的build.gradle
 dependencies {
     implementation 'com.github.dora4:dora:latest-version'
 }
