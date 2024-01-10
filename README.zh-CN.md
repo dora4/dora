@@ -61,7 +61,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 - DoraCrash一行代码配置将Crash信息写入文件，让BUG无处遁形。
 
   ```java
-          DoraCrash.initCrash(this, "YourAppFolder/log");
+  DoraCrash.initCrash(this, "YourAppFolder/log");
   ```
 
 - 可使用内存低的时候自动杀死本APP进程，在下次重启APP的时候不会有黑屏或白屏现象。
@@ -70,13 +70,13 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 三、开始使用（教程 https://github.com/dora4/dora_samples ）
 
 ```groovy
-//添加以下代码到项目根目录下的build.gradle
+// 添加以下代码到项目根目录下的build.gradle
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
     }
 }
-//添加以下代码到app模块的build.gradle
+// 添加以下代码到app模块的build.gradle
 dependencies {
     implementation 'com.github.dora4:dora:latest-version'
 }

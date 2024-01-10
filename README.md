@@ -58,7 +58,7 @@ Features
 - DoraCrash allows configuring crash information to be written into files with just one line of code, making bugs easier to identify.
 
   ```java
-          DoraCrash.initCrash(this, "YourAppFolder/log");
+  DoraCrash.initCrash(this, "YourAppFolder/log");
   ```
 
 - The app process can be automatically killed when the memory is low, and there won't be a black or white screen issue when the app is restarted.
