@@ -73,7 +73,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void showPage(@NonNull String key, IntentUtils.Extras extras) {
+    public void showPage(@NonNull String key, @NonNull IntentUtils.Extras extras) {
         if (getPageTransformer() != null) {
             getPageTransformer().showPage(key);
         }
@@ -87,7 +87,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void lastPage(IntentUtils.Extras extras) {
+    public void lastPage(@NonNull IntentUtils.Extras extras) {
         if (getPageTransformer() != null) {
             getPageTransformer().lastPage(extras);
         }
@@ -101,7 +101,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
     }
 
     @Override
-    public void nextPage(IntentUtils.Extras extras) {
+    public void nextPage(@NonNull IntentUtils.Extras extras) {
         if (getPageTransformer() != null) {
             getPageTransformer().nextPage(extras);
         }

@@ -57,7 +57,7 @@ public class ActivityDelegateImpl implements ActivityDelegate {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         LogUtils.iformat(LogUtils.TAG, "%s - onSaveInstanceState", mActivity.getLocalClassName());
     }
 

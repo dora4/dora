@@ -63,7 +63,6 @@ public class DoraConfig {
         CrashInfo info;
         boolean enabled = true;
         boolean interceptCrash;
-        boolean initLogNotification;
         Context context;
 
         public Builder(Context context) {
@@ -98,11 +97,6 @@ public class DoraConfig {
 
         public Builder interceptCrash(boolean interceptCrash) {
             this.interceptCrash = interceptCrash;
-            return this;
-        }
-
-        public Builder initLogNotification(boolean initLogNotification) {
-            this.initLogNotification = initLogNotification;
             return this;
         }
 

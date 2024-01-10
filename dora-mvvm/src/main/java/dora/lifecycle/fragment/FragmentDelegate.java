@@ -21,16 +21,17 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public interface FragmentDelegate {
 
     void onAttach(@NonNull Context context);
 
-    void onCreate(Bundle savedInstanceState);
+    void onCreate(@Nullable Bundle savedInstanceState);
 
-    void onCreateView(View view, Bundle savedInstanceState);
+    void onCreateView(@NonNull View view, @Nullable Bundle savedInstanceState);
 
-    void onActivityCreated(Bundle savedInstanceState);
+    void onActivityCreated(@Nullable Bundle savedInstanceState);
 
     void onStart();
 
@@ -40,7 +41,7 @@ public interface FragmentDelegate {
 
     void onStop();
 
-    void onSaveInstanceState(Bundle outState);
+    void onSaveInstanceState(@NonNull Bundle outState);
 
     void onDestroyView();
 

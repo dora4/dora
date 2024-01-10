@@ -57,7 +57,7 @@ public class FragmentDelegateImpl implements FragmentDelegate {
     }
 
     @Override
-    public void onCreateView(View view, Bundle savedInstanceState) {
+    public void onCreateView(@NonNull View view, Bundle savedInstanceState) {
         LogUtils.iformat(LogUtils.TAG, "%s - onCreateView", mFragment.getClass().getSimpleName());
     }
 
@@ -87,7 +87,7 @@ public class FragmentDelegateImpl implements FragmentDelegate {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         LogUtils.iformat(LogUtils.TAG, "%s - onSaveInstanceState", mFragment.getClass().getSimpleName());
     }
 

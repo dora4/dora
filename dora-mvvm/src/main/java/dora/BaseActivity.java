@@ -221,7 +221,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
-    public void showPage(@NonNull String key, IntentUtils.Extras extras) {
+    public void showPage(@NonNull String key, @NonNull IntentUtils.Extras extras) {
         if (mFragmentCache.containsKey(key)) {
             BaseFragment<?> fragment = mFragmentCache.get(key);
             if (fragment != null) {
@@ -275,7 +275,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
-    public void lastPage(IntentUtils.Extras extras) {
+    public void lastPage(@NonNull IntentUtils.Extras extras) {
         if (isPageLoop() && mFragmentPageIndex == 0) {
             mFragmentPageIndex = getFlowFragmentPageKeys().length;
         }
@@ -297,7 +297,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
-    public void nextPage(IntentUtils.Extras extras) {
+    public void nextPage(@NonNull IntentUtils.Extras extras) {
         if (isPageLoop() && mFragmentPageIndex == getFlowFragmentPageKeys().length - 1) {
             mFragmentPageIndex = -1;
         }

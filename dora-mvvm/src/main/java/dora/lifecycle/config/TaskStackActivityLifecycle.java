@@ -56,7 +56,7 @@ public class TaskStackActivityLifecycle implements Application.ActivityLifecycle
     }
 
     @Override
-    public void onActivityDestroyed(Activity activity) {
+    public void onActivityDestroyed(@NonNull Activity activity) {
         TaskStackManager.getInstance().popTaskWithChecking(activity.getClass());
     }
 }

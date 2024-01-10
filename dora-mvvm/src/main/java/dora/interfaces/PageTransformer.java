@@ -36,7 +36,7 @@ public interface PageTransformer {
      * Display a fragment in the activity according to key.
      * 简体中文：根据key显示activity中的某个fragment。
      */
-    void showPage(@NonNull String key, IntentUtils.Extras extras);
+    void showPage(@NonNull String key, @NonNull IntentUtils.Extras extras);
 
     /**
      * @see #lastPage(IntentUtils.Extras)
@@ -47,7 +47,7 @@ public interface PageTransformer {
      * Display last fragment in the activity.
      * 简体中文：显示activity中的上一个fragment。
      */
-    void lastPage(IntentUtils.Extras extras);
+    void lastPage(@NonNull IntentUtils.Extras extras);
 
     /**
      * @see #nextPage(IntentUtils.Extras)
@@ -58,7 +58,7 @@ public interface PageTransformer {
      * Display next fragment in the activity.
      * 简体中文：显示activity中的下一个fragment。
      */
-    void nextPage(IntentUtils.Extras extras);
+    void nextPage(@NonNull IntentUtils.Extras extras);
 
     /**
      * Whether to display the last page after reaching the first page, whether to display the
