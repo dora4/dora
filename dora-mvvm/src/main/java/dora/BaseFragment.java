@@ -39,7 +39,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
     protected final String TAG = this.getClass().getSimpleName();
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding = DataBindingUtil.bind(view);
         assert mBinding != null;
@@ -51,7 +51,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
     public void initData(@Nullable Bundle savedInstanceState, @NonNull B binding) {
     }
 
-    public PageTransformer getPageTransformer() {
+    protected PageTransformer getPageTransformer() {
         if (getActivity() instanceof PageTransformer) {
             return (PageTransformer) getActivity();
         }
@@ -127,7 +127,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public final View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(getLayoutId(), container, false);
     }

@@ -56,10 +56,6 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     protected NetworkChangeObserver mNetworkChangeObserver = null;
     private int mFragmentPageIndex;
 
-    public Context getContext() {
-        return this;
-    }
-
     private boolean isTranslucentOrFloating() {
         Class<?> styleableClazz = ReflectionUtils.findClass("com.android.internal.R.styleable");
         Field windowField = ReflectionUtils.findField(styleableClazz, false, "Window");
