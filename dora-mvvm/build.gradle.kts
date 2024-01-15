@@ -34,9 +34,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.android.support:design:28.0.0")
-    api("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
-    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    api("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2")
+    api("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    api("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0")
     api("androidx.activity:activity-ktx:1.8.2")
     api("androidx.fragment:fragment-ktx:1.6.2")
 }
@@ -48,7 +48,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.1.53"
+                version = "1.1.54"
             }
         }
     }

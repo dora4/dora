@@ -24,6 +24,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -337,7 +338,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     protected void onNetworkDisconnected() {
     }
 
-    protected abstract int getLayoutId();
+    protected abstract @LayoutRes int getLayoutId();
 
     protected void onGetExtras(@Nullable String action, @Nullable Bundle bundle, @NonNull Intent intent) {
     }

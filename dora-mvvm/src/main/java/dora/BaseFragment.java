@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -136,5 +137,5 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
      * Specify the name of the fragment layout file.
      * 简体中文：指定fragment布局文件的名称。
      */
-    protected abstract int getLayoutId();
+    protected abstract @LayoutRes int getLayoutId();
 }
