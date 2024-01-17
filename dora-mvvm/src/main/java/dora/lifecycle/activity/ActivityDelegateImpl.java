@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import dora.util.LogUtils;
 
@@ -32,7 +33,7 @@ public class ActivityDelegateImpl implements ActivityDelegate {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         LogUtils.iformat(LogUtils.TAG, "%s - onCreate", mActivity.getLocalClassName());
     }
 

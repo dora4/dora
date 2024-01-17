@@ -21,6 +21,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import dora.util.TaskStackManager;
 
@@ -31,7 +32,7 @@ import dora.util.TaskStackManager;
 public class TaskStackActivityLifecycle implements Application.ActivityLifecycleCallbacks {
 
     @Override
-    public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         TaskStackManager.getInstance().pushTask(activity);
     }
 

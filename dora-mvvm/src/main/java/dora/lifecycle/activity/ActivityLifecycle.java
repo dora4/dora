@@ -21,6 +21,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -37,7 +38,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
     private List<FragmentManager.FragmentLifecycleCallbacks> mFragmentLifecycles = new ArrayList<>();
 
     @Override
-    public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         registerFragmentCallbacks(activity);
     }
 
