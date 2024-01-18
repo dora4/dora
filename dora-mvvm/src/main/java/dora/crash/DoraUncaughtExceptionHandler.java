@@ -26,7 +26,7 @@ import android.os.Process;
 class DoraUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
     private Context mContext;
-    private DoraConfig mConfig;
+    private DoraCrashConfig mConfig;
 
     private Thread.UncaughtExceptionHandler mDefaultExceptionHandler;
 
@@ -40,7 +40,7 @@ class DoraUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
         return sInstance;
     }
 
-    void init(Context context, DoraConfig config) {
+    void init(Context context, DoraCrashConfig config) {
         this.mContext = context.getApplicationContext();
         this.mConfig = config;
         mDefaultExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();

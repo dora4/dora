@@ -6,7 +6,7 @@ import dora.crash.policy.StoragePolicy;
 public class DoraCrash {
 
     public static void initCrash(Context context, String crashInfoFolder) {
-        new DoraConfig.Builder(context)
+        new DoraCrashConfig.Builder(context)
                 .crashReportPolicy(new StoragePolicy(crashInfoFolder)).build();
     }
 }

@@ -27,7 +27,7 @@ import dora.crash.policy.StoragePolicy;
  * collection.
  * 简体中文：全局崩溃信息收集的配置，也包括部分日志信息收集的配置。
  */
-public class DoraConfig {
+public class DoraCrashConfig {
 
     // Crash information reporting strategy, providing built-in strategies such as local storage,
     // email reception, web page viewing, etc., and also allowing customization.
@@ -48,7 +48,7 @@ public class DoraConfig {
     // 简体中文：收集崩溃信息后，是否让应用闪退，true则不闪退
     boolean interceptCrash;
 
-    public DoraConfig(Builder builder) {
+    public DoraCrashConfig(Builder builder) {
         policy = builder.policy;
         filter = builder.filter;
         info = builder.info;
@@ -100,8 +100,8 @@ public class DoraConfig {
             return this;
         }
 
-        public DoraConfig build() {
-            DoraConfig config = new DoraConfig(this);
+        public DoraCrashConfig build() {
+            DoraCrashConfig config = new DoraCrashConfig(this);
             if (context != null) {
                 DoraUncaughtExceptionHandler.getInstance().init(context, config);
             }
