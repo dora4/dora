@@ -332,7 +332,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         super.onDestroy();
     }
 
-    protected void onNetworkConnected(NetUtils.ApnType type) {
+    protected void onNetworkConnected(@NonNull NetUtils.ApnType type) {
     }
 
     protected void onNetworkDisconnected() {
