@@ -76,7 +76,7 @@ public final class ViewUtils implements Number {
      *
      * @param view View to be removed.
      */
-    public static void removeViewFormParent(View view) {
+    public static void removeViewFromParent(View view) {
         if (view == null) return;
         ViewParent parent = view.getParent();
         if (parent != null) {
