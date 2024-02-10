@@ -214,4 +214,10 @@ public final class ViewUtils implements Number {
     public static void runAnimation(View view, Animation animation) {
         view.startAnimation(animation);
     }
+
+    public static boolean isDarkMode(Context context) {
+        // The value of dark mode is: 0x21. The value of light mode is: 0x11
+        // 简体中文：深色模式的值为:0x21，浅色模式的值为:0x11
+        return context.getResources().getConfiguration().uiMode == 0x21;
+    }
 }
