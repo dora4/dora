@@ -24,6 +24,9 @@ import android.os.Build;
 import android.os.LocaleList;
 import android.util.DisplayMetrics;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
+
 import java.util.Locale;
 
 /**
@@ -735,6 +738,14 @@ public final class LanguageUtils {
     public static void updateLang(Context context, String lang) {
         SPUtils.writeStringSync(context, LanguageUtils.PREFS_LANGUAGE, lang);
         onUpdateConfiguration(context);
+    }
+
+    /**
+     * Call system API to update language.
+     * 简体中文：调用系统API更新语言。
+     */
+    public void updateSysLang(String localeTag) {
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(localeTag));
     }
 
     /**
