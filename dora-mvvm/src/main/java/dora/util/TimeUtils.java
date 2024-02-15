@@ -39,26 +39,41 @@ public final class TimeUtils {
     // <editor-folder desc="Date and time conversion.">
 
     public static String getTimeString(String formatType) {
-        return getTimeString(getTimeLong(), formatType);
+        return getTimeString(formatType, Locale.getDefault());
+    }
+
+    public static String getTimeString(String formatType, Locale locale) {
+        return getTimeString(getTimeLong(), locale, formatType);
     }
 
     public static String getTimeString(Date data, String formatType) {
-        return new SimpleDateFormat(formatType, Locale.getDefault()).format(data);
+        return getTimeString(data, Locale.getDefault(), formatType);
+    }
+    public static String getTimeString(Date data, Locale locale, String formatType) {
+        return new SimpleDateFormat(formatType, locale).format(data);
     }
 
     public static String getTimeString(long currentTime, String formatType) {
-        Date date = getTimeDate(currentTime, formatType);
+       return getTimeString(currentTime, Locale.getDefault(), formatType);
+    }
+
+    public static String getTimeString(long currentTime, Locale locale, String formatType) {
+        Date date = getTimeDate(currentTime, locale, formatType);
         return getTimeString(date, formatType);
     }
 
     public static Date getTimeDate(String formatType) {
-        return getTimeDate(getTimeLong(), formatType);
+        return getTimeDate(getTimeLong(), Locale.getDefault(), formatType);
     }
 
     public static Date getTimeDate(String strTime, String formatType) {
+        return getTimeDate(strTime, Locale.getDefault(), formatType);
+    }
+
+    public static Date getTimeDate(String strTime, Locale locale, String formatType) {
         Date date = null;
         try {
-            date = new SimpleDateFormat(formatType, Locale.getDefault()).parse(strTime);
+            date = new SimpleDateFormat(formatType, locale).parse(strTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -66,26 +81,34 @@ public final class TimeUtils {
     }
 
     public static Date getTimeDate(long currentTime, String formatType) {
+        return getTimeDate(currentTime, Locale.getDefault(), formatType);
+    }
+
+    public static Date getTimeDate(long currentTime, Locale locale, String formatType) {
         Date dateOld = new Date(currentTime);
         String sDateTime = getTimeString(dateOld, formatType);
-        return getTimeDate(sDateTime, formatType);
+        return getTimeDate(sDateTime, locale, formatType);
     }
 
     public static long getTimeLong() {
         return System.currentTimeMillis();
     }
 
+    public static long getTimeLong(Date date) {
+        return date.getTime();
+    }
+
     public static long getTimeLong(String strTime, String formatType) {
-        Date date = getTimeDate(strTime, formatType);
+        return getTimeLong(strTime, Locale.getDefault(), formatType);
+    }
+
+    public static long getTimeLong(String strTime, Locale locale, String formatType) {
+        Date date = getTimeDate(strTime, locale, formatType);
         if (date == null) {
             return 0;
         } else {
             return getTimeLong(date);
         }
-    }
-
-    public static long getTimeLong(Date date) {
-        return date.getTime();
     }
 
     // </editor-folder>
