@@ -45,7 +45,6 @@ public final class KeyboardUtils {
     private static final int TAG_ON_GLOBAL_LAYOUT_LISTENER = -8;
 
     private KeyboardUtils() {
-        throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
     /**
@@ -64,10 +63,7 @@ public final class KeyboardUtils {
      * Show the soft input.
      * 简体中文：显示软输入法。
      */
-    public static void showSoftInput(@Nullable Activity activity) {
-        if (activity == null) {
-            return;
-        }
+    public static void showSoftInput(Activity activity) {
         if (!isSoftInputVisible(activity)) {
             toggleSoftInput();
         }
@@ -384,43 +380,6 @@ public final class KeyboardUtils {
                 }
             } catch (Throwable ignore) {/**/}
         }
-    }
-
-    /**
-     * Click blank area to hide soft input.
-     * <p>Copy the following code in ur activity.</p>
-     * 简体中文：点击空白区域隐藏软输入法。
-     * <p>将以下代码复制到您的活动中。</p>
-     */
-    public static void clickBlankArea2HideSoftInput() {
-        Log.i("KeyboardUtils", "Please refer to the following code.");
-        /*
-        @Override
-        public boolean dispatchTouchEvent(MotionEvent ev) {
-            if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-                View v = getCurrentFocus();
-                if (isShouldHideKeyboard(v, ev)) {
-                    KeyboardUtils.hideSoftInput(this);
-                }
-            }
-            return super.dispatchTouchEvent(ev);
-        }
-
-        // Return whether touch the view.
-        private boolean isShouldHideKeyboard(View v, MotionEvent event) {
-            if ((v instanceof EditText)) {
-                int[] l = {0, 0};
-                v.getLocationOnScreen(l);
-                int left = l[0],
-                        top = l[1],
-                        bottom = top + v.getHeight(),
-                        right = left + v.getWidth();
-                return !(event.getRawX() > left && event.getRawX() < right
-                        && event.getRawY() > top && event.getRawY() < bottom);
-            }
-            return false;
-        }
-        */
     }
 
     public interface OnSoftInputChangedListener {
