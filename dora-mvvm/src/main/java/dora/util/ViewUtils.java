@@ -18,6 +18,7 @@ package dora.util;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -216,8 +217,8 @@ public final class ViewUtils implements Number {
     }
 
     public static boolean isDarkMode(Context context) {
-        // The value of dark mode is: 0x21. The value of light mode is: 0x11
-        // 简体中文：深色模式的值为:0x21，浅色模式的值为:0x11
-        return context.getResources().getConfiguration().uiMode == 0x21;
+        // The value of dark mode is: 0x20. The value of light mode is: 0x10
+        // 简体中文：深色模式的值为:0x20，浅色模式的值为:0x10
+        return context.getResources().getConfiguration().uiMode == Configuration.UI_MODE_NIGHT_YES;
     }
 }

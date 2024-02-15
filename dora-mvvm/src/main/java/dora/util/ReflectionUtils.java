@@ -313,8 +313,8 @@ public final class ReflectionUtils {
     }
 
     /**
-     * Check if an attribute is an abstract property/field.
-     * 简体中文：检测一个属性是否是abstract方法。
+     * Check if a method is an abstract method.
+     * 简体中文：检测一个方法是否是abstract方法。
      *
      * @param method Method
      */
