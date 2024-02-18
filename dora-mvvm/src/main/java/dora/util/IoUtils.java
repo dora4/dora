@@ -285,6 +285,17 @@ public final class IoUtils {
         return sb.toString();
     }
 
+    public static List<String> readAssetsTextLines(Context context, String fileName) throws IOException {
+        List<String> lines = new ArrayList<>();
+        AssetManager assetManager = context.getAssets();
+        BufferedReader bf = new BufferedReader(new InputStreamReader(assetManager.open(fileName)));
+        String line;
+        while ((line = bf.readLine()) != null) {
+            lines.add(line);
+        }
+        return lines;
+    }
+
     public static List<String> readTextLines(File file) {
         return readTextLines(file, false, "");
     }
