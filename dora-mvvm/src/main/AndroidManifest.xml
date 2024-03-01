@@ -17,6 +17,24 @@
             </intent-filter>
         </receiver>
 
+        <!-- Allows drawing to the notch area of oppo, vivo and other mobile phone models with notch screens -->
+        <!-- 简体中文：允许绘制到oppo、vivo等手机刘海屏机型的刘海区域 -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.2" />
+
+        <!-- Allow drawing to the notch area of Huawei notch screen models -->
+        <!-- 简体中文：允许绘制到华为刘海屏机型的刘海区域 -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+
+        <!-- Allow drawing to the notch area of Xiaomi notch screen models -->
+        <!-- 简体中文：允许绘制到小米刘海屏机型的刘海区域 -->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait" />
+
 <!--        <activity-->
 <!--            android:name="io.flutter.embedding.android.FlutterActivity"-->
 <!--            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"-->
