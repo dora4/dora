@@ -17,6 +17,21 @@
             </intent-filter>
         </receiver>
 
+        <!-- 允许绘制到oppo、vivo等手机刘海屏机型的刘海区域 -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.2" />
+
+        <!-- 允许绘制到华为刘海屏机型的刘海区域 -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+
+        <!-- 允许绘制到小米刘海屏机型的刘海区域 -->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait" />
+
 <!--        <activity-->
 <!--            android:name="io.flutter.embedding.android.FlutterActivity"-->
 <!--            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"-->
