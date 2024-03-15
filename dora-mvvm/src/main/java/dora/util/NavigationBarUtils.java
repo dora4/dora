@@ -19,7 +19,7 @@ package dora.util;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.os.Build;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -40,12 +40,10 @@ public final class NavigationBarUtils {
     }
 
     public static void setNavigationBarColor(Activity activity, @ColorInt int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setNavigationBarColor(color);
-        }
+        Window window = activity.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setNavigationBarColor(color);
     }
 
     public static boolean isShowNavigationBar(Activity activity) {
@@ -62,11 +60,7 @@ public final class NavigationBarUtils {
         int activityHeight = contentRect.height();
         int statusBarHeight = StatusBarUtils.getStatusBarHeight();
         int remainHeight = ScreenUtils.getRealHeight(activity) - statusBarHeight;
-        if (activityHeight == remainHeight) {
-            return false;
-        } else {
-            return true;
-        }
+        return activityHeight != remainHeight;
     }
 
     /**
@@ -77,5 +71,9 @@ public final class NavigationBarUtils {
         Resources resources = Resources.getSystem();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         return resources.getDimensionPixelSize(resourceId);
+    }
+
+    public static void hideNavigationBar(Activity activity) {
+        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 }

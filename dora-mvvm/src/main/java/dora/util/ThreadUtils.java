@@ -18,6 +18,7 @@ package dora.util;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.MessageQueue;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.IntRange;
@@ -1488,5 +1489,9 @@ public final class ThreadUtils {
      */
     public static boolean isMainThread() {
         return Looper.getMainLooper() == Looper.myLooper();
+    }
+
+    public static void execOnUIThread(MessageQueue.IdleHandler handler) {
+        Looper.myQueue().addIdleHandler(handler);
     }
 }
