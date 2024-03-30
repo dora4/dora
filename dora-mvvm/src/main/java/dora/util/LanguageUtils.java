@@ -538,7 +538,7 @@ public final class LanguageUtils {
     private static Context createConfigurationResources(Context context) {
         Resources resources = context.getResources();
         Configuration configuration = resources.getConfiguration();
-        Locale locale = getInstance().getSavedLangLocale(context);
+        Locale locale = getLangLocale(context);
         configuration.setLocale(locale);
         return context.createConfigurationContext(configuration);
     }
@@ -548,7 +548,7 @@ public final class LanguageUtils {
     }
 
     private void updateConfiguration(Context context) {
-        Locale targetLocale = getInstance().getSavedLangLocale(context);
+        Locale targetLocale = getLangLocale(context);
         Configuration configuration = context.getResources().getConfiguration();
         configuration.setLocale(targetLocale);
         Resources resources = context.getResources();
@@ -758,6 +758,14 @@ public final class LanguageUtils {
      */
     public static String getLangTag(Context context) {
         return SPUtils.readString(context, LanguageUtils.PREFS_LANGUAGE, "");
+    }
+
+    /**
+     * Retrieve the user's saved language preference.
+     * 简体中文：获取到用户保存的语言类型。
+     */
+    public static Locale getLangLocale(Context context) {
+        return convertLangToLocale(getLangTag(context));
     }
 
     /**
