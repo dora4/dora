@@ -556,8 +556,7 @@ public final class LanguageUtils {
         resources.updateConfiguration(configuration, dm);
     }
 
-    private Locale getSavedLangLocale(Context context) {
-        String lang = SPUtils.readString(context, LanguageUtils.PREFS_LANGUAGE, "");
+    public static Locale convertLangToLocale(String lang) {
         if (TextUtils.isEmpty(lang)) {  // 跟随系统
             return getSysLocale();
         } else if (lang.equals(LANG_AM)) {
@@ -719,6 +718,11 @@ public final class LanguageUtils {
         } else {
             return Locale.ENGLISH;
         }
+    }
+
+    private Locale getSavedLangLocale(Context context) {
+        String lang = SPUtils.readString(context, LanguageUtils.PREFS_LANGUAGE, "");
+        return convertLangToLocale(lang);
     }
 
     public static Locale getSysLocale() {
