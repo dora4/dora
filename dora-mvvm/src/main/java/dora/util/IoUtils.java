@@ -462,21 +462,25 @@ public final class IoUtils {
                 + "TB";
     }
 
-    public static String getFileSize(Context context, File file) {
+    public static long getFileSize(File file) {
         FileChannel fc = null;
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(file);
             fc = fis.getChannel();
-            long size = fc.size();
-            return Formatter.formatFileSize(context, size);
+            return fc.size();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             close(fc);
             close(fis);
         }
-        return "";
+        return 0L;
+    }
+
+    public static String getFormattedFileSize(Context context, File file) {
+        long size = getFileSize(file);
+        return Formatter.formatFileSize(context, size);
     }
 
     public static long getFolderTotalSize(File file) {

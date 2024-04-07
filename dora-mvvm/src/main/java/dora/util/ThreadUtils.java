@@ -1491,7 +1491,7 @@ public final class ThreadUtils {
         return Looper.getMainLooper() == Looper.myLooper();
     }
 
-    public static void execOnUIThread(MessageQueue.IdleHandler handler) {
+    public static void runOnUIThread(MessageQueue.IdleHandler handler) {
         Looper.myQueue().addIdleHandler(handler);
     }
 }
