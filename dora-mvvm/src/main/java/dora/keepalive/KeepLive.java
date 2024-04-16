@@ -14,7 +14,7 @@ import dora.util.ProcessUtils;
  *   KeepLive.startWork(this,
  *                 RunMode.SAVE_POWER,
  *                 foregroundNotification,
- *                 new KeepLiveService() {
+ *                 new KeepAliveService() {
  *                     @Override
  *                     public void onWorking() {
  *                         // start your service
