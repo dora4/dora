@@ -36,7 +36,7 @@ public final class OnePixelActivity extends Activity {
             if (isScreenOn) {
                 finish();
             }
-        } catch (Exception e) {
+        } catch (Exception ignore) {
         }
     }
 }

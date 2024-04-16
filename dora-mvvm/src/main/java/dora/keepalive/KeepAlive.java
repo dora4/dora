@@ -7,14 +7,17 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 
 import dora.keepalive.config.ForegroundNotification;
-import dora.keepalive.config.KeepAliveService;
+import dora.keepalive.service.JobHandlerService;
+import dora.keepalive.service.LocalService;
+import dora.keepalive.service.RemoteService;
 import dora.util.ProcessUtils;
 
 /**
- *   KeepLive.startWork(this,
+ *   KeepAlive.startWork(this,
  *                 RunMode.SAVE_POWER,
  *                 foregroundNotification,
  *                 new KeepAliveService() {
+ *
  *                     @Override
  *                     public void onWorking() {
  *                         // start your service
@@ -26,7 +29,7 @@ import dora.util.ProcessUtils;
  *                     }
  *         });
  */
-public final class KeepLive {
+public final class KeepAlive {
 
     public enum RunMode {
 
@@ -42,9 +45,9 @@ public final class KeepLive {
 
     public static void startWork(@NonNull Application application, @NonNull RunMode runMode, @NonNull ForegroundNotification foregroundNotification, @NonNull KeepAliveService keepAliveService) {
         if (ProcessUtils.isMainProcess(application)) {
-            KeepLive.foregroundNotification = foregroundNotification;
-            KeepLive.keepAliveService = keepAliveService;
-            KeepLive.runMode = runMode;
+            KeepAlive.foregroundNotification = foregroundNotification;
+            KeepAlive.keepAliveService = keepAliveService;
+            KeepAlive.runMode = runMode;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Intent intent = new Intent(application, JobHandlerService.class);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -54,14 +57,14 @@ public final class KeepLive {
                 }
             } else {
                 Intent localIntent = new Intent(application, LocalService.class);
-                Intent guardIntent = new Intent(application, RemoteService.class);
+                Intent remoteIntent = new Intent(application, RemoteService.class);
                 application.startService(localIntent);
-                application.startService(guardIntent);
+                application.startService(remoteIntent);
             }
         }
     }
 
     public static void useSilenceSound(boolean enable) {
-        KeepLive.useSilenceSound = enable;
+        KeepAlive.useSilenceSound = enable;
     }
 }

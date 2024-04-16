@@ -1,4 +1,4 @@
-package dora.keepalive;
+package dora.keepalive.service;
 
 import android.app.Notification;
 import android.app.Service;
@@ -12,7 +12,6 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 
 import dora.keepalive.receiver.NotificationClickReceiver;
-import dora.keepalive.service.GuardAidl;
 import dora.util.NotificationUtils;
 import dora.util.ProcessUtils;
 
@@ -39,7 +38,7 @@ public final class RemoteService extends Service {
         try {
             mBoundLocalService = this.bindService(new Intent(RemoteService.this, LocalService.class),
                     mConnection, Context.BIND_ABOVE_CLIENT);
-        } catch (Exception e) {
+        } catch (Exception ignore) {
         }
         return START_STICKY;
     }
@@ -47,13 +46,11 @@ public final class RemoteService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mConnection != null) {
-            try {
-                if (mBoundLocalService) {
-                    unbindService(mConnection);
-                }
-            } catch (Exception e) {
+        try {
+            if (mBoundLocalService) {
+                unbindService(mConnection);
             }
+        } catch (Exception ignore) {
         }
     }
 

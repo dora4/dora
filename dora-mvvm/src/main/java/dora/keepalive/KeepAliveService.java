@@ -1,4 +1,4 @@
-package dora.keepalive.config;
+package dora.keepalive;
 
 public interface KeepAliveService {
 

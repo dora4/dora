@@ -9,12 +9,6 @@ pluginManagement {
             if (requested.id.namespace == "com.android.tools.build") {
                 useModule("com.android.tools.build:gradle:4.1.2")
             }
-            if (requested.id.namespace == "org.jetbrains.kotlin") {
-                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
-            }
-            if (requested.id.namespace == "com.github.dcendents") {
-                useModule("com.github.dcendents:android-maven-gradle-plugin:1.5")
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package dora.keepalive;
+package dora.keepalive.service;
 
 import android.app.Notification;
 import android.app.Service;
@@ -15,9 +15,9 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
 
+import dora.keepalive.KeepAlive;
 import dora.keepalive.receiver.NotificationClickReceiver;
 import dora.keepalive.receiver.OnePixelReceiver;
-import dora.keepalive.service.GuardAidl;
 import dora.mvvm.R;
 import dora.util.NotificationUtils;
 import dora.util.ProcessUtils;
@@ -52,7 +52,7 @@ public final class LocalService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (KeepLive.useSilenceSound) {
+        if (KeepAlive.useSilenceSound) {
             if (mMediaPlayer == null) {
                 mMediaPlayer = MediaPlayer.create(this, R.raw.silence);
                 if (mMediaPlayer != null) {
@@ -61,7 +61,7 @@ public final class LocalService extends Service {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
                             if (!mPause) {
-                                if (KeepLive.runMode == KeepLive.RunMode.ROGUE) {
+                                if (KeepAlive.runMode == KeepAlive.RunMode.ROGUE) {
                                     play();
                                 } else {
                                     if (mHandler != null) {
@@ -86,7 +86,6 @@ public final class LocalService extends Service {
                 }
             }
         }
-        //像素保活
         if (mOnePixelReceiver == null) {
             mOnePixelReceiver = new OnePixelReceiver();
         }
@@ -101,31 +100,31 @@ public final class LocalService extends Service {
         keepAliveIntentFilter.addAction("_ACTION_SCREEN_OFF");
         keepAliveIntentFilter.addAction("_ACTION_SCREEN_ON");
         registerReceiver(mScreenStateReceiver, keepAliveIntentFilter);
-        if (KeepLive.foregroundNotification != null) {
+        if (KeepAlive.foregroundNotification != null) {
             Intent notificationIntent = new Intent(getApplicationContext(), NotificationClickReceiver.class);
             notificationIntent.setAction(NotificationClickReceiver.CLICK_NOTIFICATION);
-            Notification notification = NotificationUtils.createNotification(this, KeepLive.foregroundNotification.getTitle(), KeepLive.foregroundNotification.getDescription(), KeepLive.foregroundNotification.getIconRes(), notificationIntent);
+            Notification notification = NotificationUtils.createNotification(this, KeepAlive.foregroundNotification.getTitle(), KeepAlive.foregroundNotification.getDescription(), KeepAlive.foregroundNotification.getIconRes(), notificationIntent);
             startForeground(13691, notification);
         }
         try {
             Intent remoteIntent = new Intent(this, RemoteService.class);
             mBoundRemoteService = this.bindService(remoteIntent, mConnection, Context.BIND_ABOVE_CLIENT);
-        } catch (Exception e) {
+        } catch (Exception ignore) {
         }
         try {
-            if (Build.VERSION.SDK_INT < 25) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
                 startService(new Intent(this, HideForegroundService.class));
             }
-        } catch (Exception e) {
+        } catch (Exception ignore) {
         }
-        if (KeepLive.keepAliveService != null) {
-            KeepLive.keepAliveService.onWorking();
+        if (KeepAlive.keepAliveService != null) {
+            KeepAlive.keepAliveService.onWorking();
         }
         return START_STICKY;
     }
 
     private void play() {
-        if (KeepLive.useSilenceSound) {
+        if (KeepAlive.useSilenceSound) {
             if (mMediaPlayer != null && !mMediaPlayer.isPlaying()) {
                 mMediaPlayer.start();
             }
@@ -133,7 +132,7 @@ public final class LocalService extends Service {
     }
 
     private void pause() {
-        if (KeepLive.useSilenceSound) {
+        if (KeepAlive.useSilenceSound) {
             if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
                 mMediaPlayer.pause();
             }
@@ -153,7 +152,7 @@ public final class LocalService extends Service {
         }
     }
 
-    private final class LocalBinder extends GuardAidl.Stub {
+    private static final class LocalBinder extends GuardAidl.Stub {
 
         @Override
         public void wakeUp(String title, String description, int iconRes) throws RemoteException {
@@ -184,12 +183,11 @@ public final class LocalService extends Service {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             try {
-                if (mBinder != null && KeepLive.foregroundNotification != null) {
+                if (mBinder != null && KeepAlive.foregroundNotification != null) {
                     GuardAidl guardAidl = GuardAidl.Stub.asInterface(service);
-                    guardAidl.wakeUp(KeepLive.foregroundNotification.getTitle(), KeepLive.foregroundNotification.getDescription(), KeepLive.foregroundNotification.getIconRes());
+                    guardAidl.wakeUp(KeepAlive.foregroundNotification.getTitle(), KeepAlive.foregroundNotification.getDescription(), KeepAlive.foregroundNotification.getIconRes());
                 }
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            } catch (RemoteException ignore) {
             }
         }
     };
@@ -197,21 +195,19 @@ public final class LocalService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mConnection != null) {
-            try {
-                if (mBoundRemoteService) {
-                    unbindService(mConnection);
-                }
-            } catch (Exception e) {
+        try {
+            if (mBoundRemoteService) {
+                unbindService(mConnection);
             }
+        } catch (Exception ignore) {
         }
         try {
             unregisterReceiver(mOnePixelReceiver);
             unregisterReceiver(mScreenStateReceiver);
-        } catch (Exception e) {
+        } catch (Exception ignore) {
         }
-        if (KeepLive.keepAliveService != null) {
-            KeepLive.keepAliveService.onStop();
+        if (KeepAlive.keepAliveService != null) {
+            KeepAlive.keepAliveService.onStop();
         }
     }
 }

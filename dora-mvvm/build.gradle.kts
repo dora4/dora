@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    val compile_sdk = 33
+    val compile_sdk = 34
     val min_sdk = 21
     val target_sdk = 33
     namespace = "dora.mvvm"
@@ -49,7 +49,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.2.0"
+                version = "1.2.1"
             }
         }
     }

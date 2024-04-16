@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import dora.keepalive.KeepLive;
+import dora.keepalive.KeepAlive;
 
 public final class NotificationClickReceiver extends BroadcastReceiver {
 
@@ -13,9 +13,9 @@ public final class NotificationClickReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(NotificationClickReceiver.CLICK_NOTIFICATION)) {
-            if (KeepLive.foregroundNotification != null) {
-                if (KeepLive.foregroundNotification.getForegroundNotificationClickListener() != null) {
-                    KeepLive.foregroundNotification.getForegroundNotificationClickListener().onForegroundNotificationClick(context, intent);
+            if (KeepAlive.foregroundNotification != null) {
+                if (KeepAlive.foregroundNotification.getForegroundNotificationClickListener() != null) {
+                    KeepAlive.foregroundNotification.getForegroundNotificationClickListener().onForegroundNotificationClick(context, intent);
                 }
             }
         }

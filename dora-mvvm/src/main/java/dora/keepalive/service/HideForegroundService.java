@@ -1,4 +1,4 @@
-package dora.keepalive;
+package dora.keepalive.service;
 
 import android.app.Notification;
 import android.app.Service;
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 
+import java.util.Random;
+
+import dora.keepalive.KeepAlive;
 import dora.keepalive.receiver.NotificationClickReceiver;
 import dora.util.NotificationUtils;
 
@@ -30,11 +33,11 @@ public class HideForegroundService extends Service {
     }
 
     private void startForeground() {
-        if (KeepLive.foregroundNotification != null) {
+        if (KeepAlive.foregroundNotification != null) {
             Intent intent = new Intent(getApplicationContext(), NotificationClickReceiver.class);
             intent.setAction(NotificationClickReceiver.CLICK_NOTIFICATION);
-            Notification notification = NotificationUtils.createNotification(this, KeepLive.foregroundNotification.getTitle(), KeepLive.foregroundNotification.getDescription(), KeepLive.foregroundNotification.getIconRes(), intent);
-            startForeground(12390, notification);
+            Notification notification = NotificationUtils.createNotification(this, KeepAlive.foregroundNotification.getTitle(), KeepAlive.foregroundNotification.getDescription(), KeepAlive.foregroundNotification.getIconRes(), intent);
+            startForeground(new Random().nextInt(65535), notification);
         }
     }
 

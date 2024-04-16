@@ -33,8 +33,7 @@ public final class OnePixelReceiver extends BroadcastReceiver {
                         try {
                             pendingIntent.send();
                             /*} catch (PendingIntent.CanceledException e) {*/
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        } catch (Exception ignore) {
                         }
                     }
                 }

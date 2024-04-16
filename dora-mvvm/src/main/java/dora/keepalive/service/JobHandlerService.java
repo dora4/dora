@@ -1,4 +1,4 @@
-package dora.keepalive;
+package dora.keepalive.service;
 
 import android.app.Notification;
 import android.app.job.JobInfo;
@@ -12,6 +12,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Build.VERSION;
 
+import java.util.Random;
+
+import dora.keepalive.KeepAlive;
 import dora.keepalive.receiver.NotificationClickReceiver;
 import dora.util.NotificationUtils;
 import dora.util.ProcessUtils;
@@ -48,11 +51,11 @@ public final class JobHandlerService extends JobService {
 
     private void startService(Context context) {
         Intent localIntent;
-        if (VERSION.SDK_INT >= 26 && KeepLive.foregroundNotification != null) {
+        if (VERSION.SDK_INT >= 26 && KeepAlive.foregroundNotification != null) {
             localIntent = new Intent(this.getApplicationContext(), NotificationClickReceiver.class);
             localIntent.setAction("CLICK_NOTIFICATION");
-            Notification notification = NotificationUtils.createNotification(this, KeepLive.foregroundNotification.getTitle(), KeepLive.foregroundNotification.getDescription(), KeepLive.foregroundNotification.getIconRes(), localIntent);
-            this.startForeground(13691, notification);
+            Notification notification = NotificationUtils.createNotification(this, KeepAlive.foregroundNotification.getTitle(), KeepAlive.foregroundNotification.getDescription(), KeepAlive.foregroundNotification.getIconRes(), localIntent);
+            this.startForeground(new Random().nextInt(65535), notification);
         }
         localIntent = new Intent(context, LocalService.class);
         Intent guardIntent = new Intent(context, RemoteService.class);
