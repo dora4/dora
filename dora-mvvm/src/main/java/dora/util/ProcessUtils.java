@@ -29,6 +29,7 @@ import android.provider.Settings;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -202,5 +203,35 @@ public final class ProcessUtils {
         // 简体中文：杀死本进程
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
+    }
+    public static boolean isTaskRunning(Context context, String className) {
+        boolean isRunning = false;
+        ActivityManager activityManager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> servicesList = activityManager
+                .getRunningServices(Integer.MAX_VALUE);
+        if (servicesList != null) {
+            Iterator<ActivityManager.RunningServiceInfo> l = servicesList.iterator();
+            while (l.hasNext()) {
+                ActivityManager.RunningServiceInfo si = l.next();
+                if (className.equals(si.service.getClassName())) {
+                    isRunning = true;
+                }
+            }
+        }
+        return isRunning;
+    }
+
+    public static boolean isRunningTaskExists(Context context, String processName) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> processList = am.getRunningAppProcesses();
+        if (processList != null) {
+            for (ActivityManager.RunningAppProcessInfo info : processList) {
+                if (info.processName.equals(processName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -16,6 +16,7 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        aidl = true
     }
     buildTypes {
         getByName("release") {
@@ -48,7 +49,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.1.66"
+                version = "1.2.0"
             }
         }
     }

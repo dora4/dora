@@ -8,7 +8,33 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- keep alive -->
+    <!-- 简体中文：保活 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+
     <application>
+
+        <!-- keep alive -->
+        <!-- 简体中文：保活 -->
+        <receiver android:name="dora.keepalive.receiver.NotificationClickReceiver" />
+        <activity
+            android:name="dora.keepalive.activity.OnePixelActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/OnePixelActivityTheme" />
+        <service android:name="dora.keepalive.service.LocalService" />
+        <service android:name="dora.keepalive.service.HideForegroundService" />
+        <service
+            android:name="dora.keepalive.service.JobHandlerService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name="dora.keepalive.service.RemoteService"
+            android:process=":remote" />
+
+
         <receiver
             android:name="dora.net.NetworkStateReceiver"
             android:exported="true">
