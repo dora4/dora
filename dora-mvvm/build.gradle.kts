@@ -7,7 +7,7 @@ plugins {
 android {
     val compile_sdk = 34
     val min_sdk = 21
-    val target_sdk = 33
+    val target_sdk = 34
     namespace = "dora.mvvm"
     compileSdk = compile_sdk
     defaultConfig {
@@ -38,8 +38,8 @@ dependencies {
     api("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     api("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0")
-    api("androidx.activity:activity-ktx:1.8.2")
-    api("androidx.fragment:fragment-ktx:1.6.2")
+    api("androidx.activity:activity-ktx:1.9.0")
+    api("androidx.fragment:fragment-ktx:1.7.0")
 }
 
 afterEvaluate {
@@ -49,7 +49,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.2.1"
+                version = "1.2.2"
             }
         }
     }
