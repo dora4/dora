@@ -69,6 +69,13 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         return  (boolean) ReflectionUtils.invokeMethod(null, m, a);
     }
 
+    /**
+     * If true, a network status listener will be registered.
+     * 简体中文：如果为true，则会注册网络状态监听器。
+     *
+     * @see #onNetworkConnected(NetUtils.ApnType)
+     * @see #onNetworkDisconnected()
+     */
     protected boolean isDetectNet() {
         return false;
     }
@@ -332,9 +339,15 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         super.onDestroy();
     }
 
+    /**
+     * @see #isDetectNet()
+     */
     protected void onNetworkConnected(@NonNull NetUtils.ApnType type) {
     }
 
+    /**
+     * @see #isDetectNet()
+     */
     protected void onNetworkDisconnected() {
     }
 
