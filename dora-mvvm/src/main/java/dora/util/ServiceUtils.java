@@ -19,6 +19,7 @@ package dora.util;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.media.AudioManager;
@@ -107,6 +108,16 @@ public final class ServiceUtils {
 
     public static ClipboardManager getClipboardManager(Context context) {
         return (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+    }
+
+    public static void copyText(String label, String content) {
+        copyText(GlobalContext.get(), label, content);
+    }
+
+    public static void copyText(Context context, String label, String content) {
+        ClipboardManager cm = getClipboardManager(context);
+        ClipData clipData = ClipData.newPlainText(label, content);
+        cm.setPrimaryClip(clipData);
     }
 
     public static Vibrator getVibrator() {
