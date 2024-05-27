@@ -85,6 +85,8 @@ public final class CryptoUtils {
     public static final String AES = "AES";
     public static final String DES = "DES";
     public static final String RSA = "RSA";
+    public static final String PRIVATE_KEY = "privateKey";
+    public static final String PUBLIC_KEY = "publicKey";
     public static final String AES_ECB_PKCS5 = "AES/ECB/PKCS5Padding";
     public static final String AES_CBC_PKCS5 = "AES/CBC/PKCS5Padding";
     public static final String AES_CTR = "AES/CTR/NoPadding";
@@ -564,8 +566,8 @@ public final class CryptoUtils {
         Key privateKey = keyPair.getPrivate();
         String privateKeyStr = base64Encode(privateKey.getEncoded());
         Map<String, String> keyPairMap = new HashMap<String, String>();
-        keyPairMap.put("publicKey", publicKeyStr);
-        keyPairMap.put("privateKey", privateKeyStr);
+        keyPairMap.put(PUBLIC_KEY, publicKeyStr);
+        keyPairMap.put(PRIVATE_KEY, privateKeyStr);
         return keyPairMap;
     }
 
