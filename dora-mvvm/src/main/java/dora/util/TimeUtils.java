@@ -151,4 +151,26 @@ public final class TimeUtils {
         int m2 = date2.getYear() * 12 + date2.getMonth();
         return m2 - m1 + 1;
     }
+
+    public static String formatTime(long milliSecs) {
+        StringBuilder sb = new StringBuilder();
+        int h = (int) (milliSecs / (60 * 60 * 1000));
+        if (h < 10) {
+            sb.append("0");
+        }
+        sb.append(h);
+        sb.append(":");
+        int m = (int) (milliSecs - h * (60 * 60 * 1000)) / (60 * 1000);
+        if (m < 10) {
+            sb.append("0");
+        }
+        sb.append(m);
+        sb.append(":");
+        int s = (int) (milliSecs % (60 * 1000) / 1000);
+        if (s < 10) {
+            sb.append("0");
+        }
+        sb.append(s);
+        return sb.toString();
+    }
 }
