@@ -23,12 +23,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.method.DigitsKeyListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.AnimRes;
@@ -37,6 +41,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 /**
  * View-related tools.
@@ -220,5 +227,38 @@ public final class ViewUtils implements Number {
         // The value of dark mode is: 0x20. The value of light mode is: 0x10
         // 简体中文：深色模式的值为:0x20，浅色模式的值为:0x10
         return context.getResources().getConfiguration().uiMode == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static void setDigits(EditText editText, String digits) {
+        editText.setKeyListener(DigitsKeyListener.getInstance(digits));
+    }
+
+    public static void setMaxLength(EditText editText, int length) {
+        InputFilter[] filters = editText.getFilters();
+        InputFilter[] destArray = new InputFilter[filters.length + 1];
+        System.arraycopy(filters, 0, destArray, 0, filters.length);
+        destArray[destArray.length - 1] = new InputFilter.LengthFilter(length);
+        editText.setFilters(destArray);
+    }
+
+    public static void applyUnsignedNumber(EditText editText) {
+        InputFilter[] filters = editText.getFilters();
+        InputFilter[] destArray = new InputFilter[filters.length + 1];
+        System.arraycopy(filters, 0, destArray, 0, filters.length);
+        destArray[destArray.length - 1] = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                try {
+                    int input = Integer.parseInt(dest.toString() + source.toString());
+                    if (input <= 0) {
+                        return "";
+                    }
+                } catch (NumberFormatException e) {
+                }
+                return null;
+            }
+        };
+        editText.setFilters(destArray);
+        setDigits(editText, "0123456789");
     }
 }
