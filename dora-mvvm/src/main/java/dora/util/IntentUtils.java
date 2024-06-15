@@ -29,6 +29,7 @@ import android.provider.Settings;
 
 import androidx.annotation.AnimRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -120,8 +121,7 @@ public final class IntentUtils {
         activity.startActivityForResult(intent, requestCode);
     }
 
-    public static void startActivityForResult(@NonNull Class<? extends Activity>
-            activityClazz, Extras extras, int requestCode) {
+    public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz, Extras extras, int requestCode) {
         Activity topActivity = TaskStackManager.getInstance().getTopActivity();
         if (topActivity == null) {
             throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
@@ -129,59 +129,178 @@ public final class IntentUtils {
         startActivityForResult(topActivity, activityClazz, extras, requestCode);
     }
 
-    public static void startActivityWithString(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, String extra) {
+    public static void startActivityWithString(@NonNull Activity activity,
+                                               @NonNull Class<? extends Activity> activityClazz,
+                                               @NonNull String name,
+                                               @NonNull String extra) {
+        startActivityWithString(activity, activityClazz, null, name, extra);
+    }
+
+    public static void startActivityWithInteger(@NonNull Activity activity,
+                                                @NonNull Class<? extends Activity> activityClazz,
+                                                @NonNull String name,
+                                                int extra) {
+        startActivityWithInteger(activity, activityClazz, null, name, extra);
+    }
+
+    public static void startActivityWithBoolean(@NonNull Activity activity,
+                                                @NonNull Class<? extends Activity> activityClazz,
+                                                @NonNull String name,
+                                                boolean extra) {
+        startActivityWithBoolean(activity, activityClazz, null, name, extra);
+    }
+
+    public static void startActivityWithSerializable(@NonNull Activity activity,
+                                                     @NonNull Class<? extends Activity> activityClazz,
+                                                     @NonNull String name,
+                                                     @NonNull Serializable extra) {
+        startActivityWithSerializable(activity, activityClazz, null, name, extra);
+    }
+
+    public static void startActivityForResultWithString(@NonNull Activity activity,
+                                                        @NonNull Class<? extends Activity> activityClazz,
+                                                        int requestCode,
+                                                        @NonNull String name,
+                                                        @NonNull String extra) {
+        startActivityForResultWithString(activity, activityClazz, null, requestCode, name, extra);
+    }
+
+    public static void startActivityForResultWithInteger(@NonNull Activity activity,
+                                                         @NonNull Class<? extends Activity> activityClazz,
+                                                         int requestCode,
+                                                         @NonNull String name,
+                                                         int extra) {
+        startActivityForResultWithInteger(activity, activityClazz, null, requestCode, name, extra);
+    }
+
+    public static void startActivityForResultWithBoolean(@NonNull Activity activity,
+                                                         @NonNull Class<? extends Activity> activityClazz,
+                                                         int requestCode,
+                                                         @NonNull String name,
+                                                         boolean extra) {
+        startActivityForResultWithBoolean(activity, activityClazz, null, requestCode, name, extra);
+    }
+
+    public static void startActivityForResultWithSerializable(@NonNull Activity activity,
+                                                              @NonNull Class<? extends Activity> activityClazz,
+                                                              int requestCode,
+                                                              @NonNull String name,
+                                                              @NonNull Serializable extra) {
+        startActivityForResultWithSerializable(activity, activityClazz, null, requestCode, name, extra);
+    }
+
+    public static void startActivityWithString(@NonNull Activity activity,
+                                               @NonNull Class<? extends Activity> activityClazz,
+                                               @Nullable String action,
+                                               @NonNull String name,
+                                               @NonNull String extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
         activity.startActivity(Extras.fromMap(map).parseData(intent));
     }
 
-    public static void startActivityWithInteger(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, int extra) {
+    public static void startActivityWithInteger(@NonNull Activity activity,
+                                                @NonNull Class<? extends Activity> activityClazz,
+                                                @Nullable String action,
+                                                @NonNull String name,
+                                                int extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
         activity.startActivity(Extras.fromMap(map).parseData(intent));
     }
 
-    public static void startActivityWithBoolean(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, boolean extra) {
+    public static void startActivityWithBoolean(@NonNull Activity activity,
+                                                @NonNull Class<? extends Activity> activityClazz,
+                                                @Nullable String action,
+                                                @NonNull String name,
+                                                boolean extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
         activity.startActivity(Extras.fromMap(map).parseData(intent));
     }
 
-    public static void startActivityWithSerializable(@NonNull Activity activity, Class<? extends Activity> activityClazz, String name, Serializable extra) {
+    public static void startActivityWithSerializable(@NonNull Activity activity,
+                                                     @NonNull Class<? extends Activity> activityClazz,
+                                                     @Nullable String action,
+                                                     @NonNull String name,
+                                                     @NonNull Serializable extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
         activity.startActivity(Extras.fromMap(map).parseData(intent));
     }
 
-    public static void startActivityForResultWithString(@NonNull Activity activity, Class<? extends Activity> activityClazz, int requestCode, String name, String extra) {
+    public static void startActivityForResultWithString(@NonNull Activity activity,
+                                                        @NonNull Class<? extends Activity> activityClazz,
+                                                        @Nullable String action,
+                                                        int requestCode,
+                                                        @NonNull String name,
+                                                        @NonNull String extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
         activity.startActivityForResult(Extras.fromMap(map).parseData(intent), requestCode);
     }
 
-    public static void startActivityForResultWithInteger(@NonNull Activity activity, Class<? extends Activity> activityClazz, int requestCode, String name, int extra) {
+    public static void startActivityForResultWithInteger(@NonNull Activity activity,
+                                                         @NonNull Class<? extends Activity> activityClazz,
+                                                         @Nullable String action,
+                                                         int requestCode,
+                                                         @NonNull String name, int extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
         activity.startActivityForResult(Extras.fromMap(map).parseData(intent), requestCode);
     }
 
-    public static void startActivityForResultWithBoolean(@NonNull Activity activity, Class<? extends Activity> activityClazz, int requestCode, String name, boolean extra) {
+    public static void startActivityForResultWithBoolean(@NonNull Activity activity,
+                                                         @NonNull Class<? extends Activity> activityClazz,
+                                                         @Nullable String action,
+                                                         int requestCode,
+                                                         @NonNull String name,
+                                                         boolean extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
         activity.startActivityForResult(Extras.fromMap(map).parseData(intent), requestCode);
     }
 
-    public static void startActivityForResultWithSerializable(@NonNull Activity activity, Class<? extends Activity> activityClazz, int requestCode, String name, Serializable extra) {
+    public static void startActivityForResultWithSerializable(@NonNull Activity activity,
+                                                              @NonNull Class<? extends Activity> activityClazz,
+                                                              @Nullable String action,
+                                                              int requestCode,
+                                                              @NonNull String name,
+                                                              @NonNull Serializable extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
         activity.startActivityForResult(Extras.fromMap(map).parseData(intent), requestCode);
     }
 
