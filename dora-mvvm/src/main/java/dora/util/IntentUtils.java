@@ -157,6 +157,34 @@ public final class IntentUtils {
         activity.startActivity(Extras.fromMap(map).parseData(intent));
     }
 
+    public static void startActivityForResultWithString(@NonNull Activity activity, Class<? extends Activity> activityClazz, int requestCode, String name, String extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        activity.startActivityForResult(Extras.fromMap(map).parseData(intent), requestCode);
+    }
+
+    public static void startActivityForResultWithInteger(@NonNull Activity activity, Class<? extends Activity> activityClazz, int requestCode, String name, int extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        activity.startActivityForResult(Extras.fromMap(map).parseData(intent), requestCode);
+    }
+
+    public static void startActivityForResultWithBoolean(@NonNull Activity activity, Class<? extends Activity> activityClazz, int requestCode, String name, boolean extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        activity.startActivityForResult(Extras.fromMap(map).parseData(intent), requestCode);
+    }
+
+    public static void startActivityForResultWithSerializable(@NonNull Activity activity, Class<? extends Activity> activityClazz, int requestCode, String name, Serializable extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        activity.startActivityForResult(Extras.fromMap(map).parseData(intent), requestCode);
+    }
+
     public static void startActivity(@NonNull Activity activity, Class<? extends Activity> activityClazz,
                                      @AnimRes int inAnim, @AnimRes int outAnim) {
         startActivity(activityClazz);
