@@ -62,7 +62,8 @@ public final class IntentUtils {
         return count == length;
     }
 
-    public static Intent getActivityIntent(@NonNull Context context, @NonNull Class<? extends Activity> activityClazz) {
+    public static Intent getActivityIntent(@NonNull Context context,
+                                           @NonNull Class<? extends Activity> activityClazz) {
         return new Intent(context, activityClazz);
     }
 
@@ -74,8 +75,28 @@ public final class IntentUtils {
         return new Intent(topActivity, activityClazz);
     }
 
-    public static void startActivity(@NonNull Context context, @NonNull Class<? extends Activity> activityClazz) {
+    public static void startActivity(@NonNull Context context,
+                                     @NonNull Class<? extends Activity> activityClazz) {
         context.startActivity(getActivityIntent(context, activityClazz));
+    }
+
+    public static void startActivity(@NonNull Context context,
+                                     @NonNull Class<? extends Activity> activityClazz,
+                                     @Nullable String action) {
+        Intent intent = getActivityIntent(context, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void startActivity(@NonNull Class<? extends Activity> activityClazz,
+                                     @Nullable String action) {
+        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
+        if (topActivity == null) {
+            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
+        }
+        startActivity(topActivity, activityClazz, action);
     }
 
     public static void startActivity(@NonNull Class<? extends Activity> activityClazz) {
@@ -86,47 +107,81 @@ public final class IntentUtils {
         startActivity(topActivity, activityClazz);
     }
 
-    public static void startActivityForResult(@NonNull Activity activity, @NonNull Class<? extends
-            Activity> activityClazz, int requestCode) {
-        activity.startActivityForResult(getActivityIntent(activity, activityClazz), requestCode);
-    }
-
-    public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz, int requestCode) {
-        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
-        if (topActivity == null) {
-            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
-        }
-        startActivityForResult(topActivity, activityClazz, requestCode);
-    }
-
-    public static void startActivity(@NonNull Context context,
-                                     @NonNull Class<? extends Activity> activityClazz, Extras extras) {
-        Intent intent = getActivityIntent(context, activityClazz);
-        intent = extras.parseData(intent);
-        context.startActivity(intent);
-    }
-
-    public static void startActivity(@NonNull Class<? extends Activity> activityClazz, Extras extras) {
-        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
-        if (topActivity == null) {
-            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
-        }
-        startActivity(topActivity, activityClazz, extras);
-    }
-
-    public static void startActivityForResult(@NonNull Activity activity, @NonNull Class<? extends Activity>
-            activityClazz, Extras extras, int requestCode) {
+    public static void startActivityForResult(@NonNull Activity activity,
+                                              @NonNull Class<? extends Activity> activityClazz,
+                                              @Nullable String action,
+                                              int requestCode) {
         Intent intent = getActivityIntent(activity, activityClazz);
-        intent = extras.parseData(intent);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
         activity.startActivityForResult(intent, requestCode);
     }
 
-    public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz, Extras extras, int requestCode) {
+    public static void startActivityForResult(@NonNull Activity activity,
+                                              @NonNull Class<? extends
+            Activity> activityClazz, int requestCode) {
+        startActivityForResult(activity, activityClazz, null, requestCode);
+    }
+
+    public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz,
+                                              @Nullable String action,
+                                              int requestCode) {
         Activity topActivity = TaskStackManager.getInstance().getTopActivity();
         if (topActivity == null) {
             throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
         }
-        startActivityForResult(topActivity, activityClazz, extras, requestCode);
+        startActivityForResult(topActivity, activityClazz, action, requestCode);
+    }
+
+    public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz,
+                                              int requestCode) {
+        startActivityForResult(activityClazz, null, requestCode);
+    }
+
+    public static void startActivity(@NonNull Context context,
+                                     @NonNull Class<? extends Activity> activityClazz,
+                                     @Nullable String action, Extras extras) {
+        Intent intent = getActivityIntent(context, activityClazz);
+        intent = extras.parseData(intent);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void startActivity(@NonNull Class<? extends Activity> activityClazz,
+                                     @Nullable String action,
+                                     @NonNull Extras extras) {
+        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
+        if (topActivity == null) {
+            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
+        }
+        startActivity(topActivity, activityClazz, action, extras);
+    }
+
+    public static void startActivityForResult(@NonNull Activity activity,
+                                              @NonNull Class<? extends Activity> activityClazz,
+                                              @Nullable String action,
+                                              @NonNull Extras extras,
+                                              int requestCode) {
+        Intent intent = getActivityIntent(activity, activityClazz);
+        intent = extras.parseData(intent);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static void startActivityForResult(@NonNull Class<? extends Activity> activityClazz,
+                                              @Nullable String action,
+                                              @NonNull Extras extras,
+                                              int requestCode) {
+        Activity topActivity = TaskStackManager.getInstance().getTopActivity();
+        if (topActivity == null) {
+            throw new IllegalStateException("You need to configure dora.TaskStackGlobalConfig first.");
+        }
+        startActivityForResult(topActivity, activityClazz, action, extras, requestCode);
     }
 
     public static void startActivityWithString(@NonNull Activity activity,
@@ -319,7 +374,7 @@ public final class IntentUtils {
         startService(GlobalContext.get(), action);
     }
 
-    public static void startService(Context context, @NonNull String action) {
+    public static void startService(@NonNull Context context, @NonNull String action) {
         Intent intent = new Intent();
         intent.setAction(action);
         context.startService(intent);
@@ -329,7 +384,7 @@ public final class IntentUtils {
         startService(GlobalContext.get(), serviceClazz);
     }
 
-    public static void startService(Context context, @NonNull Class<? extends Service> serviceClazz) {
+    public static void startService(@NonNull Context context, @NonNull Class<? extends Service> serviceClazz) {
         Intent intent = new Intent();
         intent.setClass(context, serviceClazz);
         startService(context, intent);
@@ -339,7 +394,7 @@ public final class IntentUtils {
         startService(GlobalContext.get(), intent);
     }
 
-    public static void startService(Context context, @NonNull Intent intent) {
+    public static void startService(@NonNull Context context, @NonNull Intent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intent);
         } else {
@@ -351,7 +406,7 @@ public final class IntentUtils {
         sendBroadcast(GlobalContext.get(), action);
     }
 
-    public static void sendBroadcast(Context context, @NonNull String action) {
+    public static void sendBroadcast(@NonNull Context context, @NonNull String action) {
         Intent intent = new Intent();
         intent.setAction(action);
         context.sendBroadcast(intent);
@@ -361,7 +416,7 @@ public final class IntentUtils {
         sendBroadcast(GlobalContext.get(), broadcastClazz);
     }
 
-    public static void sendBroadcast(Context context, @NonNull Class<? extends BroadcastReceiver> broadcastClazz) {
+    public static void sendBroadcast(@NonNull Context context, @NonNull Class<? extends BroadcastReceiver> broadcastClazz) {
         Intent intent = new Intent();
         intent.setClass(context, broadcastClazz);
         context.sendBroadcast(intent);
