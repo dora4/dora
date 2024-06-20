@@ -646,6 +646,13 @@ public final class IntentUtils {
         return intent.getParcelableArrayListExtra(name);
     }
 
+    public static void selectFile(@NonNull Activity activity, int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
     /**
      * Return the intent of launch app details settings.
      * 简体中文：返回启动应用程序详细设置的意图。
