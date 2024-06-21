@@ -299,7 +299,8 @@ public final class ApkUtils {
         intent.setAction(android.content.Intent.ACTION_VIEW);
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setDataAndType(contentUri, URI_INSTALL_PACKAGE);
         } else {
             uri = Uri.fromFile(file);
