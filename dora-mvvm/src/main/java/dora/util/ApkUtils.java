@@ -286,6 +286,21 @@ public final class ApkUtils {
 
     // <editor-folder desc="Install and launch">
 
+    public static boolean isInstalled(String pkgName) {
+        return isInstalled(GlobalContext.get(), pkgName);
+    }
+
+    public static boolean isInstalled(Context context, String pkgName) {
+        PackageManager packageManager = context.getPackageManager();
+        List<ApplicationInfo> installedApps = packageManager.getInstalledApplications(0);
+        for (ApplicationInfo info : installedApps) {
+            if (info.packageName.equals(pkgName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void install(File file, Uri contentUri) {
         install(GlobalContext.get(), file, contentUri);
     }
