@@ -198,6 +198,13 @@ public final class IntentUtils {
         startActivityWithInteger(activity, activityClazz, null, name, extra);
     }
 
+    public static void startActivityWithLong(@NonNull Activity activity,
+                                                @NonNull Class<? extends Activity> activityClazz,
+                                                @NonNull String name,
+                                                long extra) {
+        startActivityWithLong(activity, activityClazz, null, name, extra);
+    }
+
     public static void startActivityWithBoolean(@NonNull Activity activity,
                                                 @NonNull Class<? extends Activity> activityClazz,
                                                 @NonNull String name,
@@ -272,6 +279,20 @@ public final class IntentUtils {
         activity.startActivity(Extras.fromMap(map).parseData(intent));
     }
 
+    public static void startActivityWithLong(@NonNull Activity activity,
+                                                @NonNull Class<? extends Activity> activityClazz,
+                                                @Nullable String action,
+                                                @NonNull String name,
+                                                long extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
+        activity.startActivity(Extras.fromMap(map).parseData(intent));
+    }
+
     public static void startActivityWithBoolean(@NonNull Activity activity,
                                                 @NonNull Class<? extends Activity> activityClazz,
                                                 @Nullable String action,
@@ -320,6 +341,20 @@ public final class IntentUtils {
                                                          @Nullable String action,
                                                          int requestCode,
                                                          @NonNull String name, int extra) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(name, extra);
+        Intent intent = getActivityIntent(activity, activityClazz);
+        if (TextUtils.isNotEmpty(action)) {
+            intent.setAction(action);
+        }
+        activity.startActivityForResult(Extras.fromMap(map).parseData(intent), requestCode);
+    }
+
+    public static void startActivityForResultWithLong(@NonNull Activity activity,
+                                                         @NonNull Class<? extends Activity> activityClazz,
+                                                         @Nullable String action,
+                                                         int requestCode,
+                                                         @NonNull String name, long extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
