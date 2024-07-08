@@ -19,6 +19,7 @@ package dora.util;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Text Tools.
@@ -138,6 +139,18 @@ public final class TextUtils {
         return IoUtils.readText(file);
     }
 
+    public static <T> String toString(List<T> list) {
+        return toString(list, " ");
+    }
+    public static <T> String toString(List<T> list, String separator) {
+        StringBuilder sb = new StringBuilder();
+        for (T t : list) {
+            String next = t.toString();
+            sb.append(next).append(separator);
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
+
     public static String combineString(Iterator<String> strings) {
         return combineString(strings, "");
     }
@@ -148,7 +161,7 @@ public final class TextUtils {
             String next = strings.next();
             sb.append(next).append(separator);
         }
-        return sb.toString().substring(0, sb.length() - 1);
+        return sb.substring(0, sb.length() - 1);
     }
 
     public static boolean checkAllNotEmpty(String... text) {
