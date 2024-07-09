@@ -25,6 +25,49 @@ import android.util.TypedValue;
  */
 public final class DensityUtils {
 
+    public static final int DP1 = dp2px(1);
+    public static final int DP2 = dp2px(2);
+    public static final int DP3 = dp2px(3);
+    public static final int DP4 = dp2px(4);
+    public static final int DP5 = dp2px(5);
+    public static final int DP6 = dp2px(6);
+    public static final int DP7 = dp2px(7);
+    public static final int DP8 = dp2px(8);
+    public static final int DP9 = dp2px(9);
+    public static final int DP10 = dp2px(10);
+    public static final int DP11 = dp2px(11);
+    public static final int DP12 = dp2px(12);
+    public static final int DP13 = dp2px(13);
+    public static final int DP14 = dp2px(14);
+    public static final int DP15 = dp2px(15);
+    public static final int DP16 = dp2px(16);
+    public static final int DP17 = dp2px(17);
+    public static final int DP18 = dp2px(18);
+    public static final int DP19 = dp2px(19);
+    public static final int DP20 = dp2px(20);
+    public static final int DP22 = dp2px(22);
+    public static final int DP24 = dp2px(24);
+    public static final int DP26 = dp2px(26);
+    public static final int DP28 = dp2px(28);
+    public static final int DP30 = dp2px(30);
+    public static final int DP32 = dp2px(32);
+    public static final int DP34 = dp2px(34);
+    public static final int DP36 = dp2px(36);
+    public static final int DP38 = dp2px(38);
+    public static final int DP40 = dp2px(40);
+    public static final int DP45 = dp2px(45);
+    public static final int DP50 = dp2px(50);
+    public static final int DP60 = dp2px(60);
+    public static final int DP70 = dp2px(70);
+    public static final int DP80 = dp2px(80);
+    public static final int DP90 = dp2px(90);
+    public static final int DP100 = dp2px(100);
+    public static final int DP120 = dp2px(120);
+    public static final int DP140 = dp2px(140);
+    public static final int DP160 = dp2px(160);
+    public static final int DP180 = dp2px(180);
+    public static final int DP200 = dp2px(200);
+
     private DensityUtils() {
     }
 
