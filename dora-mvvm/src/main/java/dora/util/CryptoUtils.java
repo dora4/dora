@@ -140,6 +140,10 @@ public final class CryptoUtils {
         return secretKey;
     }
 
+    public static IvParameterSpec getIvParameterSpec(String secretKey) {
+        return new IvParameterSpec(secretKey.getBytes(), 0, secretKey.length());
+    }
+
     // <editor-folder desc="Base64 Encoding and Decoding">
 
     /**
@@ -185,15 +189,22 @@ public final class CryptoUtils {
     }
 
     /**
-     * Encrypting with DES, using the default mode.
+     * Encrypting with AES, using the default mode.
      * 简体中文：AES加密，使用默认的方式。
      *
      * @param secretKey  Key
      * @param data Data to be encrypted
      */
     public static String encryptAES(String secretKey, String data) {
-        IvParameterSpec zeroIv = new IvParameterSpec(new byte[secretKey.getBytes().length]);
-        return encryptAES(secretKey, AES_CBC_PKCS5, zeroIv, data);
+        try {
+            Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5);
+            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(secretKey, AES));
+            byte[] encryptByte = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+            return base64Encode(encryptByte);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -227,8 +238,16 @@ public final class CryptoUtils {
      * @param base64Data Base64 data to be decrypted
      */
     public static String decryptAES(String secretKey, String base64Data) {
-        IvParameterSpec zeroIv = new IvParameterSpec(new byte[secretKey.getBytes().length]);
-        return decryptAES(secretKey, AES_CBC_PKCS5, zeroIv, base64Data);
+        try {
+            byte[] data = base64Decode(base64Data);
+            Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5);
+            cipher.init(Cipher.DECRYPT_MODE, getSecretKey(secretKey, AES));
+            byte[] result = cipher.doFinal(data);
+            return new String(result, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -379,8 +398,15 @@ public final class CryptoUtils {
      * @param data Data to be encrypted
      */
     public static String encryptDES(String secretKey, String data) {
-        IvParameterSpec zeroIv = new IvParameterSpec(new byte[secretKey.getBytes().length]);
-        return encryptAES(secretKey, DES_CBC_PKCS5, zeroIv, data);
+        try {
+            Cipher cipher = Cipher.getInstance(DES_ECB_PKCS5);
+            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(secretKey, DES));
+            byte[] encryptByte = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+            return base64Encode(encryptByte);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -414,8 +440,16 @@ public final class CryptoUtils {
      * @param base64Data Base64 data to be decrypted
      */
     public static String decryptDES(String secretKey, String base64Data) {
-        IvParameterSpec zeroIv = new IvParameterSpec(new byte[secretKey.getBytes().length]);
-        return decryptAES(secretKey, DES_CBC_PKCS5, zeroIv, base64Data);
+        try {
+            byte[] data = base64Decode(base64Data);
+            Cipher cipher = Cipher.getInstance(DES_ECB_PKCS5);
+            cipher.init(Cipher.DECRYPT_MODE, getSecretKey(secretKey, DES));
+            byte[] result = cipher.doFinal(data);
+            return new String(result, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
