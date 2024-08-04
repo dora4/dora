@@ -42,9 +42,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
 /**
  * View-related tools.
  * 简体中文：视图相关工具。
@@ -260,5 +257,32 @@ public final class ViewUtils implements Number {
         };
         editText.setFilters(destArray);
         setDigits(editText, "0123456789");
+    }
+
+    abstract static class OnSingleTapListener implements View.OnClickListener {
+
+        protected long periodTime = DEFAULT_CLICK_PERIOD_TIME;
+
+        private long lastClickTime = 0L;
+
+        private static final long DEFAULT_CLICK_PERIOD_TIME = 2000L;
+
+        protected OnSingleTapListener() {
+        }
+
+        protected OnSingleTapListener(long periodTime) {
+            this.periodTime = periodTime;
+        }
+
+        @Override
+        public void onClick(View v) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastClickTime > DEFAULT_CLICK_PERIOD_TIME) {
+                lastClickTime = currentTime;
+                onSingleTap(v);
+            }
+        }
+
+        protected abstract void onSingleTap(View v);
     }
 }
