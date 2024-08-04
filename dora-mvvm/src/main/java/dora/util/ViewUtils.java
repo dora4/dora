@@ -259,7 +259,7 @@ public final class ViewUtils implements Number {
         setDigits(editText, "0123456789");
     }
 
-    abstract static class OnSingleTapListener implements View.OnClickListener {
+    public abstract static class OnSingleTapListener implements View.OnClickListener {
 
         protected long periodTime = DEFAULT_CLICK_PERIOD_TIME;
 
