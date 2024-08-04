@@ -267,10 +267,10 @@ public final class ViewUtils implements Number {
 
         private static final long DEFAULT_CLICK_PERIOD_TIME = 2000L;
 
-        protected OnSingleTapListener() {
+        public OnSingleTapListener() {
         }
 
-        protected OnSingleTapListener(long periodTime) {
+        public OnSingleTapListener(long periodTime) {
             this.periodTime = periodTime;
         }
 
