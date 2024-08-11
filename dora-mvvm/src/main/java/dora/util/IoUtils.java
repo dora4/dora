@@ -846,39 +846,39 @@ public final class IoUtils {
             if (uri.getAuthority().equals("com.android.externalstorage.documents")) {
                 if ("primary".equals(type)) {
                     path = context.getExternalFilesDir(null) + File.separator + id;
-                } else if (uri.getAuthority().equals("com.android.providers.downloads.documents")) {
-                    if ("raw".equals(type)) {
-                        path = id;
-                    } else {
-                        Uri contentUri = ContentUris.withAppendedId(
-                                Uri.parse("content://downloads/public_downloads"),
-                                Long.parseLong(docId)
-                        );
-                        path = contentUri.getPath();
-                    }
-                } else if (uri.getAuthority().equals("com.android.providers.media.documents")) {
-                    Uri externalUri = null;
-                    switch (type) {
-                        case "image":
-                            externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                        case "video":
-                            externalUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                        case "audio":
-                            externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                        case "document":
-                            externalUri = MediaStore.Files.getContentUri("external");
-                    }
-                    if (externalUri != null) {
-                        String selection = "_id=?";
-                        String[] selectionArgs = new String[]{id};
-                        path = getMediaPathFromUri(context, externalUri, selection, selectionArgs);
-                    }
                 }
-            } else if (ContentResolver.SCHEME_CONTENT.equalsIgnoreCase(uri.getScheme())) {
-                path = getMediaPathFromUri(context, uri, null, null);
-            } else if (ContentResolver.SCHEME_FILE.equalsIgnoreCase(uri.getScheme())) {
-                path = uri.getPath();
+            } if (uri.getAuthority().equals("com.android.providers.downloads.documents")) {
+                if ("raw".equals(type)) {
+                    path = id;
+                } else {
+                    Uri contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"),
+                            Long.parseLong(docId)
+                    );
+                    path = contentUri.getPath();
+                }
+            } else if (uri.getAuthority().equals("com.android.providers.media.documents")) {
+                Uri externalUri = null;
+                switch (type) {
+                    case "image":
+                        externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                    case "video":
+                        externalUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                    case "audio":
+                        externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    case "document":
+                        externalUri = MediaStore.Files.getContentUri("external");
+                }
+                if (externalUri != null) {
+                    String selection = "_id=?";
+                    String[] selectionArgs = new String[]{id};
+                    path = getMediaPathFromUri(context, externalUri, selection, selectionArgs);
+                }
             }
+        } else if (ContentResolver.SCHEME_CONTENT.equalsIgnoreCase(uri.getScheme())) {
+            path = getMediaPathFromUri(context, uri, null, null);
+        } else if (ContentResolver.SCHEME_FILE.equalsIgnoreCase(uri.getScheme())) {
+            path = uri.getPath();
         }
         if (path != null && new File(path).exists()) {
             return path;
