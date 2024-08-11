@@ -880,7 +880,7 @@ public final class IoUtils {
                 path = uri.getPath();
             }
         }
-        if (new File(path).exists()) {
+        if (path != null && new File(path).exists()) {
             return path;
         } else {
             return null;
@@ -890,7 +890,7 @@ public final class IoUtils {
     private static String getMediaPathFromUri(@NonNull Context context, @NonNull Uri uri, String selection, String[]selectionArgs){
         String path = uri.getPath();
         String sdPath = context.getExternalFilesDir(null).getAbsolutePath();
-        if (!path.startsWith(sdPath)) {
+        if (path != null && !path.startsWith(sdPath)) {
             int sepIndex = path.indexOf(File.separator, 1);
             if (sepIndex == -1) path = null;
             else {
