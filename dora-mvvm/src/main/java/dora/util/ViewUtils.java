@@ -36,6 +36,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.AnimRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -283,6 +284,6 @@ public final class ViewUtils implements Number {
             }
         }
 
-        protected abstract void onSingleTap(View v);
+        protected abstract void onSingleTap(@NonNull View v);
     }
 }

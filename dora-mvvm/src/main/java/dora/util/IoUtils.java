@@ -16,12 +16,19 @@
 
 package dora.util;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.text.format.Formatter;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
 import java.io.BufferedOutputStream;
@@ -308,12 +315,12 @@ public final class IoUtils {
      * Read data from a local text file.
      * 简体中文：读取本地文本文件的数据。
      *
-     * @param file Local text file
-     * @param hasIgnoreLines If there are lines to be ignored, set to true. If it's true, set
-     *                       ignoreLineChars.
-     *                       简体中文：如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
+     * @param file            Local text file
+     * @param hasIgnoreLines  If there are lines to be ignored, set to true. If it's true, set
+     *                        ignoreLineChars.
+     *                        简体中文：如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
      * @param ignoreLineChars If a line of the file starts with this string, skip reading that line.
-     *                       For example, in an m3u file, '#' is used for metadata information and
+     *                        For example, in an m3u file, '#' is used for metadata information and
      *                        not a valid URL address. You should ignore lines that start with "#".
      *                        简体中文：如果文件的一行以该字符串开始，则跳过该行的读取，如m3u文件#为Metadata
      *                        信息，不是有效的url地址，你应该忽略以"#"开头的行。
@@ -324,9 +331,9 @@ public final class IoUtils {
             FileInputStream inputStream = new FileInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line = "";
-            while((line = reader.readLine()) != null){
-                if (hasIgnoreLines && line.startsWith(ignoreLineChars)){
-                } else if(line.length() > 0) {
+            while ((line = reader.readLine()) != null) {
+                if (hasIgnoreLines && line.startsWith(ignoreLineChars)) {
+                } else if (line.length() > 0) {
                     lines.add(line);
                 }
             }
@@ -344,7 +351,7 @@ public final class IoUtils {
         return readTextLines(m3u8FilePath, true, "#");
     }
 
-    public static List<String> readTextLines(String filePath, boolean hasIgnoreLines, String ignoreLineChars)  {
+    public static List<String> readTextLines(String filePath, boolean hasIgnoreLines, String ignoreLineChars) {
         return readTextLines(new File(filePath), hasIgnoreLines, ignoreLineChars);
     }
 
@@ -365,7 +372,7 @@ public final class IoUtils {
         return "";
     }
 
-    public static String readText(String filePath)  {
+    public static String readText(String filePath) {
         return readText(new File(filePath));
     }
 
@@ -553,12 +560,12 @@ public final class IoUtils {
      * Read data from a network text file, you need to execute it in a separate thread on your own.
      * 简体中文：读取网络文本文件的数据，需要自行在子线程执行。
      *
-     * @param url URL address of the requested text file.简体中文：请求的文本文件url地址
-     * @param hasIgnoreLines If there are lines to be ignored, set to true. If it's true, set
-     *                       ignoreLineChars.
-     *                       简体中文：如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
+     * @param url             URL address of the requested text file.简体中文：请求的文本文件url地址
+     * @param hasIgnoreLines  If there are lines to be ignored, set to true. If it's true, set
+     *                        ignoreLineChars.
+     *                        简体中文：如果有要忽略的行，则设置为true，如果为true，请设置ignoreLineChars
      * @param ignoreLineChars If a line of the file starts with this string, skip reading that line.
-     *                       For example, in an m3u file, '#' is used for metadata information and
+     *                        For example, in an m3u file, '#' is used for metadata information and
      *                        not a valid URL address. You should ignore lines that start with "#".
      *                        简体中文：如果文件的一行以该字符串开始，则跳过该行的读取，如m3u文件#为Metadata
      *                        信息，不是有效的url地址，你应该忽略以"#"开头的行。
@@ -571,9 +578,9 @@ public final class IoUtils {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line = "";
-            while((line = reader.readLine()) != null){
-                if (hasIgnoreLines && line.startsWith(ignoreLineChars)){
-                } else if(line.length() > 0) {
+            while ((line = reader.readLine()) != null) {
+                if (hasIgnoreLines && line.startsWith(ignoreLineChars)) {
+                } else if (line.length() > 0) {
                     lines.add(line);
                 }
             }
@@ -587,7 +594,7 @@ public final class IoUtils {
      * File download.
      * 简体中文：文件下载。
      *
-     * @param url Downloaded file address.简体中文：下载的文件地址
+     * @param url      Downloaded file address.简体中文：下载的文件地址
      * @param savePath Saved file path.简体中文：保存的文件路径
      * @return Return the path of the saved file.简体中文：返回保存后的文件路径
      */
@@ -604,7 +611,7 @@ public final class IoUtils {
      * File download, needs to be executed in a separate thread on your own.
      * 简体中文：文件下载，需要自行在子线程执行。
      *
-     * @param url Downloaded file address.简体中文：下载的文件地址
+     * @param url      Downloaded file address.简体中文：下载的文件地址
      * @param savePath Saved file path.简体中文：保存的文件路径
      * @return Return the path of the saved file.简体中文：返回保存后的文件路径
      */
@@ -620,7 +627,7 @@ public final class IoUtils {
      * Downloading a file to a specified folder needs to be executed in a separate thread on your own.
      * 简体中文：将文件下载到指定文件夹，需要自行在子线程执行。
      *
-     * @param url Downloaded file address.简体中文：下载的文件地址
+     * @param url    Downloaded file address.简体中文：下载的文件地址
      * @param folder Destination folder to save.简体中文：保存到的文件夹
      * @return Return the path of the saved file.简体中文：返回保存后的文件路径
      */
@@ -638,7 +645,7 @@ public final class IoUtils {
      * Downloading a file to a specified folder needs to be executed in a separate thread on your own.
      * 简体中文：将文件下载到指定文件夹，需要自行在子线程执行。
      *
-     * @param url Downloaded file address.简体中文：下载的文件地址
+     * @param url    Downloaded file address.简体中文：下载的文件地址
      * @param folder Destination folder to save.简体中文：保存到的文件夹
      * @return Return the path of the saved file.简体中文：返回保存后的文件路径
      */
@@ -654,7 +661,7 @@ public final class IoUtils {
      * Batch downloading files.
      * 简体中文：批量下载文件。
      *
-     * @param urls URLs of all the files to be downloaded.简体中文：要下载的所有文件的url
+     * @param urls   URLs of all the files to be downloaded.简体中文：要下载的所有文件的url
      * @param folder Destination folder to save.简体中文：保存到的文件夹
      */
     public static void batchDownloadFileToFolder(String[] urls, String folder) {
@@ -665,7 +672,7 @@ public final class IoUtils {
      * Batch downloading files.
      * 简体中文：批量下载文件。
      *
-     * @param urls URLs of all the files to be downloaded.简体中文：要下载的所有文件的url
+     * @param urls   URLs of all the files to be downloaded.简体中文：要下载的所有文件的url
      * @param folder Destination folder to save.简体中文：保存到的文件夹
      */
     public static void batchDownloadFileToFolder(List<String> urls, String folder) {
@@ -715,7 +722,7 @@ public final class IoUtils {
      * extension is needed.
      * 简体中文：从文件路径中提取文件名，可指定是否需要文件名后缀。
      *
-     * @param path File path.简体中文：文件路径
+     * @param path       File path.简体中文：文件路径
      * @param withSuffix Whether the file name extension is needed.简体中文：是否需要文件名后缀
      * @return File name.简体中文：文件名
      */
@@ -823,5 +830,90 @@ public final class IoUtils {
             }
         } catch (IOException ignore) {
         }
+    }
+
+    public static String getPathFromUri(@NonNull Context context, @NonNull Uri uri) {
+        String path = null;
+        if (DocumentsContract.isDocumentUri(context, uri)) {
+            String docId = DocumentsContract.getDocumentId(uri);
+            String[] splits = docId.split(":");
+            String type = null;
+            String id = null;
+            if (splits.length == 2) {
+                type = splits[0];
+                id = splits[1];
+            }
+            if (uri.getAuthority().equals("com.android.externalstorage.documents")) {
+                if ("primary".equals(type)) {
+                    path = context.getExternalFilesDir(null) + File.separator + id;
+                } else if (uri.getAuthority().equals("com.android.providers.downloads.documents")) {
+                    if ("raw".equals(type)) {
+                        path = id;
+                    } else {
+                        Uri contentUri = ContentUris.withAppendedId(
+                                Uri.parse("content://downloads/public_downloads"),
+                                Long.parseLong(docId)
+                        );
+                        path = contentUri.getPath();
+                    }
+                } else if (uri.getAuthority().equals("com.android.providers.media.documents")) {
+                    Uri externalUri = null;
+                    switch (type) {
+                        case "image":
+                            externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                        case "video":
+                            externalUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                        case "audio":
+                            externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                        case "document":
+                            externalUri = MediaStore.Files.getContentUri("external");
+                    }
+                    if (externalUri != null) {
+                        String selection = "_id=?";
+                        String[] selectionArgs = new String[]{id};
+                        path = getMediaPathFromUri(context, externalUri, selection, selectionArgs);
+                    }
+                }
+            } else if (ContentResolver.SCHEME_CONTENT.equalsIgnoreCase(uri.getScheme())) {
+                path = getMediaPathFromUri(context, uri, null, null);
+            } else if (ContentResolver.SCHEME_FILE.equalsIgnoreCase(uri.getScheme())) {
+                path = uri.getPath();
+            }
+        }
+        if (new File(path).exists()) {
+            return path;
+        } else {
+            return null;
+        }
+    }
+
+    private static String getMediaPathFromUri(@NonNull Context context, @NonNull Uri uri, String selection, String[]selectionArgs){
+        String path = uri.getPath();
+        String sdPath = context.getExternalFilesDir(null).getAbsolutePath();
+        if (!path.startsWith(sdPath)) {
+            int sepIndex = path.indexOf(File.separator, 1);
+            if (sepIndex == -1) path = null;
+            else {
+                path = sdPath + path.substring(sepIndex);
+            }
+        }
+        if (path == null || !new File(path).exists()) {
+            ContentResolver resolver = context.getContentResolver();
+            String[] projection = new String[]{MediaStore.MediaColumns.DATA};
+            Cursor cursor = resolver.query(uri, projection, selection, selectionArgs, null);
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    try {
+                        int index = cursor.getColumnIndexOrThrow(projection[0]);
+                        if (index != -1) path = cursor.getString(index);
+                    } catch (IllegalArgumentException e) {
+                        path = null;
+                    } finally {
+                        cursor.close();
+                    }
+                }
+            }
+        }
+        return path;
     }
 }
