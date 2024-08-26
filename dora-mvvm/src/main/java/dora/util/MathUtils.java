@@ -118,7 +118,7 @@ public final class MathUtils implements Number {
             }
             return bs;
         }
-        throw new IllegalArgumentException("Separator can\'t be null.");
+        throw new IllegalArgumentException("Separator can't be null.");
     }
 
     // </editor-folder>

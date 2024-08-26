@@ -47,11 +47,13 @@ public final class DensityUtils {
     public static final int DP20 = dp2px(20);
     public static final int DP22 = dp2px(22);
     public static final int DP24 = dp2px(24);
+    public static final int DP25 = dp2px(25);
     public static final int DP26 = dp2px(26);
     public static final int DP28 = dp2px(28);
     public static final int DP30 = dp2px(30);
     public static final int DP32 = dp2px(32);
     public static final int DP34 = dp2px(34);
+    public static final int DP35 = dp2px(35);
     public static final int DP36 = dp2px(36);
     public static final int DP38 = dp2px(38);
     public static final int DP40 = dp2px(40);
@@ -62,11 +64,26 @@ public final class DensityUtils {
     public static final int DP80 = dp2px(80);
     public static final int DP90 = dp2px(90);
     public static final int DP100 = dp2px(100);
+    public static final int DP110 = dp2px(110);
     public static final int DP120 = dp2px(120);
+    public static final int DP130 = dp2px(130);
     public static final int DP140 = dp2px(140);
+    public static final int DP150 = dp2px(150);
     public static final int DP160 = dp2px(160);
+    public static final int DP170 = dp2px(170);
     public static final int DP180 = dp2px(180);
+    public static final int DP190 = dp2px(190);
     public static final int DP200 = dp2px(200);
+    public static final int DP210 = dp2px(210);
+    public static final int DP220 = dp2px(220);
+    public static final int DP230 = dp2px(230);
+    public static final int DP240 = dp2px(240);
+    public static final int DP250 = dp2px(250);
+    public static final int DP260 = dp2px(260);
+    public static final int DP270 = dp2px(270);
+    public static final int DP280 = dp2px(280);
+    public static final int DP290 = dp2px(290);
+    public static final int DP300 = dp2px(300);
 
     private DensityUtils() {
     }

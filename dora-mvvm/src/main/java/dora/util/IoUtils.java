@@ -785,7 +785,7 @@ public final class IoUtils {
                 return file.list().length;
             }
         }
-        throw new NullPointerException("File can\'t be null.");
+        throw new NullPointerException("File can't be null.");
     }
 
     /**
