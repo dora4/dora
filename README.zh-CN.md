@@ -84,5 +84,3 @@ dependencies {
 latest-version换成JitPack编译出来的最新绿色可用版本，如1.0.0，这样代码就变成了implementation 'com.github.dora4:dora:1.0.0'。
 
 如果你觉得有用的话，不妨点击Github网页右上角的Fork按钮，让更多的人受益！
-
-Tip：BIP39助记词安全保存推荐使用[【隐私保险箱】](https://dorachat.oss-cn-hongkong.aliyuncs.com/Dora_Box_1.11.apk)🎉
