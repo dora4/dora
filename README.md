@@ -82,5 +82,3 @@ dependencies {
 Replace "latest-version" with the latest stable version available on JitPack, such as 1.0.0. So the code will become implementation 'com.github.dora4:dora:1.0.0'.
 
 If you find it useful, you may wish to click the Fork button in the upper right corner of the Github page to benefit more people!
-
-Tip: It is recommended to use [[Dora Box]](https://dorachat.oss-cn-hongkong.aliyuncs.com/Dora_Box_1.11.apk) for safe storage of BIP39 mnemonic phrases🎉
