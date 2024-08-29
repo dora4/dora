@@ -3,12 +3,12 @@
 Dora SDK Official Document![Release](https://jitpack.io/v/dora4/dora.svg)
 --------------------------------
 
-Introduction to the SDK
+**Introduction to the SDK**
 
 This is a framework for Android application development, which incorporates the author's years of experience in the Android industry. It provides an efficient way to develop and build Android mobile apps. Even beginners who have just started with Android app development can quickly get started. Whether you use the Java or Kotlin language, you can use this SDK.
 ![avatar](https://github.com/dora4/dora/blob/master/Dora.gif)
 
-Features
+**Features**
 - Global lifecycle configuration: TaskStackGlobalConfig, and custom configuration. It supports configuring the lifecycles of Application, Activity, and Fragment, allowing you to write once and reuse in all projects.
 
  <!-- Global lifecycle configuration, value is configured as GlobalConfig, name is the mapping configuration class, multiple configurations can be set -->
@@ -65,7 +65,7 @@ Features
 
 - Various utility classes are provided for worry-free development. For example, ToastUtils automatically handles thread switching for displaying toasts, LogUtils eliminates the hassle of naming tags, and there are also encapsulations for complex operations such as Java file reading and writing, system status bar and navigation bar adaptation tools, internationalization tools for multi-language support, image processing tools, reflection-related tools, etc.
 
-Getting Started (Tutorial: https://github.com/dora4/dora_samples)
+**Getting Started** (Tutorial: https://github.com/dora4/dora_samples)
 
 ```groovy
 // Add the following code to the root build.gradle file of your project
