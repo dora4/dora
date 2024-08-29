@@ -82,3 +82,8 @@ dependencies {
 Replace "latest-version" with the latest stable version available on JitPack, such as 1.0.0. So the code will become implementation 'com.github.dora4:dora:1.0.0'.
 
 If you find it useful, you may wish to click the Fork button in the upper right corner of the Github page to benefit more people!
+
+**Best Practices**
+
+Dora Chat (https://dorachat.com)
+Dora Music ([Dora Music](https://github.com/dora4/DoraMusic))
