@@ -45,13 +45,29 @@ public final class StatusBarUtils {
 
     private static final int DORA_STATUS_BAR_VIEW_ID = R.id.dora_status_bar_view_id;
 
+    public static final int ALPHA_FULL = 255;
+    public static final int ALPHA_HALF = 127;
+    public static final int ALPHA_EMPTY = 0;
+
     /**
      * Set the status bar color for non-fullscreen content, automatically adapt to light or dark
      * color based on the color, commonly used in phones with Android 6.0 and above.
      * 简体中文：设置不全屏内容的状态栏颜色，6.0以上手机自动根据颜色适应亮暗色，常用。
      *
      * @param activity       The activity that needs to be set.
-     * @param statusBarColor Status bar color value.
+     * @param statusBarColor Status bar RGB color value.
+     */
+    public static void setStatusBar(Activity activity, @ColorInt int statusBarColor) {
+        setStatusBar(activity, statusBarColor, ALPHA_FULL);
+    }
+
+    /**
+     * Set the status bar color for non-fullscreen content, automatically adapt to light or dark
+     * color based on the color, commonly used in phones with Android 6.0 and above.
+     * 简体中文：设置不全屏内容的状态栏颜色，6.0以上手机自动根据颜色适应亮暗色，常用。
+     *
+     * @param activity       The activity that needs to be set.
+     * @param statusBarColor Status bar RGB color value.
      * @param statusBarAlpha Status bar transparency/opacity.
      */
     public static void setStatusBar(Activity activity, @ColorInt int statusBarColor, @IntRange(from = 0, to = 255) int statusBarAlpha) {
