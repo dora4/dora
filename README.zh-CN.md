@@ -3,12 +3,12 @@
 Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 --------------------------------
 
-一、SDK介绍
+**一、SDK介绍**
 
 这是一个用于Android应用开发的，凝聚SDK作者多年Android行业从业经验的，一个高效开发和构建Android手机APP的框架。一个刚接触到Android应用开发的初学者也可以快速上手。无论你使用Java语言，亦或是Kotlin语言，都可以使用本SDK。
 ![avatar](https://github.com/dora4/dora/blob/master/Dora.gif)
 
-二、功能介绍
+**二、功能介绍**
 
 - 全局生命周期配置DefaultGlobalConfig、TaskStackGlobalConfig以及自定义配置，支持配置Application、Activity和Fragment的生命周期，一次编写，所有项目复用。
     
@@ -67,7 +67,7 @@ Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 - 可使用内存低的时候自动杀死本APP进程，在下次重启APP的时候不会有黑屏或白屏现象。
 - 各种各样的工具类，开发无忧。如自动处理线程切换的ToastUtils让你更爽地弹吐司，LogUtils让你不再为tag命名而烦恼。还有复杂的Java文件读写等操作的封装、系统状态栏和导航栏适配工具、多语言国际化相关工具、图像处理相关工具、反射相关工具等。
 
-三、开始使用（教程 https://github.com/dora4/dora_samples ）
+**三、开始使用**（教程 https://github.com/dora4/dora_samples ）
 
 ```groovy
 // 添加以下代码到项目根目录下的build.gradle
@@ -85,4 +85,7 @@ latest-version换成JitPack编译出来的最新绿色可用版本，如1.0.0，
 
 如果你觉得有用的话，不妨点击Github网页右上角的Fork按钮，让更多的人受益！
 
-Tip：BIP39助记词安全保存推荐使用[【隐私保险箱】](https://dorachat.oss-cn-hongkong.aliyuncs.com/Dora_Box_1.11.apk)🎉
+**四、最佳实践**
+
+Dora Chat（ https://dorachat.com ）
+Dora Music（[朵拉音乐](https://github.com/dora4/DoraMusic)）
