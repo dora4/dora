@@ -220,4 +220,20 @@ public final class MathUtils implements Number {
     }
 
     // </editor-folder>
+
+    /**
+     * Is the point (x2, y2) inside the circle with (x1, y1) as the center and r as the radius?
+     * 简体中文：点(x2,y2)是否在以(x1,y1)为圆心，r为半径的圆内。
+     */
+    public static boolean isInRound(double x1, double y1, double r, double x2, double y2) {
+        return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < r * r;
+    }
+
+    /**
+     * Get distance between two points.
+     * 简体中文：获取两点之前的间距。
+     */
+    public static double distance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    }
 }
