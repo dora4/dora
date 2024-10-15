@@ -688,6 +688,14 @@ public final class IntentUtils {
         activity.startActivityForResult(intent, requestCode);
     }
 
+    public static void shareText(@NonNull Context context, String title, String content) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, content);
+        shareIntent.setType("text/plain");
+        shareIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivity(Intent.createChooser(shareIntent, title));
+    }
+
     /**
      * Return the intent of launch app details settings.
      * 简体中文：返回启动应用程序详细设置的意图。
