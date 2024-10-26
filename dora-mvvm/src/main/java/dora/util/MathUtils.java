@@ -16,6 +16,7 @@
 
 package dora.util;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -217,6 +218,18 @@ public final class MathUtils implements Number {
     public static String getUUID() {
         String uuid = UUID.randomUUID().toString();
         return uuid.replaceAll("-", "");
+    }
+
+    public static final String DEFAULT_PASSWORD_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    public static String generatePassword(String chars, int length) {
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(chars.length());
+            password.append(chars.charAt(index));
+        }
+        return password.toString();
     }
 
     // </editor-folder>
