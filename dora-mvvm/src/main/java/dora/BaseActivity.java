@@ -47,6 +47,8 @@ import dora.util.LanguageUtils;
 import dora.util.NetUtils;
 import dora.util.ReflectionUtils;
 import dora.util.ToastUtils;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity
         implements DataLoader<B>, PageTransformer {
@@ -56,6 +58,20 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     private final Map<String, BaseFragment<?>> mFragmentCache = new HashMap<>();
     protected NetworkChangeObserver mNetworkChangeObserver = null;
     private int mFragmentPageIndex;
+    protected CompositeDisposable mDisposable;
+
+    protected void addDisposable(Disposable d) {
+        if (mDisposable == null) {
+            mDisposable = new CompositeDisposable();
+        }
+        mDisposable.add(d);
+    }
+
+    protected void dispose() {
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
 
     private boolean isTranslucentOrFloating() {
         Class<?> styleableClazz = ReflectionUtils.findClass("com.android.internal.R.styleable");

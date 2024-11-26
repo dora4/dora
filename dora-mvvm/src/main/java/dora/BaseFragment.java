@@ -32,12 +32,28 @@ import dora.interfaces.DataLoader;
 import dora.interfaces.PageTransformer;
 import dora.util.IntentUtils;
 import dora.util.ToastUtils;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment implements
         DataLoader<B>, PageTransformer {
 
     protected B mBinding;
     protected final String TAG = this.getClass().getSimpleName();
+    protected CompositeDisposable mDisposable;
+
+    protected void addDisposable(Disposable d) {
+        if (mDisposable == null) {
+            mDisposable = new CompositeDisposable();
+        }
+        mDisposable.add(d);
+    }
+
+    protected void dispose() {
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
 
     @Override
     public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
