@@ -30,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -165,6 +166,20 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState, @NonNull B binding) {
+    }
+
+    /**
+     * Adding an embedded fragment.
+     * 简体中文：添加内嵌的fragment。
+     */
+    protected void addFragment(Fragment fragment) {
+        String tag = fragment.getClass().getSimpleName();
+        Fragment existingFragment = getSupportFragmentManager().findFragmentByTag(tag);
+        if (existingFragment != null) {
+            FragmentUtils.show(existingFragment);
+        } else {
+            FragmentUtils.add(getSupportFragmentManager(), fragment, getFlowFragmentContainerId(), tag);
+        }
     }
 
     /**

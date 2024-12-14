@@ -40,6 +40,7 @@ dependencies {
     api("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.6")
     api("androidx.activity:activity-ktx:1.9.2")
     api("androidx.fragment:fragment-ktx:1.8.4")
+
     api("io.reactivex.rxjava2:rxjava:2.2.19")
 }
 
@@ -50,7 +51,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.2.32"
+                version = "1.2.33"
             }
         }
     }
