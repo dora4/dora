@@ -17,14 +17,18 @@
 package dora.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.DisplayCutout;
 import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -710,5 +714,13 @@ public final class RomUtils {
         String serial = Build.SERIAL;
         String manufacturer = Build.MANUFACTURER;
         return brand + " " + model + " - " + serial + " - " + manufacturer;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    public static String getAndroidId(Context context) {
+        String deviceId = Settings.Secure.getString(
+                context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        return deviceId;
     }
 }
