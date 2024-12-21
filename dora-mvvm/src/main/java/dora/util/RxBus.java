@@ -26,4 +26,26 @@ public class RxBus {
     public Observable<?> toObservable() {
         return mEventBus;
     }
+
+    public <T> Observable<T> toObservable(Class<T> cls) {
+        return mEventBus.ofType(cls);
+    }
+
+    public <T> Observable<T> toObservable(int code, Class<T> cls) {
+        return mEventBus.ofType(Message.class)
+                .filter(msg -> msg.code == code && cls.isInstance(msg.event))
+                .map(msg -> (T) msg.event);
+
+    }
+
+    public static class Message {
+
+        int code;
+        Object event;
+
+        public Message(int code, Object event) {
+            this.code = code;
+            this.event = event;
+        }
+    }
 }
