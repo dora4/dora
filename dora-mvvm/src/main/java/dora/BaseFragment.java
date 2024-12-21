@@ -56,6 +56,14 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
     }
 
     @Override
+    public void onDestroy() {
+        if (isAutoDispose()) {
+            dispose();
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding = DataBindingUtil.bind(view);
@@ -66,6 +74,10 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState, @NonNull B binding) {
+    }
+
+    protected boolean isAutoDispose() {
+        return false;
     }
 
     protected PageTransformer getPageTransformer() {

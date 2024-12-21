@@ -69,7 +69,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     }
 
     protected void dispose() {
-        if (mDisposable != null) {
+        if (mDisposable != null && isAutoDispose()) {
             mDisposable.dispose();
         }
     }
@@ -94,6 +94,10 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
      * @see #onNetworkDisconnected()
      */
     protected boolean isDetectNet() {
+        return false;
+    }
+
+    protected boolean isAutoDispose() {
         return false;
     }
 
@@ -366,6 +370,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
 
     @Override
     protected void onDestroy() {
+        dispose();
         NetworkStateReceiver.unregisterObserver(mNetworkChangeObserver);
         super.onDestroy();
     }
