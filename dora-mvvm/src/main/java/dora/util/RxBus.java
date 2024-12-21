@@ -35,7 +35,6 @@ public class RxBus {
         return mEventBus.ofType(Message.class)
                 .filter(msg -> msg.code == code && cls.isInstance(msg.event))
                 .map(msg -> (T) msg.event);
-
     }
 
     public static class Message {
