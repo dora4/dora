@@ -68,6 +68,9 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         mDisposable.add(d);
     }
 
+    /**
+     * @see #isAutoDispose()
+     */
     protected void dispose() {
         if (mDisposable != null && isAutoDispose()) {
             mDisposable.dispose();
@@ -173,8 +176,8 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     }
 
     /**
-     * Adding an embedded fragment.
-     * 简体中文：添加内嵌的fragment。
+     * Adding an embedded fragment. Do not use it together with streamed switching.
+     * 简体中文：添加内嵌的fragment。不要和流式切换同时使用。
      */
     protected void addFragment(Fragment fragment) {
         String tag = fragment.getClass().getSimpleName();
@@ -182,8 +185,15 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         if (existingFragment != null) {
             FragmentUtils.show(existingFragment);
         } else {
-            FragmentUtils.add(getSupportFragmentManager(), fragment, getFlowFragmentContainerId(), tag);
+            FragmentUtils.add(getSupportFragmentManager(), fragment, getEmbeddedFragmentContainerId(), tag);
         }
+    }
+
+    /**
+     * @see #addFragment(Fragment)
+     */
+    protected int getEmbeddedFragmentContainerId() {
+        return android.R.id.content;
     }
 
     /**
