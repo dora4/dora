@@ -24,6 +24,9 @@ android {
         sourceCompatibility(JavaVersion.VERSION_17)
         targetCompatibility(JavaVersion.VERSION_17)
     }
+    kotlinOptions{
+        jvmTarget = "17"
+    }
 }
 
 dependencies {
@@ -48,7 +51,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.2.45"
+                version = "1.2.46"
             }
         }
     }
