@@ -7,7 +7,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.namespace == "com.android.tools.build") {
-                useModule("com.android.tools.build:gradle:8.0.2")
+                useModule("com.android.tools.build:gradle:8.1.1")
             }
             if (requested.id.namespace == "org.jetbrains.kotlin") {
                 val kotlin_version = "1.8.10"

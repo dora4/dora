@@ -29,6 +29,10 @@ android {
     }
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
     implementation("androidx.core:core:1.12.0")
@@ -51,7 +55,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.2.47"
+                version = "1.2.48"
             }
         }
     }
