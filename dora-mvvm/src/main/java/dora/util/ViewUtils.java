@@ -30,6 +30,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -38,6 +41,8 @@ import android.widget.TextView;
 import androidx.annotation.AnimRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -285,5 +290,55 @@ public final class ViewUtils implements Number {
         }
 
         protected abstract void onSingleTap(@NonNull View v);
+    }
+
+    public static void showStatusBar(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.show(WindowInsetsCompat.Type.statusBars());
+    }
+
+    public static void hideStatusBar(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.hide(WindowInsetsCompat.Type.statusBars());
+    }
+
+    public static void showNavigationBar(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.show(WindowInsetsCompat.Type.navigationBars());
+    }
+
+    public static void hideNavigationBar(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.hide(WindowInsetsCompat.Type.navigationBars());
+    }
+
+    public static void showSystemBar(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.show(WindowInsetsCompat.Type.systemBars());
+    }
+
+    public static void hideSystemBar(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.hide(WindowInsetsCompat.Type.systemBars());
+    }
+
+    public static void showCaptionBar(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.show(WindowInsetsCompat.Type.captionBar());
+    }
+
+    public static void hideCaptionBar(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.hide(WindowInsetsCompat.Type.captionBar());
+    }
+
+    public static void showIME(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.show(WindowInsetsCompat.Type.ime());
+    }
+
+    public static void hideIME(Window window) {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+        controller.hide(WindowInsetsCompat.Type.ime());
     }
 }
