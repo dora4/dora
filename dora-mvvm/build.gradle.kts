@@ -5,14 +5,10 @@ plugins {
 }
 
 android {
-    val compile_sdk = 34
-    val min_sdk = 21
-    val target_sdk = 34
     namespace = "dora.mvvm"
-    compileSdk = compile_sdk
+    compileSdk = 34
     defaultConfig {
-        minSdk = min_sdk
-        targetSdk = target_sdk
+        minSdk = 21
     }
     buildFeatures {
         dataBinding = true
@@ -52,7 +48,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.2.39"
+                version = "1.2.40"
             }
         }
     }
