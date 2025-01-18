@@ -13,6 +13,9 @@ pluginManagement {
                 val kotlin_version = "1.8.10"
                 useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
             }
+            if (requested.id.namespace == "com.github.dcendents") {
+                useModule("com.github.dcendents:android-maven-gradle-plugin:1.5")
+            }
         }
     }
 }
