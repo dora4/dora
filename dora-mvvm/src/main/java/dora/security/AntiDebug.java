@@ -63,7 +63,7 @@ public class AntiDebug {
                         className.contains("dalvik.system.VMDebug") ||
                         methodName.contains("debug") ||
                         methodName.contains("invoke")) {
-                    return true; // 可能被调试
+                    return true;
                 }
             }
         }

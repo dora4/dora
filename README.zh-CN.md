@@ -83,6 +83,24 @@ dependencies {
 ```
 latest-version换成JitPack编译出来的最新绿色可用版本，如1.0.0，这样代码就变成了implementation 'com.github.dora4:dora:1.0.0'。
 
+添加混淆规则。
+```pro
+# 保留 GlobalConfig 接口的所有实现类
+-keep class * implements dora.lifecycle.config.GlobalConfig { *; }
+# 保留所有实现了 androidx.lifecycle.ViewModel 的类
+-keep class androidx.lifecycle.ViewModel { *; }
+# 保留所有继承自 androidx.lifecycle.ViewModel 的子类
+-keep class * extends androidx.lifecycle.ViewModel { *; }
+# 保留 BaseVMActivity 类本身
+-keep class dora.BaseVMActivity { *; }
+# 保留所有继承自 BaseVMActivity 的子类
+-keep class * extends dora.BaseVMActivity { *; }
+# 保留 BaseVMFragment 类本身
+-keep class dora.BaseVMFragment { *; }
+# 保留所有继承自 BaseVMFragment 的子类
+-keep class * extends dora.BaseVMFragment { *; }
+```
+
 如果你觉得有用的话，不妨点击Github网页右上角的Fork按钮，让更多的人受益！
 
 **四、最佳实践**
