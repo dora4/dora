@@ -83,10 +83,10 @@ Replace "latest-version" with the latest stable version available on JitPack, su
 
 Add proguard rules.
 ```pro
+# Preserve all implementation classes of the GlobalConfig interface.
 -keep class * implements dora.lifecycle.config.GlobalConfig { *; }
--keep class * extends androidx.lifecycle.ViewModel { *; }
--keep class * extends dora.BaseVMActivity { *; }
--keep class * extends dora.BaseVMFragment { *; }
+# Preserve generic parameters to ensure getActualTypeArguments() can be correctly parsed.
+-keepattributes Signature
 ```
 
 If you find it useful, you may wish to click the Fork button in the upper right corner of the Github page to benefit more people!
