@@ -85,7 +85,6 @@ latest-version换成JitPack编译出来的最新绿色可用版本，如1.0.0，
 
 添加混淆规则。
 ```pro
-# 保留 GlobalConfig 接口的所有实现类
 -keep class * implements dora.lifecycle.config.GlobalConfig { *; }
 -keep class * extends androidx.lifecycle.ViewModel { *; }
 -keep class * extends dora.BaseVMActivity { *; }
