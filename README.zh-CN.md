@@ -85,10 +85,10 @@ latest-version换成JitPack编译出来的最新绿色可用版本，如1.0.0，
 
 添加混淆规则。
 ```pro
+# 保留 GlobalConfig 接口的所有实现类
 -keep class * implements dora.lifecycle.config.GlobalConfig { *; }
--keep class * extends androidx.lifecycle.ViewModel { *; }
--keep class * extends dora.BaseVMActivity { *; }
--keep class * extends dora.BaseVMFragment { *; }
+# 保留泛型参数，确保 getActualTypeArguments() 能正确解析
+-keepattributes Signature
 ```
 
 如果你觉得有用的话，不妨点击Github网页右上角的Fork按钮，让更多的人受益！
