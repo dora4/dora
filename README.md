@@ -83,19 +83,9 @@ Replace "latest-version" with the latest stable version available on JitPack, su
 
 Add proguard rules.
 ```pro
-# 保留 GlobalConfig 接口的所有实现类
 -keep class * implements dora.lifecycle.config.GlobalConfig { *; }
-# 保留所有实现了 androidx.lifecycle.ViewModel 的类
--keep class androidx.lifecycle.ViewModel { *; }
-# 保留所有继承自 androidx.lifecycle.ViewModel 的子类
 -keep class * extends androidx.lifecycle.ViewModel { *; }
-# 保留 BaseVMActivity 类本身
--keep class dora.BaseVMActivity { *; }
-# 保留所有继承自 BaseVMActivity 的子类
 -keep class * extends dora.BaseVMActivity { *; }
-# 保留 BaseVMFragment 类本身
--keep class dora.BaseVMFragment { *; }
-# 保留所有继承自 BaseVMFragment 的子类
 -keep class * extends dora.BaseVMFragment { *; }
 ```
 
