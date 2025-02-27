@@ -61,7 +61,7 @@ This is a framework for Android application development, which incorporates the 
   DoraCrash.initCrash(this, "YourAppFolder/log");
   ```
 
-- The app process can be automatically killed when the memory is low, and there won't be a black or white screen issue when the app is restarted.
+- The app process can be automatically killed when the memory is low.
 
 - Various utility classes are provided for worry-free development. For example, ToastUtils automatically handles thread switching for displaying toasts, LogUtils eliminates the hassle of naming tags, and there are also encapsulations for complex operations such as Java file reading and writing, system status bar and navigation bar adaptation tools, internationalization tools for multi-language support, image processing tools, reflection-related tools, etc.
 
