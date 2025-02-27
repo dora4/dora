@@ -380,6 +380,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
 
     @Override
     protected void onDestroy() {
+        mBinding.unbind();
         dispose();
         NetworkStateReceiver.unregisterObserver(mNetworkChangeObserver);
         super.onDestroy();

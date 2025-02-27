@@ -57,6 +57,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
 
     @Override
     public void onDestroy() {
+        mBinding.unbind();
         if (isAutoDispose()) {
             dispose();
         }
