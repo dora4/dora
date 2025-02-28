@@ -85,8 +85,8 @@ Add proguard rules.
 ```pro
 # Preserve all implementation classes of the GlobalConfig interface.
 -keep class * implements dora.lifecycle.config.GlobalConfig { *; }
-# Preserve generic parameters to ensure getActualTypeArguments() can be correctly parsed.
--keepattributes Signature
+-keep class dora.BaseVMActivity { *; }
+-keep class dora.BaseVMFragment { *; }
 ```
 
 If you find it useful, you may wish to click the Fork button in the upper right corner of the Github page to benefit more people!
