@@ -70,7 +70,7 @@ public class NotificationUtils extends ContextWrapper {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Notification.Builder getChannelNotification(String title, String content, int icon, Intent intent) {
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, getPendingIntent());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, getPendingIntentFlag());
         return new Notification.Builder(mContext, mId)
                 .setContentTitle(title)
                 .setContentText(content)
@@ -79,12 +79,18 @@ public class NotificationUtils extends ContextWrapper {
                 .setContentIntent(pendingIntent);
     }
 
-    private int getPendingIntent() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_IMMUTABLE : PendingIntent.FLAG_UPDATE_CURRENT;
+    public static PendingIntent createPendingIntent(Context context, int requestCode, Intent intent) {
+        return PendingIntent.getBroadcast(context, requestCode, intent, getPendingIntentFlag());
+    }
+
+    private static int getPendingIntentFlag() {
+        // Android 12+ requires `FLAG_MUTABLE` to pass Extras; otherwise, the `Intent` may be null.
+        // 简体中文：Android 12+ 需要 `FLAG_MUTABLE` 才能传递 Extras，否则 `Intent` 可能为空。
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE : PendingIntent.FLAG_UPDATE_CURRENT;
     }
 
     public NotificationCompat.Builder getNotificationOld(String title, String content, int icon, Intent intent) {
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, getPendingIntent());
+        PendingIntent pendingIntent = createPendingIntent(mContext, 0, intent);
         return new NotificationCompat.Builder(mContext, mId)
                 .setContentTitle(title)
                 .setContentText(content)

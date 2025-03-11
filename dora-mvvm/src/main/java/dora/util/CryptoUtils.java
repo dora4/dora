@@ -874,7 +874,6 @@ public final class CryptoUtils {
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
             return null;
         }
     }
