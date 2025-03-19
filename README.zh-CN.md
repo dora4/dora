@@ -89,6 +89,11 @@ latest-version换成JitPack编译出来的最新绿色可用版本，如1.0.0，
 -keep class * implements dora.lifecycle.config.GlobalConfig { *; }
 -keep class dora.BaseVMActivity { *; }
 -keep class dora.BaseVMFragment { *; }
+-keep class com.android.internal.R$styleable { *; }
+# 保留 ActivityInfo 类及其 isTranslucentOrFloating 方法
+-keep class android.content.pm.ActivityInfo { 
+    boolean isTranslucentOrFloating(android.content.res.TypedArray);
+}
 ```
 
 如果你觉得有用的话，不妨点击Github网页右上角的Fork按钮，让更多的人受益！

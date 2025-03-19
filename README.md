@@ -87,6 +87,11 @@ Add proguard rules.
 -keep class * implements dora.lifecycle.config.GlobalConfig { *; }
 -keep class dora.BaseVMActivity { *; }
 -keep class dora.BaseVMFragment { *; }
+-keep class com.android.internal.R$styleable { *; }
+# Keep the ActivityInfo class and its isTranslucentOrFloating method
+-keep class android.content.pm.ActivityInfo { 
+    boolean isTranslucentOrFloating(android.content.res.TypedArray);
+}
 ```
 
 If you find it useful, you may wish to click the Fork button in the upper right corner of the Github page to benefit more people!
