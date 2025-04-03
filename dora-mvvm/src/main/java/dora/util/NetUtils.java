@@ -18,6 +18,8 @@ package dora.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 
 import java.util.Locale;
@@ -101,5 +103,25 @@ public final class NetUtils {
             return ApnType.WIFI;
         }
         return ApnType.NONE;
+    }
+
+    public static boolean isUsingProxy() {
+        String proxyAddress = System.getProperty("http.proxyHost");
+        String proxyPort = System.getProperty("http.proxyPort");
+        return (proxyAddress != null && proxyPort != null);
+    }
+
+    public static boolean isUsingVPN(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            Network[] networks = cm.getAllNetworks();
+            for (Network network : networks) {
+                NetworkCapabilities caps = cm.getNetworkCapabilities(network);
+                if (caps != null && caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
