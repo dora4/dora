@@ -1,6 +1,5 @@
 package dora;
 
-import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -12,10 +11,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 
 /**
- * public static void requestFloatingPermission(Context context) {
+ * public void requestFloatingPermission(Context context) {
  *     if (!Settings.canDrawOverlays(context)) {
  *         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
  *         Uri.parse("package:"+context.getPackageName()));
@@ -37,10 +38,8 @@ import androidx.annotation.LayoutRes;
  */
 public abstract class BaseFloatingWindowService extends Service {
 
-    @SuppressLint("StaticFieldLeak")
-    protected static BaseFloatingWindowService sInstance;
     protected WindowManager mWindowManager;
-    private View mFloatView;
+    protected View mFloatView;
     private static final int INITIAL_PARAM_X = 0;
     private static final int INITIAL_PARAM_Y = 0;
 
@@ -50,26 +49,24 @@ public abstract class BaseFloatingWindowService extends Service {
 
     protected abstract @LayoutRes int getLayoutId();
 
-    protected abstract void initViews(View floatView);
-
-    public static BaseFloatingWindowService getInstance() {
-        return sInstance;
-    }
+    protected abstract void initViews(@NonNull View floatView);
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sInstance = this;
         mFloatView = LayoutInflater.from(this).inflate(getLayoutId(), null);
         initViews(mFloatView);
         WindowManager.LayoutParams params = getLayoutParams();
-
         params.gravity = Gravity.TOP | Gravity.START;
         params.x = getInitialPosition()[0];
         params.y = getInitialPosition()[1];
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         windowManager.addView(mFloatView, params);
         enableDrag(mFloatView, params);
+    }
+
+    protected  <T extends View> T findViewById(@IdRes int id) {
+        return mFloatView.findViewById(id);
     }
 
     private static WindowManager.LayoutParams getLayoutParams() {
@@ -88,7 +85,7 @@ public abstract class BaseFloatingWindowService extends Service {
         );
     }
 
-    private void enableDrag(final View view, final WindowManager.LayoutParams params) {
+    private void enableDrag(@NonNull final View view, final WindowManager.LayoutParams params) {
         view.setOnTouchListener(new View.OnTouchListener() {
             int initialX;
             int initialY;
