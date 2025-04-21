@@ -45,12 +45,12 @@ public abstract class BaseFloatingWindowService extends Service {
     private static final int INITIAL_PARAM_Y = 0;
 
     protected int[] getInitialPosition() {
-        return new int[] {INITIAL_PARAM_X, INITIAL_PARAM_Y};
+        return new int[] { INITIAL_PARAM_X, INITIAL_PARAM_Y };
     }
 
-    public abstract @LayoutRes int getLayoutId();
+    protected abstract @LayoutRes int getLayoutId();
 
-    public abstract void initViews(View floatView);
+    protected abstract void initViews(View floatView);
 
     public static BaseFloatingWindowService getInstance() {
         return sInstance;
