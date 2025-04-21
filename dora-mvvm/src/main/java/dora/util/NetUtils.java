@@ -105,18 +105,36 @@ public final class NetUtils {
         return ApnType.NONE;
     }
 
+    /**
+     * Check whether the system is using an HTTP proxy.
+     * 简体中文：判断是否使用了代理。
+     */
     public static boolean isUsingProxy() {
+        // Get system proxy host and port
+        // 简体中文：获取系统代理地址和端口
         String proxyAddress = System.getProperty("http.proxyHost");
         String proxyPort = System.getProperty("http.proxyPort");
+
+        // Return true if both proxy host and port are set
+        // 简体中文如果代理地址和端口都不为空，则说明使用了代理
         return (proxyAddress != null && proxyPort != null);
     }
 
+    /**
+     * Check whether the device is connected to a VPN.
+     * 简体中文：判断是否连接了 VPN。
+     */
     public static boolean isUsingVPN(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
         if (cm != null) {
             Network[] networks = cm.getAllNetworks();
+
             for (Network network : networks) {
                 NetworkCapabilities caps = cm.getNetworkCapabilities(network);
+
+                // Check if the network has VPN transport capability
+                // 简体中文：检查是否包含 VPN 类型的传输方式
                 if (caps != null && caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN)) {
                     return true;
                 }
@@ -124,4 +142,5 @@ public final class NetUtils {
         }
         return false;
     }
+
 }
