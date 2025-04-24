@@ -49,13 +49,14 @@ public abstract class BaseFloatingWindowService extends Service {
 
     protected abstract @LayoutRes int getLayoutId();
 
-    protected abstract void initViews(@NonNull View floatView);
+    protected void initViews() {
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         mFloatView = LayoutInflater.from(this).inflate(getLayoutId(), null);
-        initViews(mFloatView);
+        initViews();
         WindowManager.LayoutParams params = getLayoutParams();
         params.gravity = Gravity.TOP | Gravity.START;
         params.x = getInitialPosition()[0];
