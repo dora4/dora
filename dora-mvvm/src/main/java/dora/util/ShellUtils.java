@@ -22,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,7 +34,68 @@ public final class ShellUtils {
 
     private static final String LINE_SEP = System.getProperty("line.separator");
 
+    private static final String[] suPaths = {
+            "/data/local/",
+            "/data/local/bin/",
+            "/data/local/xbin/",
+            "/sbin/",
+            "/su/bin/",
+            "/system/bin/",
+            "/system/bin/.ext/",
+            "/system/bin/failsafe/",
+            "/system/sd/xbin/",
+            "/system/usr/we-need-root/",
+            "/system/xbin/",
+            "/cache/",
+            "/data/",
+            "/dev/"
+    };
+
     private ShellUtils() {
+    }
+
+    /**
+     * A variation on the checking for SU, this attempts a 'which su'.
+     * 简体中文：这是一种检查 SU（超级用户）权限的变体方式，它尝试执行一次 which su 命令。
+     *
+     * @return true if su found 简体中文：如果找到 su，则返回 true。
+     */
+    public boolean checkSuExists() {
+        Process process = null;
+        try {
+            process = Runtime.getRuntime().exec(new String[] { "which", "su" });
+            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            return in.readLine() != null;
+        } catch (Throwable t) {
+            return false;
+        } finally {
+            if (process != null) process.destroy();
+        }
+    }
+
+    /**
+     * Get a list of paths to check for binaries.
+     * 简体中文：获取要检查二进制文件的路径列表。
+     *
+     * @return List of paths to check, using a combination of a static list and those paths
+     * listed in the PATH environment variable. 简体中文：要检查的路径列表，结合了静态路径列表和 PATH 环境变
+     * 量中列出的路径。
+     */
+    static String[] getBinariesPaths() {
+        ArrayList<String> paths = new ArrayList<>(Arrays.asList(suPaths));
+        String sysPaths = System.getenv("PATH");
+        if (sysPaths == null || "".equals(sysPaths)) {
+            return paths.toArray(new String[0]);
+        }
+        for (String path : sysPaths.split(":")) {
+            if (!path.endsWith("/")) {
+                path = path + '/';
+            }
+            if (!paths.contains(path)) {
+                paths.add(path);
+            }
+        }
+        return paths.toArray(new String[0]);
     }
 
     /**
