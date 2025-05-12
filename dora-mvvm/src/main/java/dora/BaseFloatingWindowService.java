@@ -41,7 +41,7 @@ public abstract class BaseFloatingWindowService extends Service {
 
     protected WindowManager mWindowManager;
     protected View mFloatView;
-    private int touchSlop;
+    private int touchSlop = 10;
     private static final int INITIAL_PARAM_X = 0;
     private static final int INITIAL_PARAM_Y = 0;
 
