@@ -41,7 +41,7 @@ public abstract class BaseFloatingWindowService extends Service {
 
     protected WindowManager mWindowManager;
     protected View mFloatView;
-    private int touchSlop = 10;
+    private int mTouchSlop = 10;
     private static final int INITIAL_PARAM_X = 0;
     private static final int INITIAL_PARAM_Y = 0;
 
@@ -66,7 +66,7 @@ public abstract class BaseFloatingWindowService extends Service {
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mWindowManager.addView(mFloatView, params);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-            touchSlop = ViewConfiguration.get(mFloatView.getContext()).getScaledTouchSlop();
+            mTouchSlop = ViewConfiguration.get(mFloatView.getContext()).getScaledTouchSlop();
         }
         enableDrag(mFloatView, params);
     }
@@ -90,13 +90,14 @@ public abstract class BaseFloatingWindowService extends Service {
                 PixelFormat.TRANSLUCENT
         );
     }
+
     private void enableDrag(@NonNull final View view, final WindowManager.LayoutParams params) {
         view.setOnTouchListener(new View.OnTouchListener() {
+
             int initialX;
             int initialY;
-            float initialTouchX;
-            float initialTouchY;
-            boolean isMoving = false;
+            float touchX;
+            float touchY;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -104,19 +105,14 @@ public abstract class BaseFloatingWindowService extends Service {
                     case MotionEvent.ACTION_DOWN:
                         initialX = params.x;
                         initialY = params.y;
-                        initialTouchX = event.getRawX();
-                        initialTouchY = event.getRawY();
-                        // Reset drag state
-                        // 简体中文：重置拖动状态
-                        isMoving = false;
-
+                        touchX = event.getRawX();
+                        touchY = event.getRawY();
                     case MotionEvent.ACTION_MOVE:
-                        float dx = event.getRawX() - initialTouchX;
-                        float dy = event.getRawY() - initialTouchY;
+                        float dx = event.getRawX() - touchX;
+                        float dy = event.getRawY() - touchY;
                         // Consider it a drag if the movement distance is large enough
                         // 简体中文：如果移动距离足够大，则认为是拖动
-                        if (Math.abs(dx) > touchSlop || Math.abs(dy) > touchSlop) {
-                            isMoving = true;
+                        if (Math.hypot(dx, dy) > mTouchSlop) {
                             params.x = initialX + (int) dx;
                             params.y = initialY + (int) dy;
                             mWindowManager.updateViewLayout(view, params);
