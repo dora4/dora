@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 
 import androidx.annotation.IdRes;
@@ -40,6 +41,7 @@ public abstract class BaseFloatingWindowService extends Service {
 
     protected WindowManager mWindowManager;
     protected View mFloatView;
+    private int touchSlop;
     private static final int INITIAL_PARAM_X = 0;
     private static final int INITIAL_PARAM_Y = 0;
 
@@ -63,6 +65,7 @@ public abstract class BaseFloatingWindowService extends Service {
         params.y = getInitialPosition()[1];
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mWindowManager.addView(mFloatView, params);
+        touchSlop = ViewConfiguration.getTouchSlop();
         enableDrag(mFloatView, params);
     }
 
@@ -85,13 +88,14 @@ public abstract class BaseFloatingWindowService extends Service {
                 PixelFormat.TRANSLUCENT
         );
     }
-
     private void enableDrag(@NonNull final View view, final WindowManager.LayoutParams params) {
         view.setOnTouchListener(new View.OnTouchListener() {
             int initialX;
             int initialY;
             float initialTouchX;
             float initialTouchY;
+            boolean isMoving = false;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -100,14 +104,37 @@ public abstract class BaseFloatingWindowService extends Service {
                         initialY = params.y;
                         initialTouchX = event.getRawX();
                         initialTouchY = event.getRawY();
-                        return true;
+                        // Reset drag state
+                        // 简体中文：重置拖动状态
+                        isMoving = false;
+                        // Allow event to pass through to child views
+                        // 简体中文：允许事件传递给子视图
+                        return false;
+
                     case MotionEvent.ACTION_MOVE:
-                        params.x = initialX + (int) (event.getRawX() - initialTouchX);
-                        params.y = initialY + (int) (event.getRawY() - initialTouchY);
-                        mWindowManager.updateViewLayout(view, params);
-                        return true;
+                        float dx = event.getRawX() - initialTouchX;
+                        float dy = event.getRawY() - initialTouchY;
+                        // Consider it a drag if the movement distance is large enough
+                        // 简体中文：如果移动距离足够大，则认为是拖动
+                        if (Math.abs(dx) > touchSlop || Math.abs(dy) > touchSlop) {
+                            isMoving = true;
+                            params.x = initialX + (int) dx;
+                            params.y = initialY + (int) dy;
+                            mWindowManager.updateViewLayout(view, params);
+                        }
+                        // Intercept the event if dragging occurred
+                        // 简体中文：如果拖动了，拦截事件
+                        return isMoving;
+
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // If not dragging, let the child view handle the click event
+                        // 简体中文：如果不是拖动，则交给子视图处理点击事件
+                        return !isMoving;
+
+                    default:
+                        return false;
                 }
-                return false;
             }
         });
     }
