@@ -109,9 +109,6 @@ public abstract class BaseFloatingWindowService extends Service {
                         // Reset drag state
                         // 简体中文：重置拖动状态
                         isMoving = false;
-                        // Allow event to pass through to child views
-                        // 简体中文：允许事件传递给子视图
-                        return false;
 
                     case MotionEvent.ACTION_MOVE:
                         float dx = event.getRawX() - initialTouchX;
@@ -124,19 +121,10 @@ public abstract class BaseFloatingWindowService extends Service {
                             params.y = initialY + (int) dy;
                             mWindowManager.updateViewLayout(view, params);
                         }
-                        // Intercept the event if dragging occurred
-                        // 简体中文：如果拖动了，拦截事件
-                        return isMoving;
-
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        // If not dragging, let the child view handle the click event
-                        // 简体中文：如果不是拖动，则交给子视图处理点击事件
-                        return !isMoving;
-
-                    default:
-                        return false;
                 }
+                // Allow event to pass through to child views
+                // 简体中文：允许事件传递给子视图
+                return false;
             }
         });
     }
