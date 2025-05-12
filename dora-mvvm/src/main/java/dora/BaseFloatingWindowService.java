@@ -61,8 +61,8 @@ public abstract class BaseFloatingWindowService extends Service {
         params.gravity = Gravity.TOP | Gravity.START;
         params.x = getInitialPosition()[0];
         params.y = getInitialPosition()[1];
-        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        windowManager.addView(mFloatView, params);
+        mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        mWindowManager.addView(mFloatView, params);
         enableDrag(mFloatView, params);
     }
 
