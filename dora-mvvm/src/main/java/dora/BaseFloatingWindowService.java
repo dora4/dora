@@ -65,7 +65,9 @@ public abstract class BaseFloatingWindowService extends Service {
         params.y = getInitialPosition()[1];
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mWindowManager.addView(mFloatView, params);
-        touchSlop = ViewConfiguration.getTouchSlop();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            touchSlop = ViewConfiguration.get(mFloatView.getContext()).getScaledTouchSlop();
+        }
         enableDrag(mFloatView, params);
     }
 
