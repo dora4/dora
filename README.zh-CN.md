@@ -3,6 +3,8 @@
 Dora SDK官方文档 ![Release](https://jitpack.io/v/dora4/dora.svg)
 --------------------------------
 
+![dorachat_None_0d3631cf-e66f-4eda-ad63-bf50bd51d23b](https://github.com/user-attachments/assets/fefeeac1-8352-4d81-acf7-72aa7884fa6b)
+
 **一、SDK介绍**
 
 这是一个用于Android应用开发的，凝聚SDK作者多年Android行业从业经验的，一个高效开发和构建Android手机APP的框架。一个刚接触到Android应用开发的初学者也可以快速上手。无论你使用Java语言，亦或是Kotlin语言，都可以使用本SDK。
