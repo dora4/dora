@@ -3,6 +3,8 @@
 Dora SDK Official Document![Release](https://jitpack.io/v/dora4/dora.svg)
 --------------------------------
 
+![dorachat_None_0d3631cf-e66f-4eda-ad63-bf50bd51d23b](https://github.com/user-attachments/assets/fefeeac1-8352-4d81-acf7-72aa7884fa6b)
+
 **Introduction to the SDK**
 
 This is a framework for Android application development, which incorporates the author's years of experience in the Android industry. It provides an efficient way to develop and build Android mobile apps. Even beginners who have just started with Android app development can quickly get started. Whether you use the Java or Kotlin language, you can use this SDK.
