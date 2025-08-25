@@ -26,6 +26,7 @@ import android.os.Build;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.method.DigitsKeyListener;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.AnimRes;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowInsetsCompat;
@@ -338,5 +340,13 @@ public final class ViewUtils implements Number {
     public static void hideIME(Window window) {
         WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
         controller.hide(WindowInsetsCompat.Type.ime());
+    }
+
+    public static View inflate(Context context, @LayoutRes int layoutId) {
+        return LayoutInflater.from(context).inflate(layoutId, null);
+    }
+
+    public static View inflate(Context context, @LayoutRes int layoutId, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(layoutId, parent, true);
     }
 }
