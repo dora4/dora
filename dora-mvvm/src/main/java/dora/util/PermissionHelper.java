@@ -17,27 +17,31 @@ import java.util.Map;
 
 public class PermissionHelper {
 
-    private ComponentActivity activity;
-    private Fragment fragment;
+    private final ComponentActivity activity;
+    private final Fragment fragment;
     private final Map<String, ActivityResultLauncher<String>> singleLaunchers = new HashMap<>();
     private ActivityResultLauncher<String[]> multiLauncher;
     private final Map<String, PermissionCallback> callbackMap = new HashMap<>();
     private String[] pendingPermissions;
 
-    private PermissionHelper() {}
-
-    public PermissionHelper with(@NonNull Context context) {
-        ComponentActivity act = findActivity(context);
-        if (act == null) throw new IllegalArgumentException("Context must be a ComponentActivity");
-        this.activity = act;
+    private PermissionHelper(ComponentActivity activity) {
+        this.activity = activity;
         this.fragment = null;
-        return this;
     }
 
-    public PermissionHelper with(@NonNull Fragment fragment) {
+    private PermissionHelper(Fragment fragment) {
         this.fragment = fragment;
         this.activity = fragment.requireActivity();
-        return this;
+    }
+
+    public static PermissionHelper with(@NonNull Context context) {
+        ComponentActivity act = findActivity(context);
+        if (act == null) throw new IllegalArgumentException("Context must be a ComponentActivity");
+        return new PermissionHelper(act);
+    }
+
+    public static PermissionHelper with(@NonNull Fragment fragment) {
+        return new PermissionHelper(fragment);
     }
 
     private static ComponentActivity findActivity(Context context) {
@@ -46,7 +50,7 @@ public class PermissionHelper {
         return null;
     }
 
-    public PermissionHelper required(String... allPermissions) {
+    public PermissionHelper prepare(String... allPermissions) {
         if (activity == null && fragment == null) {
             throw new IllegalStateException("PermissionHelper not initialized. Call with(Context) or with(Fragment) first.");
         }
