@@ -1,14 +1,18 @@
 package dora.util;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -23,6 +27,7 @@ public class PermissionHelper {
     private ActivityResultLauncher<String[]> multiLauncher;
     private final Map<String, PermissionCallback> callbackMap = new HashMap<>();
     private String[] pendingPermissions;
+    public static final int REQUEST_CODE_REQUEST_PERMISSION = 10001;
 
     private PermissionHelper(ComponentActivity activity) {
         this.activity = activity;
@@ -75,11 +80,27 @@ public class PermissionHelper {
         return this;
     }
 
+    public static boolean hasPermission(Activity activity, String permission) {
+        return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void handlePermanentlyDenied() {
+        if (activity != null) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.parse("package:" + activity.getPackageName()));
+            activity.startActivity(intent);
+        } else if (fragment != null) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.parse("package:" + fragment.requireContext().getPackageName()));
+            fragment.startActivity(intent);
+        }
+    }
+
     public void request(PermissionCallback callback) {
         if (pendingPermissions == null || pendingPermissions.length == 0) return;
         boolean allGranted = true;
         for (String perm : pendingPermissions) {
-            if (ContextCompat.checkSelfPermission(activity, perm) != PackageManager.PERMISSION_GRANTED) {
+            if (!hasPermission(activity, perm)) {
                 allGranted = false;
                 break;
             }
@@ -87,6 +108,12 @@ public class PermissionHelper {
         if (allGranted) {
             callback.onResult(true);
             return;
+        }
+        for (String perm : pendingPermissions) {
+            if (isPermissionPermanentlyDenied(perm)) {
+                handlePermanentlyDenied();
+                return;
+            }
         }
         if (pendingPermissions.length == 1) {
             ActivityResultLauncher<String> launcher = singleLaunchers.get(pendingPermissions[0]);
@@ -97,6 +124,16 @@ public class PermissionHelper {
             if (multiLauncher == null) throw new IllegalStateException("Multi-permission launcher not registered");
             callbackMap.put("MULTI", callback);
             multiLauncher.launch(pendingPermissions);
+        }
+    }
+
+    public boolean isPermissionPermanentlyDenied(String permission) {
+        if (fragment != null) {
+            return !fragment.shouldShowRequestPermissionRationale(permission)
+                    && !hasPermission(fragment.getActivity(), permission);
+        } else {
+            return !ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
+                    && !hasPermission(activity, permission);
         }
     }
 
@@ -145,7 +182,7 @@ public class PermissionHelper {
         public static final String WRITE_CALL_LOG = Manifest.permission.WRITE_CALL_LOG;
         public static final String ADD_VOICEMAIL = Manifest.permission.ADD_VOICEMAIL;
         public static final String USE_SIP = Manifest.permission.USE_SIP;
-        public static final String PROCESS_OUTGOING_CALLS = Manifest.permission.PROCESS_OUTGOING_CALLS; // Deprecated Android 9
+        public static final String PROCESS_OUTGOING_CALLS = Manifest.permission.PROCESS_OUTGOING_CALLS; // Deprecated Android 9+
         public static final String SEND_SMS = Manifest.permission.SEND_SMS;
         public static final String RECEIVE_SMS = Manifest.permission.RECEIVE_SMS;
         public static final String READ_SMS = Manifest.permission.READ_SMS;
