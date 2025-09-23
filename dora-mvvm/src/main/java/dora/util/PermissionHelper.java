@@ -20,75 +20,126 @@ public class PermissionHelper {
     private final ComponentActivity activity;
     private final Map<String, ActivityResultLauncher<String>> singleLaunchers = new HashMap<>();
     private ActivityResultLauncher<String[]> multiLauncher;
-    private final Map<String, Object> callbackMap = new HashMap<>();
+    private final Map<String, PermissionCallback> callbackMap = new HashMap<>();
+    private String[] pendingPermissions;
+    private Fragment fragment;
+
+    private PermissionHelper(ComponentActivity activity) {
+        this.activity = activity;
+    }
+
+    private PermissionHelper(Fragment fragment) {
+        this.fragment = fragment;
+        this.activity = fragment.requireActivity();
+    }
 
     public static PermissionHelper with(@NonNull Context context) {
         ComponentActivity activity = findActivity(context);
         if (activity == null)
-            throw new IllegalArgumentException("Context must be an instance of ComponentActivity.");
+            throw new IllegalArgumentException("Context must be a ComponentActivity");
         return new PermissionHelper(activity);
     }
 
     public static PermissionHelper with(@NonNull Fragment fragment) {
-        assert fragment.getActivity() != null;
-        return with(fragment.getActivity());
+        return new PermissionHelper(fragment);
     }
 
     private static ComponentActivity findActivity(Context context) {
         if (context instanceof ComponentActivity) return (ComponentActivity) context;
-        if (context instanceof ContextWrapper) return findActivity(((ContextWrapper) context).getBaseContext());
+        if (context instanceof ContextWrapper)
+            return findActivity(((ContextWrapper) context).getBaseContext());
         return null;
     }
 
-    private PermissionHelper(ComponentActivity activity) {
-        this.activity = activity;
-        registerMultiLauncher();
+    public PermissionHelper permissions(String... permissions) {
+        this.pendingPermissions = permissions;
+        return this;
     }
 
-    private void registerMultiLauncher() {
-        multiLauncher = activity.registerForActivityResult(
-                new ActivityResultContracts.RequestMultiplePermissions(),
-                resultMap -> {
-                    PermissionCallbackAdapter adapter = (PermissionCallbackAdapter) callbackMap.get("MULTI");
-                    if (adapter != null) {
-                        adapter.onResult(resultMap);
-                        callbackMap.remove("MULTI");
-                    }
-                }
-        );
+    public void request(PermissionCallback callback) {
+        if (pendingPermissions == null || pendingPermissions.length == 0) return;
+        boolean allGranted = true;
+        for (String perm : pendingPermissions) {
+            if (ContextCompat.checkSelfPermission(activity, perm) != PackageManager.PERMISSION_GRANTED) {
+                allGranted = false;
+                break;
+            }
+        }
+        if (allGranted) {
+            callback.onResult(true);
+            return;
+        }
+        if (pendingPermissions.length == 1) {
+            ensureSingleLauncher(pendingPermissions[0]);
+            callbackMap.put(pendingPermissions[0], callback);
+            singleLaunchers.get(pendingPermissions[0]).launch(pendingPermissions[0]);
+        } else {
+            ensureMultiLauncher();
+            callbackMap.put("MULTI", callback);
+            multiLauncher.launch(pendingPermissions);
+        }
     }
 
-    private void registerSingle(String permission) {
+    private void ensureSingleLauncher(String permission) {
         if (singleLaunchers.containsKey(permission)) return;
-        ActivityResultLauncher<String> launcher = activity.registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                granted -> {
-                    PermissionCallbackAdapter adapter = (PermissionCallbackAdapter) callbackMap.get(permission);
-                    if (adapter != null) {
-                        Map<String, Boolean> result = new HashMap<>();
-                        result.put(permission, granted);
-                        adapter.onResult(result);
-                        callbackMap.remove(permission);
+        ActivityResultLauncher<String> launcher;
+        if (fragment != null) {
+            launcher = fragment.registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    granted -> {
+                        PermissionCallback cb = callbackMap.remove(permission);
+                        if (cb != null) cb.onResult(granted);
                     }
-                }
-        );
+            );
+        } else {
+            launcher = activity.registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    granted -> {
+                        PermissionCallback cb = callbackMap.remove(permission);
+                        if (cb != null) cb.onResult(granted);
+                    }
+            );
+        }
         singleLaunchers.put(permission, launcher);
     }
 
-    public void requestPermission(@NonNull String permission, @NonNull PermissionCallback callback) {
-        registerSingle(permission);
-        callbackMap.put(permission, new PermissionCallbackAdapter(callback));
-        singleLaunchers.get(permission).launch(permission);
-    }
-
-    public void requestPermissions(@NonNull String[] permissions,
-                                   @NonNull PermissionCallback callback) {
-        callbackMap.put("MULTI", new PermissionCallbackAdapter(callback, permissions));
-        multiLauncher.launch(permissions);
-    }
-
-    public boolean hasPermission(String permission) {
-        return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+    private void ensureMultiLauncher() {
+        if (multiLauncher != null) return;
+        if (fragment != null) {
+            multiLauncher = fragment.registerForActivityResult(
+                    new ActivityResultContracts.RequestMultiplePermissions(),
+                    results -> {
+                        PermissionCallback cb = callbackMap.remove("MULTI");
+                        if (cb != null) {
+                            boolean allGranted = true;
+                            for (Boolean granted : results.values()) {
+                                if (!granted) {
+                                    allGranted = false;
+                                    break;
+                                }
+                            }
+                            cb.onResult(allGranted);
+                        }
+                    }
+            );
+        } else {
+            multiLauncher = activity.registerForActivityResult(
+                    new ActivityResultContracts.RequestMultiplePermissions(),
+                    results -> {
+                        PermissionCallback cb = callbackMap.remove("MULTI");
+                        if (cb != null) {
+                            boolean allGranted = true;
+                            for (Boolean granted : results.values()) {
+                                if (!granted) {
+                                    allGranted = false;
+                                    break;
+                                }
+                            }
+                            cb.onResult(allGranted);
+                        }
+                    }
+            );
+        }
     }
 
     public interface PermissionCallback {
