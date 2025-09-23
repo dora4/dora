@@ -125,6 +125,11 @@ public class PermissionHelper {
             callbackMap.put("MULTI", callback);
             multiLauncher.launch(pendingPermissions);
         }
+        if (activity != null) {
+            ActivityCompat.requestPermissions(activity, pendingPermissions, REQUEST_CODE_REQUEST_PERMISSION);
+        } else if (fragment != null) {
+            fragment.requestPermissions(pendingPermissions, REQUEST_CODE_REQUEST_PERMISSION);
+        }
     }
 
     public boolean isPermissionPermanentlyDenied(String permission) {
