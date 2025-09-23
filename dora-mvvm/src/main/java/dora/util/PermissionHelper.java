@@ -17,38 +17,53 @@ import java.util.Map;
 
 public class PermissionHelper {
 
-    private final ComponentActivity activity;
+    private ComponentActivity activity;
+    private Fragment fragment;
     private final Map<String, ActivityResultLauncher<String>> singleLaunchers = new HashMap<>();
     private ActivityResultLauncher<String[]> multiLauncher;
     private final Map<String, PermissionCallback> callbackMap = new HashMap<>();
     private String[] pendingPermissions;
-    private Fragment fragment;
 
-    private PermissionHelper(ComponentActivity activity) {
-        this.activity = activity;
+    private PermissionHelper() {}
+
+    public PermissionHelper with(@NonNull Context context) {
+        ComponentActivity act = findActivity(context);
+        if (act == null) throw new IllegalArgumentException("Context must be a ComponentActivity");
+        this.activity = act;
+        this.fragment = null;
+        return this;
     }
 
-    private PermissionHelper(Fragment fragment) {
+    public PermissionHelper with(@NonNull Fragment fragment) {
         this.fragment = fragment;
         this.activity = fragment.requireActivity();
-    }
-
-    public static PermissionHelper with(@NonNull Context context) {
-        ComponentActivity activity = findActivity(context);
-        if (activity == null)
-            throw new IllegalArgumentException("Context must be a ComponentActivity");
-        return new PermissionHelper(activity);
-    }
-
-    public static PermissionHelper with(@NonNull Fragment fragment) {
-        return new PermissionHelper(fragment);
+        return this;
     }
 
     private static ComponentActivity findActivity(Context context) {
         if (context instanceof ComponentActivity) return (ComponentActivity) context;
-        if (context instanceof ContextWrapper)
-            return findActivity(((ContextWrapper) context).getBaseContext());
+        if (context instanceof ContextWrapper) return findActivity(((ContextWrapper) context).getBaseContext());
         return null;
+    }
+
+    public PermissionHelper required(String... allPermissions) {
+        if (activity == null && fragment == null) {
+            throw new IllegalStateException("PermissionHelper not initialized. Call with(Context) or with(Fragment) first.");
+        }
+        if (multiLauncher == null) {
+            multiLauncher = fragment != null
+                    ? fragment.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this::onMultiResult)
+                    : activity.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this::onMultiResult);
+        }
+        for (String perm : allPermissions) {
+            if (!singleLaunchers.containsKey(perm)) {
+                ActivityResultLauncher<String> launcher = fragment != null
+                        ? fragment.registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> onSingleResult(perm, granted))
+                        : activity.registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> onSingleResult(perm, granted));
+                singleLaunchers.put(perm, launcher);
+            }
+        }
+        return this;
     }
 
     public PermissionHelper permissions(String... permissions) {
@@ -70,27 +85,14 @@ public class PermissionHelper {
             return;
         }
         if (pendingPermissions.length == 1) {
+            ActivityResultLauncher<String> launcher = singleLaunchers.get(pendingPermissions[0]);
+            if (launcher == null) throw new IllegalStateException("Launcher not registered for " + pendingPermissions[0]);
             callbackMap.put(pendingPermissions[0], callback);
-            singleLaunchers.get(pendingPermissions[0]).launch(pendingPermissions[0]);
+            launcher.launch(pendingPermissions[0]);
         } else {
+            if (multiLauncher == null) throw new IllegalStateException("Multi-permission launcher not registered");
             callbackMap.put("MULTI", callback);
             multiLauncher.launch(pendingPermissions);
-        }
-    }
-
-    public void required(String... allPermissions) {
-        if (multiLauncher == null) {
-            multiLauncher = fragment != null
-                    ? fragment.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this::onMultiResult)
-                    : activity.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this::onMultiResult);
-        }
-        for (String perm : allPermissions) {
-            if (!singleLaunchers.containsKey(perm)) {
-                ActivityResultLauncher<String> launcher = fragment != null
-                        ? fragment.registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> onSingleResult(perm, granted))
-                        : activity.registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> onSingleResult(perm, granted));
-                singleLaunchers.put(perm, launcher);
-            }
         }
     }
 
@@ -115,39 +117,6 @@ public class PermissionHelper {
 
     public interface PermissionCallback {
         void onResult(boolean granted);
-    }
-
-    public static class PermissionCallbackAdapter {
-
-        private final PermissionCallback callback;
-        private final String[] permissions;
-
-        public PermissionCallbackAdapter(PermissionCallback callback) {
-            this.callback = callback;
-            this.permissions = null;
-        }
-
-        public PermissionCallbackAdapter(PermissionCallback callback, String[] permissions) {
-            this.callback = callback;
-            this.permissions = permissions;
-        }
-
-        public void onResult(@NonNull Map<String, Boolean> results) {
-            if (results.size() == 1 && permissions == null) {
-                callback.onResult(results.values().iterator().next());
-                return;
-            }
-            boolean allRequiredGranted = true;
-            if (permissions != null) {
-                for (String perm : permissions) {
-                    if (!Boolean.TRUE.equals(results.get(perm))) {
-                        allRequiredGranted = false;
-                        break;
-                    }
-                }
-            }
-            callback.onResult(allRequiredGranted);
-        }
     }
 
     public static class Permission {
