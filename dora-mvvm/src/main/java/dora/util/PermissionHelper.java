@@ -109,12 +109,6 @@ public class PermissionHelper {
             callback.onResult(true);
             return;
         }
-        for (String perm : pendingPermissions) {
-            if (isPermissionPermanentlyDenied(perm)) {
-                handlePermanentlyDenied();
-                return;
-            }
-        }
         if (pendingPermissions.length == 1) {
             ActivityResultLauncher<String> launcher = singleLaunchers.get(pendingPermissions[0]);
             if (launcher == null) throw new IllegalStateException("Launcher not registered for " + pendingPermissions[0]);
@@ -134,28 +128,44 @@ public class PermissionHelper {
 
     public boolean isPermissionPermanentlyDenied(String permission) {
         if (fragment != null) {
-            return !fragment.shouldShowRequestPermissionRationale(permission)
-                    && !hasPermission(fragment.getActivity(), permission);
-        } else {
-            return !ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
-                    && !hasPermission(activity, permission);
+            return !hasPermission(fragment.getActivity(), permission)
+                    && !fragment.shouldShowRequestPermissionRationale(permission);
+        } else if (activity != null) {
+            return !hasPermission(activity, permission)
+                    && !ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
         }
+        return false;
     }
 
     private void onSingleResult(String permission, boolean granted) {
         PermissionCallback cb = callbackMap.remove(permission);
-        if (cb != null) cb.onResult(granted);
+        if (cb != null) {
+            if (!granted) {
+                if (isPermissionPermanentlyDenied(permission)) {
+                    handlePermanentlyDenied();
+                }
+            }
+            cb.onResult(granted);
+        }
     }
 
     private void onMultiResult(Map<String, Boolean> results) {
         PermissionCallback cb = callbackMap.remove("MULTI");
         if (cb != null) {
             boolean allGranted = true;
-            for (Boolean granted : results.values()) {
+            boolean permanentlyDenied = false;
+            for (Map.Entry<String, Boolean> entry : results.entrySet()) {
+                String permission = entry.getKey();
+                boolean granted = entry.getValue();
                 if (!granted) {
                     allGranted = false;
-                    break;
+                    if (isPermissionPermanentlyDenied(permission)) {
+                        permanentlyDenied = true;
+                    }
                 }
+            }
+            if (permanentlyDenied) {
+                handlePermanentlyDenied();
             }
             cb.onResult(allGranted);
         }
