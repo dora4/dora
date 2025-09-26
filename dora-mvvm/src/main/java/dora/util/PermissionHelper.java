@@ -7,6 +7,8 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 
 import androidx.activity.ComponentActivity;
@@ -20,6 +22,16 @@ import androidx.fragment.app.Fragment;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * PermissionHelper
+ * <p>
+ * English: A utility class to simplify Android runtime permission requests.
+ * Supports both single and multiple permission requests, handling permanent denials,
+ * and compatibility with different Android versions (including MANAGE_EXTERNAL_STORAGE).
+ * <p>
+ * 简体中文：一个简化 Android 运行时权限请求的工具类。
+ * 支持单个和多个权限请求，处理永久拒绝，并兼容不同 Android 版本（包括 MANAGE_EXTERNAL_STORAGE）。
+ */
 public class PermissionHelper {
 
     private final ComponentActivity activity;
@@ -30,22 +42,40 @@ public class PermissionHelper {
     private String[] pendingPermissions;
     public static final int REQUEST_CODE_REQUEST_PERMISSION = 10001;
 
+    /**
+     * Private constructor with Activity.
+     * 简体中文：带 Activity 的私有构造方法。
+     */
     private PermissionHelper(ComponentActivity activity) {
         this.activity = activity;
         this.fragment = null;
     }
 
+    /**
+     * Private constructor with Fragment.
+     * 简体中文：带 Fragment 的私有构造方法。
+     */
     private PermissionHelper(Fragment fragment) {
         this.fragment = fragment;
         this.activity = fragment.requireActivity();
     }
 
+    /**
+     * Create PermissionHelper with a Context.
+     * The context must be a ComponentActivity (directly or wrapped).
+     * 简体中文：使用 Context 创建 PermissionHelper。
+     * Context 必须是 ComponentActivity（直接或间接包装）。
+     */
     public static PermissionHelper with(@NonNull Context context) {
         ComponentActivity act = findActivity(context);
         if (act == null) throw new IllegalArgumentException("Context must be a ComponentActivity");
         return new PermissionHelper(act);
     }
 
+    /**
+     * Create PermissionHelper with a Fragment.
+     * 简体中文：使用 Fragment 创建 PermissionHelper。
+     */
     public static PermissionHelper with(@NonNull Fragment fragment) {
         return new PermissionHelper(fragment);
     }
@@ -56,6 +86,10 @@ public class PermissionHelper {
         return null;
     }
 
+    /**
+     * Prepare launchers for given permissions.
+     * 简体中文：为给定权限准备 launcher。
+     */
     public PermissionHelper prepare(String... allPermissions) {
         if (activity == null && fragment == null) {
             throw new IllegalStateException("PermissionHelper not initialized. Call with(Context) or with(Fragment) first.");
@@ -76,15 +110,30 @@ public class PermissionHelper {
         return this;
     }
 
+    /**
+     * Set the permissions to request.
+     * 简体中文：设置需要请求的权限。
+     */
     public PermissionHelper permissions(String... permissions) {
         this.pendingPermissions = permissions;
         return this;
     }
 
-    public static boolean hasPermission(Activity activity, String permission) {
+    /**
+     * Check whether the specified permission has been granted.
+     * 简体中文：检查指定的权限是否已被授予。
+     */
+    public boolean hasPermission(Activity activity, String permission) {
         return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * Handle the case where a permission has been permanently denied by the user.
+     * This will redirect the user to the app details settings page,
+     * where they can manually enable the permission.
+     * 简体中文：处理用户永久拒绝权限的情况。
+     * 该方法会跳转到应用详情设置页面，让用户手动开启权限。
+     */
     private void handlePermanentlyDenied() {
         Context ctx = null;
         if (fragment != null && fragment.isAdded()) {
@@ -99,6 +148,10 @@ public class PermissionHelper {
         }
     }
 
+    /**
+     * Request permissions and handle result via callback.
+     * 简体中文：请求权限，并通过回调处理结果。
+     */
     public void request(PermissionCallback callback) {
         if (pendingPermissions == null || pendingPermissions.length == 0) return;
         boolean allGranted = true;
@@ -124,6 +177,31 @@ public class PermissionHelper {
         }
     }
 
+    /**
+     * Check whether storage permission is granted.
+     * On Android 11+ it checks MANAGE_EXTERNAL_STORAGE,
+     * on lower versions it checks READ/WRITE_EXTERNAL_STORAGE.
+     * 简体中文：检查存储权限是否被授予。
+     * Android 11+ 检查 MANAGE_EXTERNAL_STORAGE，
+     * 更低版本检查 READ/WRITE_EXTERNAL_STORAGE。
+     *
+     * @see IntentUtils#getRequestStoragePermissionIntent(String)
+     */
+    public static boolean hasStoragePermission(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+        } else {
+            int read = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+            int write = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            return read == PackageManager.PERMISSION_GRANTED &&
+                    write == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    /**
+     * Check whether a permission has been permanently denied.
+     * 简体中文：检查权限是否被永久拒绝。
+     */
     public boolean isPermissionPermanentlyDenied(String permission) {
         if (fragment != null) {
             return !hasPermission(fragment.getActivity(), permission)
@@ -181,10 +259,23 @@ public class PermissionHelper {
         }
     }
 
+    /**
+     * Callback for permission request result.
+     * 简体中文：权限请求结果的回调接口。
+     */
     public interface PermissionCallback {
+
+        /**
+         * Called when permissions result is available.
+         * 简体中文：当权限结果可用时调用。
+         */
         void onResult(boolean granted);
     }
 
+    /**
+     * Permission constants for common Android permissions.
+     * 简体中文：常用 Android 权限的常量。
+     */
     public static class Permission {
         public static final String CAMERA = Manifest.permission.CAMERA;
         public static final String RECORD_AUDIO = Manifest.permission.RECORD_AUDIO;

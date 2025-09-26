@@ -30,6 +30,7 @@ import android.provider.Settings;
 import androidx.annotation.AnimRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public final class IntentUtils {
 
     public static void startActivityForResult(@NonNull Activity activity,
                                               @NonNull Class<? extends
-            Activity> activityClazz, int requestCode) {
+                                                      Activity> activityClazz, int requestCode) {
         startActivityForResult(activity, activityClazz, null, requestCode);
     }
 
@@ -199,9 +200,9 @@ public final class IntentUtils {
     }
 
     public static void startActivityWithLong(@NonNull Activity activity,
-                                                @NonNull Class<? extends Activity> activityClazz,
-                                                @NonNull String name,
-                                                long extra) {
+                                             @NonNull Class<? extends Activity> activityClazz,
+                                             @NonNull String name,
+                                             long extra) {
         startActivityWithLong(activity, activityClazz, null, name, extra);
     }
 
@@ -280,10 +281,10 @@ public final class IntentUtils {
     }
 
     public static void startActivityWithLong(@NonNull Activity activity,
-                                                @NonNull Class<? extends Activity> activityClazz,
-                                                @Nullable String action,
-                                                @NonNull String name,
-                                                long extra) {
+                                             @NonNull Class<? extends Activity> activityClazz,
+                                             @Nullable String action,
+                                             @NonNull String name,
+                                             long extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
@@ -351,10 +352,10 @@ public final class IntentUtils {
     }
 
     public static void startActivityForResultWithLong(@NonNull Activity activity,
-                                                         @NonNull Class<? extends Activity> activityClazz,
-                                                         @Nullable String action,
-                                                         int requestCode,
-                                                         @NonNull String name, long extra) {
+                                                      @NonNull Class<? extends Activity> activityClazz,
+                                                      @Nullable String action,
+                                                      int requestCode,
+                                                      @NonNull String name, long extra) {
         Map<String, Object> map = new HashMap<>();
         map.put(name, extra);
         Intent intent = getActivityIntent(activity, activityClazz);
@@ -705,6 +706,19 @@ public final class IntentUtils {
      */
     public static Intent getLaunchAppDetailsSettingsIntent(final String pkgName) {
         return getLaunchAppDetailsSettingsIntent(pkgName, false);
+    }
+
+    /**
+     * Return the intent of request "All files access" permission
+     * for the specific application on Android 11 (API 30) and above.
+     * 简体中文：返回请求特定应用“所有文件访问权限”的意图，
+     * 仅在 Android 11 (API 30) 及以上版本有效。
+     */
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    public static Intent getRequestStoragePermissionIntent(String packageName) {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+        intent.setData(Uri.parse("package:" + packageName));
+        return intent;
     }
 
     /**
