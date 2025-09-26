@@ -7,6 +7,7 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.provider.Settings;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
@@ -85,14 +86,16 @@ public class PermissionHelper {
     }
 
     private void handlePermanentlyDenied() {
-        if (fragment != null) {
-            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.setData(Uri.parse("package:" + fragment.requireContext().getPackageName()));
-            fragment.startActivity(intent);
+        Context ctx = null;
+        if (fragment != null && fragment.isAdded()) {
+            ctx = fragment.getContext();
         } else if (activity != null) {
-            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.setData(Uri.parse("package:" + activity.getPackageName()));
-            activity.startActivity(intent);
+            ctx = activity;
+        }
+        if (ctx != null) {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.parse("package:" + ctx.getPackageName()));
+            ctx.startActivity(intent);
         }
     }
 
@@ -119,11 +122,6 @@ public class PermissionHelper {
             callbackMap.put("MULTI", callback);
             multiLauncher.launch(pendingPermissions);
         }
-//        if (fragment != null) {
-//            fragment.requestPermissions(pendingPermissions, REQUEST_CODE_REQUEST_PERMISSION);
-//        } else if (activity != null) {
-//            ActivityCompat.requestPermissions(activity, pendingPermissions, REQUEST_CODE_REQUEST_PERMISSION);
-//        }
     }
 
     public boolean isPermissionPermanentlyDenied(String permission) {
@@ -143,6 +141,12 @@ public class PermissionHelper {
             if (!granted) {
                 if (isPermissionPermanentlyDenied(permission)) {
                     handlePermanentlyDenied();
+                } else {
+                    if (fragment != null) {
+                        fragment.requestPermissions(pendingPermissions, REQUEST_CODE_REQUEST_PERMISSION);
+                    } else if (activity != null) {
+                        ActivityCompat.requestPermissions(activity, pendingPermissions, REQUEST_CODE_REQUEST_PERMISSION);
+                    }
                 }
             }
             cb.onResult(granted);
@@ -161,6 +165,12 @@ public class PermissionHelper {
                     allGranted = false;
                     if (isPermissionPermanentlyDenied(permission)) {
                         permanentlyDenied = true;
+                    } else {
+                        if (fragment != null) {
+                            fragment.requestPermissions(pendingPermissions, REQUEST_CODE_REQUEST_PERMISSION);
+                        } else if (activity != null) {
+                            ActivityCompat.requestPermissions(activity, pendingPermissions, REQUEST_CODE_REQUEST_PERMISSION);
+                        }
                     }
                 }
             }
