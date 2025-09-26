@@ -85,14 +85,14 @@ public class PermissionHelper {
     }
 
     private void handlePermanentlyDenied() {
-        if (activity != null) {
-            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.setData(Uri.parse("package:" + activity.getPackageName()));
-            activity.startActivity(intent);
-        } else if (fragment != null) {
+        if (fragment != null) {
             Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setData(Uri.parse("package:" + fragment.requireContext().getPackageName()));
             fragment.startActivity(intent);
+        } else if (activity != null) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.parse("package:" + activity.getPackageName()));
+            activity.startActivity(intent);
         }
     }
 
