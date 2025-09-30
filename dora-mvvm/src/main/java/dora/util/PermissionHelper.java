@@ -153,7 +153,15 @@ public class PermissionHelper {
      * Request permissions and handle result via callback.
      * 简体中文：请求权限，并通过回调处理结果。
      */
-    public void request(@Nullable PermissionCallback callback) {
+    public void request() {
+        request(null);
+    }
+
+    /**
+     * Request permissions and handle result via callback.
+     * 简体中文：请求权限，并通过回调处理结果。
+     */
+    public void request(PermissionCallback callback) {
         if (pendingPermissions == null || pendingPermissions.length == 0) return;
         boolean allGranted = true;
         for (String perm : pendingPermissions) {
