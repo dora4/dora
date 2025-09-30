@@ -15,6 +15,7 @@ import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -152,7 +153,7 @@ public class PermissionHelper {
      * Request permissions and handle result via callback.
      * 简体中文：请求权限，并通过回调处理结果。
      */
-    public void request(PermissionCallback callback) {
+    public void request(@Nullable PermissionCallback callback) {
         if (pendingPermissions == null || pendingPermissions.length == 0) return;
         boolean allGranted = true;
         for (String perm : pendingPermissions) {
@@ -162,7 +163,9 @@ public class PermissionHelper {
             }
         }
         if (allGranted) {
-            callback.onResult(true);
+            if (callback != null) {
+                callback.onResult(true);
+            }
             return;
         }
         if (pendingPermissions.length == 1) {
