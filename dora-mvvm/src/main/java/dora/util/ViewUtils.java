@@ -16,6 +16,7 @@
 
 package dora.util;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -242,6 +243,32 @@ public final class ViewUtils implements Number {
         System.arraycopy(filters, 0, destArray, 0, filters.length);
         destArray[destArray.length - 1] = new InputFilter.LengthFilter(length);
         editText.setFilters(destArray);
+    }
+
+    public static void setMaxLength(EditText editText, int maxAscii, int maxChinese) {
+        editText.setFilters(new InputFilter[] {
+                (source, start, end, dest, dstart, dend) -> {
+                    CharSequence result = null;
+                    if (source != null && source.length() != 0) {
+                        StringBuilder newText = new StringBuilder(dest);
+                        newText.replace(dstart, dend, source.subSequence(start, end).toString());
+                        int asciiCount = 0;
+                        int chineseCount = 0;
+                        for (int i = 0; i < newText.length(); i++) {
+                            char ch = newText.charAt(i);
+                            if (ch >= 0x4E00 && ch <= 0x9FA5) {
+                                chineseCount++;
+                            } else {
+                                asciiCount++;
+                            }
+                        }
+                        if (asciiCount > maxAscii || chineseCount > maxChinese) {
+                            result = "";
+                        }
+                    }
+                    return result;
+                }
+        });
     }
 
     public static void applyUnsignedNumber(EditText editText) {
