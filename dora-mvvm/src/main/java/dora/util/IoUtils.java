@@ -839,55 +839,86 @@ public final class IoUtils {
             String[] splits = docId.split(":");
             String type = null;
             String id = null;
-            if (splits.length == 2) {
+            if (splits.length >= 2) {
                 type = splits[0];
-                id = splits[1];
+                id = splits[splits.length - 1];
             }
-            if (uri.getAuthority().equals("com.android.externalstorage.documents")) {
-                if ("primary".equals(type)) {
-                    path = context.getExternalFilesDir(null) + File.separator + id;
+            String authority = uri.getAuthority();
+            if ("com.android.externalstorage.documents".equals(authority)) {
+                if ("primary".equalsIgnoreCase(type)) {
+                    path = Environment.getExternalStorageDirectory() + File.separator + id;
                 }
-            } if (uri.getAuthority().equals("com.android.providers.downloads.documents")) {
+            }
+            else if ("com.android.providers.downloads.documents".equals(authority)) {
+                // DownloadsProvider
                 if ("raw".equals(type)) {
                     path = id;
                 } else {
-                    Uri contentUri = ContentUris.withAppendedId(
-                            Uri.parse("content://downloads/public_downloads"),
-                            Long.parseLong(docId)
-                    );
-                    path = contentUri.getPath();
+                    // It’s possible that docId is “msf:1234” or some other prefix
+                    long parsedId = -1;
+                    try {
+                        parsedId = Long.parseLong(id);
+                    } catch (NumberFormatException e) {
+                    }
+                    if (parsedId >= 0) {
+                        Uri contentUri = ContentUris.withAppendedId(
+                                Uri.parse("content://downloads/public_downloads"),
+                                parsedId);
+                        path = queryDataColumn(context, contentUri, null, null);
+                    } else {
+                        path = queryDataColumn(context, uri, null, null);
+                    }
                 }
-            } else if (uri.getAuthority().equals("com.android.providers.media.documents")) {
+            }
+            else if ("com.android.providers.media.documents".equals(authority)) {
                 Uri externalUri = null;
-                switch (type) {
-                    case "image":
-                        externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                    case "video":
-                        externalUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                    case "audio":
-                        externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                    case "document":
-                        externalUri = MediaStore.Files.getContentUri("external");
+                if ("image".equals(type)) {
+                    externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    externalUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                } else {
+                    externalUri = MediaStore.Files.getContentUri("external");
                 }
                 if (externalUri != null) {
                     String selection = "_id=?";
-                    String[] selectionArgs = new String[]{id};
-                    path = getMediaPathFromUri(context, externalUri, selection, selectionArgs);
+                    String[] selectionArgs = new String[]{ id };
+                    path = queryDataColumn(context, externalUri, selection, selectionArgs);
                 }
             }
-        } else if (ContentResolver.SCHEME_CONTENT.equalsIgnoreCase(uri.getScheme())) {
-            path = getMediaPathFromUri(context, uri, null, null);
-        } else if (ContentResolver.SCHEME_FILE.equalsIgnoreCase(uri.getScheme())) {
+        }
+        else if (ContentResolver.SCHEME_CONTENT.equalsIgnoreCase(uri.getScheme())) {
+            path = queryDataColumn(context, uri, null, null);
+        }
+        else if (ContentResolver.SCHEME_FILE.equalsIgnoreCase(uri.getScheme())) {
             path = uri.getPath();
         }
         if (path != null && new File(path).exists()) {
             return path;
-        } else {
-            return null;
         }
+        return null;
     }
 
-    private static String getMediaPathFromUri(@NonNull Context context, @NonNull Uri uri, String selection, String[]selectionArgs){
+    private static String queryDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = { column };
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return null;
+    }
+
+    private static String getMediaPathFromUri(@NonNull Context context, @NonNull Uri uri, String selection, String[] selectionArgs) {
         String path = uri.getPath();
         String sdPath = context.getExternalFilesDir(null).getAbsolutePath();
         if (path != null && !path.startsWith(sdPath)) {
