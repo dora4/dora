@@ -318,6 +318,19 @@ public final class CryptoUtils {
     }
 
     /**
+     * Encrypting a file using AES, with the default mode.
+     * 简体中文：AES加密文件，默认方式。
+     *
+     * @param fis File input stream
+     * @param dir     Storage path of the encrypted file
+     * @param dstName Encrypted file name
+     * @param secretKey  Key
+     */
+    public static File encryptFileAES(FileInputStream fis, String dir, String dstName, String secretKey) {
+        return encryptFileAES(fis, dir, dstName, secretKey, AES_CFB_PKCS5);
+    }
+
+    /**
      * Encrypting a file using AES.
      * 简体中文：AES解密文件。
      *
@@ -378,6 +391,19 @@ public final class CryptoUtils {
      */
     public static File decryptFileAES(File srcFile, String dir, String dstName, String secretKey) {
         return decryptFileAES(srcFile, dir, dstName, secretKey, AES_CFB_PKCS5);
+    }
+
+    /**
+     * Decrypting a file using AES, with the default mode.
+     * 简体中文：AES解密文件，默认方式。
+     *
+     * @param fis File input stream
+     * @param dir        Storage path of the decrypted file
+     * @param dstName Decrypted file name
+     * @param secretKey  Key
+     */
+    public static File decryptFileAES(FileInputStream fis, String dir, String dstName, String secretKey) {
+        return decryptFileAES(fis, dir, dstName, secretKey, AES_CFB_PKCS5);
     }
 
     /**
