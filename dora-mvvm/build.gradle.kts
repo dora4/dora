@@ -9,6 +9,18 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 21
+        ndk {
+            abiFilters.addAll(setOf("x86", "x86_64", "armeabi-v7a", "arm64-v8a"))
+        }
+        @Suppress("UnstableApiUsage")
+        externalNativeBuild {
+            cmake {
+                arguments.add("-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON")
+                // added to improve security of binary #180
+                cFlags("-fPIC")
+                cppFlags("-fPIC")
+            }
+        }
     }
     buildFeatures {
         dataBinding = true
@@ -26,6 +38,11 @@ android {
     }
     kotlinOptions{
         jvmTarget = "11"
+    }
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
     }
 }
 
@@ -55,7 +72,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.3.36"
+                version = "1.3.37"
             }
         }
     }
