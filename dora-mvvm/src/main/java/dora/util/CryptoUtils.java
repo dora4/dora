@@ -264,11 +264,31 @@ public final class CryptoUtils {
      */
     public static File encryptFileAES(File srcFile, String dir, String dstName, String secretKey, String transformation) {
         try {
+            return encryptFileAES(new FileInputStream(srcFile), dir, dstName, secretKey, transformation);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Encrypting a file using AES.
+     * 简体中文：对文件进行AES加密。
+     *
+     * @param fis     File input stream
+     * @param dir     Storage path of the encrypted file
+     * @param dstName Encrypted file name
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     * @return Encrypted file
+     */
+    public static File encryptFileAES(FileInputStream fis, String dir, String dstName, String secretKey, String transformation) {
+        try {
             File encryptFile = new File(dir, dstName);
             FileOutputStream outputStream = new FileOutputStream(encryptFile);
             Cipher cipher = initFileAESCipher(secretKey, transformation, Cipher.ENCRYPT_MODE);
             CipherInputStream cipherInputStream = new CipherInputStream(
-                    new FileInputStream(srcFile), cipher);
+                    fis, cipher);
             byte[] buffer = new byte[1024 * 2];
             int len;
             while ((len = cipherInputStream.read(buffer)) != -1) {
@@ -310,18 +330,36 @@ public final class CryptoUtils {
      */
     public static File decryptFileAES(File srcFile, String dir, String dstName, String secretKey, String transformation) {
         try {
+            return decryptFileAES(new FileInputStream(srcFile), dir, dstName, secretKey, transformation);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Encrypting a file using AES.
+     * 简体中文：AES解密文件。
+     *
+     * @param fis        File input stream
+     * @param dir        Storage path of the decrypted file
+     * @param dstName Decrypted file name
+     * @param secretKey  Key
+     * @param transformation In the field of encryption, it usually refers to the combination
+     *                       of encryption algorithms, modes, and padding.
+     */
+    public static File decryptFileAES(FileInputStream fis, String dir, String dstName, String secretKey, String transformation) {
+        try {
             File decryptFile = new File(dir, dstName);
             Cipher cipher = initFileAESCipher(secretKey, transformation, Cipher.DECRYPT_MODE);
-            FileInputStream inputStream = new FileInputStream(srcFile);
             CipherOutputStream cipherOutputStream = new CipherOutputStream(
                     new FileOutputStream(decryptFile), cipher);
             byte[] buffer = new byte[1024 * 2];
             int len;
-            while ((len = inputStream.read(buffer)) >= 0) {
+            while ((len = fis.read(buffer)) >= 0) {
                 cipherOutputStream.write(buffer, 0, len);
                 cipherOutputStream.flush();
             }
-            IoUtils.close(cipherOutputStream, inputStream);
+            IoUtils.close(cipherOutputStream, fis);
             return decryptFile;
         } catch (IOException e) {
             e.printStackTrace();
