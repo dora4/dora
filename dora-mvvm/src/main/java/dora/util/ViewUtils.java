@@ -369,11 +369,33 @@ public final class ViewUtils implements Number {
         controller.hide(WindowInsetsCompat.Type.ime());
     }
 
+    /**
+     * @see #inflate(Context, int, ViewGroup.LayoutParams)
+     */
     public static View inflate(Context context, @LayoutRes int layoutId) {
         return LayoutInflater.from(context).inflate(layoutId, null);
     }
 
+    public static View inflate(Context context, @LayoutRes int layoutId, ViewGroup.LayoutParams params) {
+        View view = LayoutInflater.from(context).inflate(layoutId, null);
+        if (params != null) {
+            view.setLayoutParams(params);
+        }
+        return view;
+    }
+
+    /**
+     * @see #inflate(Context, int, ViewGroup, ViewGroup.LayoutParams)
+     */
     public static View inflate(Context context, @LayoutRes int layoutId, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(layoutId, parent, true);
+    }
+
+    public static View inflate(Context context, @LayoutRes int layoutId, ViewGroup parent, ViewGroup.LayoutParams params) {
+        View view = LayoutInflater.from(context).inflate(layoutId, parent, true);
+        if (params != null) {
+            view.setLayoutParams(params);
+        }
+        return view;
     }
 }
