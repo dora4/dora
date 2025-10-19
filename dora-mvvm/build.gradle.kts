@@ -63,6 +63,8 @@ dependencies {
     api("androidx.fragment:fragment-ktx:1.7.0")
 
     api("io.reactivex.rxjava2:rxjava:2.2.19")
+    api("io.reactivex.rxjava2:rxandroid:2.1.1")
+
 }
 
 afterEvaluate {
@@ -72,7 +74,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.dora4"
                 artifactId = "dora"
-                version = "1.3.38"
+                version = "1.3.39"
             }
         }
     }
