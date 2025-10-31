@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.PowerManager;
 import android.provider.Settings;
 
 import androidx.annotation.AnimRes;
@@ -697,8 +698,6 @@ public final class IntentUtils {
         context.startActivity(Intent.createChooser(shareIntent, title));
     }
 
-
-
     /**
      * Return the intent of launch app details settings.
      * 简体中文：返回启动应用程序详细设置的意图。
@@ -708,6 +707,30 @@ public final class IntentUtils {
      */
     public static Intent getLaunchAppDetailsSettingsIntent(final String pkgName) {
         return getLaunchAppDetailsSettingsIntent(pkgName, false);
+    }
+
+    /**
+     * Ensure the app is ignoring battery optimization.
+     * If not, request the user to grant the permission.
+     * 简体中文：确保应用已被加入“忽略电池优化”名单，
+     * 如果未开启，则请求用户授权。
+     * 仅在 Android 6.0 (API 23) 及以上版本有效。
+     */
+    public static void ensureIgnoreBatteryOptimization(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(context.getPackageName())) {
+                try {
+                    Intent intent = getRequestIgnoreBatteryOptimizationIntent(context.getPackageName());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                } catch (Exception e) {
+                    Intent intent = getRequestIgnoreBatteryOptimizationSettingIntent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            }
+        }
     }
 
     /**
@@ -721,6 +744,17 @@ public final class IntentUtils {
         Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
         intent.setData(Uri.parse("package:" + packageName));
         return intent;
+    }
+
+    /**
+     * Launch the system settings page for "Ignore battery optimization"
+     * on Android 6.0 (API 23) and above.
+     * 简体中文：跳转到系统“忽略电池优化”设置页面，
+     * 适用于无法直接请求单个应用权限时使用，仅在 Android 6.0 (API 23) 及以上版本有效。
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static Intent getRequestIgnoreBatteryOptimizationSettingIntent() {
+        return new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
     }
 
     /**
