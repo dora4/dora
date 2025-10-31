@@ -697,6 +697,8 @@ public final class IntentUtils {
         context.startActivity(Intent.createChooser(shareIntent, title));
     }
 
+
+
     /**
      * Return the intent of launch app details settings.
      * 简体中文：返回启动应用程序详细设置的意图。
@@ -706,6 +708,19 @@ public final class IntentUtils {
      */
     public static Intent getLaunchAppDetailsSettingsIntent(final String pkgName) {
         return getLaunchAppDetailsSettingsIntent(pkgName, false);
+    }
+
+    /**
+     * Return the intent of request "Ignore battery optimization" permission
+     * for the specific application on Android 6.0 (API 23) and above.
+     * 简体中文：返回请求特定应用“忽略电池优化”的意图，
+     * 仅在 Android 6.0 (API 23) 及以上版本有效。
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static Intent getRequestIgnoreBatteryOptimizationIntent(String packageName) {
+        Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+        intent.setData(Uri.parse("package:" + packageName));
+        return intent;
     }
 
     /**
