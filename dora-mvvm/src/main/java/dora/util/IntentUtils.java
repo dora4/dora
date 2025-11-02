@@ -771,6 +771,27 @@ public final class IntentUtils {
     }
 
     /**
+     * Check whether the application has "Overlay (draw over other apps)" permission.
+     * 简体中文：检查应用是否已开启“悬浮窗（在其他应用上层显示）权限”。
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static boolean hasOverlayPermission(Context context) {
+        return Settings.canDrawOverlays(context);
+    }
+
+    /**
+     * Return the intent of request "Overlay (draw over other apps)" permission
+     * for the specific application.
+     * 简体中文：返回请求特定应用“悬浮窗（在其他应用上层显示）权限”的意图。
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static Intent getRequestOverlayPermissionIntent(String packageName) {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+        intent.setData(Uri.parse("package:" + packageName));
+        return intent;
+    }
+
+    /**
      * Return the intent of launch app details settings.
      * 简体中文：返回启动应用程序详细设置的意图。
      *
