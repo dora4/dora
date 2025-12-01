@@ -29,7 +29,6 @@ public class SignUtils {
      *                      Format requirements:
      *                      1. All letters must be uppercase
      *                      2. Remove colons ':'
-     *                      Example:
      *                      SHA-256: 12:34:56:78:9A:BC:DE:F0:12:34:56:78:9A:BC:DE:F0:12:34:56:78
      *                              :9A:BC:DE:F0:12:34:56:78:9A:BC:DE:F0
      *                      Code: "123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0"
