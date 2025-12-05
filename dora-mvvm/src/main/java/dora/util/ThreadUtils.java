@@ -1492,6 +1492,20 @@ public final class ThreadUtils {
     }
 
     public static void lazyLoad(MessageQueue.IdleHandler handler) {
-        Looper.myQueue().addIdleHandler(handler);
+        lazyLoad(handler, true);
+    }
+
+    public static void lazyLoad(MessageQueue.IdleHandler handler, boolean onlyOnce) {
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            private boolean executed = false;
+            @Override
+            public boolean queueIdle() {
+                if (!executed) {
+                    executed = true;
+                    handler.queueIdle();
+                }
+                return !onlyOnce;
+            }
+        });
     }
 }
