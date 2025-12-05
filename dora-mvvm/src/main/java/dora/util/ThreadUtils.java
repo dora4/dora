@@ -1491,18 +1491,18 @@ public final class ThreadUtils {
         return Looper.getMainLooper() == Looper.myLooper();
     }
 
-    public static void lazyLoad(MessageQueue.IdleHandler handler) {
-        lazyLoad(handler, true);
+    public static void lazyLoad(Runnable task) {
+        lazyLoad(task, true);
     }
 
-    public static void lazyLoad(MessageQueue.IdleHandler handler, boolean onlyOnce) {
+    public static void lazyLoad(Runnable task, boolean onlyOnce) {
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             private boolean executed = false;
             @Override
             public boolean queueIdle() {
                 if (!executed) {
                     executed = true;
-                    handler.queueIdle();
+                    task.run();
                 }
                 return !onlyOnce;
             }
