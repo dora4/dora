@@ -23,6 +23,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.LinearGradient;
@@ -44,6 +45,10 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -56,6 +61,9 @@ import java.io.InputStream;
  * 简体中文： 图像处理相关工具。
  */
 public final class ImageUtils {
+
+    private static final float DEFAULT_TEXT_SIZE = 36f;
+    private static final boolean DEFAULT_BOLD = false;
 
     private ImageUtils() {
     }
@@ -153,6 +161,57 @@ public final class ImageUtils {
         }
         byte[] imgBytes = CryptoUtils.base64Decode(base64Img);
         return BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
+    }
+
+    public static Bitmap createTextBitmap(String text, int width, int height, @ColorInt int bgColor) {
+        return createTextBitmap(text, width, height, bgColor, DEFAULT_TEXT_SIZE, DEFAULT_BOLD);
+    }
+
+    public static Bitmap createTextBitmap(String text, int width, int height,
+                                          @ColorInt int bgColor, float textSize, boolean bold) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(bgColor);
+        drawCenteredText(canvas, text, Color.WHITE, width, height, textSize, bold);
+        return bitmap;
+    }
+
+    public static Bitmap createTextBitmap(String text, @ColorInt int textColor,
+                                          int width, int height, Bitmap background,
+                                          float textSize, boolean bold) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        if (background != null) {
+            Bitmap scaled = Bitmap.createScaledBitmap(background, width, height, true);
+            canvas.drawBitmap(scaled, 0, 0, null);
+        } else {
+            canvas.drawColor(Color.BLACK);
+        }
+        drawCenteredText(canvas, text, textColor, width, height, textSize, bold);
+        return bitmap;
+    }
+
+    public static Bitmap createTextBitmap(Context context, String text,
+                                          @ColorInt int textColor, int width, int height,
+                                          @DrawableRes int bgDrawableRes,
+                                          float textSize, boolean bold) {
+        Bitmap background = BitmapFactory.decodeResource(context.getResources(), bgDrawableRes);
+        return createTextBitmap(text, textColor, width, height, background, textSize, bold);
+    }
+
+    private static void drawCenteredText(Canvas canvas, String text,
+                                         @ColorInt int textColor, int width, int height,
+                                         float textSize, boolean bold) {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(textColor);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(textSize);
+        if (bold) {
+            paint.setFakeBoldText(true);
+        }
+        float x = width / 2f;
+        float y = height / 2f - (paint.descent() + paint.ascent()) / 2f;
+        canvas.drawText(text, x, y, paint);
     }
 
     public static void recycle(Bitmap bitmap) {
