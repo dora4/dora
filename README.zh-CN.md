@@ -103,4 +103,7 @@ latest-version换成JitPack编译出来的最新绿色可用版本，如1.0.0，
 **四、最佳实践**
 
 Dora Chat（ https://dorachat.com ）
+
 Dora Music（[朵拉音乐](https://github.com/dora4/DoraMusic)）
+
+Crypto Tools ([加密工具](https://www.pgyer.com/cryptotools))
