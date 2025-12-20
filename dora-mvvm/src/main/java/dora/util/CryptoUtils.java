@@ -84,7 +84,8 @@ public final class CryptoUtils {
 
     public static final String AES = "AES";
     public static final String DES = "DES";
-    public static final String RSA = "RSA";
+    public static final String RSA_ECB_PKCS1_PADDING = "RSA/ECB/PKCS1Padding";
+    public static final String RSA = RSA_ECB_PKCS1_PADDING;
     public static final String PRIVATE_KEY = "privateKey";
     public static final String PUBLIC_KEY = "publicKey";
     public static final String AES_ECB_PKCS5 = "AES/ECB/PKCS5Padding";
@@ -681,8 +682,8 @@ public final class CryptoUtils {
             RSAPublicKey publicKey = getPublicKey(rsaPublic);
             Cipher cipher = Cipher.getInstance(RSA);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            return Base64.encodeToString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes(StandardCharsets.UTF_8),
-                    publicKey.getModulus().bitLength()), Base64.NO_WRAP);
+            return base64Encode(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes(StandardCharsets.UTF_8),
+                    publicKey.getModulus().bitLength()));
         } catch (Exception e) {
             return "";
         }
@@ -720,8 +721,7 @@ public final class CryptoUtils {
             RSAPrivateKey privateKey = getPrivateKey(rsaPrivate);
             Cipher cipher = Cipher.getInstance(RSA);
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            return Base64.encodeToString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes(StandardCharsets.UTF_8), privateKey.getModulus().bitLength()),
-                    Base64.NO_WRAP);
+            return base64Encode(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes(StandardCharsets.UTF_8), privateKey.getModulus().bitLength()));
         } catch (Exception e) {
             e.printStackTrace();
         }
