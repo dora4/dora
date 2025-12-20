@@ -84,7 +84,7 @@ public final class CryptoUtils {
 
     public static final String AES = "AES";
     public static final String DES = "DES";
-    public static final String RSA_ECB_PKCS1_PADDING = "RSA/ECB/PKCS1Padding";
+    public static final String RSA_ECB_PKCS1 = "RSA/ECB/PKCS1Padding";
     public static final String RSA = "RSA";
     public static final String PRIVATE_KEY = "privateKey";
     public static final String PUBLIC_KEY = "publicKey";
@@ -114,8 +114,21 @@ public final class CryptoUtils {
      * @param algorithm "AES" or "DES"
      */
     public static SecretKeySpec getSecretKey(String secretKey, String algorithm) {
-        secretKey = makeKey(secretKey, 32, "0");
-        return new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), algorithm);
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        int length;
+        if (keyBytes.length <= 16) {
+            length = 16;
+        } else if (keyBytes.length <= 24) {
+            length = 24;
+        } else {
+            length = 32;
+        }
+        byte[] finalKey = new byte[length];
+        System.arraycopy(keyBytes, 0, finalKey, 0, Math.min(keyBytes.length, length));
+        for (int i = keyBytes.length; i < length; i++) {
+            finalKey[i] = '0';
+        }
+        return new SecretKeySpec(finalKey, algorithm);
     }
 
     /**
@@ -172,14 +185,12 @@ public final class CryptoUtils {
      * 简体中文：AES加密。
      *
      * @param secretKey Key
-     * @param transformation In the field of encryption, it usually refers to the combination
-     *                       of encryption algorithms, modes, and padding.
      * @param iv Offset
      * @param data Data to be encrypted
      */
-    public static String encryptAES(String secretKey, String transformation, IvParameterSpec iv, String data) {
+    public static String encryptAES(String secretKey, IvParameterSpec iv, String data) {
         try {
-            Cipher cipher = Cipher.getInstance(transformation);
+            Cipher cipher = Cipher.getInstance(AES_CBC_PKCS5);
             cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(secretKey, AES), iv);
             byte[] encryptByte = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
             return base64Encode(encryptByte);
@@ -213,15 +224,13 @@ public final class CryptoUtils {
      * 简体中文：AES解密。
      *
      * @param secretKey  Key
-     * @param transformation In the field of encryption, it usually refers to the combination
-     *                       of encryption algorithms, modes, and padding.
      * @param iv Offset
      * @param base64Data Base64 data to be decrypted
      */
-    public static String decryptAES(String secretKey, String transformation, IvParameterSpec iv, String base64Data) {
+    public static String decryptAES(String secretKey, IvParameterSpec iv, String base64Data) {
         try {
             byte[] data = base64Decode(base64Data);
-            Cipher cipher = Cipher.getInstance(transformation);
+            Cipher cipher = Cipher.getInstance(AES_CBC_PKCS5);
             cipher.init(Cipher.DECRYPT_MODE, getSecretKey(secretKey, AES), iv);
             byte[] result = cipher.doFinal(data);
             return new String(result, StandardCharsets.UTF_8);
@@ -438,14 +447,12 @@ public final class CryptoUtils {
      * 简体中文：DES加密。
      *
      * @param secretKey  Key
-     * @param transformation In the field of encryption, it usually refers to the combination
-     *                       of encryption algorithms, modes, and padding.
      * @param iv Offset
      * @param data Data to be encrypted
      */
-    public static String encryptDES(String secretKey, String transformation, IvParameterSpec iv, String data) {
+    public static String encryptDES(String secretKey, IvParameterSpec iv, String data) {
         try {
-            Cipher cipher = Cipher.getInstance(transformation);
+            Cipher cipher = Cipher.getInstance(DES_CBC_PKCS5);
             cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(secretKey, DES), iv);
             byte[] encryptByte = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
             return base64Encode(encryptByte);
@@ -479,15 +486,13 @@ public final class CryptoUtils {
      * 简体中文：DES解密。
      *
      * @param secretKey  Key
-     * @param transformation In the field of encryption, it usually refers to the combination
-     *                       of encryption algorithms, modes, and padding.
      * @param iv Offset
      * @param base64Data Base64 data to be decrypted
      */
-    public static String decryptDES(String secretKey, String transformation, IvParameterSpec iv, String base64Data) {
+    public static String decryptDES(String secretKey, IvParameterSpec iv, String base64Data) {
         try {
             byte[] data = base64Decode(base64Data);
-            Cipher cipher = Cipher.getInstance(transformation);
+            Cipher cipher = Cipher.getInstance(DES_CBC_PKCS5);
             cipher.init(Cipher.DECRYPT_MODE, getSecretKey(secretKey, DES), iv);
             byte[] result = cipher.doFinal(data);
             return new String(result, StandardCharsets.UTF_8);
@@ -680,7 +685,7 @@ public final class CryptoUtils {
     public static String encryptByPublic(String rsaPublic, String content) {
         try {
             RSAPublicKey publicKey = getPublicKey(rsaPublic);
-            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1_PADDING);
+            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return base64Encode(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes(StandardCharsets.UTF_8),
                     publicKey.getModulus().bitLength()));
@@ -699,7 +704,7 @@ public final class CryptoUtils {
     public static String decryptByPrivate(String rsaPrivate, String content) {
         try {
             RSAPrivateKey privateKey = getPrivateKey(rsaPrivate);
-            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1_PADDING);
+            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, base64Decode(content), privateKey.getModulus().bitLength()),
                     StandardCharsets.UTF_8);
@@ -719,7 +724,7 @@ public final class CryptoUtils {
     public static String encryptByPrivate(String rsaPrivate, String content) {
         try {
             RSAPrivateKey privateKey = getPrivateKey(rsaPrivate);
-            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1_PADDING);
+            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1);
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             return base64Encode(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes(StandardCharsets.UTF_8), privateKey.getModulus().bitLength()));
         } catch (Exception e) {
@@ -738,7 +743,7 @@ public final class CryptoUtils {
     public static String decryptByPublic(String rsaPublic, String content) {
         try {
             RSAPublicKey publicKey = getPublicKey(rsaPublic);
-            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1_PADDING);
+            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1);
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
             return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, base64Decode(content),
                     publicKey.getModulus().bitLength()), StandardCharsets.UTF_8);
