@@ -101,4 +101,7 @@ If you find it useful, you may wish to click the Fork button in the upper right 
 **Best Practices**
 
 Dora Chat (https://dorachat.com)
+
 Dora Music ([Dora Music](https://github.com/dora4/DoraMusic))
+
+Crypto Tools ([Crypto Tools](https://www.pgyer.com/cryptotools))
