@@ -85,7 +85,7 @@ public final class CryptoUtils {
     public static final String AES = "AES";
     public static final String DES = "DES";
     public static final String RSA_ECB_PKCS1_PADDING = "RSA/ECB/PKCS1Padding";
-    public static final String RSA = RSA_ECB_PKCS1_PADDING;
+    public static final String RSA = "RSA";
     public static final String PRIVATE_KEY = "privateKey";
     public static final String PUBLIC_KEY = "publicKey";
     public static final String AES_ECB_PKCS5 = "AES/ECB/PKCS5Padding";
@@ -680,7 +680,7 @@ public final class CryptoUtils {
     public static String encryptByPublic(String rsaPublic, String content) {
         try {
             RSAPublicKey publicKey = getPublicKey(rsaPublic);
-            Cipher cipher = Cipher.getInstance(RSA);
+            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1_PADDING);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return base64Encode(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes(StandardCharsets.UTF_8),
                     publicKey.getModulus().bitLength()));
@@ -699,7 +699,7 @@ public final class CryptoUtils {
     public static String decryptByPrivate(String rsaPrivate, String content) {
         try {
             RSAPrivateKey privateKey = getPrivateKey(rsaPrivate);
-            Cipher cipher = Cipher.getInstance(RSA);
+            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1_PADDING);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, base64Decode(content), privateKey.getModulus().bitLength()),
                     StandardCharsets.UTF_8);
@@ -719,7 +719,7 @@ public final class CryptoUtils {
     public static String encryptByPrivate(String rsaPrivate, String content) {
         try {
             RSAPrivateKey privateKey = getPrivateKey(rsaPrivate);
-            Cipher cipher = Cipher.getInstance(RSA);
+            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1_PADDING);
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             return base64Encode(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, content.getBytes(StandardCharsets.UTF_8), privateKey.getModulus().bitLength()));
         } catch (Exception e) {
@@ -738,7 +738,7 @@ public final class CryptoUtils {
     public static String decryptByPublic(String rsaPublic, String content) {
         try {
             RSAPublicKey publicKey = getPublicKey(rsaPublic);
-            Cipher cipher = Cipher.getInstance(RSA);
+            Cipher cipher = Cipher.getInstance(RSA_ECB_PKCS1_PADDING);
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
             return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, base64Decode(content),
                     publicKey.getModulus().bitLength()), StandardCharsets.UTF_8);
