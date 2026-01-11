@@ -26,6 +26,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.format.Formatter;
 
 import androidx.annotation.NonNull;
@@ -830,6 +831,52 @@ public final class IoUtils {
             }
         } catch (IOException ignore) {
         }
+    }
+
+    private static String getFileName(ContentResolver resolver, Uri uri) {
+        Cursor cursor = resolver.query(uri, null, null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (index >= 0) {
+                        return cursor.getString(index);
+                    }
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public static File copyUriToCache(Context context, Uri uri) {
+        ContentResolver resolver = context.getContentResolver();
+        String fileName = getFileName(resolver, uri);
+        if (fileName == null) {
+            fileName = String.valueOf(System.currentTimeMillis());
+        }
+        File cacheFile = new File(context.getCacheDir(), fileName);
+        try {
+            try (InputStream in = resolver.openInputStream(uri);
+                 OutputStream out = new FileOutputStream(cacheFile)) {
+                byte[] buffer = new byte[8192];
+                int len;
+                while ((len = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, len);
+                }
+            }
+            return cacheFile;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static String getPathFromUriAboveQ(@NonNull Context context, @NonNull Uri uri) {
+        if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+        return copyUriToCache(context, uri).getAbsolutePath();
     }
 
     public static String getPathFromUri(@NonNull Context context, @NonNull Uri uri) {
