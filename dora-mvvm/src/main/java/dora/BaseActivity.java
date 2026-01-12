@@ -77,16 +77,21 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         }
     }
 
-    private boolean isTranslucentOrFloating() {
-        Class<?> styleableClazz = ReflectionUtils.findClass("com.android.internal.R.styleable");
-        Field windowField = ReflectionUtils.findField(styleableClazz, false, "Window");
-        if (windowField == null) {
+    public static boolean isTranslucentOrFloating(Activity activity) {
+        try {
+            int[] attrs = new int[] {
+                    android.R.attr.windowIsTranslucent,
+                    android.R.attr.windowIsFloating
+            };
+
+            TypedArray ta = activity.obtainStyledAttributes(attrs);
+            boolean translucent = ta.getBoolean(0, false);
+            boolean floating = ta.getBoolean(1, false);
+            ta.recycle();
+            return translucent || floating;
+        } catch (Throwable e) {
             return false;
         }
-        int[] styleableRes = (int[]) ReflectionUtils.getFieldValue(windowField, null);
-        TypedArray a = obtainStyledAttributes(styleableRes);
-        Method m = ReflectionUtils.findMethod(ActivityInfo.class, false, "isTranslucentOrFloating", TypedArray.class);
-        return  (boolean) ReflectionUtils.invokeMethod(null, m, a);
     }
 
     /**
@@ -126,7 +131,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     @Override
     public void setRequestedOrientation(int requestedOrientation) {
         if ((Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT
-                == Build.VERSION_CODES.O_MR1) && isTranslucentOrFloating()) {
+                == Build.VERSION_CODES.O_MR1) && isTranslucentOrFloating(this)) {
             return;
         }
         super.setRequestedOrientation(requestedOrientation);
@@ -135,7 +140,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         if ((Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT
-                == Build.VERSION_CODES.O_MR1) && isTranslucentOrFloating()) {
+                == Build.VERSION_CODES.O_MR1) && isTranslucentOrFloating(this)) {
             // Fix the translucent theme rotation screen bug on Android 8.0 and 8.1 systems.
             // To reproduce the issue, the screen orientation lock button needs to be turned
             // off. This problem only occurs on 8.x devices, and as you can imagine, it has
