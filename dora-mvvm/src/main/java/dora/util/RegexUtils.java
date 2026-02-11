@@ -34,7 +34,9 @@ public final class RegexUtils {
     private static final String REGEX_IPV4 = "^(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)$";
 
     private static final String REGEX_EMOJI = "^[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]$";
-
+    
+    private static final String REGEX_ERC20 = "^0x[a-fA-F0-9]{40}$";
+    
     private RegexUtils() {
     }
 
@@ -59,6 +61,10 @@ public final class RegexUtils {
                 | Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(value);
         return matcher.matches();
+    }
+    
+    public static boolean isErc20Address(String value) {
+        return match(REGEX_ERC20, value);
     }
 
     public static boolean match(String text, String regex) {
