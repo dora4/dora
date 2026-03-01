@@ -57,6 +57,7 @@ import java.util.Map;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
+import javax.crypto.Mac;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.security.auth.x500.X500Principal;
@@ -945,5 +946,16 @@ public final class CryptoUtils {
         } catch (NoSuchAlgorithmException e) {
             return null;
         }
+    }
+
+    public static String calcHMAC(String data, String secretKey) throws Exception {
+        Mac mac = Mac.getInstance("HmacSHA256");
+        SecretKeySpec keySpec = new SecretKeySpec(
+                secretKey.getBytes(StandardCharsets.UTF_8),
+                "HmacSHA256"
+        );
+        mac.init(keySpec);
+        byte[] hash = mac.doFinal(data.getBytes(StandardCharsets.UTF_8));
+        return Base64.encodeToString(hash, Base64.NO_WRAP);
     }
 }
