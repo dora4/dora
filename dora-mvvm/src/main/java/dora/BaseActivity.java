@@ -68,11 +68,14 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         mDisposable.add(d);
     }
 
-    /**
-     * @see #isAutoDispose()
-     */
+    protected void clear() {
+        if (mDisposable != null) {
+            mDisposable.clear();
+        }
+    }
+
     protected void dispose() {
-        if (mDisposable != null && isAutoDispose()) {
+        if (mDisposable != null) {
             mDisposable.dispose();
         }
     }
@@ -386,7 +389,9 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onDestroy() {
         mBinding.unbind();
-        dispose();
+        if (isAutoDispose()) {
+            dispose();
+        }
         NetworkStateReceiver.unregisterObserver(mNetworkChangeObserver);
         super.onDestroy();
     }

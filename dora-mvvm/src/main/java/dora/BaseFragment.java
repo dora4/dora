@@ -49,6 +49,12 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
         mDisposable.add(d);
     }
 
+    protected void clear() {
+        if (mDisposable != null) {
+            mDisposable.clear();
+        }
+    }
+
     protected void dispose() {
         if (mDisposable != null) {
             mDisposable.dispose();
