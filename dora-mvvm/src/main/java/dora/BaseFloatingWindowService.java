@@ -98,6 +98,7 @@ public abstract class BaseFloatingWindowService extends Service {
             int initialY;
             float touchX;
             float touchY;
+            boolean isDragging = false;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -107,16 +108,30 @@ public abstract class BaseFloatingWindowService extends Service {
                         initialY = params.y;
                         touchX = event.getRawX();
                         touchY = event.getRawY();
+                        isDragging = false;
+                        // Do not intercept first, allow click to be handled first
+                        // 简体中文：先不拦截，让click先有机会
+                        return false;
                     case MotionEvent.ACTION_MOVE:
                         float dx = event.getRawX() - touchX;
                         float dy = event.getRawY() - touchY;
                         // Consider it a drag if the movement distance is large enough
                         // 简体中文：如果移动距离足够大，则认为是拖动
-                        if (Math.hypot(dx, dy) > mTouchSlop) {
+                        if (!isDragging && Math.hypot(dx, dy) > mTouchSlop) {
+                            isDragging = true;
+                        }
+                        if (isDragging) {
                             params.x = initialX + (int) dx;
                             params.y = initialY + (int) dy;
                             mWindowManager.updateViewLayout(view, params);
+                            // Intercept touch events during dragging
+                            // 简体中文：拖拽时拦截事件
+                            return true;
                         }
+                        return false;
+                    case MotionEvent.ACTION_UP:
+                        isDragging = false;
+                        return false;
                 }
                 // Allow event to pass through to child views
                 // 简体中文：允许事件传递给子视图
