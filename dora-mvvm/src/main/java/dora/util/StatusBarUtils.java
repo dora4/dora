@@ -16,6 +16,8 @@
 
 package dora.util;
 
+import static dora.util.ViewUtils.isDarkMode;
+
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -261,6 +263,16 @@ public final class StatusBarUtils {
         }
         setFitsSystemWindow(drawerLayout, contentLayout);
         addStatusBarView(activity, statusBarAlpha);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = activity.getWindow().getDecorView();
+            int systemUiVisibility = decorView.getSystemUiVisibility();
+            if (isDarkMode(activity)) {
+                systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            } else {
+                systemUiVisibility |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
+            decorView.setSystemUiVisibility(systemUiVisibility);
+        }
     }
 
     private static void setFitsSystemWindow(DrawerLayout drawerLayout, ViewGroup drawerLayoutContentLayout) {
