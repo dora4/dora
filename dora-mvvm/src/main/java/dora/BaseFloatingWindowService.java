@@ -109,7 +109,7 @@ public abstract class BaseFloatingWindowService extends Service {
                         touchX = event.getRawX();
                         touchY = event.getRawY();
                         isDragging = false;
-                        return true;
+                        return false;
                     case MotionEvent.ACTION_MOVE:
                         float dx = event.getRawX() - touchX;
                         float dy = event.getRawY() - touchY;
@@ -122,8 +122,9 @@ public abstract class BaseFloatingWindowService extends Service {
                             params.x = initialX + (int) dx;
                             params.y = initialY + (int) dy;
                             mWindowManager.updateViewLayout(view, params);
+                            return true;
                         }
-                        return true;
+                        return false;
                     case MotionEvent.ACTION_UP:
                         isDragging = false;
                         return false;
