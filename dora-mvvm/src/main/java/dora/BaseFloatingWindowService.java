@@ -109,9 +109,7 @@ public abstract class BaseFloatingWindowService extends Service {
                         touchX = event.getRawX();
                         touchY = event.getRawY();
                         isDragging = false;
-                        // Do not intercept first, allow click to be handled first
-                        // 简体中文：先不拦截，让click先有机会
-                        return false;
+                        return true;
                     case MotionEvent.ACTION_MOVE:
                         float dx = event.getRawX() - touchX;
                         float dy = event.getRawY() - touchY;
@@ -124,11 +122,8 @@ public abstract class BaseFloatingWindowService extends Service {
                             params.x = initialX + (int) dx;
                             params.y = initialY + (int) dy;
                             mWindowManager.updateViewLayout(view, params);
-                            // Intercept touch events during dragging
-                            // 简体中文：拖拽时拦截事件
-                            return true;
                         }
-                        return false;
+                        return true;
                     case MotionEvent.ACTION_UP:
                         isDragging = false;
                         return false;
