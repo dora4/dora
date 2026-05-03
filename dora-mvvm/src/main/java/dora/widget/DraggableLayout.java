@@ -13,15 +13,7 @@ public class DraggableLayout extends FrameLayout {
     private boolean isDragging = false;
     private final int touchSlop;
 
-    public interface OnDragListener {
-        void onDrag(float dx, float dy);
-    }
-
     private OnDragListener onDragListener;
-
-    public void setOnDragListener(OnDragListener listener) {
-        this.onDragListener = listener;
-    }
 
     public DraggableLayout(Context context) {
         this(context, null);
@@ -37,6 +29,16 @@ public class DraggableLayout extends FrameLayout {
         setClickable(true);
     }
 
+    public interface OnDragListener {
+        void onDragStart();
+        void onDrag(float dx, float dy);
+        void onDragEnd();
+    }
+
+    public void setOnDragListener(OnDragListener listener) {
+        this.onDragListener = listener;
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         switch (ev.getActionMasked()) {
@@ -50,10 +52,13 @@ public class DraggableLayout extends FrameLayout {
                 float dy = ev.getRawY() - downY;
                 if (!isDragging && Math.hypot(dx, dy) > touchSlop) {
                     isDragging = true;
-                    MotionEvent cancelEvent = MotionEvent.obtain(ev);
-                    cancelEvent.setAction(MotionEvent.ACTION_CANCEL);
-                    super.dispatchTouchEvent(cancelEvent);
-                    cancelEvent.recycle();
+                    if (onDragListener != null) {
+                        onDragListener.onDragStart();
+                    }
+                    MotionEvent cancel = MotionEvent.obtain(ev);
+                    cancel.setAction(MotionEvent.ACTION_CANCEL);
+                    super.dispatchTouchEvent(cancel);
+                    cancel.recycle();
                     return true;
                 }
                 break;
@@ -75,8 +80,19 @@ public class DraggableLayout extends FrameLayout {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                if (isDragging) {
+                    isDragging = false;
+                    if (onDragListener != null) {
+                        onDragListener.onDragEnd();
+                    }
+                    return true;
+                }
+                return false;
             case MotionEvent.ACTION_CANCEL:
                 isDragging = false;
+                if (onDragListener != null) {
+                    onDragListener.onDragEnd();
+                }
                 return true;
         }
         return super.onTouchEvent(event);

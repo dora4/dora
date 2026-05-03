@@ -16,6 +16,9 @@ import androidx.annotation.LayoutRes;
 import dora.widget.DraggableLayout;
 
 /**
+ * Used as the root container for floating window dragging.
+ * The root view must be {@link dora.widget.DraggableLayout} to support drag gestures.
+ *
  * public void requestFloatingPermission(Context context) {
  *     if (!Settings.canDrawOverlays(context)) {
  *         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -63,11 +66,30 @@ public abstract class BaseFloatingWindowService extends Service {
         params.y = getInitialPosition()[1];
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mWindowManager.addView(mFloatView, params);
+        // Use an array because it bypasses Java’s restriction that local variables used in inner
+        // classes/lambda expressions must be final or effectively final.
+        // 简体中文：使用数组的原因是绕过java局部变量的final限制
+        final int[] initialX = new int[1];
+        final int[] initialY = new int[1];
         DraggableLayout root = (DraggableLayout) mFloatView;
-        root.setOnDragListener((dx, dy) -> {
-            params.x = params.x + (int) dx;
-            params.y = params.y + (int) dy;
-            mWindowManager.updateViewLayout(root, params);
+        root.setOnDragListener(new DraggableLayout.OnDragListener() {
+
+            @Override
+            public void onDragStart() {
+                initialX[0] = params.x;
+                initialY[0] = params.y;
+            }
+
+            @Override
+            public void onDrag(float dx, float dy) {
+                params.x = initialX[0] + (int) dx;
+                params.y = initialY[0] + (int) dy;
+                mWindowManager.updateViewLayout(root, params);
+            }
+
+            @Override
+            public void onDragEnd() {
+            }
         });
     }
 
