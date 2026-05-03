@@ -122,12 +122,21 @@ public abstract class BaseFloatingWindowService extends Service {
                             params.x = initialX + (int) dx;
                             params.y = initialY + (int) dy;
                             mWindowManager.updateViewLayout(view, params);
+                            v.dispatchTouchEvent(MotionEvent.obtain(
+                                    event.getDownTime(),
+                                    event.getEventTime(),
+                                    MotionEvent.ACTION_CANCEL,
+                                    event.getX(),
+                                    event.getY(),
+                                    0
+                            ));
                             return true;
                         }
                         return false;
                     case MotionEvent.ACTION_UP:
+                        boolean handled = isDragging;
                         isDragging = false;
-                        return false;
+                        return handled;
                 }
                 // Allow event to pass through to child views
                 // 简体中文：允许事件传递给子视图
