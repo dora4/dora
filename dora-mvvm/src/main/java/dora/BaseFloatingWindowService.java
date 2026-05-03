@@ -7,14 +7,13 @@ import android.os.Build;
 import android.os.IBinder;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.WindowManager;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
+
+import dora.widget.DraggableLayout;
 
 /**
  * public void requestFloatingPermission(Context context) {
@@ -41,7 +40,6 @@ public abstract class BaseFloatingWindowService extends Service {
 
     protected WindowManager mWindowManager;
     protected View mFloatView;
-    private int mTouchSlop = 10;
     private static final int INITIAL_PARAM_X = 0;
     private static final int INITIAL_PARAM_Y = 0;
 
@@ -65,10 +63,12 @@ public abstract class BaseFloatingWindowService extends Service {
         params.y = getInitialPosition()[1];
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mWindowManager.addView(mFloatView, params);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-            mTouchSlop = ViewConfiguration.get(mFloatView.getContext()).getScaledTouchSlop();
-        }
-        enableDrag(mFloatView, params);
+        DraggableLayout root = (DraggableLayout) mFloatView;
+        root.setOnDragListener((dx, dy) -> {
+            params.x = params.x + (int) dx;
+            params.y = params.y + (int) dy;
+            mWindowManager.updateViewLayout(root, params);
+        });
     }
 
     protected  <T extends View> T findViewById(@IdRes int id) {
@@ -89,60 +89,6 @@ public abstract class BaseFloatingWindowService extends Service {
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT
         );
-    }
-
-    private void enableDrag(@NonNull final View view, final WindowManager.LayoutParams params) {
-        view.setOnTouchListener(new View.OnTouchListener() {
-
-            int initialX;
-            int initialY;
-            float touchX;
-            float touchY;
-            boolean isDragging = false;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        initialX = params.x;
-                        initialY = params.y;
-                        touchX = event.getRawX();
-                        touchY = event.getRawY();
-                        isDragging = false;
-                        return false;
-                    case MotionEvent.ACTION_MOVE:
-                        float dx = event.getRawX() - touchX;
-                        float dy = event.getRawY() - touchY;
-                        // Consider it a drag if the movement distance is large enough
-                        // 简体中文：如果移动距离足够大，则认为是拖动
-                        if (!isDragging && Math.hypot(dx, dy) > mTouchSlop) {
-                            isDragging = true;
-                        }
-                        if (isDragging) {
-                            params.x = initialX + (int) dx;
-                            params.y = initialY + (int) dy;
-                            mWindowManager.updateViewLayout(view, params);
-                            v.dispatchTouchEvent(MotionEvent.obtain(
-                                    event.getDownTime(),
-                                    event.getEventTime(),
-                                    MotionEvent.ACTION_CANCEL,
-                                    event.getX(),
-                                    event.getY(),
-                                    0
-                            ));
-                            return true;
-                        }
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        boolean handled = isDragging;
-                        isDragging = false;
-                        return handled;
-                }
-                // Allow event to pass through to child views
-                // 简体中文：允许事件传递给子视图
-                return false;
-            }
-        });
     }
 
     @Override
