@@ -18,25 +18,25 @@ import dora.widget.DraggableLayout;
 /**
  * Used as the root container for floating window dragging.
  * The root view must be {@link dora.widget.DraggableLayout} to support drag gestures.
- *
+ * <p>
  * public void requestFloatingPermission(Context context) {
- *     if (!Settings.canDrawOverlays(context)) {
- *         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
- *         Uri.parse("package:"+context.getPackageName()));
- *         startActivityForResult(intent, REQUEST_OVERLAY_PERMISSION);
- *     }
+ * if (!Settings.canDrawOverlays(context)) {
+ * Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+ * Uri.parse("package:"+context.getPackageName()));
+ * startActivityForResult(intent, REQUEST_OVERLAY_PERMISSION);
  * }
- *
+ * }
+ * <p>
  * public void start(Context context) {
- *     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
- *         if (Settings.canDrawOverlays(context)) {
- *             startService(new Intent(context, FloatingWindowService.java));
- *         }
- *     }
+ * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+ * if (Settings.canDrawOverlays(context)) {
+ * startService(new Intent(context, FloatingWindowService.java));
  * }
- *
+ * }
+ * }
+ * <p>
  * public void stop(Context context) {
- *     context.stopService(new Intent(context, FloatingWindowService.java));
+ * context.stopService(new Intent(context, FloatingWindowService.java));
  * }
  */
 public abstract class BaseFloatingWindowService extends Service {
@@ -47,7 +47,7 @@ public abstract class BaseFloatingWindowService extends Service {
     private static final int INITIAL_PARAM_Y = 0;
 
     protected int[] getInitialPosition() {
-        return new int[] { INITIAL_PARAM_X, INITIAL_PARAM_Y };
+        return new int[]{INITIAL_PARAM_X, INITIAL_PARAM_Y};
     }
 
     protected abstract @LayoutRes int getLayoutId();
@@ -72,57 +72,74 @@ public abstract class BaseFloatingWindowService extends Service {
         final int[] initialX = new int[1];
         final int[] initialY = new int[1];
         DraggableLayout root = (DraggableLayout) mFloatView;
-        root.setOnDragListener(new DraggableLayout.OnDragListener() {
+        root.setOnTouchListener(new View.OnTouchListener() {
+
+            private float downX;
+            private float downY;
 
             @Override
-            public void onDragStart() {
-                initialX[0] = params.x;
-                initialY[0] = params.y;
+            public boolean onTouch(View v, android.view.MotionEvent event) {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        initialX[0] = params.x;
+                        initialY[0] = params.y;
+                        downX = event.getRawX();
+                        downY = event.getRawY();
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        float dx = event.getRawX() - downX;
+                        float dy = event.getRawY() - downY;
+                        params.x = initialX[0] + (int) dx;
+                        params.y = initialY[0] + (int) dy;
+                        BaseFloatingWindowService.this
+                                .mWindowManager
+                                .updateViewLayout(
+                                        BaseFloatingWindowService.this.mFloatView,
+                                        params
+                                );
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        return true;
+                }
+                return false;
             }
-
-            @Override
-            public void onDrag(float dx, float dy) {
-                params.x = initialX[0] + (int) dx;
-                params.y = initialY[0] + (int) dy;
-                mWindowManager.updateViewLayout(root, params);
-            }
-
-            @Override
-            public void onDragEnd() {
-            }
-        });
-    }
-
-    protected  <T extends View> T findViewById(@IdRes int id) {
-        return mFloatView.findViewById(id);
-    }
-
-    private static WindowManager.LayoutParams getLayoutParams() {
-        int layoutFlag;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            layoutFlag = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else {
-            layoutFlag = WindowManager.LayoutParams.TYPE_PHONE;
         }
-        return new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                layoutFlag,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT
-        );
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mFloatView != null) {
-            mWindowManager.removeView(mFloatView);
+        protected  <T extends View > T findViewById( @IdRes int id){
+            return mFloatView.findViewById(id);
+        }
+
+        private static WindowManager.LayoutParams getLayoutParams () {
+            int layoutFlag;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                layoutFlag = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            } else {
+                layoutFlag = WindowManager.LayoutParams.TYPE_PHONE;
+            }
+            return new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    layoutFlag,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    PixelFormat.TRANSLUCENT
+            );
+        }
+
+        protected View getDragView () {
+            return mFloatView;
+        }
+
+        @Override
+        public void onDestroy () {
+            super.onDestroy();
+            if (mFloatView != null) {
+                mWindowManager.removeView(mFloatView);
+            }
+        }
+
+        @Override
+        public IBinder onBind (Intent intent){
+            return null;
         }
     }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-}
