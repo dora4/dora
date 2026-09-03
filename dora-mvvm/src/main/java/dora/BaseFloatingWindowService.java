@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -104,42 +105,43 @@ public abstract class BaseFloatingWindowService extends Service {
                 }
                 return false;
             }
-        }
+        });
+    }
 
-        protected  <T extends View > T findViewById( @IdRes int id){
-            return mFloatView.findViewById(id);
-        }
+    protected <T extends View> T findViewById(@IdRes int id) {
+        return mFloatView.findViewById(id);
+    }
 
-        private static WindowManager.LayoutParams getLayoutParams () {
-            int layoutFlag;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                layoutFlag = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-            } else {
-                layoutFlag = WindowManager.LayoutParams.TYPE_PHONE;
-            }
-            return new WindowManager.LayoutParams(
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                    layoutFlag,
-                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                    PixelFormat.TRANSLUCENT
-            );
+    private static WindowManager.LayoutParams getLayoutParams() {
+        int layoutFlag;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutFlag = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            layoutFlag = WindowManager.LayoutParams.TYPE_PHONE;
         }
+        return new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                layoutFlag,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT
+        );
+    }
 
-        protected View getDragView () {
-            return mFloatView;
-        }
+    protected View getDragView() {
+        return mFloatView;
+    }
 
-        @Override
-        public void onDestroy () {
-            super.onDestroy();
-            if (mFloatView != null) {
-                mWindowManager.removeView(mFloatView);
-            }
-        }
-
-        @Override
-        public IBinder onBind (Intent intent){
-            return null;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mFloatView != null) {
+            mWindowManager.removeView(mFloatView);
         }
     }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+}
