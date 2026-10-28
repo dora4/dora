@@ -2,7 +2,11 @@ package dora;
 
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.os.IBinder;
 import android.view.Gravity;
@@ -10,9 +14,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 
 import dora.widget.DraggableLayout;
 
@@ -143,5 +151,57 @@ public abstract class BaseFloatingWindowService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    protected void applyDarkModeDrawable(
+            boolean isDarkMode,
+            @NonNull ImageView imageView,
+            Drawable drawable,
+            @ColorInt int darkColor,
+            @ColorInt int lightColor) {
+        if (drawable == null) return;
+        if (isDarkMode) {
+            drawable.setTint(darkColor);
+        } else {
+            drawable.setTint(lightColor);
+        }
+        imageView.setImageDrawable(drawable);
+    }
+
+    protected void applyDarkModeBackground(
+            boolean isDarkMode,
+            @NonNull View view,
+            Drawable drawable,
+            @ColorInt int darkColor,
+            @ColorInt int lightColor) {
+        if (drawable == null) return;
+        if (isDarkMode) {
+            drawable.setTint(darkColor);
+        } else {
+            drawable.setTint(lightColor);
+        }
+        view.setBackground(drawable);
+    }
+
+    protected void applyDarkModeTextColor(
+            boolean isDarkMode,
+            @NonNull TextView textView,
+            @ColorInt int darkColor,
+            @ColorInt int lightColor) {
+        if (isDarkMode) {
+            textView.setTextColor(darkColor);
+        } else {
+            textView.setTextColor(lightColor);
+        }
+    }
+
+    protected void applyDarkModeTextColors(
+            boolean isDarkMode,
+            @NonNull TextView[] textViews,
+            @ColorInt int darkColor,
+            @ColorInt int lightColor) {
+        for (TextView textView : textViews) {
+            applyDarkModeTextColor(isDarkMode, textView, darkColor, lightColor);
+        }
     }
 }
