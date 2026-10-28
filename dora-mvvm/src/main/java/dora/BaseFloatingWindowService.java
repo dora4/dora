@@ -2,6 +2,7 @@ package dora;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
@@ -160,12 +161,12 @@ public abstract class BaseFloatingWindowService extends Service {
             @ColorInt int darkColor,
             @ColorInt int lightColor) {
         if (drawable == null) return;
-        if (isDarkMode) {
-            drawable.setTint(darkColor);
-        } else {
-            drawable.setTint(lightColor);
-        }
         imageView.setImageDrawable(drawable);
+        if (isDarkMode) {
+            imageView.setImageTintList(ColorStateList.valueOf(darkColor));
+        } else {
+            imageView.setImageTintList(ColorStateList.valueOf(lightColor));
+        }
     }
 
     protected void applyDarkModeBackground(
